@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Залип Лаб</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@700;800;900&display=swap">
+<style>
+/* Layout: the Ring Lab pattern. Phone preview on the left, the lab's knobs and verdict on the right. */
+:root {
+  color-scheme: dark;
+  --bg: #0b0a22;
+  --bg-glow: #17143f;
+  --panel: #131130;
+  --field: #1b1940;
+  --line: #2b2856;
+  --text: #ffffff;
+  --muted: #aaa7d0;
+  --accent: #ffd23f;
+  --accent-ink: #1a1400;
+  --good: #3ddc6f;
+  --ok: #ffd23f;
+  --warn: #ff8c3a;
+  --bad: #ff4d5e;
+  --track: #3a3768;
+  --display: "Rubik", "Arial Black", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+[hidden] { display: none !important; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 30% 30%, var(--bg-glow), var(--bg)) fixed, var(--bg);
+  color: var(--text);
+  font: 400 15px/1.5 var(--body);
+}
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-inline: 24px;
+  padding-block: 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.topbar, .labs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.brand {
+  font: 900 15px/1 var(--display);
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-right: 12px;
+}
+.lab {
+  font: 600 14px/1 var(--body);
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.lab:hover { color: var(--text); border-color: var(--muted); }
+.lab[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.layout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 540px);
+  gap: 56px;
+  justify-content: center;
+  align-items: start;
+}
+.phone {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 20px);
+  width: min(400px, calc((100dvh - 80px) * 9 / 16));
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
+  padding: 12px;
+  background: #000;
+  border: 2px solid var(--line);
+  border-radius: 48px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  box-sizing: border-box;
+}
+.phone canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 36px;
+  cursor: pointer;
+}
+.panel { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.eyebrow {
+  margin: 0;
+  font: 900 14px/1 var(--display);
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+h1 {
+  margin: -6px 0 0;
+  font: 900 clamp(32px, 4.6vw, 46px)/1.08 var(--display);
+  text-wrap: balance;
+}
+h1 .hl { color: var(--accent); }
+.lede { margin: -6px 0 0; color: var(--muted); max-width: 52ch; }
+.sliders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 28px;
+}
+.field { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.field label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.field output { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  margin: 6px 0;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--accent) 0 var(--p, 50%), var(--track) var(--p, 50%) 100%);
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 0;
+  box-shadow: 0 0 0 4px rgba(255, 210, 63, 0.18);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 0;
+}
+.seed-row { display: flex; gap: 10px; }
+#seed {
+  flex: 1;
+  min-width: 0;
+  font: 500 15px/1 var(--body);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+button.primary, button.ghost, a.ghost {
+  font: 700 15px/1 var(--body);
+  border-radius: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  text-decoration: none;
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border: 0; }
+button.primary:disabled { opacity: 0.7; cursor: progress; }
+button.ghost, a.ghost { background: var(--field); color: var(--text); border: 1px solid var(--line); }
+button.ghost:hover, a.ghost:hover { border-color: var(--muted); }
+button.icon { padding: 0 14px; display: grid; place-items: center; }
+button.live { color: var(--bad); border-color: var(--bad); }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.headline { margin: 0; font: 800 21px/1.25 var(--display); }
+.headline.good { color: var(--good); }
+.headline.ok { color: var(--ok); }
+.headline.warn { color: var(--warn); }
+.headline.bad { color: var(--bad); }
+.sub { margin: 4px 0 14px; color: var(--muted); }
+.bars { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+.bars span { flex: 1; min-width: 2px; border-radius: 3px 3px 0 0; }
+.recout { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+.recout video { width: 150px; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; background: #000; }
+.recout .rec-info { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.recout p { margin: 0; color: var(--muted); }
+.tip { margin: 0; color: var(--muted); font-size: 13px; }
+@media (max-width: 880px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .phone { position: static; width: min(360px, 100%); justify-self: center; }
+  .page { padding-inline: 16px; }
+}
+@media (max-width: 380px) {
+  .sliders { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="topbar" aria-label="Лаборатории">
+    <span class="brand">ЗАЛИП ЛАБ</span>
+    <div class="labs" id="labs"></div>
+  </nav>
+  <main class="layout">
+    <div class="phone"><canvas id="stage" aria-label="Превью ролика 9:16, нажми, чтобы начать заново"></canvas></div>
+    <section class="panel">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="title"></h1>
+      <p class="lede" id="lede"></p>
+      <div class="sliders" id="sliders"></div>
+      <div class="actions">
+        <button type="button" class="primary" id="find"></button>
+        <button type="button" class="ghost" id="sound" aria-pressed="false">Звук выкл</button>
+        <button type="button" class="ghost" id="rec">Записать ролик</button>
+      </div>
+      <div class="card" aria-live="polite">
+        <p class="headline" id="headline"></p>
+        <p class="sub" id="sub"></p>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div class="card recout" id="recout" hidden>
+        <video id="recvideo" controls playsinline muted></video>
+        <div class="rec-info">
+          <p id="recnote"></p>
+          <a class="ghost" id="recdl" href="#">Скачать</a>
+        </div>
+      </div>
+      <p class="tip">Запись идёт прямо из браузера в 1080×1920. Включи звук до записи, чтобы ноты попали в ролик. Нажатие на превью запускает ролик заново.</p>
+    </section>
+  </main>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
