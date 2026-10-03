@@ -24,6 +24,12 @@ let hold = 0;
 let recording = null;
 let searching = false;
 let recomputeTimer = 0;
+let lastClip = null;
+
+// Inside a claude.ai page, files go through the viewer's save prompt;
+// in a normal browser a plain download link does the job.
+let saver = null;
+window.claude?.use?.('downloads').then((d) => (saver = d)).catch(() => {});
 
 // ---------- controls ----------
 
@@ -112,6 +118,7 @@ function bindControls() {
     $('sound').setAttribute('aria-pressed', String(on));
   });
   $('rec').addEventListener('click', () => (recording ? stopRecording() : startRecording()));
+  $('recdl').addEventListener('click', saveClip);
   canvas.addEventListener('click', restart);
 }
 
@@ -243,10 +250,8 @@ function startRecording() {
     const ext = type.includes('mp4') ? 'mp4' : 'webm';
     const v = $('recvideo');
     v.src = url;
-    const a = $('recdl');
-    a.href = url;
-    a.download = `${toy.id}-${seed ?? 'cycle'}.${ext}`;
-    a.textContent = `Скачать ${ext.toUpperCase()}`;
+    lastClip = { blob, url, filename: `${toy.id}-${seed ?? 'cycle'}.${ext}` };
+    $('recdl').textContent = `Скачать ${ext.toUpperCase()}`;
     note.textContent =
       ext === 'webm'
         ? 'Браузер записал WebM. TikTok его принимает, для Instagram лучше перегнать в MP4.'
@@ -257,6 +262,24 @@ function startRecording() {
   recording = rec;
   $('rec').textContent = 'Остановить запись';
   $('rec').classList.add('live');
+}
+
+async function saveClip() {
+  if (!lastClip) return;
+  if (saver) {
+    try {
+      await saver.save({ filename: lastClip.filename, data: lastClip.blob });
+    } catch (e) {
+      if (e && e.code !== 'declined') $('recnote').textContent = 'Не удалось сохранить файл здесь. Открой лабораторию локально через npm run dev.';
+    }
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = lastClip.url;
+  a.download = lastClip.filename;
+  document.body.append(a);
+  a.click();
+  a.remove();
 }
 
 function stopRecording() {
