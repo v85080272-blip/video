@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "artifact": "node scripts/build-artifact.mjs"
+    "artifact": "node scripts/build-artifact.mjs",
+    "artifact:studio": "node scripts/build-artifact.mjs studio"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",

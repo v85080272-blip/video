@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тренд Студия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@700;800;900&display=swap">
+<style>
+/* A studio for comment-bait formats: phone preview on the left, the format's knobs on the right. Always dark, like the clips it makes. */
+:root {
+  color-scheme: dark;
+  --bg: #0b0a22;
+  --bg-glow: #1a1446;
+  --panel: #131130;
+  --field: #1b1940;
+  --line: #2b2856;
+  --text: #ffffff;
+  --muted: #aaa7d0;
+  --accent: #ffd23f;
+  --accent-ink: #1a1400;
+  --bad: #ff4d5e;
+  --track: #3a3768;
+  --display: "Rubik", "Arial Black", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0b0a22; --text: #ffffff; } }
+:root[data-theme="dark"] { --bg: #0b0a22; --text: #ffffff; }
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 30% 20%, var(--bg-glow), var(--bg)) fixed, var(--bg);
+  color: var(--text);
+  font: 400 15px/1.5 var(--body);
+}
+.page { max-width: 1120px; margin: 0 auto; padding: 20px 24px 48px; display: flex; flex-direction: column; gap: 26px; }
+.topbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.brand { font: 900 15px/1 var(--display); letter-spacing: 0.12em; color: var(--accent); margin-right: 12px; }
+.tab {
+  font: 600 14px/1 var(--body); color: var(--muted); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px; padding: 10px 16px; cursor: pointer;
+}
+.tab:hover { color: var(--text); border-color: var(--muted); }
+.tab[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.layout { display: grid; grid-template-columns: auto minmax(0, 540px); gap: 56px; justify-content: center; align-items: start; }
+.phone {
+  position: sticky; top: 20px;
+  width: min(400px, calc((100dvh - 80px) * 9 / 16)); max-width: 100%; aspect-ratio: 9 / 16;
+  padding: 12px; background: #000; border: 2px solid var(--line); border-radius: 48px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+}
+.phone canvas { display: block; width: 100%; height: 100%; border-radius: 36px; cursor: pointer; }
+.panel { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.eyebrow { margin: 0; font: 900 14px/1 var(--display); letter-spacing: 0.14em; color: var(--accent); }
+h1 { margin: -6px 0 0; font: 900 clamp(30px, 4.6vw, 44px)/1.08 var(--display); text-wrap: balance; }
+.lede { margin: -6px 0 0; color: var(--muted); max-width: 54ch; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 26px; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; color: var(--muted); }
+.field output { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+input[type="text"], select, textarea {
+  width: 100%; font: 500 15px/1.4 var(--body); color: var(--text);
+  background: var(--field); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px;
+}
+textarea { min-height: 150px; resize: vertical; }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 6px; margin: 6px 0; border-radius: 3px;
+  background: linear-gradient(to right, var(--accent) 0 var(--p, 50%), var(--track) var(--p, 50%) 100%); cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 0; }
+input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seed { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
+.seed input { width: 100px; }
+button.primary, button.ghost {
+  font: 700 15px/1 var(--body); border-radius: 14px; padding: 14px 18px; cursor: pointer; min-height: 48px;
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border: 0; }
+button.primary:disabled { opacity: 0.7; cursor: progress; }
+button.ghost { background: var(--field); color: var(--text); border: 1px solid var(--line); }
+button.ghost:hover { border-color: var(--muted); }
+button.live { color: var(--bad); border-color: var(--bad); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; }
+.card p { margin: 0; }
+.why b { color: var(--accent); }
+.recout { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; }
+.recout video { width: 120px; aspect-ratio: 9/16; border-radius: 12px; background: #000; }
+.recout div { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.status { color: var(--muted); font-size: 14px; }
+@media (max-width: 860px) {
+  .page { padding: 16px 16px 40px; }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .phone { position: static; margin: 0 auto; width: min(340px, 100%); }
+  .fields { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="topbar">
+    <span class="brand">ТРЕНД СТУДИЯ</span>
+    <span id="tabs" class="row"></span>
+  </nav>
+  <main class="layout">
+    <div class="phone"><canvas id="stage" width="1080" height="1920" aria-label="Превью ролика 9:16, нажми, чтобы начать заново"></canvas></div>
+    <section class="panel">
+      <p class="eyebrow" id="eyebrow">ФОРМАТ</p>
+      <h1 id="title"></h1>
+      <p class="lede" id="lede"></p>
+      <div class="fields" id="fields"></div>
+      <div class="row">
+        <label class="seed">Сид <input type="text" inputmode="numeric" id="seed"></label>
+        <button type="button" class="ghost" id="dice">Другой сид</button>
+        <button type="button" class="ghost" id="find" hidden>Подобрать сид</button>
+        <button type="button" class="ghost" id="sound" aria-pressed="false">Звук выкл</button>
+      </div>
+      <div class="row">
+        <button type="button" class="primary" id="rec">Записать ролик</button>
+        <span class="status" id="status"></span>
+      </div>
+      <div class="card recout" id="recout" hidden>
+        <video id="recvideo" controls playsinline muted></video>
+        <div>
+          <p id="recnote"></p>
+          <button type="button" class="ghost" id="recdl">Скачать</button>
+        </div>
+      </div>
+      <div class="card why"><p id="why"></p></div>
+    </section>
+  </main>
+</div>
+<script type="module" src="/src/studio/main.js"></script>
+</body>
+</html>

@@ -4,10 +4,14 @@ import { build } from 'esbuild';
 import { readFile, writeFile } from 'node:fs/promises';
 
 const root = new URL('..', import.meta.url);
-const html = await readFile(new URL('index.html', root), 'utf8');
+// `node scripts/build-artifact.mjs studio` bundles the Trend Studio page instead
+const page = process.argv[2] === 'studio'
+  ? { html: 'studio.html', entry: 'src/studio/main.js', out: 'studio-artifact.html' }
+  : { html: 'index.html', entry: 'src/main.js', out: 'artifact.html' };
+const html = await readFile(new URL(page.html, root), 'utf8');
 
 const { outputFiles } = await build({
-  entryPoints: [new URL('src/main.js', root).pathname],
+  entryPoints: [new URL(page.entry, root).pathname],
   bundle: true,
   format: 'iife',
   minify: true,
@@ -25,5 +29,5 @@ const body = html
   .replace(/<script type="module"[^>]*><\/script>/, `<script>${js}</script>`);
 
 const out = [title, links, style, body.trim()].join('\n');
-await writeFile(new URL('artifact.html', root), out);
-console.log(`artifact.html: ${(out.length / 1024).toFixed(0)} KB`);
+await writeFile(new URL(page.out, root), out);
+console.log(`${page.out}: ${(out.length / 1024).toFixed(0)} KB`);
