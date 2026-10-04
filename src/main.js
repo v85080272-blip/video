@@ -1,11 +1,32 @@
 import { W, H, DT, audio, simulate, fmtSec, drawBackdrop, drawHook, drawBanner } from './engine.js';
+import { LANES, supportsBattle, createBattle, findBattleSeeds, simulateBattle } from './battle.js';
+import { MELODIES, TIMBRES } from './melody.js';
+import rings from './toys/rings.js';
 import race from './toys/race.js';
 import war from './toys/war.js';
 import grow from './toys/grow.js';
 import split from './toys/split.js';
 import pendulum from './toys/pendulum.js';
 
-const TOYS = [race, war, grow, split, pendulum];
+const TOYS = [rings, race, war, grow, split, pendulum];
+const BATTLE_TOYS = TOYS.filter(supportsBattle);
+
+// Not a toy of its own: three different toys race in one frame.
+const MIX = {
+  id: 'mix',
+  tab: 'Микс ×3',
+  eyebrow: 'MIX LAB · БИТВА ×3',
+  title: ['Три разные игрушки,', 'один финиш:', 'кто быстрее?'],
+  lede: 'В каждой дорожке своя игрушка со своими правилами. Подбери сиды с фотофинишем, и зрители будут спорить, что быстрее: кольца, рост или толпа.',
+  mixed: true,
+  params: [],
+  seed: null,
+  search: { label: 'Найти фотофиниш', target: 18 },
+  battle: { hook: ['Кто финиширует', 'первым?'], seeds: [49015, 25996, 18752] },
+};
+const ALL = [...TOYS, MIX];
+const byId = (id) => TOYS.find((t) => t.id === id);
+const defaults = (t) => Object.fromEntries(t.params.map((d) => [d.key, d.value]));
 const HOLD = 3; // seconds the end card stays before the loop restarts
 
 const $ = (id) => document.getElementById(id);
@@ -19,6 +40,9 @@ const live = { note: (i, v, wave) => audio.note(i, v, wave) };
 let toy;
 let params;
 let seed;
+let seeds = [1, 2, 3];
+let mode = 'solo';
+let laneToys = ['rings', 'grow', 'split'];
 let sim;
 let hold = 0;
 let recording = null;
@@ -34,7 +58,7 @@ window.claude?.use?.('downloads').then((d) => (saver = d)).catch(() => {});
 // ---------- controls ----------
 
 function renderTabs() {
-  $('labs').innerHTML = TOYS.map(
+  $('labs').innerHTML = ALL.map(
     (t) => `<button type="button" class="lab" data-id="${t.id}" aria-current="${t === toy}">${t.tab}</button>`,
   ).join('');
 }
@@ -49,8 +73,29 @@ function fmtValue(def, v) {
   return Number(v).toFixed(digits).replace('.', ',');
 }
 
+const DICE = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>`;
+
+const battleOn = () => !!toy.mixed || (mode === 'battle' && supportsBattle(toy));
+
+// what createBattle / simulateBattle / findBattleSeeds get as toy and params
+function battleArgs() {
+  if (!toy.mixed) return [toy, params];
+  const ts = laneToys.map(byId);
+  return [ts, ts.map(defaults)];
+}
+
+function hookLines() {
+  if (!battleOn()) return toy.hook;
+  const h = toy.battle.hook;
+  return typeof h === 'function' ? h(params) : h;
+}
+
 function renderControls() {
-  $('eyebrow').textContent = toy.eyebrow;
+  $('modes').hidden = !supportsBattle(toy) || !!toy.mixed;
+  $('modes').querySelectorAll('button').forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.mode === (battleOn() ? 'battle' : 'solo')));
+  });
+  $('eyebrow').textContent = battleOn() && !toy.mixed ? toy.eyebrow + ' · БИТВА ×3' : toy.eyebrow;
   const [a, b, c] = toy.title;
   $('title').innerHTML = `${a}<br>${b}<br><span class="hl">${c}</span>`;
   $('lede').textContent = toy.lede;
@@ -65,22 +110,50 @@ function renderControls() {
       </div>`,
     )
     .join('');
-  const seedField = toy.search
-    ? `<div class="field">
+  let seedField = '';
+  if (toy.mixed) {
+    seedField += LANES.map(
+      (l, i) => `<div class="field">
+        <label for="lane-${i}"><span>Дорожка <b style="color:${l.color}">${l.n}</b></span></label>
+        <select id="lane-${i}" data-lanetoy="${i}">${BATTLE_TOYS.map(
+          (t) => `<option value="${t.id}"${t.id === laneToys[i] ? ' selected' : ''}>${t.tab}</option>`,
+        ).join('')}</select>
+      </div>`,
+    ).join('');
+  }
+  if (battleOn()) {
+    seedField = `<div class="field" style="grid-column: 1 / -1">
+        <label for="seed-0"><span>Сиды трёх дорожек</span></label>
+        <div class="seed-trio">
+          ${LANES.map(
+            (l, i) => `<label for="seed-${i}"><i style="color:${l.color}">${l.n}</i><input class="seed-input" id="seed-${i}" data-lane="${i}" inputmode="numeric" autocomplete="off" value="${seeds[i]}" aria-label="Сид дорожки ${l.n}"></label>`,
+          ).join('')}
+          <button type="button" class="ghost icon" id="dice" aria-label="Случайные сиды">${DICE}</button>
+        </div>
+      </div>`;
+  } else if (toy.search) {
+    seedField = `<div class="field">
         <label for="seed"><span>Сид</span></label>
         <div class="seed-row">
           <input id="seed" inputmode="numeric" autocomplete="off" value="${seed}">
-          <button type="button" class="ghost icon" id="dice" aria-label="Случайный сид">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
-          </button>
+          <button type="button" class="ghost icon" id="dice" aria-label="Случайный сид">${DICE}</button>
         </div>
-      </div>`
-    : '';
+      </div>`;
+  }
   $('sliders').innerHTML = sliders + seedField;
   $('sliders').querySelectorAll('input[type=range]').forEach(sliderFill);
 
   $('find').hidden = !toy.search;
-  if (toy.search) $('find').textContent = toy.search.label;
+  $('find').textContent = findLabel();
+}
+
+const findLabel = () => (battleOn() ? 'Найти фотофиниш' : toy.search ? toy.search.label : '');
+
+function renderSound() {
+  $('melody').innerHTML = MELODIES.map((m) => `<option value="${m.id}">${m.name}</option>`).join('');
+  $('timbre').innerHTML = TIMBRES.map((t) => `<option value="${t.id}">${t.name}</option>`).join('');
+  $('melody').value = audio.melodyId;
+  $('timbre').value = audio.timbre;
 }
 
 function bindControls() {
@@ -90,10 +163,16 @@ function bindControls() {
   });
   $('sliders').addEventListener('input', (e) => {
     const el = e.target;
-    if (el.id === 'seed') {
+    if (el.dataset.lanetoy) {
+      laneToys[Number(el.dataset.lanetoy)] = el.value;
+      changed();
+      return;
+    }
+    if (el.id === 'seed' || el.dataset.lane) {
       const v = parseInt(el.value, 10);
       if (Number.isFinite(v) && v > 0) {
-        seed = v;
+        if (el.dataset.lane) seeds[Number(el.dataset.lane)] = v;
+        else seed = v;
         changed();
       }
       return;
@@ -107,9 +186,28 @@ function bindControls() {
   });
   $('sliders').addEventListener('click', (e) => {
     if (!e.target.closest('#dice')) return;
-    seed = 1 + Math.floor(Math.random() * 99999);
-    $('seed').value = seed;
+    const roll = () => 1 + Math.floor(Math.random() * 99999);
+    if (battleOn()) {
+      seeds = seeds.map(roll);
+      seeds.forEach((v, i) => ($('seed-' + i).value = v));
+    } else {
+      seed = roll();
+      $('seed').value = seed;
+    }
     changed();
+  });
+  $('modes').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-mode]');
+    if (b) setMode(b.dataset.mode);
+  });
+  $('melody').addEventListener('change', (e) => {
+    audio.setMelody(e.target.value);
+    savePref('zalip.melody', e.target.value);
+  });
+  $('timbre').addEventListener('change', (e) => {
+    audio.timbre = e.target.value;
+    savePref('zalip.timbre', e.target.value);
+    if (audio.on) audio.note(7, 0.7);
   });
   $('find').addEventListener('click', findSeed);
   $('sound').addEventListener('click', () => {
@@ -122,27 +220,60 @@ function bindControls() {
   canvas.addEventListener('click', restart);
 }
 
+function savePref(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {}
+}
+
+function loadPref(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+// Runs the current setup (one sim or the whole battle) to its end without drawing.
+function runToEnd() {
+  if (!battleOn()) return simulate(toy, params, seed);
+  return simulateBattle(...battleArgs(), seeds);
+}
+
 function changed() {
   restart();
   clearTimeout(recomputeTimer);
-  recomputeTimer = setTimeout(() => showResult(simulate(toy, params, seed)), 150);
+  recomputeTimer = setTimeout(() => showResult(runToEnd()), 150);
+}
+
+function syncHash() {
+  try {
+    history.replaceState(null, '', '#' + toy.id + (battleOn() && !toy.mixed ? '-x3' : ''));
+  } catch {}
+  savePref('zalip.toy', toy.id);
+  savePref('zalip.mode', mode);
+}
+
+function setMode(m) {
+  if (recording) stopRecording();
+  mode = m;
+  renderControls();
+  restart();
+  showResult(runToEnd());
+  syncHash();
 }
 
 function selectToy(id) {
   if (recording) stopRecording();
-  toy = TOYS.find((t) => t.id === id) || TOYS[0];
-  params = Object.fromEntries(toy.params.map((d) => [d.key, d.value]));
+  toy = ALL.find((t) => t.id === id) || TOYS[0];
+  params = defaults(toy);
   seed = toy.seed ?? 1;
+  seeds = toy.battle?.seeds ? [...toy.battle.seeds] : [seed ?? 1, (seed ?? 1) + 1, (seed ?? 1) + 2];
   renderTabs();
   renderControls();
   restart();
-  showResult(simulate(toy, params, seed));
-  try {
-    history.replaceState(null, '', '#' + toy.id);
-  } catch {}
-  try {
-    localStorage.setItem('zalip.toy', toy.id);
-  } catch {}
+  showResult(runToEnd());
+  syncHash();
 }
 
 // ---------- result card ----------
@@ -178,6 +309,7 @@ function showResult(done) {
 
 async function findSeed() {
   if (searching || !toy.search) return;
+  if (battleOn()) return findTrio();
   searching = true;
   const btn = $('find');
   btn.disabled = true;
@@ -206,6 +338,26 @@ async function findSeed() {
   searching = false;
   restart();
   showResult(simulate(toy, params, seed));
+}
+
+async function findTrio() {
+  searching = true;
+  const btn = $('find');
+  btn.disabled = true;
+  const res = await findBattleSeeds(...battleArgs(), {
+    budgetMs: 6000,
+    target: toy.search.target ?? 18,
+    onProgress: (n) => (btn.textContent = `Ищу фотофиниш… проверено ${n}`),
+  });
+  if (res && res.seeds) {
+    seeds = [...res.seeds];
+    seeds.forEach((v, i) => $('seed-' + i) && ($('seed-' + i).value = v));
+  }
+  btn.textContent = findLabel();
+  btn.disabled = false;
+  searching = false;
+  restart();
+  showResult(runToEnd());
 }
 
 // ---------- recording ----------
@@ -250,7 +402,8 @@ function startRecording() {
     const ext = type.includes('mp4') ? 'mp4' : 'webm';
     const v = $('recvideo');
     v.src = url;
-    lastClip = { blob, url, filename: `${toy.id}-${seed ?? 'cycle'}.${ext}` };
+    const tag = battleOn() ? 'x3-' + seeds.join('-') : seed ?? 'cycle';
+    lastClip = { blob, url, filename: `${toy.id}-${tag}.${ext}` };
     $('recdl').textContent = `Скачать ${ext.toUpperCase()}`;
     note.textContent =
       ext === 'webm'
@@ -293,7 +446,8 @@ function stopRecording() {
 // ---------- loop ----------
 
 function restart() {
-  sim = toy.create(params, seed, live);
+  sim = battleOn() ? createBattle(...battleArgs(), seeds, live) : toy.create(params, seed, live);
+  audio.resetMelody();
   hold = 0;
 }
 
@@ -313,23 +467,33 @@ function frame(now) {
   }
   drawBackdrop(ctx);
   sim.draw(ctx);
-  drawHook(ctx, toy.hook, sim.pills());
-  if (sim.done) {
-    const b = sim.banner();
-    drawBanner(ctx, b.lines, b.color, hold * 3);
+  if (sim.done && battleOn()) {
+    // in a battle the answer replaces the question, so no lane gets covered
+    drawHook(ctx, sim.banner().lines, sim.pills());
+  } else {
+    drawHook(ctx, hookLines(), sim.pills());
+    if (sim.done) {
+      const b = sim.banner();
+      drawBanner(ctx, b.lines, b.color, hold * 3);
+    }
   }
   requestAnimationFrame(frame);
 }
 
 function start() {
+  audio.setMelody(loadPref('zalip.melody') || 'pentatonic');
+  if (TIMBRES.some((t) => t.id === loadPref('zalip.timbre'))) audio.timbre = loadPref('zalip.timbre');
+  renderSound();
   bindControls();
   let id = location.hash.slice(1);
-  if (!TOYS.some((t) => t.id === id)) {
-    try {
-      id = localStorage.getItem('zalip.toy') || '';
-    } catch {
-      id = '';
-    }
+  if (id.endsWith('-x3')) {
+    id = id.slice(0, -3);
+    mode = 'battle';
+  } else if (ALL.some((t) => t.id === id)) {
+    mode = 'solo';
+  } else {
+    id = loadPref('zalip.toy') || '';
+    mode = loadPref('zalip.mode') === 'battle' ? 'battle' : 'solo';
   }
   selectToy(id);
   requestAnimationFrame((t) => {

@@ -21,6 +21,8 @@ export default {
   ],
   seed: 777,
   search: { label: 'Найти сид на 16–20 секунд', target: 18 },
+  battle: { hook: (p) => ['Где первым', `будет ${p.cap} шариков?`], seeds: [41661, 14594, 5985] },
+  arena: () => ({ x: CX - R - 40, y: CY - R - 40, w: R * 2 + 80, h: R * 2 + 80 }),
 
   create(p, seed, fx) {
     const r = rng(seed);
@@ -34,6 +36,13 @@ export default {
       t: 0,
       time: 0,
       done: false,
+      // battle mode: the lane finishes when the cap is hit, not 2 s later
+      get finishTime() {
+        return capT >= 0 ? capT : undefined;
+      },
+      progress() {
+        return balls.length / p.cap;
+      },
       step(dt) {
         this.t += dt;
         const n = balls.length;

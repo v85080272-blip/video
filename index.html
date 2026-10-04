@@ -195,6 +195,59 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 .recout .rec-info { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .recout p { margin: 0; color: var(--muted); }
 .tip { margin: 0; color: var(--muted); font-size: 13px; }
+.modes {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px;
+  gap: 4px;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.modes button {
+  font: 700 15px/1 var(--body);
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+}
+.modes button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.modes button:hover:not([aria-pressed="true"]) { color: var(--text); }
+.seed-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 8px; }
+.seed-trio label { position: relative; display: block; }
+.seed-trio label i {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  translate: 0 -50%;
+  font: 900 14px/1 var(--display);
+  font-style: normal;
+}
+.seed-trio input { width: 100%; box-sizing: border-box; padding-left: 28px !important; }
+.seed-input {
+  font: 500 15px/1 var(--body);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-width: 0;
+}
+.sound-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.sound-row .field { flex: 1 1 160px; }
+select {
+  font: 500 15px/1.2 var(--body);
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+}
+select:focus-visible, .modes button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 880px) {
   .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .phone { position: static; width: min(360px, 100%); justify-self: center; }
@@ -220,10 +273,24 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
       <p class="eyebrow" id="eyebrow"></p>
       <h1 id="title"></h1>
       <p class="lede" id="lede"></p>
+      <div class="modes" id="modes" role="group" aria-label="Режим ролика">
+        <button type="button" data-mode="solo" aria-pressed="true">Один шарик</button>
+        <button type="button" data-mode="battle" aria-pressed="false">Битва ×3</button>
+      </div>
       <div class="sliders" id="sliders"></div>
+      <div class="sound-row">
+        <div class="field">
+          <label for="melody"><span>Ноты на отскоках</span></label>
+          <select id="melody"></select>
+        </div>
+        <div class="field">
+          <label for="timbre"><span>Инструмент</span></label>
+          <select id="timbre"></select>
+        </div>
+        <button type="button" class="ghost" id="sound" aria-pressed="false">Звук выкл</button>
+      </div>
       <div class="actions">
         <button type="button" class="primary" id="find"></button>
-        <button type="button" class="ghost" id="sound" aria-pressed="false">Звук выкл</button>
         <button type="button" class="ghost" id="rec">Записать ролик</button>
       </div>
       <div class="card" aria-live="polite">
@@ -238,7 +305,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
           <button type="button" class="ghost" id="recdl">Скачать</button>
         </div>
       </div>
-      <p class="tip">Запись идёт прямо из браузера в 1080×1920. Включи звук до записи, чтобы ноты попали в ролик. Нажатие на превью запускает ролик заново.</p>
+      <p class="tip">Запись идёт прямо из браузера в 1080×1920. Включи звук до записи, чтобы ноты попали в ролик. В битве все три шарика играют одну мелодию по очереди ударов. Нажатие на превью запускает ролик заново.</p>
     </section>
   </main>
 </div>

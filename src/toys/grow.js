@@ -19,6 +19,8 @@ export default {
   ],
   seed: 4242,
   search: { label: 'Найти сид на 16–20 секунд', target: 18 },
+  battle: { hook: ['Какой шарик', 'заполнит круг первым?'], seeds: [21984, 5381, 92399] },
+  arena: (p) => ({ x: CX - p.arena - 40, y: CY - p.arena - 40, w: p.arena * 2 + 80, h: p.arena * 2 + 80 }),
 
   create(p, seed, fx) {
     const r = rng(seed);
@@ -126,6 +128,10 @@ export default {
           ctx.fillText(String(bounces), b.x, b.y + 4);
           ctx.textBaseline = 'alphabetic';
         }
+      },
+
+      progress() {
+        return (b.r - p.start) / (R - p.start);
       },
 
       pills() {

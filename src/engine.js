@@ -1,6 +1,8 @@
 // Shared pieces for every lab: canvas size, fixed timestep, seeded random,
 // sound, and the text overlays drawn on top of each simulation.
 
+import { MELODIES, midiToFreq, pentatonicMidi, playTone, createMelodyCursor } from './melody.js';
+
 export const W = 1080;
 export const H = 1920;
 export const DT = 1 / 120;
@@ -48,8 +50,6 @@ export const fmtClock = (s) => {
 
 // ---------- sound ----------
 
-const SCALE = [0, 2, 4, 7, 9];
-
 export const audio = {
   ctx: null,
   master: null,
@@ -57,6 +57,20 @@ export const audio = {
   on: false,
   windowStart: 0,
   count: 0,
+  timbre: 'marimba',
+  melodyId: 'pentatonic',
+  cursor: null,
+  lastSong: -1,
+  setMelody(id) {
+    const m = MELODIES.find((x) => x.id === id) || MELODIES[0];
+    this.melodyId = m.id;
+    this.cursor = m.notes ? createMelodyCursor(m) : null;
+    this.lastSong = -1;
+  },
+  resetMelody() {
+    if (this.cursor) this.cursor.reset();
+    this.lastSong = -1;
+  },
   init() {
     if (this.ctx) return;
     const C = window.AudioContext || window.webkitAudioContext;
@@ -79,8 +93,10 @@ export const audio = {
     if (this.on) this.ctx.resume();
     return this.on;
   },
-  // i: step on a pentatonic scale, 0 is G3
-  note(i, vol = 0.6, wave = 'triangle') {
+  // i: step on a pentatonic scale, 0 is G3. With a song picked, every
+  // ordinary hit plays the song's next note instead; 'square' marks a
+  // finish event, which keeps its own 8-bit ding.
+  note(i, vol = 0.6, wave) {
     if (!this.on || !this.ctx) return;
     const t = this.ctx.currentTime;
     if (t - this.windowStart > 0.05) {
@@ -88,19 +104,15 @@ export const audio = {
       this.count = 0;
     }
     if (++this.count > 4) return;
-    i = Math.max(0, Math.min(24, Math.round(i)));
-    const step = Math.floor(i / 5) * 12 + SCALE[i % 5];
-    const o = this.ctx.createOscillator();
-    const g = this.ctx.createGain();
-    o.type = wave;
-    o.frequency.value = 196 * Math.pow(2, step / 12);
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.3 * vol, t + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
-    o.connect(g);
-    g.connect(this.master);
-    o.start(t);
-    o.stop(t + 0.55);
+    const special = wave === 'square';
+    let midi = pentatonicMidi(i);
+    if (!special && this.cursor) {
+      // a tune needs a little air between notes to stay recognisable
+      if (t - this.lastSong < 0.08) return;
+      this.lastSong = t;
+      midi = this.cursor.next();
+    }
+    playTone(this.ctx, this.master, midiToFreq(midi), vol, special ? 'chip' : this.timbre, t);
   },
 };
 
