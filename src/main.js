@@ -122,7 +122,7 @@ function renderControls() {
     ).join('');
   }
   if (battleOn()) {
-    seedField = `<div class="field" style="grid-column: 1 / -1">
+    seedField += `<div class="field" style="grid-column: 1 / -1">
         <label for="seed-0"><span>Сиды трёх дорожек</span></label>
         <div class="seed-trio">
           ${LANES.map(
@@ -207,7 +207,7 @@ function bindControls() {
   $('timbre').addEventListener('change', (e) => {
     audio.timbre = e.target.value;
     savePref('zalip.timbre', e.target.value);
-    if (audio.on) audio.note(7, 0.7);
+    audio.preview();
   });
   $('find').addEventListener('click', findSeed);
   $('sound').addEventListener('click', () => {
@@ -251,7 +251,7 @@ function syncHash() {
     history.replaceState(null, '', '#' + toy.id + (battleOn() && !toy.mixed ? '-x3' : ''));
   } catch {}
   savePref('zalip.toy', toy.id);
-  savePref('zalip.mode', mode);
+  if (supportsBattle(toy) && !toy.mixed) savePref('zalip.mode', mode);
 }
 
 function setMode(m) {
@@ -313,6 +313,7 @@ async function findSeed() {
   searching = true;
   const btn = $('find');
   btn.disabled = true;
+  const key = setupKey();
   const s = toy.search;
   const score = (r) => (!r.done ? 1e9 : s.score ? s.score(r) : Math.abs(r.summary().duration - s.target));
   let best = seed;
@@ -331,31 +332,40 @@ async function findSeed() {
     btn.textContent = `Ищу… проверено ${tries}`;
     await new Promise((r) => setTimeout(r, 0));
   }
-  seed = best;
-  if ($('seed')) $('seed').value = seed;
-  btn.textContent = s.label;
+  btn.textContent = findLabel();
   btn.disabled = false;
   searching = false;
+  // the viewer may have switched toy or mode during the search
+  if (setupKey() !== key) return;
+  seed = best;
+  if ($('seed')) $('seed').value = seed;
   restart();
   showResult(simulate(toy, params, seed));
+}
+
+// what a search result belongs to: toy, mode, lanes and every slider
+function setupKey() {
+  return JSON.stringify([toy.id, battleOn(), laneToys, params]);
 }
 
 async function findTrio() {
   searching = true;
   const btn = $('find');
   btn.disabled = true;
+  const key = setupKey();
   const res = await findBattleSeeds(...battleArgs(), {
     budgetMs: 6000,
     target: toy.search.target ?? 18,
     onProgress: (n) => (btn.textContent = `Ищу фотофиниш… проверено ${n}`),
   });
+  btn.textContent = findLabel();
+  btn.disabled = false;
+  searching = false;
+  if (setupKey() !== key) return;
   if (res && res.seeds) {
     seeds = [...res.seeds];
     seeds.forEach((v, i) => $('seed-' + i) && ($('seed-' + i).value = v));
   }
-  btn.textContent = findLabel();
-  btn.disabled = false;
-  searching = false;
   restart();
   showResult(runToEnd());
 }
@@ -382,6 +392,7 @@ function startRecording() {
     return;
   }
   restart();
+  const base = `${toy.id}-${battleOn() ? 'x3-' + seeds.join('-') : seed ?? 'cycle'}`;
   const stream = canvas.captureStream(60);
   if (audio.on && audio.dest) stream.addTrack(audio.dest.stream.getAudioTracks()[0]);
   const mime = pickMime();
@@ -402,8 +413,7 @@ function startRecording() {
     const ext = type.includes('mp4') ? 'mp4' : 'webm';
     const v = $('recvideo');
     v.src = url;
-    const tag = battleOn() ? 'x3-' + seeds.join('-') : seed ?? 'cycle';
-    lastClip = { blob, url, filename: `${toy.id}-${tag}.${ext}` };
+    lastClip = { blob, url, filename: `${base}.${ext}` };
     $('recdl').textContent = `Скачать ${ext.toUpperCase()}`;
     note.textContent =
       ext === 'webm'
@@ -488,7 +498,8 @@ function start() {
   let id = location.hash.slice(1);
   if (id.endsWith('-x3')) {
     id = id.slice(0, -3);
-    mode = 'battle';
+    const t = ALL.find((x) => x.id === id);
+    mode = t && supportsBattle(t) ? 'battle' : 'solo';
   } else if (ALL.some((t) => t.id === id)) {
     mode = 'solo';
   } else {

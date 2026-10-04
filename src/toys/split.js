@@ -41,7 +41,7 @@ export default {
         return capT >= 0 ? capT : undefined;
       },
       progress() {
-        return balls.length / p.cap;
+        return (balls.length - 1) / (p.cap - 1);
       },
       step(dt) {
         this.t += dt;

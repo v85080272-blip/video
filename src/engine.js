@@ -67,6 +67,11 @@ export const audio = {
     this.cursor = m.notes ? createMelodyCursor(m) : null;
     this.lastSong = -1;
   },
+  // one note in the chosen timbre, outside the song and the throttle
+  preview() {
+    if (!this.on || !this.ctx) return;
+    playTone(this.ctx, this.master, midiToFreq(pentatonicMidi(7)), 0.7, this.timbre, this.ctx.currentTime);
+  },
   resetMelody() {
     if (this.cursor) this.cursor.reset();
     this.lastSong = -1;
@@ -103,12 +108,12 @@ export const audio = {
       this.windowStart = t;
       this.count = 0;
     }
-    if (++this.count > 4) return;
+    // finish dings always sound; a tune needs a little air between notes
     const special = wave === 'square';
+    if (!special && this.cursor && t - this.lastSong < 0.08) return;
+    if (++this.count > 4 && !special) return;
     let midi = pentatonicMidi(i);
     if (!special && this.cursor) {
-      // a tune needs a little air between notes to stay recognisable
-      if (t - this.lastSong < 0.08) return;
       this.lastSong = t;
       midi = this.cursor.next();
     }
