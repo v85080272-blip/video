@@ -59,3 +59,7 @@ npm run dev
 | Стоп-кадр | Пауза-челлендж: подсветка прыгает по 12 карточкам («останови видео и узнай свой ужин»), а 💎 мелькает всего на пару кадров | Пишут, что выпало, и ловят джекпот на пересмотре |
 
 Запуск: `npm run dev` и открыть http://localhost:5173/studio.html (`#survive`, `#odd`, `#pause`). Один файл со всей студией: `npm run artifact:studio` соберёт `studio-artifact.html`.
+
+## Готовые MP4 без записи экрана
+
+`node scripts/render-studio.mjs clips.json renders` рендерит ролики покадрово (60 к/с) и синтезирует звук, нужен Chromium от Playwright и ffmpeg. Пример `clips.json`: `[{ "name": "bitva-mesyacev", "format": "survive", "params": { "set": "months" }, "seed": "search" }]`. Если Google Fonts недоступны, укажи `RUBIK_DIR` с файлами `rubik-*-normal.woff2` из npm-пакета `@fontsource/rubik`.
