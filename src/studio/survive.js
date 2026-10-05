@@ -263,7 +263,7 @@ function label(ctx, b, x, y, r) {
 }
 
 function draw(ctx, sim, p, n) {
-  backdrop(ctx);
+  backdrop(ctx, undefined, undefined, sim.t);
   hook(ctx, [p.hook1, p.hook2], 210, 88);
 
   // live counter

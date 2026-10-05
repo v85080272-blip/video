@@ -103,12 +103,40 @@ export function rrect(ctx, x, y, w, h, r) {
   ctx.roundRect(x, y, w, h, r);
 }
 
-export function backdrop(ctx, top = '#1a1446', bottom = '#07061a') {
+// Vertical gradient plus, when given the clip time, slow drifting glows so
+// the background never sits still.
+const GLOWS = [
+  { hue: 265, r: 620, ax: 0.32, ay: 0.21, sx: 0.13, sy: 0.09, ph: 0 },
+  { hue: 205, r: 560, ax: 0.7, ay: 0.55, sx: 0.11, sy: 0.15, ph: 2 },
+  { hue: 320, r: 520, ax: 0.4, ay: 0.85, sx: 0.17, sy: 0.1, ph: 4 },
+];
+export function backdrop(ctx, top = '#1a1446', bottom = '#07061a', t) {
   const g = ctx.createLinearGradient(0, 0, 0, H);
   g.addColorStop(0, top);
   g.addColorStop(1, bottom);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
+  if (t === undefined) return;
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (const b of GLOWS) {
+    const x = W * (b.ax + 0.22 * Math.sin(t * b.sx * 2 + b.ph));
+    const y = H * (b.ay + 0.08 * Math.cos(t * b.sy * 2 + b.ph));
+    const rg = ctx.createRadialGradient(x, y, 0, x, y, b.r);
+    rg.addColorStop(0, hsl(b.hue + t * 6, 0.8, 0.5) + '38');
+    rg.addColorStop(1, hsl(b.hue + t * 6, 0.8, 0.5) + '00');
+    ctx.fillStyle = rg;
+    ctx.fillRect(0, 0, W, H);
+  }
+  // a faint dot grid drifting upward
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = 'rgba(255,255,255,0.05)';
+  const step = 90;
+  const off = (t * 24) % step;
+  for (let y = -step; y < H + step; y += step) {
+    for (let x = step / 2; x < W; x += step) ctx.fillRect(x - 3, y - off - 3, 6, 6);
+  }
+  ctx.restore();
 }
 
 // Big hook text at the top. The last line is yellow when there are two.

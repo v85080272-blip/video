@@ -172,7 +172,7 @@ function drawTile(ctx, x, y, w, h, it, lit, dim, gold) {
 }
 
 function draw(ctx, sim, p) {
-  backdrop(ctx, '#2a0f3f', '#0a0618');
+  backdrop(ctx, '#2a0f3f', '#0a0618', sim.t);
   hook(ctx, [p.hook1, p.hook2], 210, 90);
   const done = sim.t >= sim.stopT;
 

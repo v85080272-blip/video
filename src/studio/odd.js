@@ -39,7 +39,7 @@ export const odd = {
     const levels = [];
     for (let i = 0; i < L; i++) {
       const k = L === 1 ? 1 : i / (L - 1);
-      const cols = Math.round(4 + p.hard * 0.5 + k * (3 + p.hard * 0.6));
+      const cols = Math.round(7 + p.hard * 0.5 + k * (4 + p.hard * 0.7));
       const rows = Math.round(cols * 1.15);
       const theme = p.theme === 'mixed' ? themes[Math.floor(rand() * themes.length)] : p.theme;
       const lv = { cols, rows, theme, odd: Math.floor(rand() * cols * rows) };
@@ -48,7 +48,7 @@ export const odd = {
         lv.sat = 0.55 + rand() * 0.3;
         lv.base = 0.5;
         // the gap in lightness shrinks with each level and with difficulty
-        lv.delta = (0.16 - k * 0.1) * (1.25 - p.hard * 0.12) * (rand() < 0.5 ? 1 : -1);
+        lv.delta = (0.11 - k * 0.07) * (1.25 - p.hard * 0.12) * (rand() < 0.5 ? 1 : -1);
       } else {
         const list = PAIRS[theme];
         const pair = list[Math.floor(rand() * list.length)];
@@ -90,7 +90,7 @@ function cellText(lv, idx) {
 }
 
 function draw(ctx, sim, p) {
-  backdrop(ctx, '#132046', '#060a1a');
+  backdrop(ctx, '#132046', '#060a1a', sim.t);
   const L = sim.levels.length;
   hook(ctx, [p.hook1, (p.hook2 || '').replace('{n}', L)], 210, 88);
 
