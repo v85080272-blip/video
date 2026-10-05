@@ -1,0 +1,15 @@
+15-second 3D animated comedy short, vertical 9:16, warm and cosy tone, reality-show parody.
+
+CHARACTERS:
+Pelmen Petrovich: a plump hand-made pelmeni dumpling, pale dough skin with fine flour dust, visible pinched seam along the top like a tiny crest, small round black eyes, thick dough eyebrows, a tiny red bow tie. Moves with slow, dignified waddles. Keep the exact same dumpling shape, seam and red bow tie in every shot.
+Syrnik: a small golden fried cottage-cheese pancake, crispy browned edges, a sugar-powder dusting on top like a cap, wide nervous eyes. Bounces when anxious. Keep the same golden colour and sugar cap in every shot.
+
+0–4 SEC — THE FREEZER STUDIO: inside a frosty home freezer lit like a TV studio, cold blue light from the back, frost crystals sparkling. Pelmen Petrovich (red bow tie) stands on a bag of frozen peas like a stage, puffs his chest; Syrnik (sugar cap) shivers beside him, teeth chattering.
+4–9 SEC — THE DOOR OPENS: warm yellow kitchen light floods in from the top, frost mist rolls out. Both characters freeze mid-pose; Syrnik's eyes go wide, a single sugar grain falls from his cap.
+9–13 SEC — THE HAND: a large human hand in soft focus reaches in slowly from the top of frame, hovers over Pelmen Petrovich, then grabs the bag of frozen peas instead. Pelmen Petrovich slides off the bag and lands flat on his back.
+13–15 SEC — REACTION: close-up, Pelmen Petrovich slowly turns his head to camera and raises one dough eyebrow. Clean static tail frame, 1 second, no movement.
+
+RENDER: soft subsurface scattering on dough, realistic frost particles, shallow depth of field f/2.0, creamy bokeh on freezer shelves, cold blue rim light 6500K against warm 3000K key light from the door, premium Pixar-like quality without copying any existing character.
+CAMERA: slow push-in during 0–4 s, locked camera when the door opens, fast whip to close-up at 13 s.
+AUDIO: freezer hum, door suction pop, crinkle of the plastic bag, tiny comedic squeak when he lands.
+NEGATIVE: no character changes, no face distortion, no extra characters, no deformed hands, no flickering, no on-screen text, no subtitles, no watermark.
