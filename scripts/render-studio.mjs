@@ -4,7 +4,7 @@
 //   node scripts/render-studio.mjs clips.json out-dir
 //
 // clips.json: [{ "name": "bitva-mesyacev", "format": "survive",
-//                "params": { "set": "months" }, "seed": 123 | "search" }]
+//                "params": { "set": "months" }, "seed": 123 | "search", "searchFrom"?: 5000 }]
 // RUBIK_DIR: folder with rubik-*-normal.woff2 (npm @fontsource/rubik, files/)
 // when the Google Fonts CDN can't be reached.
 
@@ -57,7 +57,8 @@ for (const clip of clips) {
   const params = { ...(await tab.evaluate((id) => window.studio.defaults(id), clip.format)), ...clip.params };
   let seed = clip.seed;
   if (seed === 'search') {
-    seed = (await tab.evaluate(([id, p]) => window.studio.search(id, p, 1000), [clip.format, params])).seed;
+    // searchFrom keeps two clips of the same format from landing on the same seed
+    seed = (await tab.evaluate(([id, p, from]) => window.studio.search(id, p, from), [clip.format, params, clip.searchFrom || 1000])).seed;
   }
   await tab.evaluate(([id, p, s]) => window.studio.start(id, p, s), [clip.format, params, seed]);
 
