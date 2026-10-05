@@ -3,6 +3,7 @@
 // of different toys (pass arrays of toys and params).
 
 import { W, DT, MAX_T, SILENT, ACCENT, DISPLAY, simulate, fmtSec } from './engine.js';
+import { look, drawSkin } from './scene.js';
 
 export const LANES = [
   { n: 1, color: '#ff4d5e' },
@@ -25,6 +26,8 @@ const BOX = LANE_H - PAD * 2;
 const BOX_X = SIDE + LANE_W - PAD - BOX;
 const COL_X = SIDE + 44;
 const COL_W = BOX_X - 30 - COL_X;
+const AV_R = 62;
+const AV_X = COL_X + COL_W - AV_R - 8;
 const MEDALS = ['#ffd23f', '#dfe5f0', '#e8975a'];
 const INK = '#1a1400';
 
@@ -62,6 +65,15 @@ export function createBattle(toy, params, seeds, fx = SILENT) {
   const toys = three(toy);
   const plist = three(params);
 
+  // each lane hears its own hits, so its avatar can hop on them
+  const hitAt = [-9, -9, -9];
+  const laneFx = (i) => ({
+    note(n, vol, wave) {
+      hitAt[i] = look.t;
+      fx.note(n, vol, wave);
+    },
+  });
+
   const lanes = LANES.map((l, i) => {
     const box = toys[i].arena ? toys[i].arena(plist[i]) : DEFAULT_ARENA;
     const k = BOX / Math.max(box.w, box.h);
@@ -70,7 +82,7 @@ export function createBattle(toy, params, seeds, fx = SILENT) {
       i,
       seed: seeds[i],
       name: mixed ? toys[i].tab : '',
-      sim: toys[i].create(plist[i], seeds[i], fx),
+      sim: toys[i].create(plist[i], seeds[i], laneFx(i)),
       box,
       k,
       offX: BOX_X + (BOX - box.w * k) / 2,
@@ -102,12 +114,15 @@ export function createBattle(toy, params, seeds, fx = SILENT) {
     ctx.beginPath();
     ctx.roundRect(BOX_X, y + PAD, BOX, BOX, 26);
     ctx.clip();
-    ctx.fillStyle = '#0b0a22';
+    ctx.fillStyle = 'rgba(9,8,28,0.6)';
     ctx.fillRect(BOX_X, y + PAD, BOX, BOX);
     ctx.translate(l.offX, y + l.offY);
     ctx.scale(l.k, l.k);
     ctx.translate(-l.box.x, -l.box.y);
+    const mood = won ? 'win' : winner || l.dnf ? 'lose' : 'idle';
+    Object.assign(look, { lane: l.i, laneColor: l.color, scale: l.k, mood });
     l.sim.draw(ctx);
+    Object.assign(look, { lane: -1, laneColor: null, scale: 1, mood: 'idle' });
     ctx.restore();
     ctx.restore();
 
@@ -162,6 +177,8 @@ export function createBattle(toy, params, seeds, fx = SILENT) {
     } else if (hot) {
       tag(ctx, 'ЛИДЕР', COL_X + numW + 28, y + 96, l.color);
     }
+
+    if (look.skin !== 'glossy') avatar(ctx, l, y, won ? 'win' : winner || l.dnf ? 'lose' : 'idle', hitAt[l.i]);
 
     if (l.name) {
       fitFont(ctx, l.name.toUpperCase(), 800, 32, COL_W);
@@ -463,6 +480,24 @@ export async function findBattleSeeds(toy, params, { budgetMs = 6000, target = 1
 // ---------- drawing helpers ----------
 
 const paintCache = new WeakMap();
+// The lane's ball, big, next to its number: someone to root for. It hops on
+// its lane's hits, cheers when it wins and sulks when it loses.
+function avatar(ctx, l, y, mood, hitT) {
+  const t = look.t;
+  let cy = y + 116 + Math.sin(t * 2.2 + l.i * 2) * 5;
+  const hop = Math.max(0, 1 - (t - hitT) / 0.25);
+  cy -= hop * hop * 14;
+  if (mood === 'win') cy -= Math.abs(Math.sin(t * 6)) * 22;
+  ctx.save();
+  ctx.globalAlpha = l.dnf ? 0.5 : 1;
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(AV_X, y + 116 + AV_R + 14, AV_R * 0.75, 10, 0, 0, Math.PI * 2);
+  ctx.fill();
+  drawSkin(ctx, look.skin, AV_X, cy, AV_R, l.color, null, { mood, variant: l.i, hitT });
+  ctx.restore();
+}
+
 function paints(ctx) {
   let p = paintCache.get(ctx);
   if (p) return p;

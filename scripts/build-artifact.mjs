@@ -22,7 +22,8 @@ const links = (html.match(/<link [^>]*>/g) || []).join('\n');
 const style = pick(/<style>[\s\S]*?<\/style>/);
 const body = html
   .match(/<body>([\s\S]*)<\/body>/)[1]
-  .replace(/<script type="module"[^>]*><\/script>/, `<script>${js}</script>`);
+  // a function, so "$&" and friends in the minified code stay literal
+  .replace(/<script type="module"[^>]*><\/script>/, () => `<script>${js}</script>`);
 
 const out = [title, links, style, body.trim()].join('\n');
 await writeFile(new URL('artifact.html', root), out);

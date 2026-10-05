@@ -1,4 +1,5 @@
-import { rng, ball, glowSprite, fmtSec } from '../engine.js';
+import { rng, ball, glowSprite, fmtSec, ACCENT } from '../engine.js';
+import { look, heroColor } from '../scene.js';
 
 const CX = 540;
 const CY = 1220;
@@ -349,7 +350,7 @@ export default {
         ctx.drawImage(glowSprite('#ffffff', br), b.x - g, b.y - g, g * 2, g * 2);
         ctx.globalCompositeOperation = 'source-over';
         ctx.globalAlpha = fade;
-        ball(ctx, b.x, b.y, br, '#f2f4ff');
+        ball(ctx, b.x, b.y, br, look.skin === 'glossy' ? '#f2f4ff' : heroColor(ACCENT), b);
         ctx.restore();
       },
 

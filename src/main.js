@@ -1,6 +1,7 @@
 import { W, H, DT, audio, simulate, fmtSec, drawBackdrop, drawHook, drawBanner } from './engine.js';
 import { LANES, supportsBattle, createBattle, findBattleSeeds, simulateBattle } from './battle.js';
 import { MELODIES, TIMBRES } from './melody.js';
+import { look, BACKDROPS, SKINS } from './scene.js';
 import rings from './toys/rings.js';
 import race from './toys/race.js';
 import war from './toys/war.js';
@@ -35,7 +36,12 @@ canvas.width = W;
 canvas.height = H;
 const ctx = canvas.getContext('2d');
 
-const live = { note: (i, v, wave) => audio.note(i, v, wave) };
+const live = {
+  note(i, v, wave) {
+    look.kick(v);
+    audio.note(i, v, wave);
+  },
+};
 
 let toy;
 let params;
@@ -154,6 +160,10 @@ function renderSound() {
   $('timbre').innerHTML = TIMBRES.map((t) => `<option value="${t.id}">${t.name}</option>`).join('');
   $('melody').value = audio.melodyId;
   $('timbre').value = audio.timbre;
+  $('backdrop').innerHTML = BACKDROPS.map((b) => `<option value="${b.id}">${b.name}</option>`).join('');
+  $('skin').innerHTML = SKINS.map((s) => `<option value="${s.id}">${s.name}</option>`).join('');
+  $('backdrop').value = look.bg;
+  $('skin').value = look.skin;
 }
 
 function bindControls() {
@@ -208,6 +218,14 @@ function bindControls() {
     audio.timbre = e.target.value;
     savePref('zalip.timbre', e.target.value);
     audio.preview();
+  });
+  $('backdrop').addEventListener('change', (e) => {
+    look.bg = e.target.value;
+    savePref('zalip.bg', e.target.value);
+  });
+  $('skin').addEventListener('change', (e) => {
+    look.skin = e.target.value;
+    savePref('zalip.skin', e.target.value);
   });
   $('find').addEventListener('click', findSeed);
   $('sound').addEventListener('click', () => {
@@ -468,6 +486,7 @@ function frame(now) {
   last = now;
   while (acc >= DT) {
     acc -= DT;
+    look.tick(DT);
     if (!sim.done) sim.step(DT);
     else {
       hold += DT;
@@ -476,7 +495,9 @@ function frame(now) {
     }
   }
   drawBackdrop(ctx);
+  look.mood = sim.done && !battleOn() ? 'win' : 'idle';
   sim.draw(ctx);
+  look.mood = 'idle';
   if (sim.done && battleOn()) {
     // in a battle the answer replaces the question, so no lane gets covered
     drawHook(ctx, sim.banner().lines, sim.pills());
@@ -493,6 +514,8 @@ function frame(now) {
 function start() {
   audio.setMelody(loadPref('zalip.melody') || 'pentatonic');
   if (TIMBRES.some((t) => t.id === loadPref('zalip.timbre'))) audio.timbre = loadPref('zalip.timbre');
+  if (BACKDROPS.some((b) => b.id === loadPref('zalip.bg'))) look.bg = loadPref('zalip.bg');
+  if (SKINS.some((s) => s.id === loadPref('zalip.skin'))) look.skin = loadPref('zalip.skin');
   renderSound();
   bindControls();
   let id = location.hash.slice(1);

@@ -1,4 +1,5 @@
-import { rng, hueColor, fmtSec } from '../engine.js';
+import { rng, hueColor, fmtSec, ball } from '../engine.js';
+import { look, heroColor } from '../scene.js';
 
 const CX = 540;
 const CY = 1220;
@@ -112,6 +113,10 @@ export default {
         ctx.restore();
 
         const col = hueColor(hue);
+        if (look.skin !== 'glossy') {
+          ball(ctx, b.x, b.y, b.r, heroColor(col), b);
+          return;
+        }
         const g = ctx.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.35, b.r * 0.05, b.x, b.y, b.r);
         g.addColorStop(0, '#ffffff');
         g.addColorStop(0.2, col);

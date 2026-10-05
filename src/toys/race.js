@@ -381,7 +381,7 @@ export default {
           const place = this.order.indexOf(m);
           const x = m.done ? X0 + 60 + place * 70 : m.x;
           const y = m.done ? len + 110 : m.y;
-          ball(ctx, x, y, R, col);
+          ball(ctx, x, y, R, col, m);
         }
         ctx.restore();
 

@@ -164,7 +164,7 @@ export default {
           ctx.beginPath();
           ctx.arc(b.x, b.y, br + 7, 0, Math.PI * 2);
           ctx.fill();
-          ball(ctx, b.x, b.y, br, shade(TEAM[TEAMS[b.t]].color, 0.25));
+          ball(ctx, b.x, b.y, br, shade(TEAM[TEAMS[b.t]].color, 0.25), b);
         }
         // territory bar under the field
         const total = cols * rows;

@@ -2,6 +2,9 @@
 // sound, and the text overlays drawn on top of each simulation.
 
 import { MELODIES, midiToFreq, pentatonicMidi, playTone, createMelodyCursor } from './melody.js';
+import { look, drawScene, drawSkin, shade } from './scene.js';
+
+export { look, shade };
 
 export const W = 1080;
 export const H = 1920;
@@ -141,18 +144,15 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 export function drawBackdrop(ctx) {
-  const g = ctx.createRadialGradient(W / 2, H * 0.55, 80, W / 2, H * 0.55, H * 0.75);
-  g.addColorStop(0, '#17143d');
-  g.addColorStop(1, '#08071a');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, H);
+  drawScene(ctx, W, H);
 }
 
 // The top band of the frame: hook question and the live stat pills.
 export function drawHook(ctx, lines, pills) {
   const fade = ctx.createLinearGradient(0, 0, 0, 640);
-  fade.addColorStop(0, 'rgba(8,7,26,0.96)');
-  fade.addColorStop(0.75, 'rgba(8,7,26,0.85)');
+  // light enough that the moving backdrop shows through behind the question
+  fade.addColorStop(0, 'rgba(8,7,26,0.7)');
+  fade.addColorStop(0.75, 'rgba(8,7,26,0.45)');
   fade.addColorStop(1, 'rgba(8,7,26,0)');
   ctx.fillStyle = fade;
   ctx.fillRect(0, 0, W, 640);
@@ -240,24 +240,9 @@ export function glowSprite(color, r) {
   return c;
 }
 
-export function ball(ctx, x, y, r, color) {
-  const g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.1, x, y, r);
-  g.addColorStop(0, '#ffffff');
-  g.addColorStop(0.25, color);
-  g.addColorStop(1, shade(color, -0.35));
-  ctx.fillStyle = g;
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-export function shade(hex, amt) {
-  const n = parseInt(hex.slice(1), 16);
-  const f = (c) => Math.max(0, Math.min(255, Math.round(amt < 0 ? c * (1 + amt) : c + (255 - c) * amt)));
-  const r = f(n >> 16);
-  const g = f((n >> 8) & 255);
-  const b = f(n & 255);
-  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+// st: the ball's own state object, so its skin can spin and squash
+export function ball(ctx, x, y, r, color, st) {
+  drawSkin(ctx, look.skin, x, y, r, color, st);
 }
 
 export function hueColor(h) {

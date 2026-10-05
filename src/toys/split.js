@@ -1,4 +1,5 @@
-import { rng, hueColor, glowSprite, fmtSec } from '../engine.js';
+import { rng, hueColor, glowSprite, fmtSec, ball } from '../engine.js';
+import { look } from '../scene.js';
 
 const CX = 540;
 const CY = 1220;
@@ -114,6 +115,10 @@ export default {
         }
         ctx.restore();
         for (const b of balls) {
+          if (look.skin !== 'glossy') {
+            ball(ctx, b.x, b.y, p.size, hueColor(b.h * 30), b);
+            continue;
+          }
           ctx.fillStyle = hueColor(b.h * 30);
           ctx.beginPath();
           ctx.arc(b.x, b.y, p.size, 0, Math.PI * 2);
