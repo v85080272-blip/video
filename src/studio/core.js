@@ -219,6 +219,21 @@ export function ball(ctx, x, y, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI * 2);
   ctx.fill();
+  // glossy finish: a light rim and a soft specular highlight
+  ctx.save();
+  ctx.lineWidth = Math.max(2, r * 0.07);
+  ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+  ctx.beginPath();
+  ctx.arc(x, y, r - ctx.lineWidth / 2, 0, Math.PI * 2);
+  ctx.stroke();
+  const hl = ctx.createRadialGradient(x - r * 0.38, y - r * 0.5, 0, x - r * 0.38, y - r * 0.5, r * 0.55);
+  hl.addColorStop(0, 'rgba(255,255,255,0.75)');
+  hl.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = hl;
+  ctx.beginPath();
+  ctx.ellipse(x - r * 0.3, y - r * 0.45, r * 0.5, r * 0.3, -0.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
 }
 
 // "🍕 Пицца" -> { icon: '🍕', text: 'Пицца' }; a line without a leading emoji keeps icon ''.

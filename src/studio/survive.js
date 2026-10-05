@@ -11,16 +11,19 @@ const SETS = {
   months: {
     name: 'Месяцы рождения',
     hook: ['Найди свой месяц рождения', 'он выживет?'],
-    items: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-      .map((n) => ({ name: n, label: n.slice(0, 3) })),
+    items: [
+      ['❄️', 'Январь'], ['💘', 'Февраль'], ['🌷', 'Март'], ['🌧️', 'Апрель'], ['🌼', 'Май'], ['☀️', 'Июнь'],
+      ['🍉', 'Июль'], ['🌻', 'Август'], ['🍂', 'Сентябрь'], ['🎃', 'Октябрь'], ['🍁', 'Ноябрь'], ['🎄', 'Декабрь'],
+    ].map(([skin, n]) => ({ name: n, label: n.slice(0, 3), skin })),
   },
   zodiac: {
     name: 'Знаки зодиака',
     hook: ['Найди свой знак зодиака', 'он выживет?'],
     items: [
-      ['♈', 'Овен'], ['♉', 'Телец'], ['♊', 'Близнецы'], ['♋', 'Рак'], ['♌', 'Лев'], ['♍', 'Дева'],
-      ['♎', 'Весы'], ['♏', 'Скорпион'], ['♐', 'Стрелец'], ['♑', 'Козерог'], ['♒', 'Водолей'], ['♓', 'Рыбы'],
-    ].map(([s, n]) => ({ name: n, label: s, symbol: true })),
+      ['🐏', 'Овен', 'Овен'], ['🐂', 'Телец', 'Телец'], ['👯', 'Близнецы', 'Близн'], ['🦀', 'Рак', 'Рак'],
+      ['🦁', 'Лев', 'Лев'], ['🌾', 'Дева', 'Дева'], ['⚖️', 'Весы', 'Весы'], ['🦂', 'Скорпион', 'Скорп'],
+      ['🏹', 'Стрелец', 'Стрел'], ['🐐', 'Козерог', 'Козер'], ['🏺', 'Водолей', 'Водол'], ['🐟', 'Рыбы', 'Рыбы'],
+    ].map(([skin, n, short]) => ({ name: n, label: short, skin })),
   },
   letters: {
     name: 'Первая буква имени',
@@ -92,7 +95,7 @@ export const survive = {
     const rand = rng(seed);
     const items = itemsFor(p);
     const n = items.length;
-    const r = n <= 12 ? 50 : 50 * Math.sqrt(12 / n);
+    const r = n <= 12 ? 58 : 58 * Math.sqrt(12 / n);
     const balls = [];
     for (let i = 0; i < n; i++) {
       let x, y, tries = 0;
@@ -135,10 +138,16 @@ export const survive = {
         this.gapAt += spinDir * (p.spin * Math.PI / 180) * dt;
         this.gap = Math.min(Math.PI * 1.2, (p.gap + p.grow * tp) * Math.PI / 180);
 
+        this.ticks = (this.ticks || 0) + 1;
         for (const b of balls) {
           if (b.state === 'out') { fall(b, dt); continue; }
           b.x += b.vx * dt;
           b.y += b.vy * dt;
+          // a short comet tail: one sample every 3 steps, 8 samples kept
+          if (this.ticks % 3 === 0) {
+            (b.trail ||= []).push(b.x, b.y);
+            if (b.trail.length > 16) b.trail.splice(0, 2);
+          }
         }
         // ball vs ball, equal masses
         for (let i = 0; i < n; i++) {
@@ -246,6 +255,21 @@ function fall(b, dt) {
 
 function label(ctx, b, x, y, r) {
   const it = b.item;
+  if (it.skin) {
+    // themed skin: a big emoji with the short name on a band underneath
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `${Math.round(r * 0.88)}px ${EMOJI}`;
+    ctx.fillText(it.skin, x, y - r * 0.2);
+    const text = it.label.toUpperCase();
+    fitFont(ctx, text, 900, Math.round(r * 0.4), r * 1.55);
+    ctx.lineWidth = r * 0.12;
+    ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+    ctx.strokeText(text, x, y + r * 0.52);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(text, x, y + r * 0.52);
+    return;
+  }
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -287,6 +311,19 @@ function draw(ctx, sim, p, n) {
 
   // balls: the fallen ones first so the living stay on top
   const order = [...sim.balls].sort((a, b) => (a.state === 'out') - (b.state === 'out')).reverse();
+  for (const b of sim.balls) {
+    if (b.state === 'out' || !b.trail || b === sim.winner) continue;
+    const tr = b.trail;
+    for (let k = 0; k < tr.length; k += 2) {
+      const f = (k + 2) / (tr.length + 2);
+      ctx.globalAlpha = f * 0.28;
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.arc(tr[k], tr[k + 1], sim.r * (0.35 + 0.55 * f), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
   for (const b of order) {
     if (b === sim.winner) continue;
     if (b.alpha <= 0) continue;
