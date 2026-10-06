@@ -1,7 +1,7 @@
 // Shared pieces for every lab: canvas size, fixed timestep, seeded random,
 // sound, and the text overlays drawn on top of each simulation.
 
-import { MELODIES, midiToFreq, pentatonicMidi, playTone, createMelodyCursor } from './melody.js';
+import { MELODIES, CRASHES, midiToFreq, pentatonicMidi, playTone, playCrash, createMelodyCursor } from './melody.js';
 import { look, drawScene, drawSkin, shade } from './scene.js';
 
 export { look, shade };
@@ -103,10 +103,15 @@ export const audio = {
   },
   // i: step on a pentatonic scale, 0 is G3. With a song picked, every
   // ordinary hit plays the song's next note instead; 'square' marks a
-  // finish event, which keeps its own 8-bit ding.
+  // finish event, which keeps its own 8-bit ding, and a CRASHES kind is
+  // a breaking sound with no note at all.
   note(i, vol = 0.6, wave) {
     if (!this.on || !this.ctx) return;
     const t = this.ctx.currentTime;
+    if (CRASHES.includes(wave)) {
+      playCrash(this.ctx, this.master, wave, vol, t);
+      return;
+    }
     if (t - this.windowStart > 0.05) {
       this.windowStart = t;
       this.count = 0;

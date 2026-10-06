@@ -299,10 +299,20 @@ function face(ctx, r, color, m, o, px) {
       ly = m.vy / sp;
     }
   }
+  features(ctx, r, { mood, ouch, lx, ly, px, phase: (m ? m.id : (o.variant || 0) + 1) * 1.37 });
+}
+
+// Eyes, cheeks and mouth around (0, 0) for a face of radius r, on any body.
+// f: { mood: idle|win|lose, ouch, lx, ly (where the eyes look), px, phase }
+export function features(ctx, r, f) {
+  const { mood = 'idle', ouch = false, lx = 0, ly = 0, px = r, phase = 0 } = f;
+  const t = look.t;
+  ctx.fillStyle = INK;
+  ctx.strokeStyle = INK;
+  ctx.lineCap = 'round';
   const ex = r * 0.34;
   const ey = -r * 0.16;
   const er = r * (ouch ? 0.27 : 0.23);
-  const phase = (m ? m.id : (o.variant || 0) + 1) * 1.37;
   const blink = (t + phase) % 3.6 < 0.12;
   ctx.lineWidth = Math.max(1.2, r * 0.09);
   for (const s of [-1, 1]) {

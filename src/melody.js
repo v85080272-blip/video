@@ -206,3 +206,78 @@ export function playTone(ctx, dest, freq, vol, timbre, when = ctx ? ctx.currentT
   }
   return played > 0;
 }
+
+// ---------- impacts ----------
+
+// Noise-made hits for things that break. Not notes, so they skip the song.
+export const CRASHES = ['glass', 'smash', 'thud'];
+
+const longNoise = new WeakMap();
+function noiseLong(ctx) {
+  let b = longNoise.get(ctx);
+  if (b) return b;
+  const len = Math.ceil(ctx.sampleRate * 1.2);
+  b = ctx.createBuffer(1, len, ctx.sampleRate);
+  const d = b.getChannelData(0);
+  let s = 0x51ed27;
+  for (let i = 0; i < len; i++) {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    d[i] = s / 2147483648 - 1;
+  }
+  longNoise.set(ctx, b);
+  return b;
+}
+
+function burst(ctx, dest, t, type, freq, q, peak, decay) {
+  const n = ctx.createBufferSource();
+  const f = ctx.createBiquadFilter();
+  const g = ctx.createGain();
+  n.buffer = noiseLong(ctx);
+  f.type = type;
+  f.frequency.value = freq;
+  f.Q.value = q;
+  envelope(g.gain, peak, t, 0.002, decay);
+  n.connect(f);
+  f.connect(g);
+  g.connect(dest);
+  n.start(t, (t * 7.3) % 0.5);
+  n.stop(t + decay + 0.05);
+  release(n, [f, g]);
+}
+
+function drop(ctx, dest, t, from, to, peak, decay) {
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.frequency.setValueAtTime(from, t);
+  o.frequency.exponentialRampToValueAtTime(to, t + decay);
+  envelope(g.gain, peak, t, 0.003, decay);
+  o.connect(g);
+  g.connect(dest);
+  o.start(t);
+  o.stop(t + decay + 0.05);
+  release(o, [g]);
+}
+
+export function playCrash(ctx, dest, kind, vol, when = ctx ? ctx.currentTime : 0) {
+  if (!ctx || !dest || !(vol > 0)) return false;
+  const t = Math.max(when, ctx.currentTime);
+  const v = 0.45 * Math.min(vol, 2);
+  if (kind === 'glass') {
+    burst(ctx, dest, t, 'highpass', 2800, 0.7, v * 0.9, 0.45);
+    // little tinkles of falling pieces, the same every time for the same moment
+    let s = Math.floor(t * 1000) | 1;
+    for (let i = 0; i < 7; i++) {
+      s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+      const at = t + 0.03 + (s / 4294967296) * 0.5;
+      playTone(ctx, dest, 2600 + (s % 3800), vol * 0.25, 'sine', at);
+    }
+  } else if (kind === 'smash') {
+    burst(ctx, dest, t, 'bandpass', 900, 0.6, v * 1.2, 0.55);
+    burst(ctx, dest, t, 'lowpass', 300, 0.8, v, 0.3);
+    drop(ctx, dest, t, 140, 38, v * 1.4, 0.4);
+  } else {
+    burst(ctx, dest, t, 'lowpass', 500, 0.7, v * 0.8, 0.12);
+    drop(ctx, dest, t, 160, 70, v, 0.16);
+  }
+  return true;
+}

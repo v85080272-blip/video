@@ -8,8 +8,11 @@ import war from './toys/war.js';
 import grow from './toys/grow.js';
 import split from './toys/split.js';
 import pendulum from './toys/pendulum.js';
+import smash from './toys/smash.js';
+import shatter from './toys/shatter.js';
+import squish from './toys/squish.js';
 
-const TOYS = [rings, race, war, grow, split, pendulum];
+const TOYS = [rings, race, war, grow, split, pendulum, smash, shatter, squish];
 const BATTLE_TOYS = TOYS.filter(supportsBattle);
 
 // Not a toy of its own: three different toys race in one frame.
