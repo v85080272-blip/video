@@ -8,6 +8,34 @@ export const ACCENT = '#ffd23f';
 export const FONT = '"Rubik", "Arial Black", system-ui, sans-serif';
 export const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
 
+// 3D emoji pictures (Fluent Emoji 3D, baked by scripts/build-art.mjs). icon()
+// draws the picture when it has one and falls back to the emoji font.
+import ART from './art-data.js';
+const pictures = new Map();
+const artKey = (e) => [...e].map((c) => c.codePointAt(0).toString(16)).filter((c) => c !== 'fe0f').join('-');
+export const artReady = typeof Image === 'undefined'
+  ? Promise.resolve()
+  : Promise.all(Object.entries(ART).map(([k, src]) => {
+      const im = new Image();
+      im.src = src;
+      pictures.set(k, im);
+      return im.decode().catch(() => {});
+    }));
+
+export function icon(ctx, e, x, y, size) {
+  const im = pictures.get(artKey(e));
+  if (im && im.complete && im.naturalWidth) {
+    ctx.drawImage(im, x - size / 2, y - size / 2, size, size);
+    return;
+  }
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = `${Math.round(size * 0.86)}px ${EMOJI}`;
+  ctx.fillText(e, x, y + size * 0.04);
+  ctx.restore();
+}
+
 // mulberry32: same seed, same clip, on every device
 export function rng(seed) {
   let a = (seed >>> 0) || 1;

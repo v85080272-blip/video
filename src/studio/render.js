@@ -2,7 +2,7 @@
 // logs every sound it makes, so scripts/render-studio.mjs can encode the
 // clip with ffmpeg and synthesize a matching soundtrack.
 
-import { W, H, DT } from './core.js';
+import { W, H, DT, artReady } from './core.js';
 import { survive } from './survive.js';
 import { odd } from './odd.js';
 import { pause } from './pause.js';
@@ -17,6 +17,7 @@ let sim;
 let events;
 
 window.studio = {
+  ready: () => artReady,
   defaults(id) {
     return Object.fromEntries(FORMATS[id].fields.map((f) => [f.id, f.value]));
   },

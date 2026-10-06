@@ -4,7 +4,7 @@
 // month and write in the comments how it did.
 
 import {
-  W, DT, ACCENT, FONT, EMOJI, rng, clamp, ease, hook, pill, endCard, rrect, ball, hsl, backdrop, splitIcon, fitFont,
+  W, DT, ACCENT, FONT, icon, rng, clamp, ease, hook, pill, endCard, rrect, ball, hsl, backdrop, splitIcon, fitFont,
 } from './core.js';
 
 const SETS = {
@@ -32,7 +32,6 @@ const SETS = {
   },
 };
 
-const SYMBOL_FONT = '"Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", "DejaVu Sans", sans-serif';
 
 const CX = W / 2;
 const CY = 1000;
@@ -259,8 +258,7 @@ function label(ctx, b, x, y, r) {
     // themed skin: a big emoji with the short name on a band underneath
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = `${Math.round(r * 0.88)}px ${EMOJI}`;
-    ctx.fillText(it.skin, x, y - r * 0.2);
+    icon(ctx, it.skin, x, y - r * 0.2, r * 1.05);
     const text = it.label.toUpperCase();
     fitFont(ctx, text, 900, Math.round(r * 0.4), r * 1.55);
     ctx.lineWidth = r * 0.12;
@@ -273,12 +271,8 @@ function label(ctx, b, x, y, r) {
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  if (it.symbol) {
-    ctx.font = `${Math.round(r * 1.1)}px ${SYMBOL_FONT}`;
-    ctx.fillText(it.label + '︎', x, y + r * 0.05);
-  } else if (it.emoji) {
-    ctx.font = `${Math.round(r * 1.05)}px ${EMOJI}`;
-    ctx.fillText(it.label, x, y + r * 0.06);
+  if (it.emoji) {
+    icon(ctx, it.label, x, y, r * 1.3);
   } else {
     const size = it.label.length === 1 ? r * 1.05 : r * 0.62;
     ctx.font = `900 ${Math.round(size)}px ${FONT}`;

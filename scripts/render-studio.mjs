@@ -49,6 +49,7 @@ const browser = await chromium.launch();
 const tab = await browser.newPage();
 await tab.goto(pathToFileURL(page).href);
 await tab.evaluate(() => Promise.all([700, 800, 900].map((w) => document.fonts.load(`${w} 80px Rubik`))));
+await tab.evaluate(() => window.studio.ready());
 
 const run = (cmd, args) => new Promise((resolve, reject) =>
   spawn(cmd, args, { stdio: 'inherit' }).on('close', (c) => (c ? reject(new Error(`${cmd} exited ${c}`)) : resolve())));

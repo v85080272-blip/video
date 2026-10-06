@@ -3,7 +3,7 @@
 // A countdown runs, then the answer is circled. Viewers pause, rewatch and
 // brag in the comments about the level they reached.
 
-import { W, ACCENT, FONT, EMOJI, rng, clamp, ease, hook, pill, endCard, rrect, hsl, backdrop, fitFont } from './core.js';
+import { W, ACCENT, FONT, icon, rng, clamp, ease, hook, pill, endCard, rrect, hsl, backdrop, fitFont } from './core.js';
 
 const PAIRS = {
   letters: [['Ш', 'Щ'], ['И', 'Й'], ['Ь', 'Ъ'], ['Е', 'Ё'], ['З', 'Э'], ['Ц', 'Щ'], ['П', 'Н'], ['Б', 'В']],
@@ -124,11 +124,14 @@ function draw(ctx, sim, p) {
         rrect(ctx, x + cell * 0.06, y + cell * 0.06, cell * 0.88, cell * 0.88, cell * 0.18);
         ctx.fill();
       } else {
+        if (lv.theme === 'emoji') {
+          icon(ctx, cellText(lv, idx), x + cell / 2, y + cell / 2, cell * 0.84);
+          continue;
+        }
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        const fam = lv.theme === 'emoji' ? EMOJI : FONT;
-        ctx.font = `${lv.theme === 'emoji' ? '' : '800 '}${Math.round(cell * 0.7)}px ${fam}`;
+        ctx.font = `800 ${Math.round(cell * 0.7)}px ${FONT}`;
         ctx.fillText(cellText(lv, idx), x + cell / 2, y + cell / 2 + cell * 0.04);
       }
     }

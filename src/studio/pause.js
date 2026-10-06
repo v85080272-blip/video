@@ -2,7 +2,7 @@
 // the viewer pauses the video and whatever is lit is "theirs". One mystery
 // tile flashes a jackpot for a few frames only, so people replay to catch it.
 
-import { W, ACCENT, FONT, EMOJI, rng, clamp, ease, hook, endCard, rrect, backdrop, fitFont, splitIcon, pill } from './core.js';
+import { W, ACCENT, FONT, icon, rng, clamp, ease, hook, endCard, rrect, backdrop, fitFont, splitIcon, pill } from './core.js';
 
 const TOPICS = {
   dinner: {
@@ -163,8 +163,7 @@ function drawTile(ctx, x, y, w, h, it, lit, dim, gold) {
   ctx.shadowBlur = 0;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.font = `${Math.round(h * 0.4)}px ${EMOJI}`;
-  ctx.fillText(it.icon, x + w / 2, y + h * 0.4);
+  icon(ctx, it.icon, x + w / 2, y + h * 0.38, h * 0.52);
   fitFont(ctx, it.text.toUpperCase(), 900, 38, w - 30);
   ctx.fillStyle = lit ? '#1a1400' : '#ffffff';
   ctx.fillText(it.text.toUpperCase(), x + w / 2, y + h * 0.8);

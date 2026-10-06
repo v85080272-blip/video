@@ -1,6 +1,6 @@
 // Trend Studio page: tabs, generated controls, the preview loop and recording.
 
-import { W, H, DT, sound, SILENT } from './core.js';
+import { W, H, DT, sound, SILENT, artReady } from './core.js';
 import { survive } from './survive.js';
 import { odd } from './odd.js';
 import { pause } from './pause.js';
@@ -267,7 +267,7 @@ function frame(now) {
 
 // draw only once the display font is in, or the first frames use a fallback
 const fontsReady = document.fonts ? Promise.race([document.fonts.load('900 80px Rubik'), new Promise((r) => setTimeout(r, 2500))]) : Promise.resolve();
-fontsReady.then(() => {
+Promise.all([fontsReady, artReady]).then(() => {
   selectFormat(fmt);
   requestAnimationFrame(frame);
 });

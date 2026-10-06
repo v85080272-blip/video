@@ -8,9 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "artifact": "node scripts/build-artifact.mjs",
-    "artifact:studio": "node scripts/build-artifact.mjs studio"
+    "artifact:studio": "node scripts/build-artifact.mjs studio",
+    "art": "node scripts/build-art.mjs"
   },
   "devDependencies": {
+    "@lobehub/fluent-emoji-3d": "^1.1.0",
     "esbuild": "^0.28.2",
     "vite": "^8.3.2"
   }
