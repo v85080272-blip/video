@@ -43,7 +43,11 @@ def line(L):
                 f0 = base * (1 + .18 * h) * (1.12 if L['text'].strip().endswith('?') and i >= n - 2 else 1)
                 x = syll(f0, vows[i % len(vows)], L['sd'] * .92, .6 + .4 * h)
             add(voice, x, t0, .9, pan)
-for L in ST['lines']: line(L)
+PAN = {'P': -.25, 'S': .25, 'B': 0}
+for L in ST['lines']:
+    if L.get('tts'):   # настоящий голос (RHVoice, см. tts.py)
+        x, _ = sf.read(os.path.join(HERE, L['tts'])); add(voice, x / (abs(x).max() + 1e-9), L['t0'], 1.5, PAN[L['who']])
+    else: line(L)
 
 # ——— музыка ———
 def pluck(f, d=.45, bright=1.0):
@@ -112,7 +116,7 @@ add(fx, thump(.6, 90), g0, .5)
 v = compress(voice.mean(1), .22, 3.5)
 voice = np.stack([v * (np.abs(voice[:, 0]) + 1e-9) / (np.abs(voice.mean(1)) + 1e-9) * 0 + v, v], 1) * .5 + voice * .5
 vel = np.convolve(np.abs(voice.mean(1)), np.ones(2400) / 2400, 'same')
-duck = 1 - .55 * np.clip(vel / (vel.max() + 1e-9) * 4, 0, 1)
+duck = 1 - .8 * np.clip(vel / (vel.max() + 1e-9) * 4, 0, 1)
 mix = voice * 1.0 + music * duck[:, None] * .7 + fx * .9 + amb
 mix = mix[:int(DUR * SR)]
 mix = np.stack([limit(mix[:, 0]), limit(mix[:, 1])], 1)
