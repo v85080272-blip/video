@@ -107,17 +107,20 @@ function tag(ctx, m, fr, alpha) {
     x = bx - br - 26;
     align = 'right';
   }
-  if (x - w < 30) {
-    x = bx;
+  let y = by + 24;
+  if (x - w < 30 || y < 540) {
+    // a huge ball fills the top of the frame: put its weight under the pills
+    x = Math.min(W - 60, Math.max(60, bx));
+    y = Math.max(y, 560);
     align = 'center';
   }
   ctx.textAlign = align;
   ctx.lineJoin = 'round';
   ctx.lineWidth = 14;
   ctx.strokeStyle = 'rgba(8,7,26,0.85)';
-  ctx.strokeText(text, x, by + 24);
+  ctx.strokeText(text, x, y);
   ctx.fillStyle = ACCENT;
-  ctx.fillText(text, x, by + 24);
+  ctx.fillText(text, x, y);
   ctx.restore();
 }
 
