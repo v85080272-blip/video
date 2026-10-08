@@ -1,5 +1,5 @@
-// Puts the Blender frames of all five rounds into one clip: the same hook,
-// pills, stamp words and end card as the 2D toys, plus the crash sounds.
+// Puts Blender frames into one clip with the same hook, pills, stamp words
+// and end card as the 2D toys, plus the crash sounds.
 // Bundled with esbuild and driven frame by frame from comp.cjs.
 import { W, H, ACCENT, DISPLAY } from '../src/engine.js';
 import { playCrash, playTone, midiToFreq } from '../src/melody.js';
@@ -34,15 +34,14 @@ function frameAt(meta, t) {
   return i < 0 ? null : i;
 }
 
-window.setup = (rounds) => {
-  const canvas = document.getElementById('c');
-  canvas.width = W;
-  canvas.height = H;
-  const list = [];
+// The watermelon rounds, turned into the same per-frame captions a
+// clip like the cube writes for itself (see plan() below).
+function melonPlan(rounds) {
+  const plan = [];
   const events = [];
+  const first = rounds.find((m) => BROKE.includes(m.word));
   let off = 0;
   rounds.forEach((m, r) => {
-    m.frames.forEach((_, f) => list.push({ r, f }));
     const at = (f) => (off + f) / m.fps;
     const T = TIER[m.word];
     events.push({ t: at(m.impact), kind: T.sound[0], vol: T.sound[1] });
@@ -53,14 +52,51 @@ window.setup = (rounds) => {
       if (f === null || f <= m.impact + 2) continue;
       events.push(m.r < 0.02 ? { t: at(f), tone: 88, vol: 0.35 } : { t: at(f), kind: 'thud', vol: Math.min(1.2, 0.3 + m.kg / 20) });
     }
+    const last = r === rounds.length - 1;
+    m.frames.forEach((fr, f) => {
+      const p = { r, f, pills: [`Шарик: ${m.label}`, `Раунд ${m.round + 1} из ${rounds.length}`] };
+      if (f < m.impact) p.tag = { text: m.label, x: fr.ball[0], y: fr.ball[1], r: fr.ball[2], alpha: Math.min(1, f / 6) };
+      const since = (f - m.impact) / m.fps;
+      if (since >= 0 && !(last && since > BANNER_AFTER)) p.stamp = { word: m.word, color: TIER[m.word].color, since };
+      if (last && since > BANNER_AFTER) {
+        p.banner = first
+          ? { lines: ['Арбуз сдался', `на ${first.label}`], color: TIER[first.word].color }
+          : { lines: ['Арбуз выдержал', 'даже тонну'], color: '#3ddc6f' };
+        p.banner.alpha = (since - BANNER_AFTER) * 3;
+      }
+      let dark = 0;
+      if (!last && f >= m.frames.length - FADE_OUT) dark = (f - (m.frames.length - FADE_OUT) + 1) / FADE_OUT;
+      if (r > 0 && f < FADE_IN) dark = Math.max(dark, 1 - f / FADE_IN);
+      p.dark = dark;
+      plan.push(p);
+    });
     off += m.frames.length;
   });
-  const first = rounds.find((m) => BROKE.includes(m.word));
-  st = { canvas, ctx: canvas.getContext('2d'), rounds, list, events, first, img: new Image() };
-  return list.length;
+  return { plan, events, hook: HOOK, stampY: 960, bannerY: 1180 };
+}
+
+// A clip that already says per frame what to show: { hook, frames[{pills,
+// tag?, stamp?, banner?}], events[{t, kind|tone, vol}] }.
+function plan(m) {
+  return {
+    plan: m.frames.map((fr, f) => ({ r: 0, f, ...fr })),
+    events: m.events,
+    hook: m.hook,
+    stampY: m.stamp_y || 960,
+    bannerY: m.banner_y || 1180,
+  };
+}
+
+window.setup = (rounds) => {
+  const canvas = document.getElementById('c');
+  canvas.width = W;
+  canvas.height = H;
+  const p = rounds.length === 1 && rounds[0].hook ? plan(rounds[0]) : melonPlan(rounds);
+  st = { canvas, ctx: canvas.getContext('2d'), rounds, ...p, img: new Image() };
+  return st.plan.length;
 };
 
-function hook(ctx, m) {
+function hook(ctx, lines, pills) {
   const fade = ctx.createLinearGradient(0, 0, 0, 520);
   fade.addColorStop(0, 'rgba(8,7,26,0.72)');
   fade.addColorStop(0.7, 'rgba(8,7,26,0.4)');
@@ -70,14 +106,13 @@ function hook(ctx, m) {
   ctx.textAlign = 'center';
   ctx.shadowColor = 'rgba(0,0,0,0.7)';
   ctx.shadowBlur = 18;
-  HOOK.forEach((line, i) => {
+  lines.forEach((line, i) => {
     const text = line.toUpperCase();
     fit(ctx, text, 900, 88, W - 120);
     ctx.fillStyle = i === 1 ? ACCENT : '#ffffff';
     ctx.fillText(text, W / 2, 210 + i * 98);
   });
   ctx.shadowBlur = 0;
-  const pills = [`Шарик: ${m.label}`, `Раунд ${m.round + 1} из ${st.rounds.length}`];
   ctx.font = `800 38px ${DISPLAY}`;
   const ws = pills.map((p) => ctx.measureText(p).width + 60);
   let x = (W - ws.reduce((a, b) => a + b, 0) - 16) / 2;
@@ -94,9 +129,7 @@ function hook(ctx, m) {
   });
 }
 
-function tag(ctx, m, fr, alpha) {
-  const [bx, by, br] = fr.ball;
-  const text = m.label;
+function tag(ctx, { text, x: bx, y: by, r: br, alpha = 1 }) {
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.font = `900 ${br < 40 ? 72 : 64}px ${DISPLAY}`;
@@ -124,11 +157,11 @@ function tag(ctx, m, fr, alpha) {
   ctx.restore();
 }
 
-function stamp(ctx, word, since) {
+function stamp(ctx, { word, color, since }, y) {
   const k = Math.min(1, since / 0.18);
   const s = 0.6 + 0.4 * k + Math.sin(Math.min(1, since / 0.3) * Math.PI) * 0.15;
   ctx.save();
-  ctx.translate(W / 2, 960);
+  ctx.translate(W / 2, y);
   ctx.rotate(-0.06);
   ctx.scale(s, s);
   const text = word.toUpperCase();
@@ -138,17 +171,14 @@ function stamp(ctx, word, since) {
   ctx.lineWidth = 20;
   ctx.strokeStyle = 'rgba(8,7,26,0.88)';
   ctx.strokeText(text, 0, 0);
-  ctx.fillStyle = TIER[word].color;
+  ctx.fillStyle = color;
   ctx.fillText(text, 0, 0);
   ctx.restore();
 }
 
-function banner(ctx, alpha) {
-  const lines = st.first ? ['Арбуз сдался', `на ${st.first.label}`] : ['Арбуз выдержал', 'даже тонну'];
-  const color = st.first ? TIER[st.first.word].color : '#3ddc6f';
+function banner(ctx, { lines, color, alpha }, y) {
   ctx.save();
   ctx.globalAlpha = Math.min(1, alpha);
-  const y = 1180;
   ctx.fillStyle = 'rgba(8,7,26,0.84)';
   ctx.beginPath();
   ctx.roundRect(90, y - 120, W - 180, 250, 40);
@@ -168,33 +198,26 @@ function banner(ctx, alpha) {
 
 // draws video frame g over the given Blender image (a data URL)
 window.frame = async (g, src) => {
-  const { ctx, list, rounds } = st;
-  const { r, f } = list[g];
-  const m = rounds[r];
-  const fr = m.frames[f];
+  const { ctx } = st;
+  const p = st.plan[g];
   st.img.src = src;
   await st.img.decode();
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   ctx.drawImage(st.img, 0, 0, W, H);
-  hook(ctx, m);
-  if (f < m.impact) tag(ctx, m, fr, Math.min(1, f / 6));
-  const last = r === rounds.length - 1;
-  const since = (f - m.impact) / m.fps;
-  if (since >= 0 && !(last && since > BANNER_AFTER)) stamp(ctx, m.word, since);
-  if (last && since > BANNER_AFTER) banner(ctx, (since - BANNER_AFTER) * 3);
-  let dark = 0;
-  if (!last && f >= m.frames.length - FADE_OUT) dark = (f - (m.frames.length - FADE_OUT) + 1) / FADE_OUT;
-  if (r > 0 && f < FADE_IN) dark = Math.max(dark, 1 - f / FADE_IN);
-  if (dark > 0) {
-    ctx.fillStyle = `rgba(6,5,18,${(dark * 0.92).toFixed(3)})`;
+  hook(ctx, st.hook, p.pills);
+  if (p.tag) tag(ctx, p.tag);
+  if (p.stamp) stamp(ctx, p.stamp, st.stampY);
+  if (p.banner) banner(ctx, p.banner, st.bannerY);
+  if (p.dark > 0) {
+    ctx.fillStyle = `rgba(6,5,18,${(p.dark * 0.92).toFixed(3)})`;
     ctx.fillRect(0, 0, W, H);
   }
   return st.canvas.toDataURL('image/jpeg', 0.94).split(',')[1];
 };
 
 window.renderAudio = async () => {
-  const total = st.list.length / st.rounds[0].fps + 0.8;
+  const total = st.plan.length / st.rounds[0].fps + 0.8;
   const rate = 48000;
   const ctx = new OfflineAudioContext(2, Math.ceil(total * rate), rate);
   const master = ctx.createGain();
