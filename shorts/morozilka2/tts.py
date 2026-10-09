@@ -10,6 +10,7 @@ VOW = re.compile('[аеёиоуыэюяАЕЁИОУЫЭЮЯ]')
 for L in ST['lines']:
     if L.get('voice') is False or len(L['who']) != 1: continue
     v, pitch, rate = VOICES[L['who']]
+    pitch, rate = L.get('pitch', pitch), L.get('rate', rate)   # эмоция реплики
     raw = os.path.join(FILM, 'out', f"tts_{L['id']}_raw.wav"); out = os.path.join(FILM, 'out', f"tts_{L['id']}.wav")
     subprocess.run(['RHVoice-test', '-p', v, '-t', str(pitch), '-r', str(rate), '-R', '48000', '-o', raw], input=L['text'].encode(), check=True)
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af',
