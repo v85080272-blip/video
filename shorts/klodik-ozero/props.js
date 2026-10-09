@@ -5,7 +5,7 @@ import { scene, M, sph, rod, setRod, V, mat } from './scene.js';
 // удочка: удилище от рукояти к кончику, леска к поплавку
 export function makeRod(len = 1.2, color = 0x8a5a2b) {
   const g = new THREE.Group(); scene.add(g);
-  const stick = new THREE.Mesh(new THREE.CylinderGeometry(.006, .016, 1, 8), M(color, { roughness: .5 })); stick.castShadow = true; g.add(stick);
+  const stick = new THREE.Mesh(new THREE.CylinderGeometry(.006, .016, 1, 8), M(color, { roughness: .75 })); stick.castShadow = true; g.add(stick);
   const grip = new THREE.Mesh(new THREE.CylinderGeometry(.02, .02, .14, 10), M(0x2a2a2a, { roughness: .7 })); g.add(grip);
   const reel = new THREE.Mesh(new THREE.CylinderGeometry(.03, .03, .025, 16), M(0xd0d0d0, { metalness: .6, roughness: .3 })); reel.rotation.z = Math.PI / 2; g.add(reel);
   const line = rod(new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .7 })); line.castShadow = false; scene.add(line);
@@ -18,7 +18,7 @@ export function makeRod(len = 1.2, color = 0x8a5a2b) {
 // hand — точка рукояти, dir — направление удилища (мировые координаты), bobber — позиция поплавка
 export function poseRod(r, hand, dir, bobber, bend = 0) {
   const d = dir.clone().normalize(), tip = hand.clone().add(d.clone().multiplyScalar(r.len)).add(V(0, -bend * r.len * .25, 0));
-  setRod(r.stick, hand, tip, 1); r.stick.scale.x = r.stick.scale.z = 1;
+  setRod(r.stick, hand, tip, 1); r.stick.scale.x = r.stick.scale.z = r.thick || 1;
   r.grip.position.copy(hand).add(d.clone().multiplyScalar(-.03)); r.grip.quaternion.copy(r.stick.quaternion);
   r.reel.position.copy(hand).add(d.clone().multiplyScalar(.08)).add(V(0, -.035, 0));
   if (bobber) { r.bob.visible = r.line.visible = true; r.bob.position.copy(bobber); setRod(r.line, tip, bobber.clone().add(V(0, .07, 0)), .0025); }

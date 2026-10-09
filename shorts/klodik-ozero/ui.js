@@ -64,7 +64,7 @@ export function effortPanel(t, { x = 90, y = 230, w = W - 180, pos = 1, alpha = 
   });
   const kx = sx + sw * p; cx.fillStyle = '#fff'; cx.beginPath(); cx.arc(kx, sy, 24, 0, 7); cx.fill(); cx.strokeStyle = '#d97757'; cx.lineWidth = 6; cx.stroke();
   cx.restore();
-  if (note) txt(note, x + w / 2, y + h + 70, { size: 66, font: 'Unbounded', fill: LEVEL_COL[LEVELS[Math.round(pos)]], lw: 16, alpha });
+  if (note) txt(note, x + w / 2, y + h + 70, { size: note.length > 12 ? 56 : 66, font: 'Unbounded', fill: LEVEL_COL[LEVELS[Math.round(pos)]], lw: 16, alpha });
 }
 
 // цветокор, виньетка, зерно

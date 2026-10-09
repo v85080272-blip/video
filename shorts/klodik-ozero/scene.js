@@ -51,7 +51,7 @@ const skyMat = new THREE.ShaderMaterial({
       c *= mix(1., .55, smoothstep(-.02, -.2, y));
       gl_FragColor = vec4(c, 1.); }`
 });
-scene.add(new THREE.Mesh(new THREE.SphereGeometry(300, 48, 24), skyMat));
+export const sky = new THREE.Mesh(new THREE.SphereGeometry(300, 48, 24), skyMat); scene.add(sky);
 
 // ——— свет ———
 const sun = new THREE.DirectionalLight(0xffb070, 3.2);
@@ -62,7 +62,7 @@ scene.add(sun, sun.target);
 scene.add(new THREE.HemisphereLight(0x9fb6ff, 0x5a3a2a, 1.25));
 const fill = new THREE.DirectionalLight(0xffd2b0, 1.5); fill.position.set(-2, 3, 6); scene.add(fill);   // тёплый свет на лица со стороны воды
 const fill2 = new THREE.DirectionalLight(0xc8b8ff, .9); fill2.position.set(3, 2, -5); scene.add(fill2);
-export const lantern = new THREE.PointLight(0xffc070, 3, 4, 1.8); lantern.position.set(.95, 1.25, -.25); scene.add(lantern);
+export const lantern = new THREE.PointLight(0xffc070, .9, 2.5, 2); lantern.position.set(.95, 1.25, -.25); scene.add(lantern);
 
 // ——— вода с отражениями ———
 const WaterShader = {
@@ -270,7 +270,7 @@ export function poseKitten(t, k = {}) {
   kWhisk.forEach(w => { const { s, dy } = w.userData; setRod(w, V(s * .08, -.07 + dy, .24), V(s * .3, -.04 + dy * 2.5, .2), .004); });
   const pawUp = k.pawUp || 0;
   kPaws.forEach(({ l, p, s }, i) => {
-    const up = (i === 1 ? pawUp : 0);
+    const up = Math.max(i === 1 ? pawUp : 0, k.paws2 || 0);
     const a = V(s * .12, .3, .12), b = vlerp(V(s * .1, .02, .2), V(s * .18, .55, .3), up);
     setRod(l, a, b, .045); p.position.copy(b);
   });
@@ -295,3 +295,5 @@ export function poseKlod(t, k = {}) {
   kdLegs.forEach(({ l }, i) => { l.rotation.x = -.15 + Math.sin(t * 2.2 + i * 1.7) * .3 * (k.swing ?? 1); });
 }
 export { mat, M, sph, rod, makeEye, setEye };
+export const kitRig = { kBody, kHead, kEyes, kMouth, kPaws, kEars };
+export const klodRig = { kd, kdBody, kdEyes, kdArms, kdLegs, clMat };
