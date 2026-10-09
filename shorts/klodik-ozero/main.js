@@ -109,7 +109,7 @@ const P_LOW = V(1.0, .01, .85), P_MED = V(.32, .01, 1.45), P_MAX = V(.05, .01, 3
 const minnow = makeFish(0xa8e6cf, 0xffffff); minnow.scale.setScalar(.32);
 const perch = makeFish(0x8fbf3a, 0xf3f0c0); perch.scale.setScalar(.75);
 const puffer = new THREE.Group(); scene.add(puffer);
-const SPIKES = []; let RED = 0;
+const SPIKES = []; let RED = 0, SKIP = -1;
 {
   const body = sph(.1, M(0xffd84a, { roughness: .45 }), 32, 22); puffer.add(body);
   const bel = sph(.09, M(0xfff4c8, { roughness: .6 }), 24, 16); bel.position.set(0, -.025, .02); bel.scale.set(1, .8, .9); puffer.add(bel);
@@ -125,6 +125,7 @@ const SPIKES = []; let RED = 0;
     SPIKES.push({ n, c });
   }
   let best = -9; SPIKES.forEach((sp, i) => { const d = sp.n.dot(V(-.45, .55, .7).normalize()); if (d > best) { best = d; RED = i; } });
+  best = -9; SPIKES.forEach((sp, i) => { const d = sp.n.dot(V(.55, -.35, .75).normalize()); if (i !== RED && d > best) { best = d; SKIP = i; } });   // одну колючку оставляем без галочки: проверок больше, но не все
 }
 // лупа
 const loupe = new THREE.Group(); scene.add(loupe);
@@ -410,21 +411,22 @@ function sparkle(x, y, k, col = '255,230,120') {
 
 // ——— 2D-слой ———
 const LEVEL_DESC = {
-  low: ['идея, набросок, переименовать', 'быстро · проверяешь сам'],
-  medium: ['работа на каждый день', 'по умолчанию у Opus 5.5'],
-  high: ['баги и проверки', 'что-то пропущено? подними'],
-  max: ['самое трудное, сам и долго', 'может перемудрить'],
+  low: ['идея · набросок · имя рыбке', 'быстро · проверяешь ты'],
+  medium: ['обычная работа, задача ясна', 'по умолчанию у моделей 5.5'],
+  high: ['баги и проверки', 'что-то упущено? подними уровень'],
+  max: ['самое трудное, без тебя', 'дороже · может перемудрить'],
 };
 function levelCard(t, lv, a, b, pos) {
   const s = inOut(t, a, b, .3, .15); if (s.a <= 0) return;
   effortPanel(t, { x: 170, y: 70, w: W - 340, pos, alpha: s.a, scale: .8 + .1 * s.k, typed: 1 });
-  const lvNow = LEVELS[Math.round(pos)];
+  const lvNow = lv === 'high' ? LEVELS[Math.round(pos)] : lv;
   txt(LEVEL_RU[lvNow], W / 2, 440 + s.y, { size: lvNow === 'max' ? 104 : 112, font: 'Unbounded', fill: LEVEL_COL[lvNow], lw: 24, scale: s.k, alpha: s.a, rot: -.02 });
   const d = LEVEL_DESC[lv];
   const a2 = lv === 'high' ? EV.raise + .3 : a + .25, s2 = inOut(t, a2, b, .3, .15), s3 = inOut(t, a2 + .25, b, .3, .15);
   txt(d[0], W / 2, 540 + s2.y, { size: 56, fill: '#fff', lw: 16, scale: s2.k, alpha: s2.a });
   if (lv === 'medium') { const s4 = inOut(t, L0('k8') + .5, b, .3, .15); txt(d[1], W / 2, 612 + s4.y, { size: 52, fill: '#ffe14d', lw: 15, scale: s4.k, alpha: s4.a }); }
   else txt(d[1], W / 2, 612 + s3.y, { size: 52, fill: '#ffe14d', lw: 15, scale: s3.k, alpha: s3.a });
+  if (lv === 'max') { const s5 = inOut(t, a + .9, b, .3, .15); txt('xhigh — глубже, чем high, но дороже', W / 2, 680 + s5.y, { size: 34, font: '"DejaVu Sans Mono"', weight: 'bold', fill: LEVEL_COL.xhigh, lw: 10, scale: s5.k, alpha: s5.a }); }
 }
 function overlay(t) {
   const s = shotOf(t), uw = camera.position.y < 0;
@@ -441,7 +443,7 @@ function overlay(t) {
   if (s === 'S1') {
     let a = inOut(t, .05, SH.S2, .25); txt('ИМЯ ДЛЯ РЫБКИ', W / 2, 200 + a.y, { size: 84, font: 'Unbounded', fill: '#fff', lw: 20, scale: a.k, alpha: a.a });
     a = inOut(t, .35, SH.S2, .25); txt('НА MAX', W / 2, 330 + a.y, { size: 150, font: 'Unbounded', fill: '#ff5c7a', lw: 28, scale: a.k * (1 + .03 * Math.sin(t * 10)), alpha: a.a, rot: -.04 });
-    a = inOut(t, .8, SH.S2, .25); txt('(максимальное рассуждение)', W / 2, 440 + a.y, { size: 46, fill: '#ffe14d', lw: 12, scale: a.k, alpha: a.a });
+    a = inOut(t, .8, SH.S2, .25); txt('(рассуждает на максимуме)', W / 2, 440 + a.y, { size: 46, fill: '#ffe14d', lw: 12, scale: a.k, alpha: a.a });
     const top = proj(TOWER_AT.clone().add(V(-.04, 1.28, 0)));
     tag('MAX', top.x, Math.max(560, top.y - 50), '#ff5c7a', seg(t, 1.0, 1.2), back(seg(t, 1.0, 1.3)) * (1 + .05 * Math.sin(t * 12)));
     const n = 40 + Math.min(7, Math.floor(seg(t, L0('k1'), L1('k1')) * 8));
@@ -473,7 +475,7 @@ function overlay(t) {
       const red = i === RED;
       const at = EV.checks + (red ? 2.0 : (i % 9) * .17);
       if (red && t > EV.redSpike && t < at) { if (Math.floor(t * 5) % 2 === 0) { cx.fillStyle = '#ff3b5c'; cx.beginPath(); cx.arc(p.x, p.y, 30, 0, 7); cx.fill(); txt('✕', p.x, p.y + 2, { size: 40, font: 'DejaVu Sans', fill: '#fff', lw: 0 }); } }
-      if (t > at) { const k = back(seg(t, at, at + .25)); cx.save(); cx.translate(p.x, p.y); cx.scale(k, k); cx.fillStyle = '#2ecc71'; cx.beginPath(); cx.arc(0, 0, 26, 0, 7); cx.fill(); cx.strokeStyle = '#fff'; cx.lineWidth = 7; cx.lineCap = 'round'; cx.beginPath(); cx.moveTo(-11, 1); cx.lineTo(-3, 10); cx.lineTo(13, -9); cx.stroke(); cx.restore(); }
+      if (t > at && i !== SKIP) { const k = back(seg(t, at, at + .25)); cx.save(); cx.translate(p.x, p.y); cx.scale(k, k); cx.fillStyle = '#2ecc71'; cx.beginPath(); cx.arc(0, 0, 26, 0, 7); cx.fill(); cx.strokeStyle = '#fff'; cx.lineWidth = 7; cx.lineCap = 'round'; cx.beginPath(); cx.moveTo(-11, 1); cx.lineTo(-3, 10); cx.lineTo(13, -9); cx.stroke(); cx.restore(); }
     });
   }
   if (s === 'S7') {
@@ -482,19 +484,19 @@ function overlay(t) {
   }
   if (s === 'S8' && t > EV.punch) {
     const a = inOut(t, EV.punch + .05, SH.S9, .25);
-    txt('БОЛЬШЕ ДУМАТЬ', W / 2, 230 + a.y, { size: 86, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a });
+    txt('ВЫШЕ УРОВЕНЬ', W / 2, 230 + a.y, { size: 86, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a });
     txt('≠ ВЕРНЫЙ ПОДХОД', W / 2, 350 + a.y, { size: 80, font: 'Unbounded', fill: '#ff5c7a', lw: 22, scale: a.k, alpha: a.a, rot: -.02 });
   }
-  if (s === 'S8' && t > EV.castPuddle + .5 && t < EV.palm) { const p = proj(PUDDLE); const a = seg(t, L0('c6') + .3, L0('c6') + .5); txt('лужа', p.x, p.y - 90, { size: 56, fill: '#bfe8ff', lw: 14, alpha: a }); }
+  if (s === 'S8' && t > EV.castPuddle + .5 && t < EV.palm) { const p = proj(PUDDLE); const a = seg(t, L0('c6') + .3, L0('c6') + .5); txt('лужа = не тот подход', Math.max(330, p.x), p.y - 90, { size: 52, fill: '#bfe8ff', lw: 14, alpha: a }); }
   if (s === 'S9') {
     if (t > EV.jump + .2 && t < EV.jump + 1.1) { const p = proj(BUCKET.clone().add(V(0, .5, 0))); txt('БУЛЬК', p.x, p.y - 40, { size: 70, font: 'Unbounded', fill: '#ffb03b', lw: 18, scale: back(seg(t, EV.jump + .2, EV.jump + .45)), alpha: 1 - seg(t, EV.jump + .9, EV.jump + 1.1), rot: .08 }); sparkle(p.x, p.y, seg(t, EV.jump + .2, EV.jump + .7)); }
-    if (t > EV.deadpan + .3) { const a = inOut(t, EV.deadpan + .3, SH.END, .25); txt('НЕ УВЕРЕН?', W / 2, 230 + a.y, { size: 86, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a }); txt('ОСТАВЬ ПО УМОЛЧАНИЮ', W / 2, 340 + a.y, { size: 54, font: 'Unbounded', fill: '#7dff9a', lw: 18, scale: a.k, alpha: a.a }); }
+    if (t > EV.deadpan + .3) { const a = inOut(t, EV.deadpan + .3, SH.END, .25); txt('НЕ УВЕРЕН?', W / 2, 230 + a.y, { size: 86, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a }); txt('ОСТАВЬ ПО УМОЛЧАНИЮ', W / 2, 340 + a.y, { size: 54, font: 'Unbounded', fill: '#7dff9a', lw: 18, scale: a.k, alpha: a.a }); const b = inOut(t, EV.deadpan + 1.0, SH.END, .25); txt('сбросить: /effort auto', W / 2, 425 + b.y, { size: 40, font: '"DejaVu Sans Mono"', weight: 'bold', fill: '#fff', lw: 10, scale: b.k, alpha: b.a }); }
   }
   // финальная карточка
   if (s === 'END') {
     const e = SH.END;
-    let a = inOut(t, e + .05, ST.dur + 1, .3); txt('КАКУЮ УДОЧКУ', W / 2, 330 + a.y, { size: 92, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a });
-    a = inOut(t, e + .3, ST.dur + 1, .3); txt('БЕРЁШЬ ТЫ?', W / 2, 450 + a.y, { size: 100, font: 'Unbounded', fill: '#ffe14d', lw: 24, scale: a.k, alpha: a.a, rot: -.03 + Math.sin(t * 3) * .012 });
+    let a = inOut(t, e + .05, ST.dur + 1, .3); txt('А ТЫ КАКУЮ', W / 2, 330 + a.y, { size: 92, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a });
+    a = inOut(t, e + .3, ST.dur + 1, .3); txt('УДОЧКУ БЕРЁШЬ?', W / 2, 450 + a.y, { size: 84, font: 'Unbounded', fill: '#ffe14d', lw: 24, scale: a.k, alpha: a.a, rot: -.03 + Math.sin(t * 3) * .012 });
     LEVELS.forEach((l, i) => { const at = e + .6 + i * .12; tag(l, W / 2 + (i - 2) * 190, 1560, LEVEL_COL[l], seg(t, at, at + .1), back(seg(t, at, at + .3))); });
     a = inOut(t, e + 1.3, ST.dur + 1, .3); txt('Пиши в комменты ↓', W / 2, 1700 + Math.sin(t * 6) * 10, { size: 70, fill: '#fff', lw: 18, scale: a.k, alpha: a.a });
   }
