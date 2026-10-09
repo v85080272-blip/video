@@ -1,0 +1,12 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Клодик и котик</title>
+<style>
+@font-face{font-family:'Rubik';font-weight:900;font-display:block;src:url(fonts/rubik-cyrillic-900-normal.woff2) format('woff2');unicode-range:U+0400-045F,U+2116}
+@font-face{font-family:'Rubik';font-weight:900;font-display:block;src:url(fonts/rubik-latin-900-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Unbounded';font-weight:900;font-display:block;src:url(fonts/unbounded-cyrillic-900-normal.woff2) format('woff2');unicode-range:U+0400-045F}
+@font-face{font-family:'Unbounded';font-weight:900;font-display:block;src:url(fonts/unbounded-latin-900-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}#gl{position:absolute;left:-99999px}
+</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body><canvas id="out" width="1080" height="1920"></canvas>
+<script type="module" src="test.js"></script></body></html>
