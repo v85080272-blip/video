@@ -1,0 +1,20 @@
+{
+ "N": {
+  "name": "Нейро",
+  "text": "Это уровень рассуждения. Он задаёт, сколько вычислений я могу потратить на решение задачи.",
+  "voices": {
+   "N1": "A young woman with a calm, warm, soft voice, gentle and friendly, with a hint of irony, natural conversational pace",
+   "N2": "A cute small AI robot girl, calm warm female voice, clear and kind, slightly amused, unhurried",
+   "N3": "A calm, warm female narrator voice, soft and pleasant, lightly ironic, relaxed and natural"
+  }
+ },
+ "K": {
+  "name": "Плюш",
+  "text": "Это что за настройка? Насколько сильно ты умная?",
+  "voices": {
+   "K1": "A small fluffy kitten speaking like a curious eight-year-old boy, slightly high bright voice, lively and a bit cheeky",
+   "K2": "A lively nine-year-old boy, curious and mischievous, slightly high voice, playful and expressive",
+   "K3": "A cute child cartoon character, young boy, high clear voice, cheeky and curious, energetic"
+  }
+ }
+}

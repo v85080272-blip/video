@@ -1,0 +1,141 @@
+{
+ "episode": "«Ты думаешь или зависла?» (сценарий vla, 90 с): Нейро и Плюш, VoxCPM2",
+ "voices_dir": "../voices",
+ "voices": {
+  "N": "neuro.wav",
+  "K": "plush.wav"
+ },
+ "lines": {
+  "p1": {
+   "who": "K",
+   "text": "Это что за настройка? Насколько сильно ты умная?",
+   "emotion": "curious and intrigued, playful, wondering",
+   "max": 4.0
+  },
+  "n1": {
+   "who": "N",
+   "text": "Это уровень рассуждения. Он задаёт, сколько вычислений я могу потратить на решение задачи.",
+   "emotion": "calm and warm, patiently explaining",
+   "max": 7.0
+  },
+  "p2": {
+   "who": "K",
+   "text": "Сколько у меня ушей?",
+   "emotion": "sly, testing her, playful",
+   "max": 2.0
+  },
+  "n2": {
+   "who": "N",
+   "text": "Два.",
+   "emotion": "calm, instant and matter-of-fact",
+   "max": 1.0
+  },
+  "p3": {
+   "who": "K",
+   "text": "А теперь?",
+   "emotion": "sly and cunning, teasing",
+   "max": 1.3,
+   "emotion_retry": "sly and teasing, asking a question with rising intonation"
+  },
+  "n3": {
+   "who": "N",
+   "text": "Всё ещё два.",
+   "emotion": "unflappable and calm, slightly amused",
+   "max": 1.6
+  },
+  "n4": {
+   "who": "N",
+   "text": "Для простого вопроса обычно хватает быстрого ответа. А сложную задачу полезно разобрать подробнее.",
+   "emotion": "calm, warm, explaining clearly",
+   "max": 6.5
+  },
+  "p4": {
+   "who": "K",
+   "text": "Я замёрз. Найди путь к батарее: обойди пылесос и не урони мои коробки.",
+   "emotion": "shivering from the cold at first, then bossy and commanding",
+   "max": 6.0
+  },
+  "n5": {
+   "who": "N",
+   "text": "Здесь надо учесть препятствия и сравнить маршруты. Дополнительные вычисления могут помочь.",
+   "emotion": "thoughtful and calm, explaining",
+   "max": 6.5
+  },
+  "p5": {
+   "who": "K",
+   "text": "Тогда ставь всё на максимум!",
+   "emotion": "excited and eager, reckless enthusiasm",
+   "max": 2.5
+  },
+  "n6": {
+   "who": "N",
+   "text": "Когда сложность задачи того стоит.",
+   "emotion": "calm, gently ironic",
+   "max": 2.6
+  },
+  "n7": {
+   "who": "N",
+   "text": "Но это может потребовать больше времени и ресурсов. И даже тогда ответ стоит проверять.",
+   "emotion": "calm and warm, a gentle caution",
+   "max": 6.5
+  },
+  "p6": {
+   "who": "K",
+   "text": "О… тёпленькая.",
+   "emotion": "very quiet and soft, a blissful sigh of pleasure, dreamy, almost whispering",
+   "max": 2.5,
+   "emotion_first_try": "quiet, blissful and content, almost a whisper"
+  },
+  "n8": {
+   "who": "N",
+   "text": "Готово! Когда пылесос проедет, обходим коробки слева…",
+   "emotion": "cheerful and happy, proud of the plan",
+   "max": 4.5
+  },
+  "p7": {
+   "who": "K",
+   "text": "Спасибо. Я уже добрался.",
+   "emotion": "very sleepy and drowsy, quiet and slow, yawning, eyes closing",
+   "max": 2.8,
+   "emotion_first_try": "sleepy and drowsy, content"
+  },
+  "n9": {
+   "who": "N",
+   "text": "Ты же просил путь к батарее.",
+   "emotion": "puzzled and confused, slightly surprised",
+   "max": 2.5
+  },
+  "p8": {
+   "who": "K",
+   "text": "Я хотел согреться. Батарея была гипотезой.",
+   "emotion": "sleepy and satisfied, cozy",
+   "max": 3.8,
+   "emotion_retry": "very sleepy, quiet and slow, cozy and satisfied, half asleep"
+  }
+ },
+ "chosen": {
+  "p1": "p1_c2_s1",
+  "n1": "n1_c2_s3",
+  "p2": "p2_c2_s2",
+  "n2": "n2_c2_s3",
+  "p3": "p3_c2_s2",
+  "n3": "n3_c2_s3",
+  "n4": "n4_c2_s3",
+  "p4": "p4_c2_s3",
+  "n5": "n5_c2_s1",
+  "p5": "p5_c2_s3",
+  "n6": "n6_c2_s2",
+  "n7": "n7_c2_s1",
+  "p6": "p6_c2_s4",
+  "n8": "n8_c2_s2",
+  "p7": "p7_c3_s6",
+  "n9": "n9_c2_s2",
+  "p8": "p8_c2_s1"
+ },
+ "gain": {
+  "p6": -4,
+  "p7": -2,
+  "p8": -2
+ },
+ "note": "p6 и p7 из второго прохода (сиды 4–6, p7 с cfg 3.0), остальные из первого (сиды 1–3, cfg 2.0)"
+}
