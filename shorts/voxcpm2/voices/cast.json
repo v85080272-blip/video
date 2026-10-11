@@ -1,0 +1,18 @@
+{
+ "S": {
+  "name": "Сырник",
+  "text": "Слушай, у меня гениальный план! Сегодня ночью мы отсюда выберемся!",
+  "voices": {
+   "S1": "A young boy cartoon character, high-pitched bright voice, very excited and energetic, fast talking",
+   "S2": "A small cheerful cartoon creature, squeaky high voice, playful and mischievous"
+  }
+ },
+ "P": {
+  "name": "Пельмень Петрович",
+  "text": "Я в этой морозилке сорок лет лежу. Видал я таких беглецов.",
+  "voices": {
+   "P1": "An old grumpy man, deep low husky voice, slow and calm, dry sarcastic tone",
+   "P2": "A middle-aged man with a very deep bass voice, tired and unimpressed, deadpan"
+  }
+ }
+}

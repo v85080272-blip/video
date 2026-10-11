@@ -1,0 +1,55 @@
+{
+ "episode": "Морозилка, серия 3 «Побег»: переозвучка нейроголосами VoxCPM2",
+ "voices_dir": "../voices",
+ "voices": {
+  "S": "syrnik.wav",
+  "P": "pelmen.wav"
+ },
+ "lines": {
+  "s1": {
+   "who": "S",
+   "text": "Мы сбегаем! Сегодня!",
+   "emotion": "excited and urgent, conspiratorial, fast",
+   "max": 1.75
+  },
+  "p1": {
+   "who": "P",
+   "text": "Из морозилки не сбегают.",
+   "emotion": "flat and unimpressed, grumpy, slow",
+   "max": 2.2
+  },
+  "s2": {
+   "who": "S",
+   "text": "Откроют — прыгаю прямо в руку!",
+   "emotion": "excited and determined, fast",
+   "max": 2.35
+  },
+  "s3": {
+   "who": "S",
+   "text": "Свобода!",
+   "emotion": "shouting with joy, triumphant",
+   "max": 1.25
+  },
+  "s4": {
+   "who": "S",
+   "text": "Там! Сковородка!",
+   "emotion": "terrified and panicked, out of breath, trembling",
+   "max": 2.8
+  },
+  "p2": {
+   "who": "P",
+   "text": "С возвращением.",
+   "emotion": "dry and sarcastic, calm, slightly amused",
+   "max": 2.1
+  }
+ },
+ "chosen": {
+  "s1": "s1_c2_s1",
+  "p1": "p1_c2_s3",
+  "s2": "s2_c2_s2",
+  "s3": "s3_c2_s1",
+  "s4": "s4_c2_s4",
+  "p2": "p2_c2_s2"
+ },
+ "shift": {}
+}
