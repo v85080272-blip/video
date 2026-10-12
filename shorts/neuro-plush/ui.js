@@ -28,10 +28,10 @@ export function subtitles(t, lines, y = 1440, colors = { P: '#ffc46b', N: '#8fe3
     const pop = back(seg(t, ws[g0].s - .05, ws[g0].s + .12)), a = 1 - seg(t, L.sub1 - .12, L.sub1);
     const size = grp.map(w => w.w).join('').length > 16 ? 76 : 88;
     cx.font = `900 ${size}px Rubik`; const widths = grp.map(w => cx.measureText(w.w).width), gap = 44, tw = widths.reduce((s, w) => s + w, 0) + gap * (grp.length - 1);
-    const sc = Math.min(1, (W - 100) / (tw * 1.15));
+    const sc = Math.min(1, (W - 260) / (tw * 1.15));   // справа ~150 px под кнопки TikTok/Reels
     // отскок появления — для всей пары сразу (от центра), чтобы слова не наезжали друг на друга
     let x = -tw * sc / 2;
-    grp.forEach((w, i) => { const cur = g0 + i === ci, xc = x + widths[i] * sc / 2; txt(w.w, W / 2 + xc * pop, y, { size: size * sc, fill: cur ? colors[L.who] : '#fff', lw: 20 * sc, scale: pop * (cur ? 1.07 : 1), alpha: a }); x += (widths[i] + gap) * sc; });
+    grp.forEach((w, i) => { const cur = g0 + i === ci, xc = x + widths[i] * sc / 2; txt(w.w, W / 2 - 25 + xc * pop, y, { size: size * sc, fill: cur ? colors[L.who] : '#fff', lw: 20 * sc, scale: pop * (cur ? 1.07 : 1), alpha: a }); x += (widths[i] + gap) * sc; });
   }
 }
 

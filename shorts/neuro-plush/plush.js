@@ -899,7 +899,7 @@ function pose(t, k = {}) {
     // испуг: уши «самолётиком» — разворот наружу и вниз, лишь немного назад (спереди ухо остаётся видно)
     const bk = clamp(earBack + flinch * .9 + shiver * .1);
     const cv = s === cs ? c8 : 0;   // закрываемое лапой ухо прижато ниже и назад — целиком под подушечкой
-    base.rotation.set(-.08 - .16 * bk + earPerk * .12 + down * .25 - .55 * cv, s * (.32 + .3 * bk - earPerk * .1 + .3 * cv),
+    base.rotation.set(-.08 - .16 * bk + earPerk * .12 + down * .25 - .95 * cv, s * (.32 + .3 * bk - earPerk * .1 + .3 * cv),
       -s * Math.min(.3 + down * .8 + .52 * bk - earPerk * .15, 1.55) + tw * .25);
     base.scale.setScalar(1 + earPerk * .05);
   });
@@ -944,10 +944,10 @@ function pose(t, k = {}) {
     if (cover > 0 && s === cs) {
       // подушечка лапы сверху на прижатом ухе (заходит на силуэт головы), локоть вниз-вперёд, плечо приподнято
       const em = inGroup(ears[cs === 1 ? 0 : 1].base);
-      const ep = V(0, EAR_H * .52, .004).applyMatrix4(em), out = ep.clone().sub(headPos).normalize();
+      const ep = V(0, EAR_H * .35, .02).applyMatrix4(em), out = ep.clone().sub(headPos).normalize();
       const tgt = ep.addScaledVector(out, .008);
       const over = headPos.clone().sub(tgt).normalize().multiplyScalar(.014);
-      paw.lerp(tgt.addScaledVector(over, -.4), c8); toe.lerp(over, c8);
+      paw.lerp(tgt.addScaledVector(over, -.7), c8); toe.lerp(over, c8);
       S.lerp(bodyPt(s * .046, .163, .03), c8); hint.lerp(V(s * .9, -.5, .45), c8); stretch = lerp(stretch, 1.25, c8);   // локоть в сторону — лапа видна снаружи щеки
     }
     if (rk > 0 && s === rs) {

@@ -23,19 +23,19 @@ const ramp = (t, a, b, c, d) => seg(t, a, b) * (1 - seg(t, c, d));   // 0 → 1 
 
 // ——— ключевые моменты ———
 const EV = {
-  cut1: 2.1, holoOn: 5.0,
+  cut1: 1.1, holoOn: 5.0,
   push: L1('p1') + .25, gaze: L1('p1') + 1.0,
   uiFocus: L0('n1') + LD('n1') * .3, slideUp: wordAt('n1', 6) - .1,
   earsDown: L1('n1') + .15,
   cover: L1('n2') + .08, sly: L0('p3'), uncover: L1('n3') + .25,
   simple: wordAt('n4', 1) - .15, complex: wordAt('n4', 7) - .15,
-  pathEnd: L0('p4') - .15, beep1: L1('p4') + .1, vacEnd: L1('p4') + .55,
+  pathEnd: L0('p4') - .15, beep1: L1('p4') + .1, vacEnd: L1('p4') + .45,
   rA: L0('n5') + LD('n5') * .12, rB: L0('n5') + LD('n5') * .34, rC: L0('n5') + LD('n5') * .6,
   maxPush: SH.S8 + .25, bigOn: L0('n6') + .4, beep2: L1('n6') + 1.05,
   clock: wordAt('n7', 5) - .1, res: wordAt('n7', 7) - .1, check: wordAt('n7', 13) - .1, notice: L1('n7') + .65,
   touch: SH.S10 + .15, climb: L1('p6') + .25, circle: L1('p6') + 1.35, lieDown: L1('p6') + 2.4,
-  ready: L0('n8'), noticeCat: L1('n8') + .15, radLook: L1('p7') + .25, radCut: L1('p7') + .55, radBack: L1('p7') + 1.25,
-  petStart: L1('p8') + .2,
+  ready: L0('n8'), noticeCat: L1('n8') + .15, radLook: L1('p7') + .15, radCut: L1('p7') + .4, radBack: L1('p7') + 1.45,
+  petStart: L1('p8') + .55,
 };
 window.EV = EV;
 
@@ -61,7 +61,7 @@ const speaking = (t, id) => t >= L0(id) - .05 && t <= L1(id) + .1;
 const CAT_SEAT = V(-.2, SEAT_Y, .08), CAT_ROT = .3, CAT_X0 = -.3;
 const NEU_POS = V(.17, SEAT_Y, .04), NEU_ROT = -.2;
 const SL_POS = V(.0, .565, .33);          // голограмма с ползунком у правой руки Нейро
-const MAP_POS = V(.08, .6, .5), MAP_POS_UP = V(-.13, 1.1, .25);
+const MAP_POS = V(.08, .7, .5), MAP_POS_UP = V(-.13, 1.1, .25);
 const ICON_POS = V(-.02, 1.21, .2), COST_POS = V(-.02, 1.21, .2), BIG_POS = V(-.02, 1.5, -.18);
 const knobWorld = lv => slider.m.localToWorld(V(lerp(-.3 / 2 + 80 / 640 * .3, .3 / 2 - 80 / 640 * .3, clamp(lv / 2)), -.15 / 2 + (320 - 222) / 320 * .15, .01));
 neuro.group.position.copy(NEU_POS); neuro.group.rotation.y = NEU_ROT;
@@ -74,7 +74,7 @@ const mix = (a, b, k) => { const o = { ...a }; for (const key in b) { const av =
 
 // ——— пылесос: ездит туда-сюда по линии, в нужные моменты пищит ———
 function vacState(t) {
-  const P = 11, ph = (t + .25) / P, k = ph - Math.floor(ph), dir = k < .5 ? 1 : -1, u = k < .5 ? k * 2 : 2 - k * 2;
+  const P = 11, ph = (t + 1.8) / P, k = ph - Math.floor(ph), dir = k < .5 ? 1 : -1, u = k < .5 ? k * 2 : 2 - k * 2;
   const x = lerp(-1.55, 1.45, ss(u)), beep = (t > EV.beep1 && t < EV.beep1 + .45) || (t > EV.beep2 && t < EV.beep2 + .45) ? 1 : 0;
   return { x, heading: dir > 0 ? 0 : Math.PI, beep };
 }
@@ -106,10 +106,12 @@ function poses(t) {
     const reach = ramp(t, EV.push - .35, EV.push, EV.gaze - .1, EV.gaze + .25);
     if (reach > 0) c.reach = { k: reach, at: plush.group.worldToLocal(knobWorld(lerp(0, 2, eo(seg(t, EV.push, EV.push + .5))))).toArray() };
     if (t > EV.push - .4 && t < EV.gaze) c = mix(c, catAim(sliderW), .9);
-    if (t > EV.gaze) { c = mix(c, { ...catAim(headN.clone().add(V(0, .12, 0))), wide: .9, earPerk: 1, lean: .5, mouthO: .4 }, seg(t, EV.gaze, EV.gaze + .3)); c.blink = 0; }
+    if (t > EV.gaze) { c = mix(c, { ...catAim(headN.clone().add(V(0, .24, 0))), wide: .9, earPerk: 1, lean: .5, mouthO: .4, headTilt: .2 }, seg(t, EV.gaze, EV.gaze + .3)); c.blink = 0; }
+    if (t > EV.gaze + .4) c = mix(c, { squint: .3, wide: .4, headTilt: .15 }, seg(t, EV.gaze + .4, EV.gaze + .6));   // придирчиво проверяет макушку
     n = mix(n, { ...neuAim(plush.headWorld()), soft: .5, smile: .3 }, 1);
     n.handR = { k: 1, at: [-.19, .14, .29] };
     if (t > EV.gaze + .2) n = mix(n, { puzzled: .5 }, seg(t, EV.gaze + .2, EV.gaze + .6));
+    if (t > EV.gaze + .35) n = mix(n, { look: [0, .85], headTilt: -.1 }, ramp(t, EV.gaze + .35, EV.gaze + .55, EV.gaze + .95, EV.gaze + 1.15));   // глянула на свою макушку
   }
   if (s === 'S3') {
     n = mix(n, { smile: .35, soft: .4, explain: speaking(t, 'n1') && t < EV.uiFocus ? .6 : 0 }, 1);
@@ -136,10 +138,11 @@ function poses(t) {
   }
   if (s === 'S6') {
     c = mix(c, { ...catAim(radW), tuck: .4, shiver: speaking(t, 'p4') && t < wordAt('p4', 2) ? 1 : .3 }, 1);
+    if (t < wordAt('p4', 2)) c = mix(c, { earDown: .5, lid: .3, pout: .5, tuck: .8 }, 1);   // «Я замёрз»
     if (t > wordAt('p4', 2) - .1 && t < L1('p4')) c = mix(c, { ...catAim(headN), proud: .8, tuck: 0, shiver: 0, squint: .2 }, seg(t, wordAt('p4', 2) - .1, wordAt('p4', 2) + .2));
-    const fl = ramp(t, EV.beep1 + .12, EV.beep1 + .2, EV.beep1 + .6, EV.beep1 + .9);
-    if (t > EV.beep1) c = mix(c, { flinch: fl, earBack: fl, wide: fl, ...catAim(V(.2, .2, 3)) }, fl);
-    if (t > EV.beep1 + .65) c = mix(c, { groom: 1, closed: .7, earBack: 0, flinch: 0 }, seg(t, EV.beep1 + .65, EV.beep1 + .95));
+    const fl = ramp(t, EV.vacEnd - .02, EV.vacEnd + .06, EV.vacEnd + .45, EV.vacEnd + .75);
+    if (t > EV.beep1) c = mix(c, { flinch: fl, earBack: fl, wide: fl, lid: 0, squint: 0, proud: 0, tuck: 0, mouthO: .6, ...catAim(V(.2, .6, 3)) }, fl);
+    if (t > EV.vacEnd + .5) c = mix(c, { groom: 1, closed: .7, earBack: 0, flinch: 0 }, seg(t, EV.vacEnd + .5, EV.vacEnd + .8));
     n = mix(n, { ...neuAim(plush.headWorld()), soft: .4 }, 1);
   }
   if (s === 'S7') {
@@ -152,10 +155,10 @@ function poses(t) {
     const reach = ramp(t, SH.S8 - .05, EV.maxPush, EV.maxPush + .6, EV.maxPush + .9);
     if (reach > 0) c.reach = { k: reach, at: plush.group.worldToLocal(knobWorld(lerp(.5, 2, eo(seg(t, EV.maxPush, EV.maxPush + .35))))).toArray() };
     c = mix(c, { ...catAim(sliderW), proud: .5 }, 1 - seg(t, EV.maxPush + .5, EV.maxPush + .8));
-    if (t > EV.maxPush + .5) c = mix(c, { ...catAim(headN), smile: 1, happy: speaking(t, 'p5') ? 0 : .3, proud: 1 }, seg(t, EV.maxPush + .5, EV.maxPush + .8));
+    if (t > EV.maxPush + .5) c = mix(c, { ...catAim(headN), smile: 1, happy: speaking(t, 'p5') ? 0 : .7, proud: 1 }, seg(t, EV.maxPush + .5, EV.maxPush + .8));
     if (t > EV.bigOn) c = mix(c, { ...catAim(BIG_POS), wide: .8, smile: .8, earPerk: 1 }, seg(t, EV.bigOn, EV.bigOn + .4));
     const fl = ramp(t, EV.beep2 + .12, EV.beep2 + .2, EV.beep2 + .7, EV.beep2 + 1.0);
-    if (t > EV.beep2) c = mix(c, { flinch: fl, earBack: fl, wide: fl, smile: 0 }, fl);
+    if (t > EV.beep2) c = mix(c, { flinch: fl, earBack: fl, wide: fl, smile: 0, proud: 0, squint: 0, happy: 0, mouthO: .5, ...catAim(V(.2, .6, 3)) }, fl);
     if (t > EV.beep2 + .8) c = mix(c, { ...catAim(BIG_POS), proud: .6, smile: .3 }, seg(t, EV.beep2 + .8, EV.beep2 + 1.1));
     n = mix(n, { ...neuAim(plush.headWorld()), smile: .3, soft: .4 }, 1);
     n.handR = { k: .4, at: [-.12, .13, .3] };
@@ -167,11 +170,12 @@ function poses(t) {
     // скучает: оглядывается, вздыхает, замечает тёплую руку
     const sweep = Math.sin((t - SH.S9) * .9) * .7;
     c = mix(c, { headTurn: sweep, look: [sweep, .2], lid: .45, earDown: .25, pout: .3, tailSwish: 1 }, seg(t, SH.S9 + .5, SH.S9 + 1.2));
-    if (t > EV.notice) { const hand = neuro.handWorld('R'); c = mix(c, { ...catAim(hand), lid: 0, wide: .7, earPerk: 1, earDown: 0, lean: .4 }, seg(t, EV.notice, EV.notice + .35)); }
+    n.warm = .3 * seg(t, EV.notice - .3, EV.notice + .2);   // тёплый бок начинает светиться
+    if (t > EV.notice) { const warmW = neuro.group.localToWorld(V(-.112, .128, .035)); c = mix(c, { ...catAim(warmW), lid: 0, wide: .7, earPerk: 1, earDown: 0, lean: .4 }, seg(t, EV.notice, EV.notice + .35)); }
   }
   if (s === 'S10') {
-    n = mix(n, { ...neuAim(mapW), think: .7 }, 1);
-    n.warm = seg(t, EV.touch + .3, EV.touch + .9) * .85;
+    n = mix(n, { ...neuAim(MAP_POS_UP), think: .7 }, 1);
+    n.warm = Math.max(.3, seg(t, EV.touch + .3, EV.touch + .9) * .85);
     const tch = ramp(t, EV.touch, EV.touch + .35, EV.climb - .1, EV.climb + .1);
     if (tch > 0) { const side = neuro.group.localToWorld(V(-.13, .12, .03)); c.reach = { k: tch, at: plush.group.worldToLocal(side).toArray(), side: 'L' }; }
     c = mix(c, { ...catAim(neuro.group.localToWorld(V(-.1, .15, .05))), wide: seg(t, EV.touch + .35, EV.touch + .6), smile: seg(t, EV.touch + .4, EV.touch + .8), earPerk: 1, blush: .5 }, 1);
@@ -198,12 +202,15 @@ function poses(t) {
   }
   if (s === 'S11') {
     n = mix(n, { ...neuAim(mapW, .5), present: ramp(t, EV.ready - .1, EV.ready + .25, EV.noticeCat, EV.noticeCat + .3), happy: speaking(t, 'n8') && t < wordAt('n8', 1) ? .9 : 0, smile: .7, hold: 0 }, 1);
-    if (t > EV.noticeCat) n = mix(n, { ...neuAim(cpos.clone().add(V(0, .08, 0))), glitch: ramp(t, EV.noticeCat + .25, EV.noticeCat + .35, EV.noticeCat + .7, EV.noticeCat + .8), wide: .8, smile: 0, puzzled: .4, hold: .6 }, seg(t, EV.noticeCat, EV.noticeCat + .35));
+    const nc = EV.noticeCat;
+    if (t < nc + .6) n = mix(n, { ...neuAim(CAT_SEAT.clone().add(V(0, .2, 0))), puzzled: .6 * seg(t, nc, nc + .2) }, ramp(t, EV.ready - .1, EV.ready + .3, nc + .4, nc + .6) * .85);   // радостно к пустому месту, где сидел кот; пауза
+    if (t > nc + .4) n = mix(n, { ...neuAim(cpos.clone().add(V(0, .08, 0))), glitch: ramp(t, nc + .6, nc + .7, nc + 1.3, nc + 1.4), wide: .8, smile: 0, puzzled: .4, hold: .6 }, seg(t, nc + .4, nc + .6));   // а он уже на коленях: зависла
     if (t > EV.radLook) n = mix(n, { ...neuAim(radW), puzzled: .9, wide: .3 }, seg(t, EV.radLook, EV.radLook + .3) * (1 - seg(t, EV.radBack, EV.radBack + .35)));
     if (t > EV.radBack) n = mix(n, { ...neuAim(cpos.clone().add(V(0, .08, 0))), puzzled: .9 }, seg(t, EV.radBack, EV.radBack + .35));
   }
   if (s === 'S12' || s === 'END') {
-    n = mix(n, { ...neuAim(cpos.clone().add(V(0, .08, 0))), puzzled: speaking(t, 'n9') ? .7 : .3, hold: .7 }, 1);
+    n = mix(n, { ...neuAim(cpos.clone().add(V(0, .08, 0))), puzzled: speaking(t, 'n9') || (t > L0('p8') && t < wordAt('p8', 5) + .2) ? .7 : .3, hold: .7 }, 1);
+    n.think = .6 * ramp(t, wordAt('p8', 5) + .2, wordAt('p8', 5) + .35, L1('p8') + .45, L1('p8') + .65);   // «гипотеза»… обрабатывает
     if (t > EV.petStart) n = mix(n, { soft: 1, smile: .9, puzzled: 0, pet: 1, hold: .4 }, seg(t, EV.petStart, EV.petStart + .5));
     if (t > EV.petStart + .3) c = mix(c, { closed: 1, lid: 0, smile: .8 }, seg(t, EV.petStart + .3, EV.petStart + .7));
   }
@@ -225,7 +232,8 @@ function holograms(t) {
   if (t > SH.S5) { pos = vlerp(SL_POS, SL_POS.clone().add(V(.02, -.03, .02)), seg(t, SH.S5, SH.S5 + .4)); sz = lerp(1, .72, eio(seg(t, SH.S5, SH.S5 + .5))); dots *= 1 - seg(t, SH.S5, SH.S5 + .3); lv = 1; }
   if (t > SH.S8 - .2) { lv = lerp(.5, 2, eo(seg(t, EV.maxPush, EV.maxPush + .35))); push = bump(t, EV.maxPush + .3, EV.maxPush + .7); sz = lerp(.72, 1, seg(t, SH.S8 - .2, SH.S8)) * (1 - seg(t, EV.bigOn, EV.bigOn + .4) * .25); dots = seg(t, EV.maxPush + .3, EV.maxPush + .6); }
   if (t > SH.S9) { sk *= 1 - seg(t, SH.S9, SH.S9 + .3); }
-  if (s === 'S4') sk *= 1 - seg(t, SH.S4, SH.S4 + .3) * (1 - seg(t, SH.S5 - .3, SH.S5));
+  if (s === 'S8' && t > EV.maxPush + .55) sk = 0;   // MAX выставлен: дальше крупные планы кота и большая схема, ползунок не мешает
+  if (s === 'S4') sk = 0;
   if (s === 'S6' || s === 'S7') sk *= 1 - seg(t, SH.S6, SH.S6 + .3) * (1 - seg(t, SH.S8 - .4, SH.S8 - .1));
   drawSlider(t, { lv, dots, title, push }); place(slider, pos, sk, camera, 0, 1, sz);
   // значки «простой / сложная»
@@ -240,18 +248,18 @@ function holograms(t) {
   if (s === 'S9' || s === 'S10') { mk = seg(t, SH.S9 - .1, SH.S9 + .3); st.routes = { A: 1, B: 1, C: 1 }; st.marks = { A: 1, B: 1, C: 1 }; st.dim = { A: 1, B: 1 }; st.scout = ((t - SH.S9) * .12) % 1; }
   if (s === 'S11') {
     mk = 1; st.routes = { A: 0, B: 0, C: 1 }; st.marks = { C: 1 }; st.frozen = t > EV.ready;
-    const frozenT = Math.min(t, EV.noticeCat + .3); st.scout = clamp((frozenT - EV.ready) / 3.6); st.vacX = vacState(frozenT).x;
+    const frozenT = Math.min(t, EV.noticeCat + .6); st.scout = clamp((frozenT - EV.ready) / 3.6); st.vacX = vacState(frozenT).x;
     mk *= 1 - seg(t, EV.radCut - .05, EV.radCut) * 0;   // остаётся висеть, но замирает
-    if (t > EV.noticeCat + .3) st.catOnSofa = false;
+    if (t > EV.noticeCat + .6) st.catOnSofa = false;
     mk *= 1 - seg(t, SH.S12 - .4, SH.S12);
   }
   let mpos = MAP_POS, msc = 1, mtilt = -.35;
-  if (s === 'S7') msc = 1.02;
-  if (s === 'S9') msc = 1.05;
+  if (s === 'S7') msc = .85;
+  if (s === 'S9') msc = .8;
   if (s === 'S9') mk *= 1 - seg(t, EV.notice - .1, EV.notice + .15);
-  if (s === 'S10') mk = 0;
-  if (s === 'S11' || s === 'S12') { mpos = MAP_POS_UP; msc = .62; mtilt = 0; }
-  if (mk > 0) drawMap(s === 'S11' && t > EV.noticeCat + .3 ? EV.noticeCat + .3 : t, st, s === 'S11' && t > EV.noticeCat + .3 ? .75 + .25 * Math.sin(t * 30) * (t < EV.noticeCat + .7 ? 1 : 0) : 1);
+  if (s === 'S10') { mk = seg(t, EV.climb, EV.climb + .4); st.routes = { A: 0, B: 0, C: 1 }; st.marks = { C: 1 }; }
+  if (s === 'S10' || s === 'S11' || s === 'S12') { mpos = MAP_POS_UP; msc = .62; mtilt = 0; }
+  if (mk > 0) drawMap(s === 'S11' && t > EV.noticeCat + .6 ? EV.noticeCat + .6 : t, st, s === 'S11' && t > EV.noticeCat + .6 ? .75 + .25 * Math.sin(t * 30) * (t < EV.noticeCat + 1.4 ? 1 : 0) : 1);
   place(map, mpos, mk, camera, mtilt, mk, msc);
   // большая схема
   const bk = seg(t, EV.bigOn, EV.bigOn + .5) * (1 - seg(t, SH.S9 - .3, SH.S9));
@@ -276,20 +284,21 @@ function camKeys(t) {
   const catH = () => plush.headWorld(), neuH = () => neuro.headWorld();
   if (s === 'S1') {
     if (t < EV.cut1) return track(t, [[0, V(.32, 1.42, 3.55), V(.36, 1.55, 4.6), 34], [EV.cut1, V(.3, 1.12, 3.3), V(.35, .78, 4.55), 38]]);
-    return track(t, [[EV.cut1, V(.85, 1.42, 3.85), V(-.12, .6, .1), 36], [5.2, V(.15, 1.0, 2.85), V(-.03, .74, .06), 35], [SH.S2, V(.06, .97, 2.7), V(-.02, .76, .06), 35]]);
+    if (t > 3.75 && t < 4.35) return [t, V(.15, .72, 1.6), V(RADIATOR.x, .5, RADIATOR.z), 30];   // взгляд кота: дождь и батарея далеко
+    return track(t, [[EV.cut1, V(.85, 1.42, 3.85), V(-.12, .6, .1), 36], [4.3, V(-.1, .93, 2.05), V(-.24, .66, .08), 34], [4.95, V(-.09, .92, 1.95), V(-.22, .66, .08), 34], [5.75, V(.06, .97, 2.7), V(-.02, .76, .06), 35], [SH.S2, V(.06, .97, 2.7), V(-.02, .76, .06), 35]]);
   }
   if (s === 'S2') {
     if (t < EV.push - .45) return track(t, [[SH.S2, V(-.02, .97, 2.7), V(-.02, .77, .06), 35], [EV.push - .45, V(-.05, .93, 2.35), V(-.05, .74, .1), 35]]);
     if (t < EV.gaze) return track(t, [[EV.push - .45, V(-.04, .8, 1.62), V(-.05, .64, .15), 34], [EV.gaze, V(-.04, .79, 1.5), V(-.05, .64, .15), 34]]);
-    return track(t, [[EV.gaze, V(-.02, .97, 2.5), V(.0, .8, .06), 35], [SH.S3, V(-.02, .98, 2.4), V(.0, .81, .06), 35]]);
+    return track(t, [[EV.gaze, V(-.1, .86, 1.85), V(.0, .82, .06), 35], [SH.S3, V(-.1, .87, 1.75), V(.0, .82, .06), 35]]);
   }
   if (s === 'S3') {
     const h = neuH();
     if (t < EV.uiFocus) return track(t, [[SH.S3, h.clone().add(V(-.18, .02, 1.0)), h.clone().add(V(-.02, -.06, 0)), 34], [EV.uiFocus, h.clone().add(V(-.2, 0, .9)), h.clone().add(V(-.02, -.07, 0)), 34]]);
-    if (t < EV.earsDown - .1) return track(t, [[EV.uiFocus, SL_POS.clone().add(V(-.05, .17, 1.2)), SL_POS.clone().add(V(0, .07, 0)), 35], [EV.earsDown - .1, SL_POS.clone().add(V(-.03, .19, 1.3)), SL_POS.clone().add(V(0, .09, 0)), 35]]);
-    return track(t, [[EV.earsDown - .1, V(-.02, .96, 2.6), V(-.02, .78, .06), 35], [SH.S4, V(-.02, .96, 2.45), V(-.02, .78, .06), 35]]);
+    if (t < EV.earsDown - .1) return track(t, [[EV.uiFocus, SL_POS.clone().add(V(-.09, .18, 1.38)), SL_POS.clone().add(V(-.04, .07, 0)), 35], [EV.earsDown - .1, SL_POS.clone().add(V(-.08, .2, 1.48)), SL_POS.clone().add(V(-.04, .09, 0)), 35]]);
+    return track(t, [[EV.earsDown - .1, V(.5, .82, .88), V(-.12, .68, .1), 30], [SH.S4, V(.5, .81, .84), V(-.12, .68, .1), 30]]);   // уши опускаются: лицо кота со стороны Нейро
   }
-  if (s === 'S4') { const h = CAT_SEAT.clone().add(V(0, .22, .02)); return track(t, [[SH.S4, h.clone().add(V(.2, .07, .86)), h.clone().add(V(.02, .02, 0)), 34], [SH.S5, h.clone().add(V(.18, .07, .76)), h.clone().add(V(.02, .02, 0)), 34]]); }
+  if (s === 'S4') { const h = CAT_SEAT.clone().add(V(0, .22, .02)); return track(t, [[SH.S4, h.clone().add(V(.2, .07, .98)), h.clone().add(V(-.03, .03, 0)), 34], [SH.S5, h.clone().add(V(.18, .07, .88)), h.clone().add(V(-.03, .03, 0)), 34]]); }
   if (s === 'S5') return track(t, [[SH.S5, V(-.02, 1.0, 2.75), V(-.02, .86, .06), 36], [L1('n4'), V(-.02, .98, 2.55), V(-.02, .84, .06), 36], [SH.S6, V(-.12, .76, 1.2), V(-.16, .66, .08), 34]]);
   if (s === 'S6') {
     if (t < EV.pathEnd) return track(t, [[SH.S6, V(-.2, 1.35, .75), V(.0, .05, 2.8), 44], [EV.pathEnd, V(-.12, 1.2, 1.15), V(.15, .12, 3.4), 44]]);
@@ -299,19 +308,20 @@ function camKeys(t) {
   if (s === 'S7') return track(t, [[SH.S7, V(.04, 1.12, 2.35), V(.02, .78, .1), 36], [EV.rC, V(.0, 1.15, 2.2), V(.0, .74, .2), 36], [SH.S8, V(-.02, 1.15, 2.15), V(.0, .73, .2), 36]]);
   if (s === 'S8') {
     if (t < EV.maxPush + .55) { const sp = SL_POS.clone().add(V(.02, -.03, .02)); return track(t, [[SH.S8, sp.clone().add(V(-.1, .08, .66)), sp.clone().add(V(-.03, .01, 0)), 32], [EV.maxPush + .55, sp.clone().add(V(-.02, .07, .6)), sp.clone().add(V(.05, .01, 0)), 32]]); }
-    if (t < EV.bigOn) { const h = CAT_SEAT.clone().add(V(0, .22, .02)); return track(t, [[EV.maxPush + .55, h.clone().add(V(.18, .05, .8)), h.clone().add(V(.03, -.02, 0)), 34], [EV.bigOn, h.clone().add(V(.16, .05, .72)), h.clone().add(V(.03, -.02, 0)), 34]]); }
+    if (t < EV.bigOn) return track(t, [[EV.maxPush + .55, V(.3, .8, 1.08), V(-.12, .66, .1), 33], [EV.bigOn, V(.34, .77, .95), V(-.12, .66, .1), 32]]);
+    if (t > EV.beep2 - .05) return track(t, [[EV.beep2 - .05, V(.32, .78, 1.0), V(-.13, .67, .1), 33], [SH.S9, V(.34, .77, .94), V(-.13, .67, .1), 32]]);   // второй писк: снова вздрагивает, крупно
     return track(t, [[EV.bigOn, V(-.02, .95, 1.9), V(-.02, .9, .0), 38], [EV.bigOn + 1.2, V(-.02, 1.05, 2.75), V(-.02, 1.1, -.05), 40], [SH.S9, V(-.02, 1.05, 2.85), V(-.02, 1.1, -.05), 40]]);
   }
   if (s === 'S9') {
     if (t < EV.notice) return track(t, [[SH.S9, V(-.02, 1.08, 2.6), V(-.02, .86, .1), 36], [EV.notice, V(-.02, 1.05, 2.45), V(-.02, .84, .1), 36]]);
-    return track(t, [[EV.notice, V(.3, .8, 1.08), V(-.1, .65, .1), 33], [SH.S10, V(.36, .75, .9), V(-.11, .64, .1), 32]]);
+    return track(t, [[EV.notice, V(.34, .8, 1.14), V(-.07, .65, .1), 33], [SH.S10, V(.4, .76, 1.0), V(-.07, .64, .1), 32]]);
   }
   if (s === 'S10') {
-    if (t < EV.climb) return track(t, [[SH.S10, V(.36, .75, .9), V(-.11, .64, .1), 32], [EV.climb, V(.32, .74, .82), V(-.09, .64, .1), 32]]);
+    if (t < EV.climb) return track(t, [[SH.S10, V(.4, .76, 1.0), V(-.07, .64, .1), 32], [EV.climb, V(.36, .75, .92), V(-.06, .64, .1), 32]]);
     return track(t, [[EV.climb, V(-.1, .9, 1.72), V(-.02, .72, .08), 35], [EV.circle, V(-.06, .9, 1.62), V(.08, .72, .08), 35], [SH.S11, V(-.04, .9, 1.55), V(.1, .72, .08), 35]]);
   }
   if (s === 'S11') {
-    if (t > EV.radCut && t < EV.radBack) return track(t, [[EV.radCut, V(.15, .72, 1.6), V(RADIATOR.x, .5, RADIATOR.z), 30], [EV.radBack, V(.16, .72, 1.75), V(RADIATOR.x, .5, RADIATOR.z), 28]]);
+    if (t > EV.radCut && t < EV.radBack) return track(t, [[EV.radCut, V(.0, 1.0, .75), V(RADIATOR.x, .35, RADIATOR.z), 40], [EV.radBack, V(.02, 1.0, .9), V(RADIATOR.x, .35, RADIATOR.z), 38]]);   // её взгляд: батарея далеко, за коробками
     return track(t, [[SH.S11, V(.0, 1.02, 2.2), V(.04, .82, .1), 35], [EV.noticeCat, V(.02, .98, 1.95), V(.06, .8, .1), 35], [SH.S12, V(.03, .96, 1.8), V(.08, .78, .1), 34]]);
   }
   // S12 и финал: близко на обоих, потом лёгкий отъезд
@@ -322,7 +332,7 @@ function cam(t) {
   const [, P, L, fov] = camKeys(t);
   camera.fov = fov; camera.updateProjectionMatrix();
   let jolt = 0;
-  if (t > EV.beep1 + .1 && t < EV.beep1 + .5) jolt = .006;
+  if (t > EV.vacEnd && t < EV.vacEnd + .35) jolt = .006;
   if (t > EV.beep2 + .1 && t < EV.beep2 + .5) jolt = .006;
   if (t > EV.maxPush + .3 && t < EV.maxPush + .6) jolt = .004;
   camera.position.copy(P).add(shake(t, jolt)).add(V(vn(t * .45) * .004, vn(t * .38 + 5) * .003, 0));   // «ручная» камера
@@ -337,9 +347,9 @@ function overlay(t) {
   finish(t, { vig: .5, warm: .1 });
   const s = shotOf(t);
   // название на дожде
-  if (t < EV.cut1 + .1) {
-    let a = inOut(t, .25, EV.cut1, .3, .15); txt('ТЫ ДУМАЕШЬ', W / 2, 560 + a.y, { size: 104, font: 'Unbounded', fill: '#ffffff', lw: 22, scale: a.k, alpha: a.a });
-    a = inOut(t, .55, EV.cut1, .3, .15); txt('ИЛИ ЗАВИСЛА?', W / 2, 700 + a.y, { size: 96, font: 'Unbounded', fill: '#8fe3ff', lw: 22, scale: a.k, alpha: a.a, rot: -.03 });
+  if (t < 2.7) {
+    let a = inOut(t, .25, 2.6, .3, .2); txt('ТЫ ДУМАЕШЬ', W / 2, 560 + a.y, { size: 88, font: 'Unbounded', fill: '#ffffff', lw: 22, scale: a.k, alpha: a.a });
+    a = inOut(t, .55, 2.6, .3, .2); txt('ИЛИ ЗАВИСЛА?', W / 2, 690 + a.y, { size: 80, font: 'Unbounded', fill: '#8fe3ff', lw: 22, scale: a.k, alpha: a.a, rot: -.03 });
   }
   // «БИП!» пылесоса
   for (const b of [EV.beep1, EV.beep2]) if (t > b && t < b + .7) {
@@ -347,7 +357,7 @@ function overlay(t) {
     txt('БИП!', vp.x, vp.y, { size: 110, font: 'Unbounded', fill: '#ff5c7a', lw: 22, scale: back(seg(t, b, b + .18)) * (1 + .05 * Math.sin(t * 40)), alpha: 1 - seg(t, b + .5, b + .7), rot: -.1 });
   }
   // мурчание
-  if (t > EV.lieDown && t < SH.S11 + .5) { const p = proj(plush.headWorld()); txt('мрр', p.x + 110, p.y - 120 - Math.sin(t * 2) * 10, { size: 54, fill: '#ffc46b', lw: 12, alpha: ramp(t, EV.lieDown + .3, EV.lieDown + .6, SH.S11 + .2, SH.S11 + .5), rot: .1 }); }
+  if (t > EV.lieDown && t < SH.S11 + .5) { const p = proj(plush.headWorld()); txt('мрр', p.x + 110, p.y - 120 - Math.sin(t * 2) * 10, { size: 76, fill: '#fff', lw: 16, alpha: ramp(t, EV.lieDown + .3, EV.lieDown + .6, SH.S11 + .2, SH.S11 + .5), rot: .1 }); }
   // финальная надпись
   if (t > SH.END - .2) {
     let a = inOut(t, SH.END, ST.dur + 1, .35);

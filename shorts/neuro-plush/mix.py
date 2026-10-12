@@ -11,14 +11,14 @@ L0 = lambda i: LN[i]['t0']; L1 = lambda i: LN[i]['t0'] + LN[i]['d']; LD = lambda
 def word_at(i, k):   # начало k-го слова, как words() в ui.js
     L = LN[i]; ws = L['text'].split(' '); tot = sum(len(w) for w in ws); acc = sum(len(w) for w in ws[:k]); return L['t0'] + L['d'] * acc / tot
 # те же моменты, что в main.js
-EV = dict(cut1=2.1, holoOn=5.0, push=L1('p1') + .25, gaze=L1('p1') + 1.0, uiFocus=L0('n1') + LD('n1') * .3, slideUp=word_at('n1', 6) - .1,
+EV = dict(cut1=1.1, holoOn=5.0, push=L1('p1') + .25, gaze=L1('p1') + 1.0, uiFocus=L0('n1') + LD('n1') * .3, slideUp=word_at('n1', 6) - .1,
           earsDown=L1('n1') + .15, cover=L1('n2') + .08, uncover=L1('n3') + .25, simple=word_at('n4', 1) - .15, complex=word_at('n4', 7) - .15,
-          pathEnd=L0('p4') - .15, beep1=L1('p4') + .1, vacEnd=L1('p4') + .55,
+          pathEnd=L0('p4') - .15, beep1=L1('p4') + .1, vacEnd=L1('p4') + .45,
           rA=L0('n5') + LD('n5') * .12, rB=L0('n5') + LD('n5') * .34, rC=L0('n5') + LD('n5') * .6,
           maxPush=SH['S8'] + .25, bigOn=L0('n6') + .4, beep2=L1('n6') + 1.05,
           clock=word_at('n7', 5) - .1, res=word_at('n7', 7) - .1, check=word_at('n7', 13) - .1, notice=L1('n7') + .65,
           touch=SH['S10'] + .15, climb=L1('p6') + .25, circle=L1('p6') + 1.35, lieDown=L1('p6') + 2.4,
-          ready=L0('n8'), noticeCat=L1('n8') + .15, radLook=L1('p7') + .25, radCut=L1('p7') + .55, radBack=L1('p7') + 1.25, petStart=L1('p8') + .2)
+          ready=L0('n8'), noticeCat=L1('n8') + .15, radLook=L1('p7') + .15, radCut=L1('p7') + .4, radBack=L1('p7') + 1.45, petStart=L1('p8') + .55)
 N = int(DUR * SR) + SR
 rng = np.random.default_rng(11)
 bus = {k: np.zeros((N, 2)) for k in ('voice', 'music', 'fx', 'amb')}
@@ -134,8 +134,8 @@ add('fx', whoosh(.5), SH['S6'] - .2, .2); add('amb', hum(EV['pathEnd'] - SH['S6'
 add('fx', whoosh(.4, False), EV['pathEnd'] - .15, .15)
 for b in (EV['beep1'], EV['beep2']):
     add('fx', beep(2350), b, .3, .3); add('fx', beep(2350), b + .2, .3, .3); add('amb', hum(.6), b - .1, .12, .3)
-add('fx', boing(), EV['beep1'] + .15, .2, -.2); add('fx', whoosh(.25), EV['beep1'] + .12, .12)
-for k in range(5): add('fx', lick(), EV['beep1'] + .75 + k * .16, .18, -.2)   # «умывается»
+add('fx', boing(), EV['vacEnd'] + .02, .2, -.2); add('fx', whoosh(.25), EV['vacEnd'], .12)   # вздрагивает уже на кадре с котом
+for k in range(5): add('fx', lick(), EV['vacEnd'] + .65 + k * .16, .18, -.2)   # «умывается»
 # карта: маршруты рисуются, крестики, галочка
 for key, at, ln in (('A', EV['rA'], .8), ('B', EV['rB'], .8), ('C', EV['rC'], 1.1)):
     tt = t_(ln); add('fx', norm(np.sin(2 * np.pi * np.cumsum(500 + 700 * tt / ln) / SR)) * np.sin(np.pi * tt / ln) * .4, at, .08)
@@ -161,7 +161,7 @@ add('fx', shimmer(1.2, 700), EV['touch'] + .3, .12, -.1)
 for k in range(4): add('fx', thump(150, .1), EV['climb'] + k * .25, .14, -.1)
 add('fx', rustle(1.0), EV['circle'], .1)
 add('fx', purr(DUR - EV['lieDown'] + .3), EV['lieDown'] - .2, .55)
-add('fx', glitch(.45), EV['noticeCat'] + .25, .12, .2)                   # схема замирает
+add('fx', glitch(.8), EV['noticeCat'] + .6, .12, .2)                   # схема замирает
 add('fx', whoosh(.3), EV['radCut'] - .05, .1); add('fx', whoosh(.3, False), EV['radBack'] - .05, .1)
 # финал: мягкое разрешение
 for k, m in enumerate([65, 69, 72, 76]): add('music', rhodes(midi(m), 3.0), SH['END'] + k * .09, .1, (k - 1.5) * .25)

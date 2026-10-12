@@ -523,10 +523,10 @@ function pose(t, k = {}) {
     }
     if (pet > 0 && sx > 0) {
       // левая гладит: от макушки за ушками назад по шее (~8 см), в конце запястье приподнимается, возврат по воздуху
-      const cyc = ((t * 1.6 / TAU) % 1 + 1) % 1, u = cyc < .6 ? sstep(0, 1, cyc / .6) : 1 - sstep(0, 1, (cyc - .6) / .4);
+      const cyc = ((t * 2.4 / TAU) % 1 + 1) % 1, u = cyc < .6 ? sstep(0, 1, cyc / .6) : 1 - sstep(0, 1, (cyc - .6) / .4);
       const lift = cyc < .52 ? 0 : Math.pow(Math.sin(Math.PI * (cyc - .52) / .48), 2);
-      const P = catHead.clone().addScaledVector(catB, lerp(-.006, .078, u)).addScaledVector(catA, .006);
-      P.y += lerp(.117, .078, u) - .004 * Math.sin(Math.PI * u) + lift * .028;
+      const P = catHead.clone().addScaledVector(catB, lerp(-.03, .1, u)).addScaledVector(catA, .006);
+      P.y += lerp(.09, .062, u) - .004 * Math.sin(Math.PI * u) + lift * .028;
       const F = catB.clone().multiplyScalar(-.85).add(V(0, -.32 + lift * .7, 0)).normalize();
       st = mixP(st, { P, F, N: nrm(-catB.x * .2, -1, -catB.z * .2), O: nrm(1, -.6, -.5), ext: 0, fist: .1 }, pet);
     }

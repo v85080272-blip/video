@@ -264,7 +264,7 @@ function cardBox(at, w, h, d, label, rotY) {
   const inner = new THREE.Mesh(new THREE.PlaneGeometry(w * .96, d * .96), M(0x5a3c20, { roughness: 1 })); inner.rotation.x = -Math.PI / 2; inner.position.y = h - .005; g.add(inner);
   const flapM = new THREE.MeshStandardMaterial({ map: cardboard(''), roughness: .85, side: THREE.DoubleSide });
   // клапаны: стоят вертикально от верхнего края, раскрыты наружу на угол от вертикали
-  [[0, 1, w, d * .48, 1.05], [0, -1, w, d * .48, .8], [1, 0, d, w * .45, 1.25], [-1, 0, d, w * .45, .6]].forEach(([sx, sz, fw, fh, ang]) => {
+  [[0, 1, w, d * .48, 1.05], [0, -1, w, d * .48, .8], [1, 0, d, w * .45, .45], [-1, 0, d, w * .45, .35]].forEach(([sx, sz, fw, fh, ang]) => {
     const fg = new THREE.PlaneGeometry(fw, fh); fg.translate(0, fh / 2, 0); if (sx) fg.rotateY(Math.PI / 2);
     const f = new THREE.Mesh(fg, flapM); f.castShadow = true; const piv = new THREE.Group();
     piv.position.set(sx * w / 2, h, sz * d / 2); g.add(piv); piv.add(f);

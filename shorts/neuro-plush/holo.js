@@ -62,12 +62,12 @@ export function drawIcons(t, { l = 0, r = 0, a = 1 } = {}) {
   const { x, cw, ch } = icons; x.clearRect(0, 0, cw, ch); frameBox(x, cw, ch, a);
   x.save(); x.globalAlpha = a;
   x.strokeStyle = `rgba(${CY},.3)`; x.lineWidth = 2; x.beginPath(); x.moveTo(cw / 2, 40); x.lineTo(cw / 2, ch - 40); x.stroke();
-  if (l > 0) { const s = back(clamp(l)); x.save(); x.translate(cw * .25, 120); x.scale(s, s); dot(x, 0, 0, 24, GR); x.restore(); label(x, 'ПРОСТОЙ', cw * .25, 210, 34, GR, clamp(l * 2 - .5)); label(x, 'быстрый ответ', cw * .25, 252, 25, CY, clamp(l * 2 - 1)); }
+  if (l > 0) { const s = back(clamp(l)); x.save(); x.translate(cw * .25, 120); x.scale(s, s); dot(x, 0, 0, 24, GR); x.restore(); label(x, 'ПРОСТОЙ', cw * .25, 210, 34, GR, clamp(l * 2 - .5)); label(x, 'быстрый ответ', cw * .25, 254, 29, CY, clamp(l * 2 - 1)); }
   if (r > 0) {
     const P = [[-70, -30], [-20, -62], [40, -40], [75, 10], [20, 30], [-45, 35], [5, -5], [-80, 15], [60, -70]];
     x.save(); x.translate(cw * .75, 122);
     P.forEach(([px, py], i) => { const k = clamp(r * 9 - i); if (k <= 0) return; P.forEach(([qx, qy], j) => { if (j < i && hash(i * 7 + j) < .45) { x.strokeStyle = `rgba(${OR},${.6 * k})`; x.lineWidth = 3; x.beginPath(); x.moveTo(px, py); x.lineTo(qx, qy); x.stroke(); } }); dot(x, px, py, 9 * back(k), OR, k); });
-    x.restore(); label(x, 'СЛОЖНАЯ', cw * .75, 210, 34, OR, clamp(r * 2 - .5)); label(x, 'разобрать подробнее', cw * .75, 252, 25, CY, clamp(r * 2 - 1));
+    x.restore(); label(x, 'СЛОЖНАЯ', cw * .75, 210, 34, OR, clamp(r * 2 - .5)); label(x, 'разобрать подробнее', cw * .75, 254, 27, CY, clamp(r * 2 - 1));
   }
   x.restore(); icons.tex.needsUpdate = true;
 }
@@ -135,8 +135,7 @@ function scoutCat(x, px, py, s, t) {
 }
 export function drawMap(t, st, a = 1) {
   const { x, cw, ch } = map; x.clearRect(0, 0, cw, ch); frameBox(x, cw, ch, a);
-  x.save(); x.globalAlpha = a; label(x, 'ПУТЬ К БАТАРЕЕ', cw / 2, 44, 34, CY);
-  if (st.frozen) { label(x, '✓ ГОТОВО', cw / 2, 92, 30, GR); }
+  x.save(); x.globalAlpha = a; label(x, st.frozen ? '✓ ГОТОВО' : 'ПУТЬ К БАТАРЕЕ', cw / 2, 44, 38, st.frozen ? GR : OR);
   drawRoomMap(x, t, 30, 70, cw - 60, ch - 90, st); x.restore(); map.tex.needsUpdate = true;
 }
 
@@ -172,7 +171,7 @@ export function drawCost(t, { clock = 0, res = 0, check = 0, a = 1 } = {}) {
 // разместить панель: позиция, поворот к камере (или фиксированный), масштаб появления
 export function place(p, pos, k, cam, tilt = 0, alpha = 1, size = 1) {   // k — появление (0..1, с отскоком), size — постоянный масштаб
   p.m.visible = k > .001 && alpha > .001; if (!p.m.visible) return;
-  p.back.material.opacity = .58 * clamp(alpha);
+  p.back.material.opacity = (p === slider ? .58 : p === map || p === big ? .88 : .85) * clamp(alpha);   // плотная подложка: схемы не сливаются с Нейро и картинами
   p.m.position.copy(pos); if (cam) { p.m.lookAt(cam.position); p.m.rotateX(tilt); }
   const s = back(clamp(k)) * size; p.m.scale.set(s, Math.max(.02, s), 1);
 }
