@@ -170,10 +170,10 @@ export function drawCost(t, { clock = 0, res = 0, check = 0, a = 1 } = {}) {
   x.restore(); cost.tex.needsUpdate = true;
 }
 // разместить панель: позиция, поворот к камере (или фиксированный), масштаб появления
-export function place(p, pos, k, cam, tilt = 0, alpha = 1) {
+export function place(p, pos, k, cam, tilt = 0, alpha = 1, size = 1) {   // k — появление (0..1, с отскоком), size — постоянный масштаб
   p.m.visible = k > .001 && alpha > .001; if (!p.m.visible) return;
   p.back.material.opacity = .58 * clamp(alpha);
   p.m.position.copy(pos); if (cam) { p.m.lookAt(cam.position); p.m.rotateX(tilt); }
-  const s = back(clamp(k)); p.m.scale.set(s, Math.max(.02, s), 1);
+  const s = back(clamp(k)) * size; p.m.scale.set(s, Math.max(.02, s), 1);
 }
 export const holos = [slider, icons, map, big, cost];

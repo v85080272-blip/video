@@ -26,11 +26,12 @@ export function subtitles(t, lines, y = 1440, colors = { P: '#ffc46b', N: '#8fe3
     const ws = words(L); let ci = ws.findIndex(w => t < w.e); if (ci < 0) ci = ws.length - 1;
     const g0 = ci - ci % 2, grp = ws.slice(g0, g0 + 2);
     const pop = back(seg(t, ws[g0].s - .05, ws[g0].s + .12)), a = 1 - seg(t, L.sub1 - .12, L.sub1);
-    const size = grp.join('').length > 16 ? 76 : 88;
-    cx.font = `900 ${size}px Rubik`; const widths = grp.map(w => cx.measureText(w.w).width), gap = 38, tw = widths.reduce((s, w) => s + w, 0) + gap * (grp.length - 1);
-    const sc = Math.min(1, (W - 90) / tw);
-    let x = W / 2 - tw * sc / 2;
-    grp.forEach((w, i) => { const cur = g0 + i === ci; txt(w.w, x + widths[i] * sc / 2, y, { size: size * sc, fill: cur ? colors[L.who] : '#fff', lw: 20 * sc, scale: pop * (cur ? 1.07 : 1), alpha: a }); x += (widths[i] + gap) * sc; });
+    const size = grp.map(w => w.w).join('').length > 16 ? 76 : 88;
+    cx.font = `900 ${size}px Rubik`; const widths = grp.map(w => cx.measureText(w.w).width), gap = 44, tw = widths.reduce((s, w) => s + w, 0) + gap * (grp.length - 1);
+    const sc = Math.min(1, (W - 100) / (tw * 1.15));
+    // отскок появления — для всей пары сразу (от центра), чтобы слова не наезжали друг на друга
+    let x = -tw * sc / 2;
+    grp.forEach((w, i) => { const cur = g0 + i === ci, xc = x + widths[i] * sc / 2; txt(w.w, W / 2 + xc * pop, y, { size: size * sc, fill: cur ? colors[L.who] : '#fff', lw: 20 * sc, scale: pop * (cur ? 1.07 : 1), alpha: a }); x += (widths[i] + gap) * sc; });
   }
 }
 

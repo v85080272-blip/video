@@ -61,8 +61,8 @@ const speaking = (t, id) => t >= L0(id) - .05 && t <= L1(id) + .1;
 const CAT_SEAT = V(-.2, SEAT_Y, .08), CAT_ROT = .3, CAT_X0 = -.3;
 const NEU_POS = V(.17, SEAT_Y, .04), NEU_ROT = -.2;
 const SL_POS = V(.0, .565, .33);          // голограмма с ползунком у правой руки Нейро
-const MAP_POS = V(.08, .6, .5), MAP_POS_UP = V(-.08, 1.18, .25);
-const ICON_POS = V(.0, 1.12, .2), COST_POS = V(.0, 1.12, .2), BIG_POS = V(-.02, 1.5, -.18);
+const MAP_POS = V(.08, .6, .5), MAP_POS_UP = V(-.13, 1.1, .25);
+const ICON_POS = V(-.02, 1.21, .2), COST_POS = V(-.02, 1.21, .2), BIG_POS = V(-.02, 1.5, -.18);
 const knobWorld = lv => slider.m.localToWorld(V(lerp(-.3 / 2 + 80 / 640 * .3, .3 / 2 - 80 / 640 * .3, clamp(lv / 2)), -.15 / 2 + (320 - 222) / 320 * .15, .01));
 neuro.group.position.copy(NEU_POS); neuro.group.rotation.y = NEU_ROT;
 
@@ -173,7 +173,7 @@ function poses(t) {
     n = mix(n, { ...neuAim(mapW), think: .7 }, 1);
     n.warm = seg(t, EV.touch + .3, EV.touch + .9) * .85;
     const tch = ramp(t, EV.touch, EV.touch + .35, EV.climb - .1, EV.climb + .1);
-    if (tch > 0) { const side = neuro.group.localToWorld(V(-.13, .12, .03)); c.reach = { k: tch, at: plush.group.worldToLocal(side).toArray() }; }
+    if (tch > 0) { const side = neuro.group.localToWorld(V(-.13, .12, .03)); c.reach = { k: tch, at: plush.group.worldToLocal(side).toArray(), side: 'L' }; }
     c = mix(c, { ...catAim(neuro.group.localToWorld(V(-.1, .15, .05))), wide: seg(t, EV.touch + .35, EV.touch + .6), smile: seg(t, EV.touch + .4, EV.touch + .8), earPerk: 1, blush: .5 }, 1);
     if (speaking(t, 'p6')) c = mix(c, { happy: .7, wide: 0 }, seg(t, L0('p6') + .3, L0('p6') + .6));
     // забирается на колени, круг, ложится
@@ -217,20 +217,21 @@ function poses(t) {
 function holograms(t) {
   const s = shotOf(t);
   // ползунок: появляется в конце S1, живёт до S10
-  let lv = 0, dots = 0, title = 0, sk = seg(t, EV.holoOn, EV.holoOn + .35) * (1 - seg(t, SH.S10 - .3, SH.S10)), pos = SL_POS.clone(), push = 0;
+  let lv = 0, dots = 0, title = 0, sk = seg(t, EV.holoOn, EV.holoOn + .35) * (1 - seg(t, SH.S10 - .3, SH.S10)), sz = 1, pos = SL_POS.clone(), push = 0;
   if (t > EV.push) lv = 2 * eo(seg(t, EV.push, EV.push + .5));
   if (t > EV.uiFocus) { lv = lerp(2, 0, eio(seg(t, EV.uiFocus, EV.uiFocus + .4))); lv = lerp(lv, 2, eio(seg(t, EV.slideUp, EV.slideUp + 1.6))); dots = seg(t, EV.uiFocus + .2, EV.uiFocus + .5); }
   if (t > L0('n1') + .2) title = seg(t, L0('n1') + .2, L0('n1') + .5);
-  if (t > SH.S5) { pos = vlerp(SL_POS, SL_POS.clone().add(V(.02, -.03, .02)), seg(t, SH.S5, SH.S5 + .4)); sk *= lerp(1, .72, seg(t, SH.S5, SH.S5 + .4)); dots *= 1 - seg(t, SH.S5, SH.S5 + .3); lv = 1; }
-  if (t > SH.S8 - .2) { lv = lerp(.5, 2, eo(seg(t, EV.maxPush, EV.maxPush + .35))); push = bump(t, EV.maxPush + .3, EV.maxPush + .7); sk = lerp(.72, 1.1, seg(t, SH.S8 - .2, SH.S8)) * (1 - seg(t, EV.bigOn, EV.bigOn + .4) * .3); dots = seg(t, EV.maxPush + .3, EV.maxPush + .6); }
+  // S5: интерфейс становится компактным
+  if (t > SH.S5) { pos = vlerp(SL_POS, SL_POS.clone().add(V(.02, -.03, .02)), seg(t, SH.S5, SH.S5 + .4)); sz = lerp(1, .72, eio(seg(t, SH.S5, SH.S5 + .5))); dots *= 1 - seg(t, SH.S5, SH.S5 + .3); lv = 1; }
+  if (t > SH.S8 - .2) { lv = lerp(.5, 2, eo(seg(t, EV.maxPush, EV.maxPush + .35))); push = bump(t, EV.maxPush + .3, EV.maxPush + .7); sz = lerp(.72, 1, seg(t, SH.S8 - .2, SH.S8)) * (1 - seg(t, EV.bigOn, EV.bigOn + .4) * .25); dots = seg(t, EV.maxPush + .3, EV.maxPush + .6); }
   if (t > SH.S9) { sk *= 1 - seg(t, SH.S9, SH.S9 + .3); }
   if (s === 'S4') sk *= 1 - seg(t, SH.S4, SH.S4 + .3) * (1 - seg(t, SH.S5 - .3, SH.S5));
   if (s === 'S6' || s === 'S7') sk *= 1 - seg(t, SH.S6, SH.S6 + .3) * (1 - seg(t, SH.S8 - .4, SH.S8 - .1));
-  drawSlider(t, { lv, dots, title, push }); place(slider, pos, sk, camera, 0, 1);
+  drawSlider(t, { lv, dots, title, push }); place(slider, pos, sk, camera, 0, 1, sz);
   // значки «простой / сложная»
   const ik = seg(t, EV.simple - .2, EV.simple + .1) * (1 - seg(t, SH.S6 - .25, SH.S6));
   if (ik > 0) { drawIcons(t, { l: seg(t, EV.simple, EV.simple + .5), r: seg(t, EV.complex, EV.complex + .9) }); }
-  place(icons, ICON_POS, ik, camera, 0, ik);
+  place(icons, ICON_POS, ik, camera, 0, ik, 1.4);
   // карта
   const vs = vacState(t);
   let mk = 0, st = { vacX: vs.x, vacBeep: vs.beep };
@@ -245,13 +246,13 @@ function holograms(t) {
     mk *= 1 - seg(t, SH.S12 - .4, SH.S12);
   }
   let mpos = MAP_POS, msc = 1, mtilt = -.35;
-  if (s === 'S7') msc = .88;
-  if (s === 'S9') msc = .8;
+  if (s === 'S7') msc = 1.02;
+  if (s === 'S9') msc = 1.05;
   if (s === 'S9') mk *= 1 - seg(t, EV.notice - .1, EV.notice + .15);
   if (s === 'S10') mk = 0;
-  if (s === 'S11' || s === 'S12') { mpos = MAP_POS_UP; msc = .7; mtilt = 0; }
+  if (s === 'S11' || s === 'S12') { mpos = MAP_POS_UP; msc = .62; mtilt = 0; }
   if (mk > 0) drawMap(s === 'S11' && t > EV.noticeCat + .3 ? EV.noticeCat + .3 : t, st, s === 'S11' && t > EV.noticeCat + .3 ? .75 + .25 * Math.sin(t * 30) * (t < EV.noticeCat + .7 ? 1 : 0) : 1);
-  place(map, mpos, mk * msc, camera, mtilt, mk);
+  place(map, mpos, mk, camera, mtilt, mk, msc);
   // большая схема
   const bk = seg(t, EV.bigOn, EV.bigOn + .5) * (1 - seg(t, SH.S9 - .3, SH.S9));
   if (bk > 0) drawBig(t, { grow: seg(t, EV.bigOn + .2, EV.beep2 + .9), scout: clamp((t - EV.bigOn - .4) / 2.6), vacX: vs.x, vacBeep: vs.beep });
@@ -259,7 +260,7 @@ function holograms(t) {
   // время, ресурсы, проверка
   const ck = seg(t, EV.clock - .2, EV.clock + .1) * (1 - seg(t, SH.S10 + .4, SH.S10 + .8));
   if (ck > 0) drawCost(t, { clock: seg(t, EV.clock, EV.clock + .4), res: seg(t, EV.res, EV.res + .4), check: seg(t, EV.check, EV.check + .4) });
-  place(cost, COST_POS, ck, camera, 0, ck);
+  place(cost, COST_POS, ck, camera, 0, ck, 1.35);
 }
 
 // ——— камера ———
@@ -297,17 +298,17 @@ function camKeys(t) {
   }
   if (s === 'S7') return track(t, [[SH.S7, V(.04, 1.12, 2.35), V(.02, .78, .1), 36], [EV.rC, V(.0, 1.15, 2.2), V(.0, .74, .2), 36], [SH.S8, V(-.02, 1.15, 2.15), V(.0, .73, .2), 36]]);
   if (s === 'S8') {
-    if (t < EV.maxPush + .55) return track(t, [[SH.S8, SL_POS.clone().add(V(-.05, .1, .85)), SL_POS.clone().add(V(-.02, .03, 0)), 34], [EV.maxPush + .55, SL_POS.clone().add(V(-.04, .1, .75)), SL_POS.clone().add(V(-.02, .03, 0)), 34]]);
+    if (t < EV.maxPush + .55) { const sp = SL_POS.clone().add(V(.02, -.03, .02)); return track(t, [[SH.S8, sp.clone().add(V(-.1, .08, .66)), sp.clone().add(V(-.03, .01, 0)), 32], [EV.maxPush + .55, sp.clone().add(V(-.02, .07, .6)), sp.clone().add(V(.05, .01, 0)), 32]]); }
     if (t < EV.bigOn) { const h = CAT_SEAT.clone().add(V(0, .22, .02)); return track(t, [[EV.maxPush + .55, h.clone().add(V(.18, .05, .8)), h.clone().add(V(.03, -.02, 0)), 34], [EV.bigOn, h.clone().add(V(.16, .05, .72)), h.clone().add(V(.03, -.02, 0)), 34]]); }
     return track(t, [[EV.bigOn, V(-.02, .95, 1.9), V(-.02, .9, .0), 38], [EV.bigOn + 1.2, V(-.02, 1.05, 2.75), V(-.02, 1.1, -.05), 40], [SH.S9, V(-.02, 1.05, 2.85), V(-.02, 1.1, -.05), 40]]);
   }
   if (s === 'S9') {
     if (t < EV.notice) return track(t, [[SH.S9, V(-.02, 1.08, 2.6), V(-.02, .86, .1), 36], [EV.notice, V(-.02, 1.05, 2.45), V(-.02, .84, .1), 36]]);
-    return track(t, [[EV.notice, V(.1, .8, 1.2), V(-.07, .64, .1), 34], [SH.S10, V(.13, .77, 1.06), V(-.08, .63, .08), 34]]);
+    return track(t, [[EV.notice, V(.3, .8, 1.08), V(-.1, .65, .1), 33], [SH.S10, V(.36, .75, .9), V(-.11, .64, .1), 32]]);
   }
   if (s === 'S10') {
-    if (t < EV.climb) return track(t, [[SH.S10, V(.14, .76, 1.0), V(-.08, .63, .08), 34], [EV.climb, V(.12, .75, .92), V(-.07, .63, .08), 34]]);
-    return track(t, [[EV.climb, V(-.06, .9, 1.65), V(.08, .72, .08), 35], [SH.S11, V(-.04, .9, 1.55), V(.1, .72, .08), 35]]);
+    if (t < EV.climb) return track(t, [[SH.S10, V(.36, .75, .9), V(-.11, .64, .1), 32], [EV.climb, V(.32, .74, .82), V(-.09, .64, .1), 32]]);
+    return track(t, [[EV.climb, V(-.1, .9, 1.72), V(-.02, .72, .08), 35], [EV.circle, V(-.06, .9, 1.62), V(.08, .72, .08), 35], [SH.S11, V(-.04, .9, 1.55), V(.1, .72, .08), 35]]);
   }
   if (s === 'S11') {
     if (t > EV.radCut && t < EV.radBack) return track(t, [[EV.radCut, V(.15, .72, 1.6), V(RADIATOR.x, .5, RADIATOR.z), 30], [EV.radBack, V(.16, .72, 1.75), V(RADIATOR.x, .5, RADIATOR.z), 28]]);
@@ -351,11 +352,10 @@ function overlay(t) {
   if (t > SH.END - .2) {
     let a = inOut(t, SH.END, ST.dur + 1, .35);
     txt('ВЫБИРАЙ', W / 2, 330 + a.y, { size: 96, font: 'Unbounded', fill: '#fff', lw: 22, scale: a.k, alpha: a.a });
-    a = inOut(t, SH.END + .25, ST.dur + 1, .35); txt('УРОВЕНЬ РАССУЖДЕНИЯ', W / 2, 450 + a.y, { size: 60, font: 'Unbounded', fill: '#8fe3ff', lw: 18, scale: a.k, alpha: a.a });
+    a = inOut(t, SH.END + .25, ST.dur + 1, .35); txt('УРОВЕНЬ РАССУЖДЕНИЯ', W / 2, 450 + a.y, { size: 50, font: 'Unbounded', fill: '#8fe3ff', lw: 18, scale: a.k, alpha: a.a });
     a = inOut(t, SH.END + .5, ST.dur + 1, .35); txt('ПОД ЗАДАЧУ', W / 2, 560 + a.y, { size: 96, font: 'Unbounded', fill: '#ffc46b', lw: 22, scale: a.k, alpha: a.a, rot: -.02 });
   }
   subtitles(t, ST.lines, 1520, { P: '#ffc46b', N: '#8fe3ff' });
-  const fade = seg(t, ST.dur - .3, ST.dur); if (fade > 0) { cx.fillStyle = `rgba(0,0,0,${fade})`; cx.fillRect(0, 0, W, H); }
 }
 
 // ——— сборка кадра ———
@@ -363,9 +363,10 @@ function scene3D(t) {
   updateRoom(t);
   const v = vacState(t); poseVacuum(t, v.x, VAC_Z, v.heading, v.beep);
   radiatorGlow.intensity = .05 + .01 * Math.sin(t * 2);
-  poses(t);
-  cam(t);
-  holograms(t);
+  // позы читают мировые матрицы друг друга (лапа к ручке ползунка, к боку Нейро; камера к головам),
+  // поэтому два прохода: кадр не зависит от предыдущего (куски рендерятся параллельно и вразнобой)
+  for (let i = 0; i < 2; i++) { cam(t); holograms(t); poses(t); scene.updateMatrixWorld(true); }
+  cam(t); holograms(t);
   composer.render();
 }
 function renderAt(t) {
