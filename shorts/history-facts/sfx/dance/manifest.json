@@ -1,0 +1,353 @@
+{
+  "title": "«Танцевальная чума 1518» - original synthesized street-dance kit (126 bpm, 4-bar loops)",
+  "generator": "make_sfx_dance.py (numpy only, re-runnable, deterministic seeds; helpers from make_sfx.py)",
+  "sample_rate": 48000,
+  "channels": 2,
+  "bit_depth": 24,
+  "level_policy": "hits/one-shots normalised to -1 dBTP true peak; ambiences/beds to -28 dBFS RMS",
+  "hit_s_note": "sync point in seconds: onset of the main hit, centre of a pass-by, cut point of a riser/tension bed, measured loudest point for rumble_long; 0.0 for loops/beds",
+  "files": [
+    {
+      "file": "drum_dum.wav",
+      "duration_s": 1.0,
+      "hit_s": 0.002,
+      "description": "Frame drum, open low stroke (membrane modes from 94 Hz, pitch dip, hand slap), small street room.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -16.71,
+      "dc_dbfs": -198.5,
+      "lr_correlation": 0.942,
+      "centroid_hz": 101,
+      "measured_peak_s": 0.028,
+      "band_energy": {
+        "0-60": 0.123,
+        "60-100": 0.712,
+        "100-250": 0.155,
+        "250-500": 0.009,
+        "500-2000": 0.001,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "drum_tak.wav",
+      "duration_s": 0.6,
+      "hit_s": 0.002,
+      "description": "Frame drum, edge stroke 'tak' (upper membrane modes, bright slap, rim click), small street room.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.08,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -26.23,
+      "dc_dbfs": -196.5,
+      "lr_correlation": 0.829,
+      "centroid_hz": 520,
+      "measured_peak_s": 0.0,
+      "band_energy": {
+        "0-60": 0.017,
+        "60-100": 0.025,
+        "100-250": 0.573,
+        "250-500": 0.252,
+        "500-2000": 0.104,
+        "2000-6000": 0.021,
+        "6000-24000": 0.008
+      }
+    },
+    {
+      "file": "stomp_big.wav",
+      "duration_s": 1.2,
+      "hit_s": 0.01,
+      "description": "Several feet stamping at once on cobblestones (6 stomps within 25 ms), stone-street echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -19.95,
+      "dc_dbfs": -191.2,
+      "lr_correlation": 0.966,
+      "centroid_hz": 72,
+      "measured_peak_s": 0.039,
+      "band_energy": {
+        "0-60": 0.566,
+        "60-100": 0.404,
+        "100-250": 0.021,
+        "250-500": 0.003,
+        "500-2000": 0.005,
+        "2000-6000": 0.001,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "body_fall.wav",
+      "duration_s": 1.4,
+      "hit_s": 0.02,
+      "description": "A body collapsing on the ground: heavy low thud, cloth rustle, a smaller second thud (arm), street.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -16.65,
+      "dc_dbfs": -190.8,
+      "lr_correlation": 0.954,
+      "centroid_hz": 109,
+      "measured_peak_s": 0.05,
+      "band_energy": {
+        "0-60": 0.765,
+        "60-100": 0.152,
+        "100-250": 0.052,
+        "250-500": 0.012,
+        "500-2000": 0.012,
+        "2000-6000": 0.005,
+        "6000-24000": 0.002
+      }
+    },
+    {
+      "file": "bell_toll.wav",
+      "duration_s": 7.0,
+      "hit_s": 0.005,
+      "description": "Chapel bell strike on D (hum, prime, minor-third tierce, quint, nominal + upper partials, beating doublets, metal clank), distant valley reverb.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -15.92,
+      "dc_dbfs": -208.4,
+      "lr_correlation": 0.722,
+      "centroid_hz": 767,
+      "measured_peak_s": 0.411,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.142,
+        "500-2000": 0.857,
+        "2000-6000": 0.001,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "choir_pad.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "Choir 'aah' pad in D minor (D3 A3 D4 F4 A4, 3 detuned voices each, vowel-a formants, vibrato, breath), slow swell, chapel reverb.",
+      "type": "bed",
+      "loopable": false,
+      "peak_dbfs": -9.56,
+      "true_peak_dbtp": -9.52,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -204.3,
+      "lr_correlation": 0.44,
+      "centroid_hz": 1021,
+      "measured_peak_s": 3.931,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.007,
+        "250-500": 0.102,
+        "500-2000": 0.81,
+        "2000-6000": 0.081,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "groove_full.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "Street dance groove, 126 bpm, 4 bars: frame drum dum/tak pattern with ghost notes, tambourine eighths (accented off-beats, roll into bar 1), crowd stomps on 1 and 3, claps on 2 and 4, stone-square echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -1.97,
+      "true_peak_dbtp": -1.8,
+      "rms_dbfs": -20.0,
+      "dc_dbfs": -198.3,
+      "lr_correlation": 0.839,
+      "centroid_hz": 586,
+      "measured_peak_s": 0.0,
+      "band_energy": {
+        "0-60": 0.202,
+        "60-100": 0.527,
+        "100-250": 0.175,
+        "250-500": 0.023,
+        "500-2000": 0.009,
+        "2000-6000": 0.023,
+        "6000-24000": 0.041
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 79.5,
+        "joint_rms_db": -12.29,
+        "block_rms_db_range": [
+          -35.99,
+          -11.64
+        ]
+      }
+    },
+    {
+      "file": "groove_lite.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "Lighter street groove, 126 bpm, 4 bars: frame drum dum/tak only, tambourine on off-beats, more echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -4.97,
+      "true_peak_dbtp": -4.91,
+      "rms_dbfs": -21.0,
+      "dc_dbfs": -205.5,
+      "lr_correlation": 0.922,
+      "centroid_hz": 228,
+      "measured_peak_s": 3.148,
+      "band_energy": {
+        "0-60": 0.062,
+        "60-100": 0.777,
+        "100-250": 0.128,
+        "250-500": 0.014,
+        "500-2000": 0.003,
+        "2000-6000": 0.006,
+        "6000-24000": 0.01
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 4.8,
+        "joint_rms_db": -19.44,
+        "block_rms_db_range": [
+          -39.96,
+          -14.55
+        ]
+      }
+    },
+    {
+      "file": "stomps_solo.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "One dancer alone on cobblestones, 126 bpm: a stomp on every beat (alternating feet, slight pan), light scuffs on the off-beats of 2 and 4, narrow-street echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -1.64,
+      "true_peak_dbtp": -1.63,
+      "rms_dbfs": -22.0,
+      "dc_dbfs": -203.2,
+      "lr_correlation": 0.928,
+      "centroid_hz": 105,
+      "measured_peak_s": 6.717,
+      "band_energy": {
+        "0-60": 0.46,
+        "60-100": 0.441,
+        "100-250": 0.063,
+        "250-500": 0.02,
+        "500-2000": 0.012,
+        "2000-6000": 0.003,
+        "6000-24000": 0.001
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 38.1,
+        "joint_rms_db": -16.71,
+        "block_rms_db_range": [
+          -50.47,
+          -11.86
+        ]
+      }
+    },
+    {
+      "file": "crowd_stomps.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "A crowd dancing out of step: 24 people stomping on every beat with loose timing (+-40 ms) and their own slight tempo drift, a few scattered claps, wide stone-square echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -4.76,
+      "true_peak_dbtp": -4.74,
+      "rms_dbfs": -21.0,
+      "dc_dbfs": -198.9,
+      "lr_correlation": 0.597,
+      "centroid_hz": 120,
+      "measured_peak_s": 0.52,
+      "band_energy": {
+        "0-60": 0.407,
+        "60-100": 0.489,
+        "100-250": 0.061,
+        "250-500": 0.021,
+        "500-2000": 0.015,
+        "2000-6000": 0.005,
+        "6000-24000": 0.001
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 78.4,
+        "joint_rms_db": -17.17,
+        "block_rms_db_range": [
+          -37.52,
+          -14.45
+        ]
+      }
+    },
+    {
+      "file": "drone_pipes.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "Bagpipe drones D2 + A2 + D3 (additive reed tone, nasal formants, whole cycles per loop, tiny periodic wobble), square echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -3.68,
+      "true_peak_dbtp": -3.68,
+      "rms_dbfs": -22.0,
+      "dc_dbfs": -197.7,
+      "lr_correlation": 0.83,
+      "centroid_hz": 1037,
+      "measured_peak_s": 0.005,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.004,
+        "100-250": 0.072,
+        "250-500": 0.246,
+        "500-2000": 0.552,
+        "2000-6000": 0.126,
+        "6000-24000": 0.001
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 99.9,
+        "joint_rms_db": -19.56,
+        "block_rms_db_range": [
+          -23.03,
+          -19.53
+        ]
+      }
+    },
+    {
+      "file": "chanter_tune.wav",
+      "duration_s": 7.619,
+      "hit_s": 0.0,
+      "description": "Bagpipe chanter tune, 4 bars in D mixolydian at 126 bpm (legato, high-G grace notes on long notes, reed formants), square echo. Original melody. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -7.29,
+      "true_peak_dbtp": -7.25,
+      "rms_dbfs": -22.0,
+      "dc_dbfs": -207.4,
+      "lr_correlation": 0.849,
+      "centroid_hz": 1718,
+      "measured_peak_s": 1.384,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.071,
+        "500-2000": 0.598,
+        "2000-6000": 0.326,
+        "6000-24000": 0.005
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 99.1,
+        "joint_rms_db": -21.98,
+        "block_rms_db_range": [
+          -23.51,
+          -20.69
+        ]
+      }
+    }
+  ],
+  "tempo": {
+    "bpm": 126.0,
+    "beat_s": 0.47619047619047616,
+    "loop_bars": 4,
+    "loop_s": 7.619047619047619
+  }
+}

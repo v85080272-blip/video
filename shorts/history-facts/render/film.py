@@ -1,9 +1,9 @@
-"""Tunguska 1908 short: timeline, frame renderer (parallel), audio mix, mux.
+"""History-facts shorts («Тайны истории»): timeline, frame renderer (parallel). Episode content lives in episodes/<name>.py.
 
-python3 film.py preview <t0> <t1> [step]   -> PNG stills to /home/user/work/render/preview/
-python3 film.py video [out.mp4]              -> full render
+EPISODE=dance1518 python3 film.py preview <t0> <t1> [step]   -> stills to /home/user/work/render/preview/
+EPISODE=dance1518 python3 film.py video [out.mp4]              -> full render (EPISODE defaults to tunguska)
 """
-import json, math, os, subprocess, sys, time
+import importlib, json, math, os, subprocess, sys, time
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -22,32 +22,16 @@ TL_PATH = os.environ.get('TL_PATH', f'{WORK}/timeline.json')
 ORANGE = (255, 150, 40)
 YELLOW = (255, 212, 0)
 
-# ------------------------------------------------------------------ script (display text for captions)
-# {spoken} gives the words the narrator actually says for a shown token (for timing by syllables).
-DISPLAY = {
-    'L1': 'В 1908{тысяча девятьсот восьмом} ГОДУ НАД СИБИРЬЮ ВЗОРВАЛОСЬ НЕЧТО В СОТНИ РАЗ МОЩНЕЕ ХИРОСИМЫ.',
-    'L2': 'И ДО СИХ ПОР НИКТО ТОЧНО НЕ ЗНАЕТ, ЧТО ЭТО БЫЛО.',
-    'L3': 'УТРО 30{тридцатого} ИЮНЯ. ФАКТОРИЯ ВАНАВАРА. МЕСТНЫЙ ЖИТЕЛЬ СЕМЁНОВ СИДИТ НА КРЫЛЬЦЕ.',
-    'L4': 'ВДРУГ НЕБО РАСКАЛЫВАЕТСЯ НАДВОЕ, И НАД ЛЕСОМ ВСТАЁТ ОГОНЬ.',
-    'L5': 'ЖАР ТАКОЙ, БУДТО НА НЁМ ЗАГОРЕЛАСЬ РУБАШКА. УДАР СБРАСЫВАЕТ ЕГО С КРЫЛЬЦА.',
-    'L6': 'А ДО ВЗРЫВА — 65{шестьдесят пять} КИЛОМЕТРОВ.',
-    'L7': 'В ТАЙГЕ ПАДАЮТ МИЛЛИОНЫ ДЕРЕВЬЕВ. ПЛОЩАДЬ — ПОЧТИ КАК ВСЯ МОСКВА.',
-    'L8': 'НЕСКОЛЬКО НОЧЕЙ НЕБО НАД ЕВРОПОЙ СВЕТИТСЯ ТАК, ЧТО В ПОЛНОЧЬ МОЖНО ЧИТАТЬ ГАЗЕТУ.',
-    'L9': 'УЧЁНЫЕ ДОБИРАЮТСЯ ТУДА ТОЛЬКО ЧЕРЕЗ 19{девятнадцать} ЛЕТ. ЛЕОНИД КУЛИК ИЩЕТ ГИГАНТСКИЙ ЖЕЛЕЗНЫЙ МЕТЕОРИТ.',
-    'L10': 'И НЕ НАХОДИТ НИЧЕГО. НИ КРАТЕРА. НИ ОСКОЛКОВ.',
-    'L11': 'ТОЛЬКО ПОВАЛЕННЫЙ ЛЕС, А В ЦЕНТРЕ — МЁРТВЫЕ ДЕРЕВЬЯ БЕЗ ВЕТОК, КАК ТЕЛЕГРАФНЫЕ СТОЛБЫ.',
-    'L12': 'СКОРЕЕ ВСЕГО, В ВОЗДУХЕ ВЗОРВАЛСЯ АСТЕРОИД ИЛИ КОМЕТА. НО СПОРЯТ ОБ ЭТОМ ДО СИХ ПОР.',
-    'L13': 'А ТЫ КАК ДУМАЕШЬ, ЧТО ЭТО БЫЛО?',
-}
-HILITE = {'1908', '30', '65', '19', 'ХИРОСИМЫ.', 'МОСКВА.', 'НИЧЕГО.', 'КОМЕТА.', 'АСТЕРОИД', 'ОГОНЬ.', 'ГАЗЕТУ.',
-          'СТОЛБЫ.', 'КИЛОМЕТРОВ.', 'ЛЕТ.'}
 
-# gap (s) after each line before the next one starts
-GAPS = {'L1': 0.30, 'L2': 0.45, 'L3': 0.30, 'L4': 0.15, 'L5': 0.75, 'L6': 0.45, 'L7': 0.35, 'L8': 0.45,
-        'L9': 0.35, 'L10': 0.30, 'L11': 0.40, 'L12': 0.45, 'L13': 0.0}
-LEAD_IN = 0.25
-TAIL = 1.6
+EPISODE = os.environ.get('EPISODE', 'tunguska')
+EP = importlib.import_module(f'episodes.{EPISODE}')
+DISPLAY, HILITE, GAPS, LEAD_IN, TAIL = EP.DISPLAY, EP.HILITE, EP.GAPS, EP.LEAD_IN, EP.TAIL
+LINE_IDS = list(DISPLAY)
 SPEED = float(os.environ.get('VOICE_SPEED', '1.06'))
+if 'TL_PATH' in os.environ:
+    TL_PATH = os.environ['TL_PATH']
+elif EPISODE != 'tunguska':
+    TL_PATH = f'{WORK}/timeline_{EPISODE}.json'
 
 
 def voice_files():
@@ -55,8 +39,7 @@ def voice_files():
     vdir = f'{WORK}/voice' if VOICE == '/home/user/work/voice/lines' else os.path.join(VOICE, '_film')
     os.makedirs(vdir, exist_ok=True)
     out = {}
-    for i in range(1, 14):
-        lid = f'L{i}'
+    for lid in LINE_IDS:
         src = f'{VOICE}/{lid}.wav'
         dst = f'{vdir}/{lid}_x{SPEED:.2f}.wav'
         if not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src):
@@ -72,26 +55,54 @@ def wav_dur(p):
         return w.getnframes() / w.getframerate()
 
 
+
 # ------------------------------------------------------------------ timeline
+class Ctx:
+    """What an episode's layout() gets: line and word times, and add() for shots."""
+
+    def __init__(self, lines, words, total):
+        self.lines, self.words, self.total, self.shots = lines, words, total, []
+        self.shots_dir = SHOTS
+
+    def L(self, lid):
+        return self.lines[lid]
+
+    def at(self, lid, frac):
+        return self.lines[lid]['start'] + frac * (self.lines[lid]['end'] - self.lines[lid]['start'])
+
+    def add(self, img, start, end, **kw):
+        self.shots.append(dict(img=img, start=start, end=end, **kw))
+
+    def word_t(self, lid, prefix, which='start', nth=0):
+        k = 0
+        for (w, a, b) in self.words[lid]:
+            if w.startswith(prefix):
+                if k == nth:
+                    return a if which == 'start' else b
+                k += 1
+        return self.lines[lid]['start']
+
+    def word_before(self, lid, prefix):
+        """Start of the word right before the first word starting with prefix (e.g. "в" before "полночь")."""
+        ws = self.words[lid]
+        for i, (w, a, b) in enumerate(ws):
+            if w.startswith(prefix):
+                return ws[i - 1][1] if i > 0 else a
+        return self.lines[lid]['start']
+
+    def has_shot(self, prefix):
+        return any(f.startswith(prefix + '_s') and f.endswith('.png') and '_depth' not in f for f in os.listdir(SHOTS))
+
+
 def build_timeline():
     vf = voice_files()
     t = LEAD_IN
     lines = {}
-    for i in range(1, 14):
-        lid = f'L{i}'
+    for lid in LINE_IDS:
         d = wav_dur(vf[lid])
         lines[lid] = {'start': t, 'end': t + d, 'wav': vf[lid]}
         t += d + GAPS[lid]
-    total = lines['L13']['end'] + TAIL
-    L = lambda k: lines[k]
-
-    def at(lid, frac):
-        return L(lid)['start'] + frac * (L(lid)['end'] - L(lid)['start'])
-
-    shots = []
-
-    def add(img, start, end, **kw):
-        shots.append(dict(img=img, start=start, end=end, **kw))
+    total = lines[LINE_IDS[-1]]['end'] + TAIL
 
     # word-level times for captions and beat-accurate cuts
     words = {}
@@ -105,128 +116,14 @@ def build_timeline():
             wt = capmod.word_times(DISPLAY[lid], lines[lid]['wav'])
         words[lid] = [(w, lines[lid]['start'] + a, lines[lid]['start'] + b) for (w, a, b) in wt]
 
-    def word_t(lid, prefix, which='start'):
-        for (w, a, b) in words[lid]:
-            if w.startswith(prefix):
-                return a if which == 'start' else b
-        return L(lid)['start']
-
-    def word_before(lid, prefix):
-        """Start of the word right before the first word starting with prefix (e.g. "в" before "полночь")."""
-        ws = words[lid]
-        for i, (w, a, b) in enumerate(ws):
-            if w.startswith(prefix):
-                return ws[i - 1][1] if i > 0 else a
-        return L(lid)['start']
-
-    # --- shots (cut points on line starts or on specific words)
-    c1 = L('L2')['start'] - 0.12
-    c1a = word_before('L1', 'СОТНИ') - 0.05          # "в сотни раз" -> closer on the fireball
-    hiro = word_t('L1', 'ХИРОСИМЫ')
-    s01_fx = dict(embers=70, heat=1.0, bloom=0.9, fire=1.0,
-                  grade=dict(exposure=0.05, contrast=1.08, sat=1.05, warm=0.6, demagenta=0.6))
-    add('s01_fireball', 0.0, c1a, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.08), pany=(0.0, -0.01), parx=(0, 14)),
-        fx=dict(s01_fx, flash=[(0.12, 0.45, 0.7)], shake=[(0.12, 1.4, 16)]))
-    add('s01_fireball', c1a, c1, into='zoom', cam=dict(zoom=(1.34, 1.46), pany=(0.03, 0.03), parx=(-10, 10)),
-        fx=dict(s01_fx, punch=[(hiro, 0.07)], shake=[(hiro, 0.6, 10)]))
-    c2 = L('L3')['start'] - 0.1
-    add('s14_mystery', c1, c2, cam=dict(zoom=(1.08, 1.0), parx=(-26, 26), dolly=(0.06, 0.0)),
-        fx=dict(fog=0.35, ash=40, grade=dict(exposure=-0.15, contrast=1.05, sat=0.85, teal=0.8)), into='zoom')
-    c3 = word_t('L3', 'МЕСТНЫЙ') - 0.08
-    add('s02_trading_post', c2, c3, cam=dict(zoom=(1.0, 1.07), panx=(-0.02, 0.02), parx=(-20, 20)),
-        fx=dict(dust=40, fog=0.18, grade=dict(exposure=0.05, contrast=1.02, sat=0.95, warm=0.5)), into='fade')
-    c4 = L('L4')['start'] - 0.06
-    add('s03_semenov_porch', c3, c4, cam=dict(zoom=(1.04, 1.12), dolly=(0.0, 0.10), pany=(0.0, -0.01)),
-        fx=dict(dust=30, grade=dict(exposure=0.0, contrast=1.04, sat=0.95, warm=0.55)))
-    c5 = L('L5')['start'] - 0.06
-    fire_t = word_t('L4', 'ОГОНЬ')
-    add('s04_sky_splits', c4, c5, cam=dict(zoom=(1.0, 1.16), pany=(0.01, -0.02), dolly=(0.0, 0.08)),
-        fx=dict(embers=50, flash=[(fire_t, 0.6, 1.1)], shake=[(fire_t, 1.3, 16)], heat=0.7, bloom=1.0, punch=[(fire_t, 0.08)], fire=1.0,
-                grade=dict(exposure=0.0, contrast=1.1, sat=1.08, warm=0.8, demagenta=0.85)))
-    hit_t = word_t('L5', 'УДАР')
-    c5b = hit_t - 0.04
-    add('s05_heat_face', c5, c5b, into='zoom',
-        cam=dict(zoom=(1.06, 1.18), dolly=(0.0, 0.08), parx=(10, -10)),
-        fx=dict(embers=60, heat=0.9, bloom=0.9,
-                light=dict(x=0.15, y=0.25, r=1.2, col=(0.55, 0.22, 0.02), flicker=0.25),
-                grade=dict(exposure=0.05, contrast=1.1, sat=1.05, warm=0.9)))
-    # the blow: back on the porch, the frame is knocked sideways
-    add('s03_semenov_porch', c5b, L('L5')['end'] + 0.35,
-        cam=dict(zoom=(1.16, 1.32), roll=(-2.0, -9.0), pany=(0.0, 0.03)),
-        fx=dict(embers=80, ash=60, flash=[(hit_t, 0.5, 1.6)], shake=[(hit_t, 1.2, 40)], smear=[(hit_t, 0.7, 70)], heat=0.8, bloom=1.0,
-                punch=[(hit_t, 0.14)], light=dict(x=0.85, y=0.15, r=1.3, col=(0.7, 0.3, 0.05), flicker=0.35),
-                blackout=(L('L5')['end'] + 0.05, L('L5')['end'] + 0.35),
-                grade=dict(exposure=0.1, contrast=1.12, sat=1.0, warm=1.2)))
-    c6 = L('L7')['start'] - 0.08
-    add('s06b_distant_blast_s63', L('L5')['end'] + 0.35, c6,
-        cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.01), parx=(-12, 12)),
-        fx=dict(ring=dict(start=L('L6')['start'] + 0.2, x=0.5, y=0.322, r=300), bloom=0.8, dust=20,
-                punch=[(word_t('L6', '65'), 0.06)],
-                grade=dict(exposure=0.0, contrast=1.06, sat=1.0, warm=0.4)))
-    c7 = word_t('L7', 'ПЛОЩАДЬ') - 0.08
-    add('s07_shockwave_forest', c6, c7, into='zoom', cam=dict(zoom=(1.0, 1.14), panx=(0.02, -0.02), dolly=(0.0, 0.12)),
-        fx=dict(ash=70, shake=[(c6, 2.0, 14)], smear=[(c6, 0.5, 40)], bloom=0.7, heat=0.5, punch=[(c6, 0.05)],
-                grade=dict(exposure=0.0, contrast=1.08, sat=1.0, warm=0.6)))
-    c8 = L('L8')['start'] - 0.08
-    add('s08d_blowdown_s86', c7, c8, cam=dict(zoom=(1.14, 1.0), roll=(-1.5, 1.0), pary=(0, -14)),
-        fx=dict(fog=0.15, ash=30, grade=dict(exposure=0.0, contrast=1.16, sat=0.9, warm=0.25, teal=0.3, demagenta=0.7)))
-    c9 = L('L9')['start'] - 0.08
-    c8b = word_before('L8', 'ПОЛНОЧЬ') - 0.05        # "в полночь можно читать газету" -> closer on the reader
-    s09_fx = dict(dust=25, bloom=0.8, skyglow=dict(amt=1.2, h=0.6, far=0.45, col=(1.0, 0.85, 0.64)),
-                  grade=dict(exposure=0.05, contrast=1.04, sat=0.95, warm=0.3, teal=0.4))
-    add('s09_europe_night', c8, c8b, into='fade', cam=dict(zoom=(1.0, 1.08), pany=(0.015, -0.01), parx=(-18, 18)), fx=s09_fx)
-    add('s09_europe_night', c8b, c9, cam=dict(zoom=(1.42, 1.5), panx=(0.1, 0.11), pany=(-0.02, -0.03), parx=(-8, 8)), fx=s09_fx)
-    c10 = L('L10')['start'] - 0.08
-    k_split = word_t('L9', 'ЛЕОНИД') - 0.08
-    has_b = any(f.startswith('s10b_kulik_closeup_s') and f.endswith('.png') and '_depth' not in f
-                for f in os.listdir(SHOTS))
-    old_look = dict(snow=110, fog=0.15, oldfilm=True, grade=dict(exposure=0.0, contrast=1.08, sat=0.35, warm=0.9))
-    if has_b:
-        add('s10_kulik_expedition', c9, k_split, cam=dict(zoom=(1.0, 1.08), panx=(0.015, -0.015), parx=(-22, 22)),
-            fx=old_look, into='flash')
-        add('s10b_kulik_closeup', k_split, c10, cam=dict(zoom=(1.04, 1.14), dolly=(0.0, 0.08), parx=(12, -12)),
-            fx=dict(old_look, snow=60))
-    else:
-        add('s10_kulik_expedition', c9, c10, cam=dict(zoom=(1.0, 1.1), panx=(0.015, -0.015), parx=(-22, 22)),
-            fx=old_look, into='flash')
-    c11 = L('L11')['start'] - 0.08
-    c10b = word_before('L10', 'КРАТЕРА') - 0.05        # "ни кратера. ни осколков." -> closer on the lone explorer
-    s11_fx = dict(fog=0.3, grade=dict(exposure=-0.05, contrast=1.04, sat=0.8, teal=0.6, demagenta=0.7))
-    add('s11_empty_swamp', c10, c10b, cam=dict(zoom=(1.12, 1.04), dolly=(0.08, 0.0)),
-        fx=dict(s11_fx, punch=[(word_t('L10', 'НИЧЕГО'), 0.05)]))
-    add('s11_empty_swamp', c10b, c11, cam=dict(zoom=(1.42, 1.52), panx=(0.09, 0.1), pany=(0.0, 0.01), parx=(-10, 10)),
-        fx=dict(s11_fx, punch=[(word_t('L10', 'ОСКОЛКОВ'), 0.04)]))
-    c11b = word_before('L11', 'В') - 0.05              # "только поваленный лес, | а в центре ..."
-    add('s08c_fallen_forest_s85', c11, c11b, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.1), parx=(-16, 16)),
-        fx=dict(fog=0.25, ash=25, grade=dict(exposure=-0.06, contrast=1.08, sat=0.75, teal=0.6, demagenta=0.85)))
-    c12 = L('L12')['start'] - 0.08
-    add('s12_telegraph_forest', c11b, c12, cam=dict(zoom=(1.0, 1.1), parx=(-30, 30), dolly=(0.0, 0.06)),
-        fx=dict(fog=0.45, ash=35, grade=dict(exposure=-0.1, contrast=1.06, sat=0.75, teal=0.8)))
-    c12b = word_t('L12', 'НО') - 0.06                  # "но спорят об этом до сих пор" -> back to the mystery
-    add('s13_comet', c12, c12b, into='fade', cam=dict(zoom=(1.0, 1.12), pany=(-0.01, 0.01), parx=(-14, 14)),
-        fx=dict(bloom=1.0, dust=20, grade=dict(exposure=0.0, contrast=1.08, sat=1.0, teal=0.5, warm=0.3, demagenta=0.85)))
-    c13 = L('L13')['start'] - 0.1
-    add('s14_mystery', c12b, c13, into='zoom', cam=dict(zoom=(1.38, 1.48), panx=(-0.05, -0.04), pany=(0.11, 0.12), parx=(-12, 12)),
-        fx=dict(fog=0.35, ash=30, grade=dict(exposure=-0.12, contrast=1.06, sat=0.85, teal=0.8)))
-    add('s01_fireball_s12', c13, total, cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.10), parx=(10, -10)),
-        fx=dict(embers=70, heat=1.0, bloom=0.9, fire=1.0, grade=dict(exposure=0.0, contrast=1.08, sat=1.05, warm=0.6)),
-        into='flash')
-
-    cards = [
-        dict(text='65 КМ', sub='ДО ЭПИЦЕНТРА', start=word_t('L6', '65'), end=c6 - 0.05, y=900, count=True),
-        dict(text='2000+ КМ²', sub='ПОВАЛЕННОГО ЛЕСА', start=word_t('L7', 'ПЛОЩАДЬ'), end=c8 - 0.05, y=700, count=True),
-        dict(text='19 ЛЕТ', sub='СПУСТЯ', start=word_t('L9', '19'), end=(k_split - 0.05) if has_b else (c10 - 0.1), y=700, count=True),
-    ]
-    tags = [
-        dict(text='ВАНАВАРА · 30 ИЮНЯ 1908', start=c2 + 0.15, end=c4 - 0.1),
-        dict(text='ЕВРОПА · НОЧИ ПОСЛЕ ВЗРЫВА', start=c8 + 0.15, end=c8b - 0.1),
-        dict(text='ЭКСПЕДИЦИЯ КУЛИКА · 1927', start=c9 + 0.3, end=word_t('L9', '19') - 0.05),
-        dict(text='ЭПИЦЕНТР', start=c11b + 0.15, end=c12 - 0.1),
-        dict(text='ВЕРСИЯ УЧЁНЫХ', start=c12 + 0.15, end=c12b - 0.1),
-    ]
-    cover = dict(start=0.0, end=word_t('L1', 'НЕЧТО') - 0.1)
-    tl = dict(total=total, lines=lines, shots=shots, cards=cards, cover=cover, tags=tags,
-              words={k: v for k, v in words.items()})
+    c = Ctx(lines, words, total)
+    lay = EP.layout(c)
+    cover = dict(getattr(EP, 'COVER', {}), **lay['cover'])
+    tl = dict(total=total, lines=lines, shots=c.shots, cards=lay.get('cards', []), cover=cover, tags=lay.get('tags', []),
+              words={k: v for k, v in words.items()}, episode=EPISODE)
+    for k in lay:
+        if k not in tl:
+            tl[k] = lay[k]
     json.dump(tl, open(TL_PATH, 'w'), ensure_ascii=False, indent=1)
     return tl
 
@@ -242,7 +139,8 @@ _FONTS = {}
 def pick(img_id):
     if os.path.exists(f'{SHOTS}/{img_id}.png'):
         return f'{SHOTS}/{img_id}.png'
-    sel = json.load(open(f'{WORK}/picks.json')) if os.path.exists(f'{WORK}/picks.json') else {}
+    pj = f'{SHOTS}/picks.json' if os.path.exists(f'{SHOTS}/picks.json') else f'{WORK}/picks.json'
+    sel = json.load(open(pj)) if os.path.exists(pj) else {}
     name = sel.get(img_id)
     if not name:
         cands = sorted(f for f in os.listdir(SHOTS) if f.startswith(img_id + '_s') and f.endswith('.png')
@@ -301,9 +199,24 @@ def cam_for(sh, t):
         if t0 <= t < t0 + 0.5:
             k = (t - t0) / 0.5
             punch *= 1 + amt * (math.sin(min(k * 3.0, 1.0) * math.pi / 2) * (1 - k) ** 1.5)
+    roll = 0.0
+    for b in fx.get('beat', []):        # camera dances to the music: a punch (and a bob) on every beat, a sway
+        if b['t0'] <= t < b['t1']:
+            ph = (t - b['grid']) / b['period']
+            p = ph % 1.0
+            k = math.sin(min(p / 0.12, 1.0) * math.pi / 2) * (1 - p) ** 2.5
+            e = max(0.0, min(1.0, (t - b['t0']) / 0.2, (b['t1'] - t) / 0.2))
+            punch *= 1 + b.get('zoom', 0.02) * k * e
+            sy += b.get('bob', 0.0) * k * e
+            roll += b.get('sway', 0.0) * math.sin(math.pi * ph) * e
+    for (t0, dur, dy, droll) in fx.get('drop', []):     # the camera falls (accelerating), then stays down
+        if t >= t0:
+            k = min(1.0, (t - t0) / dur) ** 2
+            sy += dy * k
+            roll += droll * k
     cam = Cam(zoom=interp(c, 'zoom', ue, 1.0) * punch, panx=interp(c, 'panx', ue, 0.0), pany=interp(c, 'pany', ue, 0.0),
               parx=interp(c, 'parx', ue, 0.0), pary=interp(c, 'pary', ue, 0.0), dolly=interp(c, 'dolly', ue, 0.0),
-              d0=c.get('d0', 0.5), roll=interp(c, 'roll', ue, 0.0), shakex=sx, shakey=sy)
+              d0=c.get('d0', 0.5), roll=interp(c, 'roll', ue, 0.0) + roll, shakex=sx, shakey=sy)
     cam.heat = fx.get('heat', 0.0)
     cam.t = t
     return cam, u
@@ -367,7 +280,7 @@ def render_shot(sh, t, n):
     # local light (fire glow)
     if 'light' in fx:
         L = fx['light']
-        fl = 1 + L.get('flicker', 0) * smooth_noise(5, t * 3.0)
+        fl = 1 + L.get('flicker', 0) * smooth_noise(5, t * L.get('rate', 3.0))
         a = a + radial_light(L['x'] * W, L['y'] * H, L['r'] * W, L['col']) * fl
     # particles
     dx = -cam.parx * 0.5 * (u - 0.5)
@@ -438,6 +351,17 @@ def draw_card(a, t, cd, tl_text):
     sc = 1.0 + 0.55 * (1 - ease_out(min(u, 1), 3))
     al = min(1.0, u * 1.6) * min(1.0, out)
     text = cd['text']
+    if cd.get('steps'):                 # the number steps on given words ("день, второй, третий")
+        import re as _re
+        cur = None
+        for (ts, val) in cd['steps']:
+            if t >= ts:
+                cur = (ts, val)
+        if cur:
+            m = _re.search(r'\d+', text)
+            text = text[:m.start()] + str(cur[1]) + text[m.end():]
+            if cur[0] > cd['start'] + 0.01:
+                sc *= 1 + 0.22 * (1 - ease_out(min(1.0, (t - cur[0]) / 0.18), 3))
     if cd.get('count'):
         import re as _re
         m = _re.search(r'\d+', text)
@@ -485,7 +409,7 @@ def draw_cover(a, t, cv, tl_text, static=False):
     lines = cv.get('lines', ['ЧТО ВЗОРВАЛОСЬ', 'НАД СИБИРЬЮ?'])
     tag = tl_text.render(cv.get('tag', 'ТАЙНЫ ИСТОРИИ · №1'), F('Inter-ExtraBold.otf', 48), ORANGE, stroke=5, track=8)
     paste_rgba(a, tag, W / 2, 455 + lift, alpha=al)
-    yr = tl_text.render('1908', F('InterDisplay-Black.otf', 300), YELLOW, stroke=12, squeeze=0.9, track=-8)
+    yr = tl_text.render(cv.get('year', '1908'), F('InterDisplay-Black.otf', 300), YELLOW, stroke=12, squeeze=0.9, track=-8)
     paste_rgba(a, yr, W / 2, 625 + lift * 0.5, alpha=al, scale=min(1.0, 760 / yr.width))
     for i, txt in enumerate(lines):
         im = tl_text.render(txt, F('InterDisplay-Black.otf', 128), (255, 255, 255), stroke=9, squeeze=0.86, track=-2)
@@ -510,7 +434,7 @@ def draw_captions(a, t, tl, tl_text):
         if not (ws[0][1] - 0.15 <= t <= ws[-1][2] + 0.25):
             continue
         chunks = capmod.chunk(ws)
-        if lid == 'L1':  # the cover carries the start of the hook
+        if lid == LINE_IDS[0]:  # the cover carries the start of the hook
             chunks = [ch for ch in chunks if ch[0][1] >= tl['cover']['end'] - 0.1]
         for ci, ch in enumerate(chunks):
             c0 = ch[0][1] - 0.08

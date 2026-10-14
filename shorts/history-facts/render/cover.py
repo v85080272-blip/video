@@ -11,7 +11,7 @@ from engine import Cam, warp, to_np, grade, bloom, vignette, TextLayer, W, H
 def make_cover(out_path, variant='A'):
     tl = film.build_timeline()
     if variant == 'B':
-        tl['cover']['lines'] = ['ВЗРЫВ', 'БЕЗ ВОРОНКИ']
+        tl['cover']['lines'] = film.EP.COVER_B
     film._init_worker(tl)
     frame = film.render_frame(0, tl)
     Image.fromarray(frame).save(out_path, quality=95)

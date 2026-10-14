@@ -1,6 +1,7 @@
-"""Audio mix for the Tunguska short: narration + original SFX kit + original drone bed, ducked, -14 LUFS."""
-import json, os, subprocess, sys, wave
+"""Audio mix for the history shorts: narration + original SFX (cues in episodes/<name>.py), ducked, -14 LUFS."""
+import importlib, json, os, subprocess, sys, wave
 import numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 SR = 48000
 SFX = '/home/user/work/sfx'
@@ -68,30 +69,35 @@ class Mix:
 
 
 _MAN = None
+SFX_DIRS = [SFX]
 
 
 def sfx(name):
-    p = f'{SFX}/{name}.wav'
-    return read_wav(p) if os.path.exists(p) else None
+    for d in SFX_DIRS:
+        p = f'{d}/{name}.wav'
+        if os.path.exists(p):
+            return read_wav(p)
+    print('missing sfx', name)
+    return None
 
 
 def hit_s(name):
     global _MAN
     if _MAN is None:
-        try:
-            man = json.load(open(f'{SFX}/manifest.json'))
-            items = man if isinstance(man, list) else man.get('files', man)
-            _MAN = {}
-            if isinstance(items, dict):
-                for k, v in items.items():
-                    _MAN[k.replace('.wav', '')] = float(v.get('hit_s', 0.0)) if isinstance(v, dict) else 0.0
-            else:
-                for v in items:
-                    nm = v.get('file', v.get('name', '')).replace('.wav', '')
-                    _MAN[nm] = float(v.get('hit_s', 0.0))
-        except Exception as ex:
-            print('manifest?', ex)
-            _MAN = {}
+        _MAN = {}
+        for d in SFX_DIRS:
+            try:
+                man = json.load(open(f'{d}/manifest.json'))
+                items = man if isinstance(man, list) else man.get('files', man)
+                if isinstance(items, dict):
+                    for k, v in items.items():
+                        _MAN.setdefault(k.replace('.wav', ''), float(v.get('hit_s', 0.0)) if isinstance(v, dict) else 0.0)
+                else:
+                    for v in items:
+                        nm = v.get('file', v.get('name', '')).replace('.wav', '')
+                        _MAN.setdefault(nm, float(v.get('hit_s', 0.0)))
+            except Exception as ex:
+                print('manifest?', d, ex)
     return _MAN.get(name, 0.0)
 
 
@@ -100,65 +106,34 @@ def put_hit(m, name, t_hit, gain_db, bus='hits'):
     m.put(bus, sfx(name), t_hit - hit_s(name), gain_db)
 
 
+class Helpers:
+    def __init__(self, tl):
+        self.tl = tl
+        self.put_hit, self.sfx, self.hit_s = put_hit, sfx, hit_s
+
+    def wt(self, lid, prefix, nth=0):
+        k = 0
+        for w, a, b in self.tl['words'][lid]:
+            if w.startswith(prefix):
+                if k == nth:
+                    return a
+                k += 1
+        return self.tl['lines'][lid]['start']
+
+
 def build(tl):
     """Lay out every bus and return (voice, hits, beds) after ducking, each (n, 2) float32."""
+    global SFX_DIRS, _MAN
+    ep = importlib.import_module('episodes.' + tl.get('episode', os.environ.get('EPISODE', 'tunguska')))
+    SFX_DIRS, _MAN = list(getattr(ep, 'SFX_DIRS', [SFX])), None
     L = tl['lines']
     m = Mix(tl['total'])
     for lid, ln in L.items():
         m.put('voice', read_wav(ln['wav']), ln['start'], 0.0)
+    ep.mix_cues(m, tl, Helpers(tl))
+    duck_beds, duck_hits = getattr(ep, 'DUCK', (-12.0, -10.0))
 
-    def wt(lid, prefix):
-        for w, a, b in tl['words'][lid]:
-            if w.startswith(prefix):
-                return a
-        return L[lid]['start']
-
-    cuts = [sh['start'] for sh in tl['shots'][1:]]
-    fire_t = wt('L4', 'ОГОНЬ')
-    hit_t = wt('L5', 'УДАР')
-    # hook
-    put_hit(m, 'boom_hook', 0.12, -1.0)   # lands with the first flash of the picture
-    m.put('hits', sfx('rumble_long'), 0.2, -14.0, fade_out=2.0, length=4.0)
-    # cuts
-    for c in cuts:
-        if abs(c - fire_t) < 0.4 or abs(c - hit_t) < 0.4:
-            continue
-        put_hit(m, 'whoosh_short', c - 0.02, -11.0)
-    # morning in Vanavara
-    m.put('beds', sfx('ambience_morning_taiga'), L['L3']['start'] - 0.5, -2.0, fade_in=0.6, fade_out=0.5,
-          length=(L['L4']['start'] + 0.4) - (L['L3']['start'] - 0.5))
-    # sky splits
-    put_hit(m, 'riser_2s', fire_t, -12.0)
-    put_hit(m, 'boom_big', fire_t, -3.0)
-    put_hit(m, 'boom_hook', fire_t, -7.0)
-    m.put('beds', sfx('fire_crackle'), fire_t, -4.0, fade_in=0.4, fade_out=0.8,
-          length=L['L6']['start'] - fire_t)
-    # the blow
-    put_hit(m, 'shockwave', hit_t, -8.0)
-    put_hit(m, 'sub_drop', hit_t, -5.0)
-    put_hit(m, 'impact_soft', hit_t, -6.0)
-    # number cards
-    for cd in tl['cards']:
-        put_hit(m, 'impact_soft', cd['start'], -4.0)
-    put_hit(m, 'heartbeat', L['L5']['end'] + 0.1, -6.0)
-    # forest falls
-    m.put('hits', sfx('rumble_long'), L['L7']['start'] - 0.3, -12.0, fade_out=1.5)
-    put_hit(m, 'shockwave', L['L7']['start'] - 0.08, -10.0)
-    # glowing nights, newspaper
-    put_hit(m, 'paper_rustle', wt('L8', 'ГАЗЕТУ'), -6.0)
-    # expedition
-    put_hit(m, 'camera_shutter_flash', L['L9']['start'] - 0.08, -5.0)
-    m.put('beds', sfx('drone_bed_tension'), L['L9']['start'], -4.0, fade_in=1.0, fade_out=1.0,
-          length=L['L11']['end'] - L['L9']['start'])
-    m.put('beds', sfx('ambience_wind_dead_forest'), L['L10']['start'] - 0.3, -1.0, fade_in=0.8, fade_out=1.0,
-          length=L['L12']['start'] + 0.5 - (L['L10']['start'] - 0.3))
-    # ending
-    put_hit(m, 'whoosh_long', L['L13']['start'] - 0.1, -8.0)
-    put_hit(m, 'sting_end', L['L13']['end'] + 0.08, -3.0)
-    # whole-film drone
-    m.put('beds', sfx('drone_bed'), 0.0, -5.0, fade_in=1.5, fade_out=1.5, length=tl['total'])
-
-    # ducking: beds drop up to 9 dB under the voice, hits up to 4 dB
+    # ducking: beds drop under the voice, hits less
     v = np.abs(m.voice).max(axis=1)
     win = int(0.05 * SR)
     env = np.convolve(v, np.ones(win) / win, mode='same')
@@ -172,9 +147,12 @@ def build(tl):
         g += (x - g) * (a_att * 64 if x > g else a_rel * 64)
         out[i:i + 64] = g
     duck = np.clip(out * 4, 0, 1)
-    bed_gain = db(-12 * duck)[:, None]
-    hit_gain = db(-10 * duck)[:, None]
-    return m.voice, m.hits * hit_gain, m.beds * bed_gain
+    bed_gain = db(duck_beds * duck)[:, None]
+    hit_gain = db(duck_hits * duck)[:, None]
+    beds = m.beds * bed_gain
+    if hasattr(ep, 'post_beds'):          # e.g. a tape stop on the music
+        beds = ep.post_beds(beds, tl, SR)
+    return m.voice, m.hits * hit_gain, beds
 
 
 def main(tl_path=f'{WORK}/timeline.json', out_wav=f'{WORK}/mix.wav'):

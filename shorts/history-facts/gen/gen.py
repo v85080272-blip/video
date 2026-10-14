@@ -5,7 +5,7 @@ sys.path.insert(0, '/home/user/work/gen')
 from vae_decode import load_session, decode
 SD = '/home/user/work/src/stable-diffusion.cpp/build/bin/sd-cli'
 MODEL = '/home/user/work/models/RealVisXL_V5.0_Lightning_fp16.safetensors'
-OUT = '/home/user/work/gen/shots'
+OUT = os.environ.get('GEN_OUT', '/home/user/work/gen/shots')
 args = sys.argv[1:]
 threads = 2; steps = 5; W, H = 640, 1120; seeds_override = None
 if '--threads' in args: i = args.index('--threads'); threads = int(args[i+1]); del args[i:i+2]

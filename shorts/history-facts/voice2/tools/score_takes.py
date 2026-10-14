@@ -7,9 +7,9 @@ import aud, score
 
 TAKES = sys.argv[1]
 REF = sys.argv[2] if len(sys.argv) > 2 else '/home/user/work/voice2/ref/v5.wav'
-SCRIPT = json.load(open('/home/user/video/shorts/history-facts/tunguska/script_v2.json'))
+SCRIPT = json.load(open(os.environ.get('SCRIPT', '/home/user/video/shorts/history-facts/tunguska/script_v2.json')))
 texts = {l['id']: l['text'] for l in SCRIPT['lines']}
-DIG = [('тысяча девятьсот восьмом', '1908'), ('тридцатого', '30'), ('шестьдесят пять', '65'), ('девятнадцать', '19')]
+DIG = [('тысяча пятьсот восемнадцатом', '1518'), ('тысяча девятьсот восьмом', '1908'), ('тридцатого', '30'), ('шестьдесят пять', '65'), ('девятнадцать', '19')]
 
 def refs(t):
     out = [t]

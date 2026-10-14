@@ -1,7 +1,7 @@
 # Generate takes for every script line with the cloned voice via tts-server (batched requests).
 import json, os, sys, time, urllib.request
 from concurrent.futures import ThreadPoolExecutor
-SCRIPT = json.load(open('/home/user/video/shorts/history-facts/tunguska/script_v2.json'))
+SCRIPT = json.load(open(os.environ.get('SCRIPT', '/home/user/video/shorts/history-facts/tunguska/script_v2.json')))
 OUT = sys.argv[1]
 seeds = [int(s) for s in sys.argv[2].split(',')]
 ids = sys.argv[3].split(',') if len(sys.argv) > 3 and sys.argv[3] else [l['id'] for l in SCRIPT['lines']]
