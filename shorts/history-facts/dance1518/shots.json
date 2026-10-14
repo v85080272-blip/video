@@ -62,9 +62,10 @@
     {
       "id": "d09_stage",
       "seeds": [
-        109
+        409,
+        509
       ],
-      "prompt": "a wooden stage in a medieval town square, musicians in Renaissance clothes playing drums, bagpipes and fiddles, crowd of people dancing around the stage, colorful banners, golden evening light"
+      "prompt": "German Renaissance street musicians in puffed slashed doublets, hose and feathered berets playing fiddles, drums and long wooden shawms on a raised wooden stage in a crowded town square, exhausted townspeople dancing below the stage, colorful banners, golden evening light, half-timbered Alsatian houses"
     },
     {
       "id": "d10_collapse",

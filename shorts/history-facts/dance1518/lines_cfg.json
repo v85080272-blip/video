@@ -76,7 +76,21 @@
    "emotion": "friendly, engaging, curious question"
   }
  },
- "chosen": {},
+ "chosen": {
+  "L1": "L1_s3",
+  "L2": "L2_s3",
+  "L3": "L3_s3",
+  "L4": "L4_s1",
+  "L5": "L5_s2",
+  "L6": "L6_s1",
+  "L7": "L7_s3",
+  "L8": "L8_s1",
+  "L9": "L9_s2",
+  "L10": "L10_s3",
+  "L11": "L11_s1",
+  "L12": "L12_s2",
+  "L13": "L13_s2"
+ },
  "gain": {},
  "stress_note": "Тро́ффея (Frau Troffea), Страсбу́рг, спорынья́/спорыньёй, Ви́та"
 }

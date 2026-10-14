@@ -115,18 +115,32 @@ def word_times(display, wav_path):
     return res
 
 
+# short words that belong to the next word: a chunk never ends on them ("без | сил" -> "без сил")
+STICKY = {'В', 'ВО', 'С', 'СО', 'К', 'КО', 'О', 'ОБ', 'ОТ', 'ДО', 'НА', 'ПО', 'ЗА', 'ИЗ', 'У', 'ДЛЯ', 'БЕЗ', 'ПРИ',
+          'ПРО', 'ПОД', 'НАД', 'И', 'А', 'НО', 'НЕ', 'НИ', 'КАК', 'ЕЩЁ', 'ЕЩЕ'}
+
+
 def chunk(words_t, max_words=3, max_chars=16):
     """Group timed words into caption chunks; break after punctuation."""
     chunks = []
     cur = []
     for w in words_t:
-        if w[0] == '—':
+        if w[0] == '—':                 # a dash ends the chunk ("третий —" | "пока не падает")
+            if cur:
+                chunks.append(cur)
+                cur = []
             continue
         cand = cur + [w]
         text = ' '.join(x[0] for x in cand)
         if cur and (len(cand) > max_words or len(text) > max_chars):
-            chunks.append(cur)
-            cur = [w]
+            if cur[-1][0].upper() not in STICKY:
+                chunks.append(cur)
+                cur = [w]
+            elif len(cur) > 1:          # carry the hanging preposition over to the next chunk
+                chunks.append(cur[:-1])
+                cur = [cur[-1], w]
+            else:
+                cur = cand
         else:
             cur = cand
         if re.search(r'[.,!?:;…]$', w[0]):
@@ -148,7 +162,9 @@ def word_times_manifest(display, script_words, speed=1.0):
     sw = [w for w in script_words if _norm(w['word'])]
     out, i = [], 0
     for shown, spoken, _ in parse_display(display):
-        if shown == '—':
+        if shown == '—':                # keep the dash as a zero-length marker so captions can break there
+            if out:
+                out.append(('—', out[-1][2], out[-1][2]))
             continue
         need = [_norm(x) for x in spoken.split() if _norm(x)]
         got = sw[i:i + len(need)]

@@ -14,10 +14,10 @@ DISPLAY = {
     'L5': 'А ОТДОХНУВ, ВСТАЁТ — И ТАНЦУЕТ СНОВА.',
     'L6': 'ЧЕРЕЗ НЕДЕЛЮ ТАНЦУЮТ УЖЕ ДЕСЯТКИ ЛЮДЕЙ. ЧЕРЕЗ МЕСЯЦ — СОТНИ.',
     'L7': 'ВРАЧИ СТАВЯТ ДИАГНОЗ: ПЕРЕГРЕЛАСЬ КРОВЬ. И НАЗНАЧАЮТ ЛЕЧЕНИЕ — ТАНЦЕВАТЬ ЕЩЁ БОЛЬШЕ.',
-    'L8': 'ГОРОД СТРОИТ ДЛЯ ТАНЦУЮЩИХ СЦЕНУ И НАНИМАЕТ МУЗЫКАНТОВ.',
+    'L8': 'ГОРОД СТРОИТ ДЛЯ ТАНЦУЮЩИХ СЦЕНУ — И НАНИМАЕТ МУЗЫКАНТОВ.',
     'L9': 'НО СТАНОВИТСЯ ТОЛЬКО ХУЖЕ. ЛЮДИ ПАДАЮТ БЕЗ СИЛ ПРЯМО НА УЛИЦАХ.',
     'L10': 'ТОГДА ТАНЦЫ ЗАПРЕЩАЮТ, А ТАНЦУЮЩИХ ВЕЗУТ В ЧАСОВНЮ СВЯТОГО ВИТА — И НАДЕВАЮТ ИМ КРАСНЫЕ БАШМАКИ С КРЕСТАМИ.',
-    'L11': 'К СЕНТЯБРЮ ВСЁ ПРЕКРАЩАЕТСЯ — ТАК ЖЕ ВНЕЗАПНО, КАК НАЧАЛОСЬ.',
+    'L11': 'К СЕНТЯБРЮ — ВСЁ ПРЕКРАЩАЕТСЯ — ТАК ЖЕ ВНЕЗАПНО, КАК НАЧАЛОСЬ.',
     'L12': 'ОТРАВЛЕНИЕ СПОРЫНЬЁЙ? МАССОВАЯ ИСТЕРИЯ ОТ ГОЛОДА И СТРАХА? УЧЁНЫЕ СПОРЯТ ДО СИХ ПОР.',
     'L13': 'А ТЫ КАК ДУМАЕШЬ, ЧТО ЗАСТАВИЛО ИХ ТАНЦЕВАТЬ?',
 }
@@ -25,7 +25,7 @@ HILITE = {'1518', 'СОТНИ', 'СМЕРТИ.', 'ТРЕТИЙ', 'КРОВЬ.', 
           'СПОРЫНЬЁЙ?', 'ИСТЕРИЯ', 'ВНЕЗАПНО,'}
 
 # gap (s) after each line before the next one starts
-GAPS = {'L1': 0.25, 'L2': 0.55, 'L3': 0.20, 'L4': 0.60, 'L5': 0.30, 'L6': 0.45, 'L7': 0.25, 'L8': 0.35,
+GAPS = {'L1': 0.25, 'L2': 0.55, 'L3': 0.20, 'L4': 0.60, 'L5': 0.30, 'L6': 0.90, 'L7': 0.25, 'L8': 0.35,
         'L9': 0.40, 'L10': 0.40, 'L11': 0.50, 'L12': 0.45, 'L13': 0.0}
 LEAD_IN = 0.25
 TAIL = 1.9
@@ -84,7 +84,7 @@ def layout(c):
     l2 = L('L2')['start'] - 0.1
     hook = beat(p['hook'], zoom=0.028, sway=1.1)
     add('d01_crowd_night_s101', 0.0, c1, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06), parx=(-12, 12)),
-        fx=dict(embers=60, bloom=0.8, fire=0.6, light=torch(0.2, 0.35), beat=[hook], flash=[(0.0, 0.3, 0.5)], grade=night))
+        fx=dict(embers=60, bloom=0.8, fire=0.6, light=torch(0.2, 0.35), beat=[hook], grade=night))
     add('d01_crowd_night_s201', c1, c2, into='zoom', cam=dict(zoom=(1.06, 1.14), parx=(14, -14), pany=(0.01, -0.01)),
         fx=dict(embers=60, bloom=0.8, fire=0.6, light=torch(0.8, 0.3), beat=[hook], grade=night))
     add('d01_crowd_night_s101', c2, l2, cam=dict(zoom=(1.36, 1.46), panx=(-0.04, -0.05), pany=(0.04, 0.03), parx=(-8, 8)),
@@ -101,7 +101,7 @@ def layout(c):
     l4 = L('L4')['start'] - 0.06
     solo1 = beat(p['solo1'], bob=7.0, zoom=0.01, sway=0.6)
     add('d03_strasbourg_street', l3, c3, into='fade', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-18, 18)),
-        fx=dict(dust=35, bloom=0.5, grade=dict(exposure=0.05, contrast=1.03, sat=1.0, warm=0.45)))
+        fx=dict(dust=35, bloom=0.5, grade=dict(exposure=0.05, contrast=1.03, sat=1.0, warm=0.5, demagenta=0.7)))
     c3b = p['solo1'][0] - 0.06                                    # "и начинает танцевать" -> closer on her
     add('d04_troffea_s104', c3, c3b, cam=dict(zoom=(1.0, 1.06), dolly=(0.0, 0.06), pany=(0.0, -0.01)),
         fx=dict(dust=30, grade=dict(exposure=0.05, contrast=1.05, sat=1.0, warm=0.5)))
@@ -140,34 +140,35 @@ def layout(c):
     band = beat(p['band'], zoom=0.03, sway=1.3)
     bt = p['band'][0]
     c7 = wt('L7', 'НАЗНАЧАЮТ') - 0.06
-    doc = dict(dust=20, light=dict(x=0.75, y=0.3, r=0.9, col=(0.35, 0.18, 0.04), flicker=0.2, rate=5.0),
+    doc = dict(dust=20, light=dict(x=0.82, y=0.68, r=0.7, col=(0.4, 0.2, 0.04), flicker=0.25, rate=6.0),
                punch=[(p['krov'], 0.05)], grade=dict(exposure=-0.05, contrast=1.08, sat=0.9, warm=0.6))
     add('d08_physicians', l7, c7, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06), parx=(-10, 10)), fx=doc)
     add('d08_physicians', c7, bt - 0.04, cam=dict(zoom=(1.34, 1.44), panx=(0.03, 0.04), pany=(-0.04, -0.05), parx=(-8, 8)), fx=doc)
     l8 = L('L8')['start'] - 0.08
     add('d18_frenzy', bt - 0.04, l8, into='flash', cam=dict(zoom=(1.04, 1.14), parx=(12, -12)),
-        fx=dict(embers=50, bloom=0.8, fire=0.5, light=torch(0.15, 0.3), beat=[band], grade=night))
+        fx=dict(embers=50, bloom=0.8, fire=0.5, light=torch(0.6, 0.22), beat=[band], grade=night))
     # L8 a stage and hired musicians
     l9 = L('L9')['start'] - 0.06
     c8 = wt('L8', 'НАНИМАЕТ') - 0.06                             # "и нанимает музыкантов" -> closer on the band
     stage = dict(dust=40, bloom=0.6, beat=[band], grade=dict(exposure=0.03, contrast=1.06, sat=1.05, warm=0.6))
-    add('d09_stage', l8, c8, cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-14, 14)), fx=stage)
-    add('d09_stage', c8, l9, cam=dict(zoom=(1.36, 1.46), pany=(-0.03, -0.04), parx=(-8, 8)), fx=stage)
+    dusk = dict(stage, grade=dict(exposure=0.05, contrast=1.06, sat=1.0, warm=0.5, demagenta=0.5))
+    add('d09_stage_s509', l8, c8, cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-14, 14)), fx=dusk)
+    add('d09_stage_s409', c8, l9, cam=dict(zoom=(1.08, 1.16), panx=(0.0, 0.02), pany=(0.0, -0.02), parx=(-8, 8)), fx=stage)
     # L9 it only gets worse: the music grinds to a halt, people collapse
     c9 = wt('L9', 'ЛЮДИ') - 0.06
     l10 = L('L10')['start'] - 0.08
     dark = dict(exposure=-0.1, contrast=1.1, sat=0.85, warm=0.4, teal=0.4, demagenta=0.6)
     add('d10_collapse', l9, c9, into='zoom', cam=dict(zoom=(1.12, 1.04), dolly=(0.08, 0.0), roll=(1.5, 0.0)),
-        fx=dict(embers=30, fog=0.15, light=torch(0.8, 0.25, 0.8), grade=dark))
+        fx=dict(embers=40, fog=0.15, fire=0.8, light=torch(0.1, 0.62, 0.9), grade=dark))
     add('d10_collapse', c9, l10, cam=dict(zoom=(1.36, 1.46), panx=(-0.04, -0.03), pany=(0.06, 0.07), parx=(-8, 8)),
-        fx=dict(embers=30, fog=0.15, light=torch(0.8, 0.25, 0.8), punch=[(wt('L9', 'ПАДАЮТ'), 0.05)], grade=dark))
+        fx=dict(embers=40, fog=0.15, fire=0.8, light=torch(0.1, 0.62, 0.9), punch=[(wt('L9', 'ПАДАЮТ'), 0.05)], grade=dark))
     # L10 dancing is banned; the dancers are taken to the chapel of St. Vitus and given red shoes
     c10 = wt('L10', 'А') - 0.06
     c10b = wt('L10', 'И') - 0.06
     l11 = L('L11')['start'] - 0.08
     add('d17_decree', l10, c10, into='flash', cam=dict(zoom=(1.0, 1.08), parx=(-12, 12)),
         fx=dict(dust=25, punch=[(wt('L10', 'ЗАПРЕЩАЮТ'), 0.06)], grade=dict(exposure=0.0, contrast=1.08, sat=0.9, warm=0.4)))
-    add('d11_pilgrims', c10, c10b, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), pany=(0.0, -0.01)),
+    add('d11_pilgrims', c10, c10b, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), pany=(0.0, 0.04)),
         fx=dict(fog=0.3, dust=25, bloom=0.5, grade=dict(exposure=0.02, contrast=1.04, sat=0.9, warm=0.35, teal=0.3)))
     add('d12_red_shoes', c10b, l11, into='zoom', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), parx=(10, -10)),
         fx=dict(dust=20, bloom=0.8, light=dict(x=0.3, y=0.2, r=1.0, col=(0.4, 0.2, 0.05), flicker=0.15, rate=4.0),
@@ -177,7 +178,7 @@ def layout(c):
     c11 = wt('L11', 'ТАК') - 0.06                                 # "так же внезапно" -> closer, the dropped tambourine
     empty = dict(fog=0.35, dust=15, grade=dict(exposure=-0.04, contrast=1.04, sat=0.8, teal=0.7, demagenta=0.6))
     add('d13_empty_square', l11, c11, into='fade', cam=dict(zoom=(1.0, 1.08), pany=(0.0, -0.01), parx=(-16, 16)), fx=empty)
-    add('d13_empty_square', c11, l12, cam=dict(zoom=(1.38, 1.46), pany=(0.08, 0.09), parx=(-8, 8)), fx=empty)
+    add('d13_empty_square', c11, l12, cam=dict(zoom=(1.38, 1.46), panx=(0.11, 0.12), pany=(0.11, 0.12), parx=(-8, 8)), fx=empty)
     # L12 the theories
     c12 = wt('L12', 'МАССОВАЯ') - 0.06
     c12b = wt('L12', 'УЧЁНЫЕ') - 0.06
@@ -194,9 +195,9 @@ def layout(c):
         fx=dict(dust=30, bloom=0.9, beat=[outro], grade=dict(exposure=0.0, contrast=1.08, sat=1.05, warm=0.7)))
 
     cards = [
-        dict(text='ДЕНЬ 3', sub='БЕЗ ОСТАНОВКИ', start=wt('L4', 'ДЕНЬ'), end=c4b - 0.08, y=760,
+        dict(text='ДЕНЬ 3', sub='БЕЗ ОСТАНОВКИ', start=wt('L4', 'ДЕНЬ'), end=fall - 0.05, y=760,
              steps=[(wt('L4', 'ДЕНЬ'), 1), (wt('L4', 'ВТОРОЙ'), 2), (wt('L4', 'ТРЕТИЙ'), 3)]),
-        dict(text='ДО 400', sub='ТАНЦУЮЩИХ', start=p['sotni'], end=l7 - 0.08, y=760, count=True),
+        dict(text='ДО 400', sub='ТАНЦУЮЩИХ', start=p['sotni'], end=l7 - 0.04, y=760, count=True),
     ]
     tags = [
         dict(text='СТРАСБУРГ · ИЮЛЬ 1518', start=l3 + 0.15, end=c3 + 0.9),
@@ -290,8 +291,8 @@ def mix_cues(m, tl, a):
     put_hit(m, 'heartbeat', p['krov'] + 0.05, -8.0)
     put_hit(m, 'drum_dum', b0, -2.0)
     loop('music', 'groove_full', b0, b1 + 1.2, -3.0, fin=0.0, fout=0.02)
-    loop('music', 'drone_pipes', b0, b1 + 1.2, -8.0, fin=0.05, fout=0.02)
-    loop('music', 'chanter_tune', b0, b1 + 1.2, -6.5, fin=0.0, fout=0.02)
+    loop('music', 'drone_pipes', b0, b1 + 1.2, -10.0, fin=0.05, fout=0.02)
+    loop('music', 'chanter_tune', b0, b1 + 1.2, -8.5, fin=0.0, fout=0.02)
     m.music = _tape_stop(m.music, p['stop'], 0.95)
     # --- it gets worse: heartbeat, bodies falling, a rising tension bed
     put_hit(m, 'sub_drop', p['stop'] + 0.35, -8.0)
