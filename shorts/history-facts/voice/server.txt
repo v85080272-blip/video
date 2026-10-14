@@ -1,0 +1,19 @@
+VoxCPM2 TTS server (llama.cpp-omni llama-tts-server), left running for re-voicing
+url:   http://127.0.0.1:8099   (GET /health, POST /v1/audio/speech)
+pid:   11209  (llama-tts-server, -t 2, oom_score_adj 800); current pid is also in /home/user/work/voice/tts-server.pid
+watchdog: pid 11199  bash /home/user/work/voice/scripts/serve.sh (log: serve.log). If the server is killed (e.g. OOM),
+          the watchdog restarts it once `free -m` shows >= 6.5 GB available and the shared memory cgroup has >= 6.5 GB headroom.
+          The restarted server gets a new pid, written to tts-server.pid.
+stop:  touch /home/user/work/voice/STOP_TTS; kill $(cat /home/user/work/voice/tts-server.pid)
+model: VOX_HOME=/home/user/work/voice/vox (BaseLM Q8_0 + Acoustic F16; llama.cpp-omni at 27d3ccf + local patch
+       vox/llama.cpp-omni-ctx4096.patch: context 32768 -> 4096, server ~3.5 GB instead of ~4.9 GB)
+
+Re-voice changed lines (example L7 and L8, 3 takes each), clone of narrator.wav, emotion in parentheses:
+  cd /home/user/work/voice
+  # edit the text/emotion of the line in narrator_lines.json ("lines" -> Lx), then:
+  VOX_HOME=$PWD/vox WHISPER_THREADS=2 python3 scripts/takes.py narrator_lines.json takes 7,8,9 L7,L8
+  python3 scripts/pick.py narrator_lines.json takes L7,L8        # CER, pace, pitch, pauses, noise, timbre per take
+  # put the chosen take names into narrator_lines.json "chosen", then:
+  python3 shorts/voxcpm2/tools/export.py narrator_lines.json takes lines
+  VOX_HOME=$PWD/vox WHISPER_THREADS=2 python3 scripts/manifest.py narrator_lines.json takes lines L7,L8
+  (one take of a ~4 s line takes about 1.5-2 min including the Whisper check)

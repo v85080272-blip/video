@@ -1,0 +1,38 @@
+diff --git a/src/pipeline/image.cpp b/src/pipeline/image.cpp
+index d3d25c8..c442a65 100644
+--- a/src/pipeline/image.cpp
++++ b/src/pipeline/image.cpp
+@@ -3,6 +3,8 @@
+ #include <algorithm>
+ #include <cmath>
+ #include <cstdlib>
++#include <cstdio>
++#include <string>
+ #include <optional>
+ 
+ #include "core/rng.hpp"
+@@ -609,6 +611,24 @@ namespace sd::pipeline {
+                     decoded_images.push_back(std::move(image));
+                 }
+             } else {
++                if (const char* dump = std::getenv("SD_DUMP_LATENT")) {
++                    // dump the raw final latent (float32, ggml order) plus its shape, then stop without decoding
++                    std::string base = std::string(dump) + "_" + std::to_string(i);
++                    FILE* fb = std::fopen((base + ".bin").c_str(), "wb");
++                    if (fb) {
++                        std::fwrite(final_latents[i].data(), sizeof(float), static_cast<size_t>(final_latents[i].numel()), fb);
++                        std::fclose(fb);
++                    }
++                    FILE* ft = std::fopen((base + ".shape").c_str(), "w");
++                    if (ft) {
++                        for (auto d : final_latents[i].shape()) std::fprintf(ft, "%lld ", static_cast<long long>(d));
++                        std::fprintf(ft, "\n");
++                        std::fclose(ft);
++                    }
++                    LOG_INFO("dumped latent %zu to %s.bin", i + 1, base.c_str());
++                    if (i + 1 == final_latents.size()) std::exit(0);
++                    continue;
++                }
+                 sd::Tensor<float> image = sd->decode_first_stage(final_latents[i]);
+                 if (image.empty()) {
+                     LOG_ERROR("decode_first_stage failed for latent %" PRId64, i + 1);

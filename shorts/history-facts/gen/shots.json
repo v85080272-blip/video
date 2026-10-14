@@ -1,0 +1,143 @@
+{
+ "style": "cinematic film still, photorealistic, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "s01_fireball",
+   "seeds": [
+    11,
+    12
+   ],
+   "prompt": "a gigantic blinding fireball exploding high in the sky above an endless Siberian taiga pine forest at dawn, enormous white-orange flash, glowing shockwave ring spreading through the clouds, dark pine trees silhouetted in the foreground, apocalyptic epic scale"
+  },
+  {
+   "id": "s14_mystery",
+   "seeds": [
+    141
+   ],
+   "prompt": "the dark silhouette of a lone man standing among fallen tree trunks in a misty dead Siberian forest at dusk, looking up at a strange glowing hole in the clouds, mysterious, eerie, cold blue and orange light"
+  },
+  {
+   "id": "s02_trading_post",
+   "seeds": [
+    21
+   ],
+   "prompt": "a remote Siberian trading post village in 1908 at early morning, a few old log cabins on the bank of a wide calm river, pine forest, soft golden sunrise light, mist over the water, peaceful"
+  },
+  {
+   "id": "s03_semenov_porch",
+   "seeds": [
+    31
+   ],
+   "prompt": "an old Russian peasant man with a long grey beard in a white linen shirt sitting on the wooden porch of a log house in 1908, holding a tin mug of tea, calm morning light, looking towards the forest, Siberian village"
+  },
+  {
+   "id": "s04_sky_splits",
+   "seeds": [
+    41
+   ],
+   "prompt": "the sky above a Siberian pine forest split in two by a blinding streak of fire, a huge glowing fireball falling over the horizon, the whole sky ablaze in orange and white, log cabin village in the foreground, view from the ground"
+  },
+  {
+   "id": "s05_heat_face",
+   "seeds": [
+    51
+   ],
+   "prompt": "close-up portrait of an old bearded Russian peasant man in a linen shirt shielding his face with his arm from an intense blinding orange light and heat, squinting in fear, wind blowing his hair and beard, glowing light on his face, 1908"
+  },
+  {
+   "id": "s06_distant_blast",
+   "seeds": [
+    61
+   ],
+   "prompt": "aerial view over endless Siberian taiga forest and a winding river, far away on the horizon an enormous explosion with a glowing dome of white light and a rising column of smoke, tiny village with log cabins in the foreground"
+  },
+  {
+   "id": "s07_shockwave_forest",
+   "seeds": [
+    71
+   ],
+   "prompt": "a massive shockwave flattening a Siberian pine forest, tall trees bending and snapping, falling in one direction, flying branches, dust and smoke, fiery orange sky in the background, chaos"
+  },
+  {
+   "id": "s08_flattened_aerial",
+   "seeds": [
+    81
+   ],
+   "prompt": "aerial view of a vast flattened Siberian forest, millions of fallen tree trunks lying in rows radiating outward from a center, smoke drifting, burnt ground, desolate apocalyptic landscape, overcast light"
+  },
+  {
+   "id": "s09_europe_night",
+   "seeds": [
+    91
+   ],
+   "prompt": "an old European city street at midnight in 1908, the night sky glowing with a strange bright silvery-orange light like dawn, a man in an Edwardian coat and hat reading a newspaper under the glowing sky, people looking up, gas street lamps, cobblestones"
+  },
+  {
+   "id": "s10_kulik_expedition",
+   "seeds": [
+    101
+   ],
+   "prompt": "a scientific expedition in the Siberian taiga in 1927, a determined Russian scientist with round glasses and a short beard wearing a leather cap and a long coat, leading two men and a horse through a snowy pine forest, vintage, sepia tones"
+  },
+  {
+   "id": "s11_empty_swamp",
+   "seeds": [
+    111
+   ],
+   "prompt": "a vast empty swamp in the Siberian taiga surrounded by dead grey trees, no crater, a lone explorer in a 1920s coat standing in the middle holding a shovel, looking around puzzled, overcast cold light, desolate"
+  },
+  {
+   "id": "s12_telegraph_forest",
+   "seeds": [
+    121
+   ],
+   "prompt": "a dead forest of tall straight bare tree trunks without branches standing upright like telegraph poles, charred bark, thick fog, Siberian swamp, eerie silence, cold muted colors"
+  },
+  {
+   "id": "s13_comet",
+   "seeds": [
+    131
+   ],
+   "prompt": "a glowing comet with a long bright tail plunging into the Earth's atmosphere at night above the Siberian taiga, burning trail across a starry sky, dark pine forest silhouettes below, cinematic night"
+  },
+  {
+   "id": "s10b_kulik_closeup",
+   "seeds": [
+    102
+   ],
+   "prompt": "close-up portrait of a Russian scientist in 1927 with round glasses, a short beard and a leather cap, kneeling by a huge fallen charred tree trunk in the Siberian taiga, examining it, determined expression, vintage sepia tones"
+  },
+  {
+   "id": "s06b_distant_blast",
+   "seeds": [
+    62,
+    63
+   ],
+   "prompt": "a vast panorama of endless Siberian taiga forest seen from a high hill at early morning, a wide calm river in the foreground, far away on the distant horizon a huge mushroom cloud of fire and smoke rising high into the sky, blinding glow on the horizon, immense distance, epic scale"
+  },
+  {
+   "id": "s08b_flattened_aerial",
+   "seeds": [
+    82,
+    83
+   ],
+   "prompt": "aerial photograph of an immense area of flattened Siberian forest, thousands of fallen grey tree trunks lying side by side all pointing in the same direction like scattered matches, a few bare standing trunks, burnt ground, low mist, overcast morning light, documentary photo"
+  },
+  {
+   "id": "s08c_fallen_forest",
+   "seeds": [
+    84,
+    85
+   ],
+   "prompt": "low angle view across a devastated Siberian taiga after a giant blast, huge fallen pine trunks lying on the ground in parallel rows all pointing the same way, broken stumps, charred bark, thin smoke and morning mist, a few bare dead trunks still standing in the distance, eerie silence"
+  },
+  {
+   "id": "s08d_blowdown",
+   "seeds": [
+    86,
+    87
+   ],
+   "prompt": "aerial photo of a forest blowdown like the Mount St. Helens blast zone, thousands of grey pine trunks knocked flat in the same direction across rolling hills, stripped of branches, no standing trees, ash-grey dead landscape stretching to the horizon, overcast light, documentary photograph"
+  }
+ ]
+}
