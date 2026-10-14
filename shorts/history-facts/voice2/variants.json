@@ -1,0 +1,32 @@
+[
+ {
+  "id": "v1_deep",
+  "seed": 11,
+  "instruct": "Male, about 40 years old, deep warm low-pitched voice with a slight rasp. Native Russian speaker. A gripping documentary storyteller: confident, intriguing, lively expressive intonation, brisk pace, short natural pauses."
+ },
+ {
+  "id": "v2_young",
+  "seed": 12,
+  "instruct": "Male, about 27 years old, bright energetic baritone. Native Russian speaker. A popular short-video history blogger telling an amazing story to a friend: excited, fast-paced, very expressive, emphasizes key words, natural and conversational, no pauses longer than half a second."
+ },
+ {
+  "id": "v3_trailer",
+  "seed": 13,
+  "instruct": "Male, about 45 years old, very low, husky, powerful voice like a movie trailer narrator. Native Russian speaker. Dramatic and intense, slow build-up with tension, strong emphasis on numbers and key words, moderate pace."
+ },
+ {
+  "id": "v4_female",
+  "seed": 14,
+  "instruct": "Female, about 30 years old, warm low alto voice. Native Russian speaker. A mysterious, captivating storyteller sharing a historical secret: intriguing, slightly hushed but clear, lively intonation, brisk pace, short pauses."
+ },
+ {
+  "id": "v5_energetic",
+  "seed": 21,
+  "instruct": "Male, about 32 years old, medium-low baritone, definitely not high-pitched. Native Russian speaker. An energetic, charismatic history storyteller for short videos: fast pace, vivid emphasis on numbers and key words, rising tension, natural conversational delivery, very short pauses."
+ },
+ {
+  "id": "v6_bass",
+  "seed": 22,
+  "instruct": "Male, about 50 years old, very deep bass voice, low and resonant with a husky texture, like a film trailer voice-over. Native Russian speaker. Dramatic, weighty and suspenseful, clear diction, steady medium pace, short pauses."
+ }
+]
