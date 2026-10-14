@@ -1,0 +1,1909 @@
+{
+ "L1": {
+  "text": "В тысяча девятьсот восьмом году над Сибирью взорвалось нечто в сотни раз мощнее Хиросимы.",
+  "emotion": "intriguing, dramatic hook, confident",
+  "file": "L1.wav",
+  "duration_s": 4.8,
+  "take": "L1_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "В 1908 году над Сибирью взорвалось нечто в сотни раз мощнее Хиросимы.",
+  "words": [
+   {
+    "word": "В",
+    "start": 0.01,
+    "end": 0.12,
+    "p": 0.991
+   },
+   {
+    "word": "1908",
+    "start": 0.12,
+    "end": 1.2,
+    "p": 0.997
+   },
+   {
+    "word": "году",
+    "start": 1.2,
+    "end": 1.6,
+    "p": 0.998
+   },
+   {
+    "word": "над",
+    "start": 1.6,
+    "end": 1.76,
+    "p": 0.995
+   },
+   {
+    "word": "Сибирью",
+    "start": 1.76,
+    "end": 2.14,
+    "p": 0.961
+   },
+   {
+    "word": "взорвалось",
+    "start": 2.14,
+    "end": 2.68,
+    "p": 0.996
+   },
+   {
+    "word": "нечто",
+    "start": 2.68,
+    "end": 3.04,
+    "p": 0.991
+   },
+   {
+    "word": "в",
+    "start": 3.04,
+    "end": 3.18,
+    "p": 0.995
+   },
+   {
+    "word": "сотни",
+    "start": 3.18,
+    "end": 3.52,
+    "p": 0.998
+   },
+   {
+    "word": "раз",
+    "start": 3.52,
+    "end": 3.62,
+    "p": 0.956
+   },
+   {
+    "word": "мощнее",
+    "start": 3.62,
+    "end": 4.08,
+    "p": 0.992
+   },
+   {
+    "word": "Хиросимы.",
+    "start": 4.08,
+    "end": 4.79,
+    "p": 0.818
+   }
+  ],
+  "script_words": [
+   {
+    "word": "В",
+    "start": 0.01,
+    "end": 0.12,
+    "matched": true
+   },
+   {
+    "word": "тысяча",
+    "start": 0.12,
+    "end": 0.415,
+    "matched": false
+   },
+   {
+    "word": "девятьсот",
+    "start": 0.415,
+    "end": 0.856,
+    "matched": false
+   },
+   {
+    "word": "восьмом",
+    "start": 0.856,
+    "end": 1.2,
+    "matched": false
+   },
+   {
+    "word": "году",
+    "start": 1.2,
+    "end": 1.6,
+    "matched": true
+   },
+   {
+    "word": "над",
+    "start": 1.6,
+    "end": 1.76,
+    "matched": true
+   },
+   {
+    "word": "Сибирью",
+    "start": 1.76,
+    "end": 2.14,
+    "matched": true
+   },
+   {
+    "word": "взорвалось",
+    "start": 2.14,
+    "end": 2.68,
+    "matched": true
+   },
+   {
+    "word": "нечто",
+    "start": 2.68,
+    "end": 3.04,
+    "matched": true
+   },
+   {
+    "word": "в",
+    "start": 3.04,
+    "end": 3.18,
+    "matched": true
+   },
+   {
+    "word": "сотни",
+    "start": 3.18,
+    "end": 3.52,
+    "matched": true
+   },
+   {
+    "word": "раз",
+    "start": 3.52,
+    "end": 3.62,
+    "matched": true
+   },
+   {
+    "word": "мощнее",
+    "start": 3.62,
+    "end": 4.08,
+    "matched": true
+   },
+   {
+    "word": "Хиросимы.",
+    "start": 4.08,
+    "end": 4.79,
+    "matched": true
+   }
+  ]
+ },
+ "L2": {
+  "text": "И до сих пор никто точно не знает, что это было.",
+  "emotion": "mysterious, lower voice",
+  "file": "L2.wav",
+  "duration_s": 2.74,
+  "take": "L2_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "И до сих пор никто точно не знает, что это было.",
+  "words": [
+   {
+    "word": "И",
+    "start": 0.04,
+    "end": 0.12,
+    "p": 0.908
+   },
+   {
+    "word": "до",
+    "start": 0.12,
+    "end": 0.26,
+    "p": 0.999
+   },
+   {
+    "word": "сих",
+    "start": 0.26,
+    "end": 0.54,
+    "p": 1.0
+   },
+   {
+    "word": "пор",
+    "start": 0.54,
+    "end": 0.8,
+    "p": 1.0
+   },
+   {
+    "word": "никто",
+    "start": 0.8,
+    "end": 1.08,
+    "p": 0.998
+   },
+   {
+    "word": "точно",
+    "start": 1.08,
+    "end": 1.54,
+    "p": 0.999
+   },
+   {
+    "word": "не",
+    "start": 1.54,
+    "end": 1.7,
+    "p": 0.999
+   },
+   {
+    "word": "знает,",
+    "start": 1.7,
+    "end": 1.98,
+    "p": 1.0
+   },
+   {
+    "word": "что",
+    "start": 1.98,
+    "end": 2.18,
+    "p": 0.994
+   },
+   {
+    "word": "это",
+    "start": 2.18,
+    "end": 2.34,
+    "p": 0.999
+   },
+   {
+    "word": "было.",
+    "start": 2.34,
+    "end": 2.74,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "И",
+    "start": 0.04,
+    "end": 0.12,
+    "matched": true
+   },
+   {
+    "word": "до",
+    "start": 0.12,
+    "end": 0.26,
+    "matched": true
+   },
+   {
+    "word": "сих",
+    "start": 0.26,
+    "end": 0.54,
+    "matched": true
+   },
+   {
+    "word": "пор",
+    "start": 0.54,
+    "end": 0.8,
+    "matched": true
+   },
+   {
+    "word": "никто",
+    "start": 0.8,
+    "end": 1.08,
+    "matched": true
+   },
+   {
+    "word": "точно",
+    "start": 1.08,
+    "end": 1.54,
+    "matched": true
+   },
+   {
+    "word": "не",
+    "start": 1.54,
+    "end": 1.7,
+    "matched": true
+   },
+   {
+    "word": "знает,",
+    "start": 1.7,
+    "end": 1.98,
+    "matched": true
+   },
+   {
+    "word": "что",
+    "start": 1.98,
+    "end": 2.18,
+    "matched": true
+   },
+   {
+    "word": "это",
+    "start": 2.18,
+    "end": 2.34,
+    "matched": true
+   },
+   {
+    "word": "было.",
+    "start": 2.34,
+    "end": 2.74,
+    "matched": true
+   }
+  ]
+ },
+ "L3": {
+  "text": "Утро тридцатого июня. Фактория Ванавара. Местный житель Семёнов сидит на крыльце.",
+  "emotion": "calm, setting the scene",
+  "file": "L3.wav",
+  "duration_s": 5.8,
+  "take": "L3_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.014,
+  "whisper": "Утро 30 июня. Фактория Вановара. Местный житель Семенов сидит на крыльце.",
+  "words": [
+   {
+    "word": "Утро",
+    "start": 0.02,
+    "end": 0.34,
+    "p": 0.876
+   },
+   {
+    "word": "30",
+    "start": 0.34,
+    "end": 0.74,
+    "p": 0.984
+   },
+   {
+    "word": "июня.",
+    "start": 0.74,
+    "end": 1.51,
+    "p": 0.987
+   },
+   {
+    "word": "Фактория",
+    "start": 1.74,
+    "end": 2.5,
+    "p": 0.926
+   },
+   {
+    "word": "Вановара.",
+    "start": 2.5,
+    "end": 3.28,
+    "p": 0.526
+   },
+   {
+    "word": "Местный",
+    "start": 3.41,
+    "end": 3.98,
+    "p": 1.0
+   },
+   {
+    "word": "житель",
+    "start": 3.98,
+    "end": 4.3,
+    "p": 1.0
+   },
+   {
+    "word": "Семенов",
+    "start": 4.3,
+    "end": 4.78,
+    "p": 0.502
+   },
+   {
+    "word": "сидит",
+    "start": 4.78,
+    "end": 5.12,
+    "p": 0.988
+   },
+   {
+    "word": "на",
+    "start": 5.12,
+    "end": 5.22,
+    "p": 0.999
+   },
+   {
+    "word": "крыльце.",
+    "start": 5.22,
+    "end": 5.8,
+    "p": 0.998
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Утро",
+    "start": 0.02,
+    "end": 0.34,
+    "matched": true
+   },
+   {
+    "word": "тридцатого",
+    "start": 0.34,
+    "end": 0.74,
+    "matched": false
+   },
+   {
+    "word": "июня.",
+    "start": 0.74,
+    "end": 1.51,
+    "matched": true
+   },
+   {
+    "word": "Фактория",
+    "start": 1.74,
+    "end": 2.5,
+    "matched": true
+   },
+   {
+    "word": "Ванавара.",
+    "start": 2.5,
+    "end": 3.28,
+    "matched": false
+   },
+   {
+    "word": "Местный",
+    "start": 3.41,
+    "end": 3.98,
+    "matched": true
+   },
+   {
+    "word": "житель",
+    "start": 3.98,
+    "end": 4.3,
+    "matched": true
+   },
+   {
+    "word": "Семёнов",
+    "start": 4.3,
+    "end": 4.78,
+    "matched": true
+   },
+   {
+    "word": "сидит",
+    "start": 4.78,
+    "end": 5.12,
+    "matched": true
+   },
+   {
+    "word": "на",
+    "start": 5.12,
+    "end": 5.22,
+    "matched": true
+   },
+   {
+    "word": "крыльце.",
+    "start": 5.22,
+    "end": 5.8,
+    "matched": true
+   }
+  ]
+ },
+ "L4": {
+  "text": "Вдруг небо раскалывается надвое, и над лесом встаёт огонь.",
+  "emotion": "sudden, tense, rising",
+  "file": "L4.wav",
+  "duration_s": 3.74,
+  "take": "L4_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Вдруг небо раскалывается надвое, и над лесом встаёт огонь.",
+  "words": [
+   {
+    "word": "Вдруг",
+    "start": 0.05,
+    "end": 0.34,
+    "p": 0.95
+   },
+   {
+    "word": "небо",
+    "start": 0.34,
+    "end": 0.7,
+    "p": 1.0
+   },
+   {
+    "word": "раскалывается",
+    "start": 0.7,
+    "end": 1.48,
+    "p": 0.998
+   },
+   {
+    "word": "надвое,",
+    "start": 1.48,
+    "end": 2.0,
+    "p": 0.98
+   },
+   {
+    "word": "и",
+    "start": 2.0,
+    "end": 2.34,
+    "p": 0.921
+   },
+   {
+    "word": "над",
+    "start": 2.34,
+    "end": 2.5,
+    "p": 1.0
+   },
+   {
+    "word": "лесом",
+    "start": 2.5,
+    "end": 2.94,
+    "p": 0.999
+   },
+   {
+    "word": "встаёт",
+    "start": 2.94,
+    "end": 3.36,
+    "p": 0.499
+   },
+   {
+    "word": "огонь.",
+    "start": 3.36,
+    "end": 3.73,
+    "p": 0.995
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Вдруг",
+    "start": 0.05,
+    "end": 0.34,
+    "matched": true
+   },
+   {
+    "word": "небо",
+    "start": 0.34,
+    "end": 0.7,
+    "matched": true
+   },
+   {
+    "word": "раскалывается",
+    "start": 0.7,
+    "end": 1.48,
+    "matched": true
+   },
+   {
+    "word": "надвое,",
+    "start": 1.48,
+    "end": 2.0,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 2.0,
+    "end": 2.34,
+    "matched": true
+   },
+   {
+    "word": "над",
+    "start": 2.34,
+    "end": 2.5,
+    "matched": true
+   },
+   {
+    "word": "лесом",
+    "start": 2.5,
+    "end": 2.94,
+    "matched": true
+   },
+   {
+    "word": "встаёт",
+    "start": 2.94,
+    "end": 3.36,
+    "matched": true
+   },
+   {
+    "word": "огонь.",
+    "start": 3.36,
+    "end": 3.73,
+    "matched": true
+   }
+  ]
+ },
+ "L5": {
+  "text": "Жар такой, будто на нём загорелась рубашка. Удар сбрасывает его с крыльца.",
+  "emotion": "tense, vivid",
+  "file": "L5.wav",
+  "duration_s": 4.94,
+  "take": "L5_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Жар такой, будто на нем загорелась рубашка. Удар сбрасывает его с крыльца.",
+  "words": [
+   {
+    "word": "Жар",
+    "start": 0.05,
+    "end": 0.38,
+    "p": 0.817
+   },
+   {
+    "word": "такой,",
+    "start": 0.38,
+    "end": 0.72,
+    "p": 0.994
+   },
+   {
+    "word": "будто",
+    "start": 0.72,
+    "end": 1.28,
+    "p": 0.987
+   },
+   {
+    "word": "на",
+    "start": 1.28,
+    "end": 1.48,
+    "p": 0.997
+   },
+   {
+    "word": "нем",
+    "start": 1.48,
+    "end": 1.62,
+    "p": 0.707
+   },
+   {
+    "word": "загорелась",
+    "start": 1.62,
+    "end": 2.16,
+    "p": 0.991
+   },
+   {
+    "word": "рубашка.",
+    "start": 2.16,
+    "end": 2.81,
+    "p": 0.994
+   },
+   {
+    "word": "Удар",
+    "start": 3.09,
+    "end": 3.52,
+    "p": 0.998
+   },
+   {
+    "word": "сбрасывает",
+    "start": 3.52,
+    "end": 4.12,
+    "p": 0.996
+   },
+   {
+    "word": "его",
+    "start": 4.12,
+    "end": 4.3,
+    "p": 1.0
+   },
+   {
+    "word": "с",
+    "start": 4.3,
+    "end": 4.44,
+    "p": 0.999
+   },
+   {
+    "word": "крыльца.",
+    "start": 4.44,
+    "end": 4.94,
+    "p": 0.998
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Жар",
+    "start": 0.05,
+    "end": 0.38,
+    "matched": true
+   },
+   {
+    "word": "такой,",
+    "start": 0.38,
+    "end": 0.72,
+    "matched": true
+   },
+   {
+    "word": "будто",
+    "start": 0.72,
+    "end": 1.28,
+    "matched": true
+   },
+   {
+    "word": "на",
+    "start": 1.28,
+    "end": 1.48,
+    "matched": true
+   },
+   {
+    "word": "нём",
+    "start": 1.48,
+    "end": 1.62,
+    "matched": true
+   },
+   {
+    "word": "загорелась",
+    "start": 1.62,
+    "end": 2.16,
+    "matched": true
+   },
+   {
+    "word": "рубашка.",
+    "start": 2.16,
+    "end": 2.81,
+    "matched": true
+   },
+   {
+    "word": "Удар",
+    "start": 3.09,
+    "end": 3.52,
+    "matched": true
+   },
+   {
+    "word": "сбрасывает",
+    "start": 3.52,
+    "end": 4.12,
+    "matched": true
+   },
+   {
+    "word": "его",
+    "start": 4.12,
+    "end": 4.3,
+    "matched": true
+   },
+   {
+    "word": "с",
+    "start": 4.3,
+    "end": 4.44,
+    "matched": true
+   },
+   {
+    "word": "крыльца.",
+    "start": 4.44,
+    "end": 4.94,
+    "matched": true
+   }
+  ]
+ },
+ "L6": {
+  "text": "А до взрыва — шестьдесят пять километров.",
+  "emotion": "emphatic, impressed",
+  "file": "L6.wav",
+  "duration_s": 2.78,
+  "take": "L6_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "а до взрыва 65 километров.",
+  "words": [
+   {
+    "word": "а",
+    "start": 0.05,
+    "end": 0.16,
+    "p": 0.816
+   },
+   {
+    "word": "до",
+    "start": 0.16,
+    "end": 0.36,
+    "p": 0.997
+   },
+   {
+    "word": "взрыва",
+    "start": 0.36,
+    "end": 0.92,
+    "p": 0.993
+   },
+   {
+    "word": "65",
+    "start": 0.92,
+    "end": 1.44,
+    "p": 0.703
+   },
+   {
+    "word": "километров.",
+    "start": 1.44,
+    "end": 2.78,
+    "p": 0.897
+   }
+  ],
+  "script_words": [
+   {
+    "word": "А",
+    "start": 0.05,
+    "end": 0.16,
+    "matched": true
+   },
+   {
+    "word": "до",
+    "start": 0.16,
+    "end": 0.36,
+    "matched": true
+   },
+   {
+    "word": "взрыва —",
+    "start": 0.36,
+    "end": 0.92,
+    "matched": true
+   },
+   {
+    "word": "шестьдесят",
+    "start": 0.92,
+    "end": 1.291,
+    "matched": false
+   },
+   {
+    "word": "пять",
+    "start": 1.291,
+    "end": 1.44,
+    "matched": false
+   },
+   {
+    "word": "километров.",
+    "start": 1.44,
+    "end": 2.78,
+    "matched": true
+   }
+  ]
+ },
+ "L7": {
+  "text": "В тайге падают миллионы деревьев. Площадь — почти как вся Москва.",
+  "emotion": "awed, heavy",
+  "file": "L7.wav",
+  "duration_s": 4.22,
+  "take": "L7_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "В тайге падают миллионы деревьев. Площадь почти как вся Москва.",
+  "words": [
+   {
+    "word": "В",
+    "start": 0.02,
+    "end": 0.12,
+    "p": 0.866
+   },
+   {
+    "word": "тайге",
+    "start": 0.12,
+    "end": 0.52,
+    "p": 0.986
+   },
+   {
+    "word": "падают",
+    "start": 0.52,
+    "end": 1.06,
+    "p": 0.998
+   },
+   {
+    "word": "миллионы",
+    "start": 1.06,
+    "end": 1.54,
+    "p": 0.999
+   },
+   {
+    "word": "деревьев.",
+    "start": 1.54,
+    "end": 2.14,
+    "p": 0.998
+   },
+   {
+    "word": "Площадь",
+    "start": 2.14,
+    "end": 2.88,
+    "p": 1.0
+   },
+   {
+    "word": "почти",
+    "start": 2.88,
+    "end": 3.16,
+    "p": 0.986
+   },
+   {
+    "word": "как",
+    "start": 3.16,
+    "end": 3.38,
+    "p": 0.992
+   },
+   {
+    "word": "вся",
+    "start": 3.38,
+    "end": 3.62,
+    "p": 1.0
+   },
+   {
+    "word": "Москва.",
+    "start": 3.62,
+    "end": 4.22,
+    "p": 0.993
+   }
+  ],
+  "script_words": [
+   {
+    "word": "В",
+    "start": 0.02,
+    "end": 0.12,
+    "matched": true
+   },
+   {
+    "word": "тайге",
+    "start": 0.12,
+    "end": 0.52,
+    "matched": true
+   },
+   {
+    "word": "падают",
+    "start": 0.52,
+    "end": 1.06,
+    "matched": true
+   },
+   {
+    "word": "миллионы",
+    "start": 1.06,
+    "end": 1.54,
+    "matched": true
+   },
+   {
+    "word": "деревьев.",
+    "start": 1.54,
+    "end": 2.14,
+    "matched": true
+   },
+   {
+    "word": "Площадь —",
+    "start": 2.14,
+    "end": 2.88,
+    "matched": true
+   },
+   {
+    "word": "почти",
+    "start": 2.88,
+    "end": 3.16,
+    "matched": true
+   },
+   {
+    "word": "как",
+    "start": 3.16,
+    "end": 3.38,
+    "matched": true
+   },
+   {
+    "word": "вся",
+    "start": 3.38,
+    "end": 3.62,
+    "matched": true
+   },
+   {
+    "word": "Москва.",
+    "start": 3.62,
+    "end": 4.22,
+    "matched": true
+   }
+  ]
+ },
+ "L8": {
+  "text": "Несколько ночей небо над Европой светится так, что в полночь можно читать газету.",
+  "emotion": "amazed, lighter",
+  "file": "L8.wav",
+  "duration_s": 4.84,
+  "take": "L8_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Несколько ночей небо над Европой светится так, что в полночь можно читать газету.",
+  "words": [
+   {
+    "word": "Несколько",
+    "start": 0.05,
+    "end": 0.48,
+    "p": 0.842
+   },
+   {
+    "word": "ночей",
+    "start": 0.48,
+    "end": 0.86,
+    "p": 0.998
+   },
+   {
+    "word": "небо",
+    "start": 0.86,
+    "end": 1.16,
+    "p": 0.955
+   },
+   {
+    "word": "над",
+    "start": 1.16,
+    "end": 1.32,
+    "p": 0.999
+   },
+   {
+    "word": "Европой",
+    "start": 1.32,
+    "end": 1.74,
+    "p": 0.994
+   },
+   {
+    "word": "светится",
+    "start": 1.74,
+    "end": 2.24,
+    "p": 0.977
+   },
+   {
+    "word": "так,",
+    "start": 2.24,
+    "end": 2.6,
+    "p": 0.993
+   },
+   {
+    "word": "что",
+    "start": 2.6,
+    "end": 3.06,
+    "p": 0.655
+   },
+   {
+    "word": "в",
+    "start": 3.06,
+    "end": 3.24,
+    "p": 0.98
+   },
+   {
+    "word": "полночь",
+    "start": 3.24,
+    "end": 3.74,
+    "p": 0.994
+   },
+   {
+    "word": "можно",
+    "start": 3.74,
+    "end": 3.96,
+    "p": 0.998
+   },
+   {
+    "word": "читать",
+    "start": 3.96,
+    "end": 4.32,
+    "p": 0.999
+   },
+   {
+    "word": "газету.",
+    "start": 4.32,
+    "end": 4.84,
+    "p": 0.998
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Несколько",
+    "start": 0.05,
+    "end": 0.48,
+    "matched": true
+   },
+   {
+    "word": "ночей",
+    "start": 0.48,
+    "end": 0.86,
+    "matched": true
+   },
+   {
+    "word": "небо",
+    "start": 0.86,
+    "end": 1.16,
+    "matched": true
+   },
+   {
+    "word": "над",
+    "start": 1.16,
+    "end": 1.32,
+    "matched": true
+   },
+   {
+    "word": "Европой",
+    "start": 1.32,
+    "end": 1.74,
+    "matched": true
+   },
+   {
+    "word": "светится",
+    "start": 1.74,
+    "end": 2.24,
+    "matched": true
+   },
+   {
+    "word": "так,",
+    "start": 2.24,
+    "end": 2.6,
+    "matched": true
+   },
+   {
+    "word": "что",
+    "start": 2.6,
+    "end": 3.06,
+    "matched": true
+   },
+   {
+    "word": "в",
+    "start": 3.06,
+    "end": 3.24,
+    "matched": true
+   },
+   {
+    "word": "полночь",
+    "start": 3.24,
+    "end": 3.74,
+    "matched": true
+   },
+   {
+    "word": "можно",
+    "start": 3.74,
+    "end": 3.96,
+    "matched": true
+   },
+   {
+    "word": "читать",
+    "start": 3.96,
+    "end": 4.32,
+    "matched": true
+   },
+   {
+    "word": "газету.",
+    "start": 4.32,
+    "end": 4.84,
+    "matched": true
+   }
+  ]
+ },
+ "L9": {
+  "text": "Учёные добираются туда только через девятнадцать лет. Леонид Кулик ищет гигантский железный метеорит.",
+  "emotion": "storytelling, building suspense",
+  "file": "L9.wav",
+  "duration_s": 6.04,
+  "take": "L9_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Учёные добираются туда только через 19 лет. Леонид Кулик ищет гигантский железный метеорит.",
+  "words": [
+   {
+    "word": "Учёные",
+    "start": 0.04,
+    "end": 0.46,
+    "p": 0.496
+   },
+   {
+    "word": "добираются",
+    "start": 0.46,
+    "end": 0.98,
+    "p": 1.0
+   },
+   {
+    "word": "туда",
+    "start": 0.98,
+    "end": 1.28,
+    "p": 0.999
+   },
+   {
+    "word": "только",
+    "start": 1.28,
+    "end": 1.68,
+    "p": 0.996
+   },
+   {
+    "word": "через",
+    "start": 1.68,
+    "end": 2.0,
+    "p": 0.998
+   },
+   {
+    "word": "19",
+    "start": 2.0,
+    "end": 2.32,
+    "p": 0.971
+   },
+   {
+    "word": "лет.",
+    "start": 2.32,
+    "end": 2.98,
+    "p": 0.999
+   },
+   {
+    "word": "Леонид",
+    "start": 3.1,
+    "end": 3.72,
+    "p": 1.0
+   },
+   {
+    "word": "Кулик",
+    "start": 3.72,
+    "end": 4.12,
+    "p": 0.936
+   },
+   {
+    "word": "ищет",
+    "start": 4.12,
+    "end": 4.56,
+    "p": 0.999
+   },
+   {
+    "word": "гигантский",
+    "start": 4.56,
+    "end": 5.1,
+    "p": 0.999
+   },
+   {
+    "word": "железный",
+    "start": 5.1,
+    "end": 5.5,
+    "p": 0.998
+   },
+   {
+    "word": "метеорит.",
+    "start": 5.5,
+    "end": 6.04,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Учёные",
+    "start": 0.04,
+    "end": 0.46,
+    "matched": true
+   },
+   {
+    "word": "добираются",
+    "start": 0.46,
+    "end": 0.98,
+    "matched": true
+   },
+   {
+    "word": "туда",
+    "start": 0.98,
+    "end": 1.28,
+    "matched": true
+   },
+   {
+    "word": "только",
+    "start": 1.28,
+    "end": 1.68,
+    "matched": true
+   },
+   {
+    "word": "через",
+    "start": 1.68,
+    "end": 2.0,
+    "matched": true
+   },
+   {
+    "word": "девятнадцать",
+    "start": 2.0,
+    "end": 2.32,
+    "matched": false
+   },
+   {
+    "word": "лет.",
+    "start": 2.32,
+    "end": 2.98,
+    "matched": true
+   },
+   {
+    "word": "Леонид",
+    "start": 3.1,
+    "end": 3.72,
+    "matched": true
+   },
+   {
+    "word": "Кулик",
+    "start": 3.72,
+    "end": 4.12,
+    "matched": true
+   },
+   {
+    "word": "ищет",
+    "start": 4.12,
+    "end": 4.56,
+    "matched": true
+   },
+   {
+    "word": "гигантский",
+    "start": 4.56,
+    "end": 5.1,
+    "matched": true
+   },
+   {
+    "word": "железный",
+    "start": 5.1,
+    "end": 5.5,
+    "matched": true
+   },
+   {
+    "word": "метеорит.",
+    "start": 5.5,
+    "end": 6.04,
+    "matched": true
+   }
+  ]
+ },
+ "L10": {
+  "text": "И не находит ничего. Ни кратера. Ни осколков.",
+  "emotion": "puzzled, slow, with pauses",
+  "file": "L10.wav",
+  "duration_s": 3.42,
+  "take": "L10_s5",
+  "seed": 5,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "и не находит ничего, ни кратера, ни осколков,",
+  "words": [
+   {
+    "word": "и",
+    "start": 0.04,
+    "end": 0.14,
+    "p": 0.661
+   },
+   {
+    "word": "не",
+    "start": 0.14,
+    "end": 0.3,
+    "p": 1.0
+   },
+   {
+    "word": "находит",
+    "start": 0.3,
+    "end": 0.74,
+    "p": 0.875
+   },
+   {
+    "word": "ничего,",
+    "start": 0.74,
+    "end": 1.33,
+    "p": 0.999
+   },
+   {
+    "word": "ни",
+    "start": 1.61,
+    "end": 1.76,
+    "p": 0.903
+   },
+   {
+    "word": "кратера,",
+    "start": 1.76,
+    "end": 2.35,
+    "p": 0.994
+   },
+   {
+    "word": "ни",
+    "start": 2.63,
+    "end": 2.78,
+    "p": 0.995
+   },
+   {
+    "word": "осколков,",
+    "start": 2.78,
+    "end": 3.42,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "И",
+    "start": 0.04,
+    "end": 0.14,
+    "matched": true
+   },
+   {
+    "word": "не",
+    "start": 0.14,
+    "end": 0.3,
+    "matched": true
+   },
+   {
+    "word": "находит",
+    "start": 0.3,
+    "end": 0.74,
+    "matched": true
+   },
+   {
+    "word": "ничего.",
+    "start": 0.74,
+    "end": 1.33,
+    "matched": true
+   },
+   {
+    "word": "Ни",
+    "start": 1.61,
+    "end": 1.76,
+    "matched": true
+   },
+   {
+    "word": "кратера.",
+    "start": 1.76,
+    "end": 2.35,
+    "matched": true
+   },
+   {
+    "word": "Ни",
+    "start": 2.63,
+    "end": 2.78,
+    "matched": true
+   },
+   {
+    "word": "осколков.",
+    "start": 2.78,
+    "end": 3.42,
+    "matched": true
+   }
+  ]
+ },
+ "L11": {
+  "text": "Только поваленный лес, а в центре — мёртвые деревья без веток, как телеграфные столбы.",
+  "emotion": "eerie, quiet",
+  "file": "L11.wav",
+  "duration_s": 5.38,
+  "take": "L11_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Только поваленный лес, а в центре мёртвые деревья без веток, как телеграфные столбы.",
+  "words": [
+   {
+    "word": "Только",
+    "start": 0.03,
+    "end": 0.28,
+    "p": 0.761
+   },
+   {
+    "word": "поваленный",
+    "start": 0.28,
+    "end": 0.88,
+    "p": 0.991
+   },
+   {
+    "word": "лес,",
+    "start": 0.88,
+    "end": 1.24,
+    "p": 0.999
+   },
+   {
+    "word": "а",
+    "start": 1.24,
+    "end": 1.7,
+    "p": 0.912
+   },
+   {
+    "word": "в",
+    "start": 1.7,
+    "end": 1.82,
+    "p": 1.0
+   },
+   {
+    "word": "центре",
+    "start": 1.82,
+    "end": 2.2,
+    "p": 0.999
+   },
+   {
+    "word": "мёртвые",
+    "start": 2.2,
+    "end": 2.68,
+    "p": 0.539
+   },
+   {
+    "word": "деревья",
+    "start": 2.68,
+    "end": 3.1,
+    "p": 0.999
+   },
+   {
+    "word": "без",
+    "start": 3.1,
+    "end": 3.32,
+    "p": 0.985
+   },
+   {
+    "word": "веток,",
+    "start": 3.32,
+    "end": 3.72,
+    "p": 0.996
+   },
+   {
+    "word": "как",
+    "start": 3.72,
+    "end": 3.96,
+    "p": 0.856
+   },
+   {
+    "word": "телеграфные",
+    "start": 4.06,
+    "end": 4.86,
+    "p": 1.0
+   },
+   {
+    "word": "столбы.",
+    "start": 4.86,
+    "end": 5.38,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Только",
+    "start": 0.03,
+    "end": 0.28,
+    "matched": true
+   },
+   {
+    "word": "поваленный",
+    "start": 0.28,
+    "end": 0.88,
+    "matched": true
+   },
+   {
+    "word": "лес,",
+    "start": 0.88,
+    "end": 1.24,
+    "matched": true
+   },
+   {
+    "word": "а",
+    "start": 1.24,
+    "end": 1.7,
+    "matched": true
+   },
+   {
+    "word": "в",
+    "start": 1.7,
+    "end": 1.82,
+    "matched": true
+   },
+   {
+    "word": "центре —",
+    "start": 1.82,
+    "end": 2.2,
+    "matched": true
+   },
+   {
+    "word": "мёртвые",
+    "start": 2.2,
+    "end": 2.68,
+    "matched": true
+   },
+   {
+    "word": "деревья",
+    "start": 2.68,
+    "end": 3.1,
+    "matched": true
+   },
+   {
+    "word": "без",
+    "start": 3.1,
+    "end": 3.32,
+    "matched": true
+   },
+   {
+    "word": "веток,",
+    "start": 3.32,
+    "end": 3.72,
+    "matched": true
+   },
+   {
+    "word": "как",
+    "start": 3.72,
+    "end": 3.96,
+    "matched": true
+   },
+   {
+    "word": "телеграфные",
+    "start": 4.06,
+    "end": 4.86,
+    "matched": true
+   },
+   {
+    "word": "столбы.",
+    "start": 4.86,
+    "end": 5.38,
+    "matched": true
+   }
+  ]
+ },
+ "L12": {
+  "text": "Скорее всего, в воздухе взорвался астероид или комета. Но спорят об этом до сих пор.",
+  "emotion": "thoughtful",
+  "file": "L12.wav",
+  "duration_s": 5.58,
+  "take": "L12_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Скорее всего, в воздухе взорвался астероид или комета, но спорят об этом до сих пор.",
+  "words": [
+   {
+    "word": "Скорее",
+    "start": 0.03,
+    "end": 0.38,
+    "p": 0.982
+   },
+   {
+    "word": "всего,",
+    "start": 0.38,
+    "end": 0.68,
+    "p": 1.0
+   },
+   {
+    "word": "в",
+    "start": 0.68,
+    "end": 1.16,
+    "p": 0.999
+   },
+   {
+    "word": "воздухе",
+    "start": 1.16,
+    "end": 1.58,
+    "p": 0.999
+   },
+   {
+    "word": "взорвался",
+    "start": 1.58,
+    "end": 2.14,
+    "p": 0.999
+   },
+   {
+    "word": "астероид",
+    "start": 2.14,
+    "end": 2.74,
+    "p": 0.994
+   },
+   {
+    "word": "или",
+    "start": 2.74,
+    "end": 2.96,
+    "p": 0.996
+   },
+   {
+    "word": "комета,",
+    "start": 2.96,
+    "end": 3.54,
+    "p": 0.998
+   },
+   {
+    "word": "но",
+    "start": 3.72,
+    "end": 4.1,
+    "p": 0.573
+   },
+   {
+    "word": "спорят",
+    "start": 4.1,
+    "end": 4.56,
+    "p": 0.999
+   },
+   {
+    "word": "об",
+    "start": 4.56,
+    "end": 4.7,
+    "p": 0.999
+   },
+   {
+    "word": "этом",
+    "start": 4.7,
+    "end": 4.9,
+    "p": 1.0
+   },
+   {
+    "word": "до",
+    "start": 4.9,
+    "end": 5.08,
+    "p": 1.0
+   },
+   {
+    "word": "сих",
+    "start": 5.08,
+    "end": 5.28,
+    "p": 1.0
+   },
+   {
+    "word": "пор.",
+    "start": 5.28,
+    "end": 5.58,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Скорее",
+    "start": 0.03,
+    "end": 0.38,
+    "matched": true
+   },
+   {
+    "word": "всего,",
+    "start": 0.38,
+    "end": 0.68,
+    "matched": true
+   },
+   {
+    "word": "в",
+    "start": 0.68,
+    "end": 1.16,
+    "matched": true
+   },
+   {
+    "word": "воздухе",
+    "start": 1.16,
+    "end": 1.58,
+    "matched": true
+   },
+   {
+    "word": "взорвался",
+    "start": 1.58,
+    "end": 2.14,
+    "matched": true
+   },
+   {
+    "word": "астероид",
+    "start": 2.14,
+    "end": 2.74,
+    "matched": true
+   },
+   {
+    "word": "или",
+    "start": 2.74,
+    "end": 2.96,
+    "matched": true
+   },
+   {
+    "word": "комета.",
+    "start": 2.96,
+    "end": 3.54,
+    "matched": true
+   },
+   {
+    "word": "Но",
+    "start": 3.72,
+    "end": 4.1,
+    "matched": true
+   },
+   {
+    "word": "спорят",
+    "start": 4.1,
+    "end": 4.56,
+    "matched": true
+   },
+   {
+    "word": "об",
+    "start": 4.56,
+    "end": 4.7,
+    "matched": true
+   },
+   {
+    "word": "этом",
+    "start": 4.7,
+    "end": 4.9,
+    "matched": true
+   },
+   {
+    "word": "до",
+    "start": 4.9,
+    "end": 5.08,
+    "matched": true
+   },
+   {
+    "word": "сих",
+    "start": 5.08,
+    "end": 5.28,
+    "matched": true
+   },
+   {
+    "word": "пор.",
+    "start": 5.28,
+    "end": 5.58,
+    "matched": true
+   }
+  ]
+ },
+ "L13": {
+  "text": "А ты как думаешь, что это было?",
+  "emotion": "friendly, engaging, curious question",
+  "file": "L13.wav",
+  "duration_s": 1.7,
+  "take": "L13_s5",
+  "seed": 5,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "«А ты как думаешь, что это было?»",
+  "words": [
+   {
+    "word": "А",
+    "start": 0.02,
+    "end": 0.12,
+    "p": 0.995
+   },
+   {
+    "word": "ты",
+    "start": 0.12,
+    "end": 0.28,
+    "p": 0.999
+   },
+   {
+    "word": "как",
+    "start": 0.28,
+    "end": 0.5,
+    "p": 0.987
+   },
+   {
+    "word": "думаешь,",
+    "start": 0.5,
+    "end": 0.86,
+    "p": 1.0
+   },
+   {
+    "word": "что",
+    "start": 0.86,
+    "end": 1.08,
+    "p": 0.998
+   },
+   {
+    "word": "это",
+    "start": 1.08,
+    "end": 1.28,
+    "p": 1.0
+   },
+   {
+    "word": "было?»",
+    "start": 1.28,
+    "end": 1.7,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "А",
+    "start": 0.02,
+    "end": 0.12,
+    "matched": true
+   },
+   {
+    "word": "ты",
+    "start": 0.12,
+    "end": 0.28,
+    "matched": true
+   },
+   {
+    "word": "как",
+    "start": 0.28,
+    "end": 0.5,
+    "matched": true
+   },
+   {
+    "word": "думаешь,",
+    "start": 0.5,
+    "end": 0.86,
+    "matched": true
+   },
+   {
+    "word": "что",
+    "start": 0.86,
+    "end": 1.08,
+    "matched": true
+   },
+   {
+    "word": "это",
+    "start": 1.08,
+    "end": 1.28,
+    "matched": true
+   },
+   {
+    "word": "было?",
+    "start": 1.28,
+    "end": 1.7,
+    "matched": true
+   }
+  ]
+ }
+}

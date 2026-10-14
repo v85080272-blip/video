@@ -23,6 +23,20 @@ vla послушал первую версию ролика и сказал, ч�
    `../voice/scripts`, затем `render/assemble.sh` с `VOICE_DIR=<папка с L1–L13.wav>` и `VOICE_SPEED=1.0`
    (без ускорения atempo, которое тоже добавляет «механики»).
 
+## Итог для Тунгуски
+
+Голос «Энергичный рассказчик» (`variants.json`, `v5_energetic`, seed 21), клон по 3–6 дублей на фразу, выбор в
+`lines_cfg.json` (`chosen`), оценки всех дублей в `takes_scores.json`, тайминги слов в `lines/manifest.json`.
+У выбранных дублей CER 0 и UTMOS 3,9–4,3 (у старого голоса около 3,0). Длинную паузу в L9 ужали до 0,5 с.
+
+```bash
+# export.py лежит в shorts/voxcpm2/tools/ ветки claude/neural-voices-s8ob8u; manifest.py и vt.py в ../voice/scripts/
+python3 <voxcpm2>/tools/export.py lines_cfg.json takes lines -20
+python3 tools/tighten.py lines/L9.wav lines/L9.wav 0.5
+WHISPER_THREADS=4 python3 ../voice/scripts/manifest.py lines_cfg.json takes lines
+VOICE_DIR=$PWD/lines VOICE_SPEED=1.0 WORKERS=4 bash ../render/assemble.sh out.mp4
+```
+
 ## Установка в новом облачном треде (окружение «Голоса», открыт Hugging Face)
 
 ```bash

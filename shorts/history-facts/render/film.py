@@ -52,7 +52,7 @@ SPEED = float(os.environ.get('VOICE_SPEED', '1.06'))
 
 def voice_files():
     """Speed up each chosen line once (atempo keeps pitch) into WORK/voice/."""
-    vdir = f'{WORK}/voice' if VOICE == '/home/user/work/voice/lines' else f'{WORK}/voice_alt'
+    vdir = f'{WORK}/voice' if VOICE == '/home/user/work/voice/lines' else os.path.join(VOICE, '_film')
     os.makedirs(vdir, exist_ok=True)
     out = {}
     for i in range(1, 14):

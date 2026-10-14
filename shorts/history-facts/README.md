@@ -15,7 +15,8 @@
 | Кадры | SDXL RealVisXL V5.0 Lightning (openrail++, коммерция разрешена) в stable-diffusion.cpp на процессоре; VAE декодирует ONNX Runtime | `gen/` |
 | Глубина для 3D-параллакса | Depth Anything V2 Small (ONNX, Apache-2.0) | `render/depth.py` |
 | Камера, частицы, свет, субтитры, карточки, обложка | свой рендер на numpy + Pillow | `render/engine.py`, `render/film.py` |
-| Голос | VoxCPM2 (Apache-2.0) через llama.cpp-omni, клон `voice/narrator.wav`, по 3–6 дублей на фразу, проверка Whisper | `voice/` (инструменты из ветки `claude/neural-voices-s8ob8u`, папка `shorts/voxcpm2/`) |
+| Голос (v2, живой) | Qwen3-TTS 1.7B (Apache-2.0) через qwentts.cpp: голос по описанию, затем клон, оценка UTMOS и Whisper | `voice2/` (там же README) |
+| Голос (v1, vla назвал роботизированным) | VoxCPM2 (Apache-2.0) через llama.cpp-omni, клон `voice/narrator.wav`, по 3–6 дублей на фразу, проверка Whisper | `voice/` (инструменты из ветки `claude/neural-voices-s8ob8u`, папка `shorts/voxcpm2/`) |
 | Тайминг субтитров | слова Whisper из `voice/lines_manifest.json` (`script_words`), запасной вариант — по слогам | `render/captions.py` |
 | Звуки и подложка | синтез с нуля на numpy, без чужих сэмплов и музыки | `sfx/make_sfx.py` |
 | Сведение | ducking под голос (подложка −12 дБ, удары −10 дБ), −14 LUFS, −1 dBTP | `render/mix.py` |
