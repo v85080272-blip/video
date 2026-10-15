@@ -26,6 +26,8 @@ YELLOW = (255, 212, 0)
 EPISODE = os.environ.get('EPISODE', 'tunguska')
 EP = importlib.import_module(f'episodes.{EPISODE}')
 DISPLAY, HILITE, GAPS, LEAD_IN, TAIL = EP.DISPLAY, EP.HILITE, EP.GAPS, EP.LEAD_IN, EP.TAIL
+if os.environ.get('GAPS_JSON'):     # the narrator's own pauses from a continuous read (voice5/cut_cont.py)
+    GAPS = dict(GAPS, **json.load(open(os.environ['GAPS_JSON'])))
 LINE_IDS = list(DISPLAY)
 SPEED = float(os.environ.get('VOICE_SPEED', '1.06'))
 if 'TL_PATH' in os.environ:
