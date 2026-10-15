@@ -109,9 +109,10 @@ def layout(c):
     add('e02_summit', l3, no, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-12, 12)),
         fx=dict(snow=30, bloom=0.4, grade=day))
     un = wt('L3', 'У') - 0.06
-    add('e03b_collapse_orange', no, un, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e03b_collapse_orange_s403', no, un, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(blizzard=140, grade=dusk))
-    add('e03b_collapse_orange', un, l4, cam=dict(zoom=(1.35, 1.5), pany=(-0.04, -0.05), roll=(0.0, 1.5)),
+    add('e03b_collapse_orange_s303', un, l4,
+        cam=dict(zoom=(1.3, 1.45), panx=(0.04, 0.05), pany=(-0.09, -0.11), roll=(0.0, 1.5)),
         fx=dict(blizzard=120, punch=[(wt('L3', 'МОЗГ'), 0.06)], grade=dusk))
     # L4 the guides drag him down for hours; by night no sign of life
     kn = wt('L4', 'К') - 0.06
@@ -124,7 +125,7 @@ def layout(c):
     zh = wt('L5', 'А') - 0.06
     l6 = L('L6')['start'] - 0.1
     pv = wt('L5', 'ПРОВОДНИКАМ') - 0.06
-    add('e07b_leader_radio', l5, pv, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e07b_leader_radio_s307', l5, pv, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(dust=20, grade=tent))
     add('e06_radio', pv, zh, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
         fx=dict(snow=20, grade=dict(night, exposure=0.0, sat=0.9)))
@@ -154,7 +155,8 @@ def layout(c):
     bz1 = wt('L8', 'БЕЗ', nth=1) - 0.06
     vr = wt('L8', 'РАССТЁГНУТОЙ') - 0.3
     l9 = L('L9')['start'] - 0.08
-    add('e12_man_edge_s212', l8, bz, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e12_man_edge_s212', l8, bz, into='zoom', cam=dict(zoom=(1.24, 1.32), pany=(0.09, 0.1), dolly=(0.0, 0.04),
+                                                       parx=(-8, 8)),
         fx=dict(snow=30, bloom=0.6, light=sun(0.75, 0.3), punch=[(wt('L8', 'ЧЕЛОВЕК'), 0.05)], grade=dawn))
     add('e13b_face_bare', bz, bz1, cam=dict(zoom=(1.0, 1.06), dolly=(0.0, 0.05)),
         fx=dict(snow=20, bloom=0.4, grade=dawn))
@@ -204,7 +206,7 @@ def layout(c):
         fx=dict(snow=40, bloom=0.6, light=sun(0.6, 0.2, 0.8), grade=dawn))
 
     cards = [
-        dict(text='8600', sub='МЕТРОВ', start=wt('L1', '8600'), end=l2 - 0.05, y=760, count=True, count_dur=0.8),
+        dict(text='8600', sub='МЕТРОВ', start=wt('L1', '8600'), end=l2 - 0.05, y=520, count=True, count_dur=0.8),
         dict(text='2 ЧАСА', sub='ДО ВЕРШИНЫ', start=wt('L7', '2'), end=l8 - 0.05, y=760),
         dict(text='12', sub='ПРОВОДНИКОВ', start=wt('L10', '12'), end=l11 - 0.05, y=760, count=True),
     ]
