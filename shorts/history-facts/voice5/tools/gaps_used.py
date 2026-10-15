@@ -5,6 +5,7 @@
 import importlib.util, json, os, sys
 
 EP_PY, NAT, OUT = sys.argv[1:4]
+sys.dont_write_bytecode = True                  # no __pycache__ next to the episode modules in the repo
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(EP_PY))))    # render/, for the module's own imports
 spec = importlib.util.spec_from_file_location('ep', EP_PY)
 ep = importlib.util.module_from_spec(spec)
