@@ -132,7 +132,10 @@ def layout(c):
     l6e = L('L6')['end']
     l7 = L('L7')['start'] - 0.08
     pit = dict(exposure=-0.06, contrast=1.1, sat=0.8, teal=0.4, demagenta=0.4)
-    add('o07_carry_boat_s207', l6, sb - 0.04, cam=dict(zoom=(1.06, 1.14), pany=(0.0, 0.02)), fx=dict(dust=20, grade=yard))
+    # «лодку со сватами»: the matchmakers' boat once more (Lightning can't draw a boat carried on shoulders or tipped
+    # into a pit: the boat goes straight from the river into the pit)
+    add('o05b_envoys_river_s305', l6, sb - 0.04, cam=dict(zoom=(1.12, 1.22), pany=(0.04, 0.07), parx=(-8, 8)),
+        fx=dict(fog=0.15, grade=dict(river, exposure=-0.04, sat=0.85)))
     add('o08_pit', sb - 0.04, l7, into='zoom', cam=dict(zoom=(1.0, 1.16), dolly=(0.0, 0.1)),
         fx=dict(dust=30, punch=[(sb, 0.08), (zh, 0.05)], shake=[(sb, 0.6, 14)], blackout=(l6e + 0.15, l7), grade=pit))
     # L7 the second embassy: the bathhouse, the door barred, set on fire (revenge №2)

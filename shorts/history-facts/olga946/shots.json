@@ -62,27 +62,11 @@
       "prompt": "warriors carrying a wooden boat with seated proud bearded men on their shoulders through the courtyard of a wooden fortress, crowd of Slavic people watching, overcast morning"
     },
     {
-      "id": "o07b_carry_shoulders",
-      "seeds": [
-        307,
-        407
-      ],
-      "prompt": "low angle, a crowd of Slavic warriors carrying a big wooden boat high on their shoulders, proud bearded envoys sitting in the boat above the crowd, courtyard of a wooden log fortress, overcast morning"
-    },
-    {
       "id": "o08_pit",
       "seeds": [
         108
       ],
       "prompt": "a huge deep pit dug in the dark earth inside a wooden fortress yard, a wooden boat lying at the bottom of the pit, piles of fresh earth and wooden shovels around, grim warriors standing at the edge, overcast, high angle"
-    },
-    {
-      "id": "o08b_boat_pit",
-      "seeds": [
-        308,
-        408
-      ],
-      "prompt": "high angle, a wooden boat full of terrified bearded men in fur hats tipping over the edge into a huge deep pit dug in dark earth, warriors pushing it, piles of fresh earth, inside a wooden log fortress, grey overcast light"
     },
     {
       "id": "o09_bathhouse",
