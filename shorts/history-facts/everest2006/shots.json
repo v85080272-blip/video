@@ -136,6 +136,22 @@
         122
       ],
       "prompt": "a climber standing on a snowy ridge looking back down the mountain with the summit of Everest behind him, golden hour, a choice"
+    },
+    {
+      "id": "e03b_collapse_orange",
+      "seeds": [
+        303,
+        403
+      ],
+      "prompt": "an exhausted climber in an orange down suit and oxygen mask collapsed on his knees in the snow, a Sherpa guide in a red jacket kneeling beside him holding his shoulder, steep rocky ridge near the summit, late afternoon, wind blowing snow"
+    },
+    {
+      "id": "e07b_leader_radio",
+      "seeds": [
+        307,
+        407
+      ],
+      "prompt": "a stern middle-aged expedition leader with a grey beard in a red down jacket speaking into a handheld walkie-talkie radio held to his mouth, inside a tent at base camp at night, lamp light, grim face"
     }
   ]
 }
