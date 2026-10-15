@@ -152,6 +152,39 @@
         407
       ],
       "prompt": "a stern middle-aged expedition leader with a grey beard in a red down jacket speaking into a handheld walkie-talkie radio held to his mouth, inside a tent at base camp at night, lamp light, grim face"
+    },
+    {
+      "id": "e08b_wife_phone",
+      "seeds": [
+        308,
+        408
+      ],
+      "prompt": "a Caucasian woman in her forties with light brown hair at home at night holding a phone to her ear in shock, dim kitchen light, suburban house in Australia, tears in her eyes"
+    },
+    {
+      "id": "e13b_face_bare",
+      "seeds": [
+        313,
+        413,
+        513
+      ],
+      "prompt": "close-up portrait of a 50 year old man with a short dark beard covered in frost, bare head with messy windblown hair, no hat, no goggles, sunburned face, calm tired eyes, sunrise light"
+    },
+    {
+      "id": "e14_bare_hands",
+      "seeds": [
+        114,
+        214
+      ],
+      "prompt": "close-up of a man's bare hands without gloves resting on his knees in the snow, fingers red and white from frost, sleeves of an orange down suit, high mountain ridge at sunrise"
+    },
+    {
+      "id": "e12c_unzipped",
+      "seeds": [
+        312,
+        412
+      ],
+      "prompt": "a bearded man sitting cross-legged in the snow at the edge of a cliff with his orange down suit unzipped to the waist and his arms out of the sleeves, bare hands, no hat, sunrise, high mountain ridge, huge drop"
     }
   ]
 }
