@@ -91,7 +91,7 @@ def layout(c):
                             t0=0.0)]))
     add('o02_olga_s102', k1, s1, into='flash', cam=dict(zoom=(1.04, 1.12), dolly=(0.0, 0.06)),
         fx=dict(embers=40, bloom=0.6, light=glow(0.3, 0.6, 0.8), beat=[hook], grade=night))
-    add('o18_city_fire_s118', s1, g1, into='zoom', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-14, 14)),
+    add('o18b_street_fire_s318', s1, g1, into='zoom', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-14, 14)),
         fx=dict(embers=90, fire=1.0, bloom=0.9, punch=[(wt('L1', 'ГОРОД'), 0.06)], beat=[hook], grade=night))
     add('o16_release_s116', g1, l2, cam=dict(zoom=(1.06, 1.16), dolly=(0.0, 0.06), pany=(0.01, -0.02)),
         fx=dict(embers=50, bloom=0.8, beat=[hook], grade=night,
@@ -195,7 +195,7 @@ def layout(c):
     add('o17_roofs', l12, fi, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-12, 12)),
         fx=dict(embers=40, fire=0.6, bloom=0.7, grade=dusk_dark,
                 birds=[dict(n=30, seed=31, dir=(0.6, 0.8), speed=230.0, ember=1.0, dur=3.0, area=(0.0, 0.0, 1.0, 0.6))]))
-    add('o18_city_fire_s218', fi, l13, into='flash', cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.1), parx=(-14, 14)),
+    add('o18b_street_fire_s418', fi, l13, into='flash', cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.1), parx=(-14, 14)),
         fx=dict(embers=110, fire=1.0, bloom=0.9, flash=[(fi + 0.06, 0.6, 0.7)], shake=[(fi + 0.06, 1.2, 16)],
                 punch=[(gr, 0.07)], light=glow(0.5, 0.7), beat=[climax], grade=night))
     # L13 the same trick in the sagas: Harald, who lived in Kiev
