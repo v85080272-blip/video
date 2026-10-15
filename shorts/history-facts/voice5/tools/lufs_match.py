@@ -31,7 +31,8 @@ worst = 0.0
 for p in glob.glob(tgt + '/L*.wav'):
     x, sr = aud.read_wav(p)
     y = x * 10 ** (g / 20)
-    z = limiter(y, -0.5, look_ms=3.0)[0]     # only the few loudest peaks come down; the line keeps its level
+    z = np.atleast_2d(limiter(y, -0.5, look_ms=3.0))[0]  # only the few loudest peaks come down (a line under the
+                                                         # ceiling comes back untouched, 1-D)
     worst = max(worst, float(20 * np.log10(np.abs(y).max() / max(np.abs(z).max(), 1e-9))))
     aud.write_wav(p, z, sr)
 print(f'ref {a:.1f} LUFS, before {b:.1f}, gain {g:+.1f} dB, after {lufs(tgt):.1f}; peaks limited by up to {worst:.1f} dB')

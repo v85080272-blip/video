@@ -102,6 +102,13 @@
       "prompt": "a very narrow flooded underwater cave passage, swirling silt, a guide rope, a diver's light far away, murky green water, claustrophobic"
     },
     {
+      "id": "c14b_flooded_tunnel",
+      "seeds": [
+        314
+      ],
+      "prompt": "underwater photo inside a narrow flooded cave tunnel, a scuba diver with a bright headlamp swimming towards the camera through murky green water, a guide rope along the rock wall, rock walls close on both sides, silt and bubbles, claustrophobic"
+    },
+    {
       "id": "c15_air_tanks",
       "seeds": [
         115
@@ -121,6 +128,13 @@
         118
       ],
       "prompt": "close-up of a sleeping boy's face inside a full face diving mask, eyes closed, water droplets on the glass, headlamp light, dark cave"
+    },
+    {
+      "id": "c18b_mask_sleep",
+      "seeds": [
+        318
+      ],
+      "prompt": "close-up of a sleeping Thai boy with black hair, eyes closed, wearing a full face diving mask with a clear visor covering his whole face, water droplets on the visor, headlamp light, dark wet cave"
     },
     {
       "id": "c19_stretcher_carry",

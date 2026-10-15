@@ -94,8 +94,8 @@ def layout(c):
     # L1 hook: the boys on the ledge in the dark (the cover stays on until «двенадцать»), then the cave around them
     zs = wt('L1', 'ЗАСТРЯЛИ') - 0.06
     l2 = L('L2')['start'] - 0.08
-    add('c01_boys_ledge_s101', 0.0, zs, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06), parx=(-10, 10)),
-        fx=dict(dust=25, light=beam(0.5, 0.45), beat=[hook], grade=lamp))
+    add('c01_boys_ledge_s201', 0.0, zs, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06), parx=(-10, 10)),
+        fx=dict(dust=25, beat=[hook], grade=lamp))
     add('c08_ledge_wide', zs, l2, into='zoom', cam=dict(zoom=(1.18, 1.0), dolly=(0.06, 0.0), parx=(12, -12)),
         fx=dict(dust=20, beat=[hook], grade=cave))
     # L2 «детей пришлось усыпить»: the boy in the mask on the stretcher, a hit, then dark
@@ -127,41 +127,49 @@ def layout(c):
     # L5 deeper and deeper, a dry ledge 4 km in
     sx = wt('L5', 'СУХОЙ') - 0.06
     l6 = L('L6')['start'] - 0.08
-    add('c05_cave_entrance', l5, sx, into='fade', cam=dict(zoom=(1.35, 1.5), pany=(0.04, 0.06), dolly=(0.0, 0.08)),
+    add('c05_cave_entrance', l5, sx, into='fade', cam=dict(zoom=(1.4, 1.55), panx=(0.05, 0.06), pany=(0.11, 0.12),
+                                                       dolly=(0.0, 0.08)),
         fx=dict(fog=0.1, dust=15, grade=dict(cave, exposure=-0.02)))       # in on the boys with flashlights
-    add('c08_ledge_wide', sx, l6, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('c08_ledge_wide', sx, l6, cam=dict(zoom=(1.08, 1.2), pany=(0.04, 0.06), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(dust=20, grade=cave))
     # L6 no food; the coach, a former monk, teaches them to meditate
     tr = wt('L6', 'ТРЕНЕР') - 0.06
     l7 = L('L7')['start'] - 0.08
-    add('c01_boys_ledge_s201', l6, tr, into='fade', cam=dict(zoom=(1.25, 1.35), pany=(0.02, 0.03), parx=(-8, 8)),
-        fx=dict(dust=20, light=beam(0.5, 0.4, 0.8), grade=lamp))
-    add('c09_coach_meditate', tr, l7, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
-        fx=dict(dust=30, light=beam(0.5, 0.35, 0.8), grade=lamp))
+    add('c01_boys_ledge_s201', l6, tr, into='fade', cam=dict(zoom=(1.45, 1.55), panx=(0.06, 0.07), pany=(0.07, 0.08),
+                                                             parx=(-8, 8)),
+        fx=dict(dust=20, grade=lamp))
+    uc = wt('L6', 'УЧИЛ') - 0.06
+    add('c09_coach_meditate', tr, uc, cam=dict(zoom=(1.0, 1.06), dolly=(0.0, 0.06)),
+        fx=dict(dust=30, grade=lamp))
+    add('c09_coach_meditate', uc, l7, cam=dict(zoom=(1.5, 1.62), pany=(-0.12, -0.12), dolly=(0.0, 0.04)),
+        fx=dict(dust=20, grade=lamp))
     # L7 thousands search above; «девять дней ни звука»: the dark ledge, silence
     nine = p['silence']
     l8 = L('L8')['start'] - 0.1
     add('c10_rescue_camp', l7, nine, into='fade', cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-14, 14)),
         fx=dict(rain=160, bloom=0.5, grade=camp))
-    add('c08_ledge_wide', nine, l8, cam=dict(zoom=(1.3, 1.42), pany=(0.02, 0.03), dolly=(0.0, 0.04)),
+    add('c08_ledge_wide', nine, l8, cam=dict(zoom=(1.45, 1.55), panx=(-0.05, -0.05), pany=(0.12, 0.12), dolly=(0.0, 0.04)),
         fx=dict(dust=10, blackout=(L('L7')['end'] + 0.25, l8), grade=dict(cave, exposure=-0.14, sat=0.7)))
     # L8 day ten: two British divers come up out of the water. «Сколько вас?» — «Тринадцать». All alive.
     sk = wt('L8', 'СКОЛЬКО') - 0.06
     fd = p['found']
     l9 = L('L9')['start'] - 0.08
-    add('c12_found_s112', l8, sk, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
-        fx=dict(bubbles=40, light=beam(0.5, 0.35), grade=cave))
-    add('c12_found_s212', sk, fd - 0.06, cam=dict(zoom=(1.12, 1.22), dolly=(0.0, 0.06)),
-        fx=dict(dust=20, light=beam(0.5, 0.45), grade=lamp))
+    vn = wt('L8', 'ВЫНЫРНУЛИ') - 0.06
+    add('c12_found_s212', l8, vn, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+        fx=dict(bubbles=30, grade=cave))
+    add('c02_diver_tunnel_s102', vn, sk, cam=dict(zoom=(1.2, 1.3), pany=(0.08, 0.06), dolly=(0.0, 0.06)),
+        fx=dict(bubbles=40, grade=cave))
+    add('c12_found_s112', sk, fd - 0.06, cam=dict(zoom=(1.3, 1.4), panx=(0.05, 0.05), pany=(0.1, 0.1)),
+        fx=dict(dust=20, grade=lamp))
     add('c13_boys_light', fd - 0.06, l9, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08)),
         fx=dict(dust=30, bloom=0.6, light=beam(0.5, 0.4, 1.2), punch=[(fd, 0.05)], grade=lamp))
     # L9 the only way out is under water, and most of the boys can't swim
     a9 = wt('L9', 'А') - 0.06
     l10 = L('L10')['start'] - 0.08
-    add('c14_underwater_narrow', l9, a9, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1)),
-        fx=dict(bubbles=50, grade=under))
-    add('c13_boys_light', a9, l10, cam=dict(zoom=(1.32, 1.42), pany=(0.03, 0.04), parx=(-6, 6)),
-        fx=dict(dust=15, grade=dict(cave, exposure=-0.04)))
+    add('c14b_flooded_tunnel', l9, a9, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1)),
+        fx=dict(bubbles=50, grade=under))      # a diver going down a narrow flooded crack
+    add('c01_boys_ledge_s201', a9, l10, cam=dict(zoom=(1.5, 1.6), panx=(0.17, 0.18), pany=(-0.07, -0.06), parx=(-6, 6)),
+        fx=dict(dust=15, grade=dict(lamp, exposure=-0.04, sat=0.85)))
     # L10 the air runs out; a rescuer dies carrying the tanks in
     od = wt('L10', 'ОДИН') - 0.06
     l11 = L('L11')['start'] - 0.1
@@ -176,29 +184,28 @@ def layout(c):
     l12 = L('L12')['start'] - 0.08
     add('c11_divers_prepare', l11, kd, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-12, 12)),
         fx=dict(bloom=0.4, beat=[rescue], punch=[(wt('L11', 'БЕЗУМНЫЙ'), 0.05)], grade=camp))
-    add('c18_mask_face', kd, nd, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
+    add('c18b_mask_sleep', kd, nd, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
         fx=dict(beat=[rescue], light=beam(0.5, 0.4, 0.8), grade=cave))
     add('c03_mask_stretcher', nd, pr, cam=dict(zoom=(1.3, 1.4), pany=(-0.02, -0.03), parx=(-6, 6)),
         fx=dict(beat=[rescue], grade=cave))
-    add('c02_diver_tunnel', pr, l12, into='zoom', cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.12)),
-        fx=dict(bubbles=60, beat=[rescue], grade=under))
+    add('c14_underwater_narrow_s114', pr, l12, into='zoom', cam=dict(zoom=(1.25, 1.4), pany=(-0.1, -0.08), dolly=(0.0, 0.08)),
+        fx=dict(bubbles=40, beat=[rescue], grade=under))     # the diver along the guide rope across the flooded hall
     # L12 three days, four boys a day; on the last day the coach as well
-    p4 = wt('L12', '4') - 0.3                              # on «по четыре»
     vl = wt('L12', 'В') - 0.06
     l13 = L('L13')['start'] - 0.08
-    add('c19_stretcher_carry_s119', l12, p4, cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-12, 12)),
+    add('c19_stretcher_carry_s219', l12, vl, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), parx=(-12, 12)),
         fx=dict(dust=20, beat=[rescue], grade=cave))
-    add('c21_ambulances', p4, vl, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08)),
-        fx=dict(rain=180, bloom=0.6, beat=[rescue], grade=camp))
-    add('c25_exit_light', vl, l13, cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.1)),
+    add('c25_exit_light', vl, l13, into='zoom', cam=dict(zoom=(1.0, 1.14), dolly=(0.0, 0.1)),
         fx=dict(dust=40, bloom=0.8, beat=[rescue], grade=dict(lamp, exposure=0.03)))
     # L13 hours later the main pump fails and the water rushes back
     i13 = wt('L13', 'И') - 0.06
     pm = p['pump']
     fl = p['flood']
     l14 = L('L14')['start'] - 0.08
-    add('c22_pumps', l13, i13, into='fade', cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-12, 12)),
-        fx=dict(rain=120, punch=[(pm, 0.06)], shake=[(pm, 0.6, 10)], grade=camp))
+    add('c21_ambulances', l13, pm - 0.06, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+        fx=dict(rain=180, bloom=0.6, grade=camp))
+    add('c22_pumps', pm - 0.06, i13, cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-12, 12)),
+        fx=dict(punch=[(pm, 0.06)], shake=[(pm, 0.6, 10)], grade=camp))
     add('c07_flood_passage', i13, l14, into='flash', cam=dict(zoom=(1.2, 1.36), dolly=(0.0, 0.1), roll=(0.0, -1.5)),
         fx=dict(punch=[(fl, 0.08)], shake=[(fl, 1.4, 14)], blackout=(L('L13')['end'] + 0.2, l14), grade=cave))
     # L14 all thirteen survived; the question, cut between the coach and the divers
@@ -211,15 +218,14 @@ def layout(c):
         fx=dict(dust=30, bloom=0.7, grade=dict(lamp, exposure=0.03)))
     add('c09_coach_meditate', sp, il, cam=dict(zoom=(1.28, 1.36), pany=(-0.03, -0.03), parx=(-6, 6)),
         fx=dict(dust=20, light=beam(0.5, 0.35, 0.8), grade=lamp))
-    add('c12_found_s212', il, total, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
-        fx=dict(dust=25, light=beam(0.5, 0.45), grade=lamp))
+    add('c02_diver_tunnel_s102', il, total, cam=dict(zoom=(1.18, 1.04), dolly=(0.06, 0.0)),
+        fx=dict(dust=25, bubbles=20, grade=dict(cave, exposure=0.02)))
 
     cards = [
-        dict(text='12', sub='МАЛЬЧИШЕК И ТРЕНЕР', start=wt('L1', '12'), end=zs + 0.3, y=760),
         dict(text='4 КМ', sub='ОТ ВХОДА', start=wt('L5', '4'), end=l6 - 0.05, y=760),
-        dict(text='9', sub='ДНЕЙ ТИШИНЫ', start=nine + 0.1, end=L('L7')['end'] + 0.25, y=760, count=True, count_dur=0.8),
-        dict(text='13', sub='ВСЕ ЖИВЫ', start=fd, end=l9 - 0.05, y=760),
-        dict(text='13', sub='ВЫЖИЛИ', start=wt('L14', '13'), end=kk - 0.05, y=760, count=True, count_dur=0.7),
+        dict(text='9', sub='ДНЕЙ ТИШИНЫ', start=nine + 0.1, end=L('L7')['end'] + 0.25, y=520, count=True, count_dur=0.8),
+        dict(text='13', sub='ЧЕЛОВЕК', start=fd, end=l9 - 0.05, y=300),          # above the boys' faces
+        dict(text='13', sub='ВЫЖИЛИ', start=wt('L14', '13'), end=kk - 0.05, y=330, count=True, count_dur=0.7),
     ]
     tags = [
         dict(text='ДИКИЕ КАБАНЫ · 23 ИЮНЯ', start=l3 + 0.3, end=zsh - 0.1),
