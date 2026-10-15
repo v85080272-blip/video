@@ -1,6 +1,7 @@
 # Match the loudness of a voice folder (L*.wav, one gain for all lines) to another, by integrated LUFS of the
 # lines played back to back, so the voice sits against the music exactly like in the current video.
-# usage: python3 lufs_match.py <reference lines dir> <lines dir to adjust (in place)>
+# usage: python3 lufs_match.py <reference lines dir | target LUFS, e.g. -18> <lines dir to adjust (in place)>
+# The series voice sits at -18 LUFS (lines back to back, no pauses), the level of the v4 and v5 videos.
 import glob, json, os, re, subprocess, sys, tempfile
 import numpy as np
 sys.path[:0] = ['/home/user/work/voice/shorts/voxcpm2/tools']
@@ -17,7 +18,11 @@ def lufs(d):
 
 
 ref, tgt = sys.argv[1:3]
-a, b = lufs(ref), lufs(tgt)
+try:
+    a = float(ref)
+except ValueError:
+    a = lufs(ref)
+b = lufs(tgt)
 g = a - b
 for p in glob.glob(tgt + '/L*.wav'):
     x, sr = aud.read_wav(p)

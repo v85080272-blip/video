@@ -24,10 +24,16 @@
    фразами пишет в `gaps.json`.
 3. `python3 -I tools/manifest_cut.py <cut> <script.json> cont_s1` — слова для субтитров; CER каждой фразы.
    Берём дубль, где все фразы чистые (на «Танцевальной чуме» у дублей 2 и 3 Whisper терял слово на стыке фраз).
-4. Мягкая обработка: половина кривой EQ серии, без компрессора (`dance_s1/eq_curve_soft.json`), затем
-   `python3 tools/lufs_match.py <прежние lines_eq> <cut>` — голос стоит против музыки так же громко, как раньше.
-5. Паузы для рендера: свои, но не короче 0,25 с, а длинные драматические паузы серии (от 0,55 с) остаются
-   (`dance_s1/gaps_used.json`), затем `GAPS_JSON=<файл> EPISODE=… VOICE_DIR=<cut> … bash render/assemble.sh`.
-   Звук без видео для сравнения: `tools/make_mix.sh <cut> <имя> <gaps.json>`.
+4. Мягкая обработка: `python3 tools/soft_eq.py <cut> <soft>` — половина кривой EQ серии, без компрессора
+   (`dance_s1/eq_curve_soft.json`; кривую мерили по рилсам-образцам, их в репозитории нет), затем
+   `python3 tools/lufs_match.py -18 <soft>`: голос на −18 LUFS и стоит против музыки так же громко, как в v4 и v5.
+5. Паузы для рендера: `python3 tools/gaps_used.py ../render/episodes/<серия>.py <cut>/gaps.json <gaps_used.json>` —
+   свои паузы рассказчика, но не короче 0,25 с, а длинные драматические паузы серии (от 0,55 с в её `GAPS`) не короче
+   задуманных (так получились `dance_s1/gaps_used.json` и `tunguska_s1/gaps_used.json`), затем
+   `GAPS_JSON=<gaps_used.json> EPISODE=… VOICE_DIR=<soft> … bash ../render/assemble.sh`.
+   Звук без видео для сравнения (только «Танцевальная чума»): `tools/make_mix.sh <soft> <имя> <gaps_used.json>`.
+
+Голос «Рассказчик» выбран vla 15.10.2026 (раунд 4): так озвучены `dance-1518-v5.mp4` и `tunguska-1908-v5.mp4`
+и так же озвучиваются следующие серии.
 
 Голос автора образцов не клонируем, только тот же типаж и манеру.
