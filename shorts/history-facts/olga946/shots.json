@@ -143,6 +143,14 @@
       "prompt": "warriors releasing hundreds of pigeons and sparrows into the dusk sky, tiny glowing embers trailing behind the birds, dark silhouettes, a wooden fortress on the horizon"
     },
     {
+      "id": "o16b_release_field",
+      "seeds": [
+        316,
+        416
+      ],
+      "prompt": "dark silhouettes of warriors on an open field releasing hundreds of pigeons and sparrows into the orange dusk sky, tiny glowing embers trailing behind the birds, a low wooden palisade with log watchtowers far on the horizon"
+    },
+    {
       "id": "o17_roofs",
       "seeds": [
         117
