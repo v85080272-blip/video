@@ -1,0 +1,162 @@
+{
+  "style": "cinematic film still, photorealistic, documentary photo, northern Thailand, 2018, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+  "shots": [
+    {
+      "id": "c01_boys_ledge",
+      "seeds": [
+        101,
+        201
+      ],
+      "prompt": "a group of young Thai boys in football jerseys huddled together on a muddy rock ledge deep inside a dark flooded limestone cave, lit only by a few weak flashlights, black water below them, wet faces, dramatic"
+    },
+    {
+      "id": "c02_diver_tunnel",
+      "seeds": [
+        102
+      ],
+      "prompt": "a cave diver with a bright headlamp swimming through a narrow flooded underwater cave tunnel, murky water, a guide rope, light beams in the silt, claustrophobic"
+    },
+    {
+      "id": "c03_mask_stretcher",
+      "seeds": [
+        103
+      ],
+      "prompt": "a child wearing a full face diving mask lying asleep strapped to a yellow rescue stretcher inside a dark wet cave, rescuers' headlamps around, water dripping"
+    },
+    {
+      "id": "c04_team_bikes",
+      "seeds": [
+        104
+      ],
+      "prompt": "a youth football team of Thai boys in red jerseys riding bicycles on a dirt road at the foot of a jungle covered limestone mountain, afternoon, northern Thailand"
+    },
+    {
+      "id": "c05_cave_entrance",
+      "seeds": [
+        105
+      ],
+      "prompt": "the huge dark entrance of a limestone cave in the jungle of northern Thailand, tiny figures of boys with flashlights walking inside, ominous, wide shot"
+    },
+    {
+      "id": "c06_monsoon",
+      "seeds": [
+        106
+      ],
+      "prompt": "heavy monsoon rain pouring over jungle covered limestone mountains in northern Thailand, dark storm clouds, muddy torrents, lightning"
+    },
+    {
+      "id": "c07_flood_passage",
+      "seeds": [
+        107
+      ],
+      "prompt": "brown muddy water rushing and rising fast through a narrow limestone cave passage, a flashlight beam, foam and debris, danger"
+    },
+    {
+      "id": "c08_ledge_wide",
+      "seeds": [
+        108
+      ],
+      "prompt": "wide shot, a tiny group of boys sitting on a sloping muddy ledge in a vast pitch dark cave chamber, a single weak flashlight, black water all around"
+    },
+    {
+      "id": "c09_coach_meditate",
+      "seeds": [
+        109
+      ],
+      "prompt": "a young Thai man with a calm face meditating cross-legged in a dark cave, boys around him sitting with closed eyes, dim flashlight glow, peaceful, close"
+    },
+    {
+      "id": "c10_rescue_camp",
+      "seeds": [
+        110
+      ],
+      "prompt": "a huge rescue camp at a cave entrance in the Thai jungle at night, soldiers and rescue workers in helmets, tents, floodlights, thick hoses, rain and mud"
+    },
+    {
+      "id": "c11_divers_prepare",
+      "seeds": [
+        111
+      ],
+      "prompt": "military cave divers in wetsuits and helmets with headlamps checking air tanks at the edge of dark flooded cave water, floodlights, tense"
+    },
+    {
+      "id": "c12_found",
+      "seeds": [
+        112,
+        212
+      ],
+      "prompt": "a cave diver in a wetsuit with a headlamp rising out of black water, his light beam falling on a group of thin smiling boys sitting on a muddy slope in a dark cave"
+    },
+    {
+      "id": "c13_boys_light",
+      "seeds": [
+        113
+      ],
+      "prompt": "close-up of thin Thai boys in a dark cave squinting and smiling into a bright flashlight beam, dirty faces, hope, emotional"
+    },
+    {
+      "id": "c14_underwater_narrow",
+      "seeds": [
+        114
+      ],
+      "prompt": "a very narrow flooded underwater cave passage, swirling silt, a guide rope, a diver's light far away, murky green water, claustrophobic"
+    },
+    {
+      "id": "c15_air_tanks",
+      "seeds": [
+        115
+      ],
+      "prompt": "rows of scuba air tanks lined up on wet rocks in a dark cave lit by headlamps, rope lines, wet diving equipment"
+    },
+    {
+      "id": "c16_lone_diver",
+      "seeds": [
+        116
+      ],
+      "prompt": "silhouette of a lone navy diver with a headlamp swimming away into dark water in a flooded cave, mournful, a single beam of light"
+    },
+    {
+      "id": "c18_mask_face",
+      "seeds": [
+        118
+      ],
+      "prompt": "close-up of a sleeping boy's face inside a full face diving mask, eyes closed, water droplets on the glass, headlamp light, dark cave"
+    },
+    {
+      "id": "c19_stretcher_carry",
+      "seeds": [
+        119,
+        219
+      ],
+      "prompt": "rescuers in helmets carrying a stretcher wrapped in a silver emergency blanket along a rope line through a dark muddy cave passage, headlamps"
+    },
+    {
+      "id": "c21_ambulances",
+      "seeds": [
+        121
+      ],
+      "prompt": "ambulances with flashing lights waiting at night in heavy rain at a jungle cave entrance, crowd of rescuers in raincoats, emergency"
+    },
+    {
+      "id": "c22_pumps",
+      "seeds": [
+        122
+      ],
+      "prompt": "large water pumps and thick hoses at a flooded cave entrance, water gushing out, workers in raincoats at night, floodlights"
+    },
+    {
+      "id": "c24_hospital",
+      "seeds": [
+        124
+      ],
+      "prompt": "smiling Thai boys in green hospital gowns and face masks sitting on hospital beds giving thumbs up, bright window light"
+    },
+    {
+      "id": "c25_exit_light",
+      "seeds": [
+        125
+      ],
+      "prompt": "view from deep inside a cave towards the bright glowing entrance, silhouettes of rescuers walking out into the daylight, hope"
+    }
+  ]
+}
