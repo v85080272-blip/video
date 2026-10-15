@@ -214,8 +214,9 @@ def layout(c):
         fx=dict(dust=15, grade=dict(exposure=0.02, contrast=1.06, sat=1.0, warm=0.5)))
     add('o21_chronicle', il, kak, cam=dict(zoom=(1.32, 1.42), panx=(0.0, 0.01), pany=(0.03, 0.04), parx=(-6, 6)),
         fx=dict(dust=20, light=glow(0.6, 0.45, 0.6), grade=scribe))
-    add('o22_ashes', kak, total, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
-        fx=dict(ash=40, fog=0.2, embers=15, grade=dict(exposure=-0.03, contrast=1.06, sat=0.85, warm=0.3, teal=0.3)))
+    add('o22_ashes', kak, total, into='fade', cam=dict(zoom=(1.4, 1.48), panx=(-0.13, -0.13), pany=(0.115, 0.115),
+                                                   dolly=(0.0, 0.04)),     # in on the pigeon, the tower with a cross stays out
+        fx=dict(ash=40, fog=0.2, embers=15, grade=dict(exposure=0.03, contrast=1.06, sat=0.9, warm=0.35, teal=0.25)))
 
     cards = [
         dict(text='№4', sub='МЕСТЬ', start=ch, end=L('L2')['end'] + 0.1, y=270),     # above her eyes

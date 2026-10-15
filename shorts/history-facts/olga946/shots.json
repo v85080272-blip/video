@@ -166,6 +166,14 @@
       "prompt": "an entire wooden early medieval town engulfed in fire at night, every log house burning, huge flames, smoke and sparks rising into the black sky, wide shot from a hill"
     },
     {
+      "id": "o18b_street_fire",
+      "seeds": [
+        318,
+        418
+      ],
+      "prompt": "a street of an early medieval Slavic town of small log houses with thatched straw roofs at night, every roof on fire, huge flames, sparks and smoke rising into the black sky, a tall wooden palisade behind, wide shot"
+    },
+    {
       "id": "o19_viking_king",
       "seeds": [
         119
