@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from engine import (W, H, FPS, Source, Cam, warp, to_np, to_img, bloom, grade, vignette, grain, radial_light,
-                    chroma_shift, Particles, TextLayer, paste_rgba, font, ease_in_out, ease_out, lerp,
+                    chroma_shift, Particles, Birds, TextLayer, paste_rgba, font, ease_in_out, ease_out, lerp,
                     smooth_noise, fbm_texture)
 import captions as capmod
 
@@ -292,6 +292,13 @@ def render_shot(sh, t, n):
             if key not in _PART:
                 _PART[key] = Particles(kind, fx[kind], seed=hash(key) % 1000)
             _PART[key].draw(a, t - sh['start'], cam_dx=dx * 2, cam_dy=0)
+    # a flock crossing the frame (Birds in engine.py); several flocks per shot as a list
+    for i, bf in enumerate(fx.get('birds', [])):    # 't0': the flock's own clock (absolute), so it can span shots
+        key = (sh['img'], 'birds', i, json.dumps(bf, sort_keys=True))
+        if key not in _PART:
+            _PART[key] = Birds(**{k: v for k, v in bf.items() if k != 't0'})
+        if t >= bf.get('t0', sh['start']):
+            _PART[key].draw(a, t - bf.get('t0', sh['start']))
     # flashes
     for (t0, dur, k) in fx.get('flash', []):
         if t0 - 0.04 <= t < t0 + dur:

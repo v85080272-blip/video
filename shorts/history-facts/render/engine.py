@@ -171,6 +171,78 @@ def sprite(radius, hard=0.0):
     return s
 
 
+class Birds:
+    """A flock crossing the frame, seen from below: dark silhouettes (body, tail, two wings that beat and foreshorten),
+    nearer birds bigger, faster and sharper; optionally each carries a glowing ember with a short spark trail
+    (the tinder in «Месть княгини Ольги»). Positions are spread so the flock fills the frame for `dur` seconds."""
+
+    def __init__(self, n=30, seed=1, dir=(1.0, -0.35), speed=260.0, size=(14.0, 70.0), ember=0.0, dur=6.0,
+                 area=(0.0, 0.0, 1.0, 0.75), col=(0.05, 0.04, 0.04)):
+        rng = np.random.default_rng(seed)
+        d = np.array(dir, float)
+        d /= np.linalg.norm(d) + 1e-9
+        self.n, self.ember, self.col = n, ember, np.array(col, np.float32)
+        self.z = rng.random(n)
+        self.size = size[0] + (size[1] - size[0]) * self.z ** 1.5
+        self.v = d[None, :] * (speed * (0.55 + 0.9 * self.z) * rng.uniform(0.85, 1.15, n))[:, None]
+        on = np.stack([(area[0] + (area[2] - area[0]) * rng.random(n)) * W,
+                       (area[1] + (area[3] - area[1]) * rng.random(n)) * H], 1)
+        self.p0 = on - self.v * rng.uniform(0.0, dur, n)[:, None]       # at that moment the bird is on screen
+        self.flap = rng.uniform(4.5, 7.0, n)                            # visual beats per second (30 fps)
+        self.ph = rng.uniform(0, 2 * math.pi, n)
+        self.wob = rng.uniform(0, 2 * math.pi, n)
+        self.ang = math.atan2(d[1], d[0])
+
+    def _pos(self, t):
+        p = self.p0 + self.v * t
+        p[:, 1] += 6.0 * np.sin(2.1 * t + self.wob) * (0.5 + self.z)
+        return p
+
+    def draw(self, frame, t):
+        S = 2                                                           # mask at half resolution, soft edges
+        m = Image.new('L', (W // S, H // S), 0)
+        dr = ImageDraw.Draw(m)
+        p = self._pos(t)
+        ca, sa = math.cos(self.ang), math.sin(self.ang)
+        for i in np.argsort(self.z):
+            x, y = p[i]
+            s = self.size[i]
+            if not (-3 * s < x < W + 3 * s and -3 * s < y < H + 3 * s):
+                continue
+            w = math.sin(2 * math.pi * self.flap[i] * t + self.ph[i])  # wing beat: span foreshortens up/down
+            sp_ = s * (0.3 + 0.7 * abs(w))
+            tb = -0.12 * s - 0.1 * s * w                               # wing tips sweep back on the upstroke
+            half = [(0.32 * s, 0.0), (0.2 * s, 0.06 * s), (0.14 * s, 0.1 * s), (0.08 * s, 0.45 * sp_),
+                    (0.0, 0.8 * sp_), (tb, sp_), (tb - 0.1 * s, 0.85 * sp_), (-0.2 * s, 0.5 * sp_),
+                    (-0.2 * s, 0.12 * s), (-0.3 * s, 0.07 * s), (-0.52 * s, 0.15 * s), (-0.54 * s, 0.0)]
+            shape = half + [(u, -v) for u, v in reversed(half[1:-1])]
+            pts = [((x + u * ca - v * sa) / S, (y + u * sa + v * ca) / S) for u, v in shape]
+            dr.polygon(pts, fill=int(255 * (0.55 + 0.45 * self.z[i])))
+        m = m.filter(ImageFilter.GaussianBlur(0.6)).resize((W, H), Image.BILINEAR)
+        al = np.asarray(m, np.float32)[..., None] / 255.0
+        frame *= 1 - al
+        frame += al * self.col
+        if self.ember <= 0:
+            return
+        lags = (0.0, 0.05, 0.1, 0.16)                                  # the ember and its spark trail
+        P = [self._pos(t - lag) for lag in lags]
+        for i in range(self.n):
+            for k in range(len(lags)):
+                x, y = P[k][i] + np.array([-0.15 * self.size[i] * ca, 0.35 * self.size[i]])
+                rad = (1.5 + 3.5 * self.z[i]) * (1.0 - 0.22 * k)
+                fl = 0.6 + 0.4 * math.sin(t * 17 + self.ph[i] + k)
+                sp = sprite(round(rad * 4) / 4)
+                r = sp.shape[0] // 2
+                x0, y0 = int(x) - r, int(y) - r
+                x1, y1 = x0 + sp.shape[1], y0 + sp.shape[0]
+                if x1 <= 0 or y1 <= 0 or x0 >= W or y0 >= H:
+                    continue
+                sx0, sy0 = max(0, -x0), max(0, -y0)
+                sx1, sy1 = sp.shape[1] - max(0, x1 - W), sp.shape[0] - max(0, y1 - H)
+                col = np.array([1.0, 0.55, 0.16], np.float32) * self.ember * fl * (1.0 - 0.25 * k) * (0.7 + 0.8 * self.z[i])
+                frame[max(0, y0):min(H, y1), max(0, x0):min(W, x1)] += sp[sy0:sy1, sx0:sx1, None] * col
+
+
 class Particles:
     """kind: embers (rising sparks), ash (grey flakes falling), snow, dust (floating motes)."""
 

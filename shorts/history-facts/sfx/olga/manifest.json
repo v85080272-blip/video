@@ -1,0 +1,401 @@
+{
+  "title": "«Месть княгини Ольги» - original synthesized epic kit (80 bpm, 4-bar loops)",
+  "generator": "make_sfx_olga.py (numpy only, re-runnable, deterministic seeds; helpers from make_sfx.py)",
+  "sample_rate": 48000,
+  "channels": 2,
+  "bit_depth": 24,
+  "level_policy": "hits/one-shots normalised to -1 dBTP true peak; ambiences/beds to -28 dBFS RMS",
+  "hit_s_note": "sync point in seconds: onset of the main hit, centre of a pass-by, cut point of a riser/tension bed, measured loudest point for rumble_long; 0.0 for loops/beds",
+  "files": [
+    {
+      "file": "war_drums.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "Epic war drums, 80 bpm, 4 bars: big low drum (membrane modes from 52 Hz) on 1, a mid drum answer, frame-drum edge strokes on 3 and a fill in bar 4, big hall. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -1.14,
+      "true_peak_dbtp": -1.14,
+      "rms_dbfs": -19.0,
+      "dc_dbfs": -207.6,
+      "lr_correlation": 0.866,
+      "centroid_hz": 81,
+      "measured_peak_s": 0.0,
+      "band_energy": {
+        "0-60": 0.526,
+        "60-100": 0.384,
+        "100-250": 0.074,
+        "250-500": 0.012,
+        "500-2000": 0.003,
+        "2000-6000": 0.001,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 98.8,
+        "joint_rms_db": -9.98,
+        "block_rms_db_range": [
+          -52.73,
+          -7.68
+        ]
+      }
+    },
+    {
+      "file": "war_drums_lite.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "Slow pulse of the war drums, 80 bpm, 4 bars: big drum on 1, frame-drum edge on 3, big hall. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -2.98,
+      "true_peak_dbtp": -2.98,
+      "rms_dbfs": -21.0,
+      "dc_dbfs": -209.0,
+      "lr_correlation": 0.885,
+      "centroid_hz": 60,
+      "measured_peak_s": 0.0,
+      "band_energy": {
+        "0-60": 0.889,
+        "60-100": 0.07,
+        "100-250": 0.036,
+        "250-500": 0.003,
+        "500-2000": 0.001,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 37.8,
+        "joint_rms_db": -11.79,
+        "block_rms_db_range": [
+          -72.1,
+          -9.39
+        ]
+      }
+    },
+    {
+      "file": "gusli_tune.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "Gusli ostinato, 80 bpm, 4 bars: plucked strings in eighths over Dm - C - Bb - A (A major chord), a low string on every bar, wooden body, hall. Original. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -1.57,
+      "true_peak_dbtp": -1.14,
+      "rms_dbfs": -22.0,
+      "dc_dbfs": -201.0,
+      "lr_correlation": 0.771,
+      "centroid_hz": 2071,
+      "measured_peak_s": 6.051,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.06,
+        "250-500": 0.08,
+        "500-2000": 0.518,
+        "2000-6000": 0.294,
+        "6000-24000": 0.048
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 11.5,
+        "joint_rms_db": -16.82,
+        "block_rms_db_range": [
+          -34.92,
+          -13.05
+        ]
+      }
+    },
+    {
+      "file": "choir_low.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "Low male choir drone 'oo' on D2 + A2 + D3 (3 voices each, vowel-o formants, slow vibrato with whole cycles per loop), hall. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -9.65,
+      "true_peak_dbtp": -9.65,
+      "rms_dbfs": -23.0,
+      "dc_dbfs": -207.7,
+      "lr_correlation": 0.353,
+      "centroid_hz": 533,
+      "measured_peak_s": 0.933,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.006,
+        "100-250": 0.096,
+        "250-500": 0.514,
+        "500-2000": 0.376,
+        "2000-6000": 0.007,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 34.0,
+        "joint_rms_db": -22.48,
+        "block_rms_db_range": [
+          -25.66,
+          -20.04
+        ]
+      }
+    },
+    {
+      "file": "crowd_feast.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "Feast murmur: 26 voices of talk (syllable-rate noise in speech bands, phrases and pauses), a few cup knocks, open-air echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -12.9,
+      "true_peak_dbtp": -12.9,
+      "rms_dbfs": -28.0,
+      "dc_dbfs": -207.2,
+      "lr_correlation": 0.438,
+      "centroid_hz": 1200,
+      "measured_peak_s": 5.114,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.009,
+        "250-500": 0.095,
+        "500-2000": 0.791,
+        "2000-6000": 0.104,
+        "6000-24000": 0.001
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 27.0,
+        "joint_rms_db": -28.99,
+        "block_rms_db_range": [
+          -31.17,
+          -26.19
+        ]
+      }
+    },
+    {
+      "file": "fire_big.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "A whole wooden town burning: deep flame roar with surges, dense crackles, pops and timber snaps, wide stereo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -2.03,
+      "true_peak_dbtp": -1.68,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -203.1,
+      "lr_correlation": 0.521,
+      "centroid_hz": 2010,
+      "measured_peak_s": 8.232,
+      "band_energy": {
+        "0-60": 0.085,
+        "60-100": 0.08,
+        "100-250": 0.186,
+        "250-500": 0.103,
+        "500-2000": 0.17,
+        "2000-6000": 0.303,
+        "6000-24000": 0.074
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 43.0,
+        "joint_rms_db": -25.62,
+        "block_rms_db_range": [
+          -35.33,
+          -17.49
+        ]
+      }
+    },
+    {
+      "file": "drum_big.wav",
+      "duration_s": 2.2,
+      "hit_s": 0.002,
+      "description": "One big war-drum stroke (52 Hz membrane, pitch dip, hand slap), big hall.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -19.18,
+      "dc_dbfs": -195.1,
+      "lr_correlation": 0.689,
+      "centroid_hz": 61,
+      "measured_peak_s": 0.006,
+      "band_energy": {
+        "0-60": 0.834,
+        "60-100": 0.104,
+        "100-250": 0.06,
+        "250-500": 0.002,
+        "500-2000": 0.0,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "horn_call.wav",
+      "duration_s": 4.5,
+      "hit_s": 0.05,
+      "description": "War horn call from a distance: A2 then D3 with a scoop into each note, buzzy brass formant, breath, field echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.01,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -15.61,
+      "dc_dbfs": -202.1,
+      "lr_correlation": 0.569,
+      "centroid_hz": 673,
+      "measured_peak_s": 1.73,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.119,
+        "250-500": 0.336,
+        "500-2000": 0.507,
+        "2000-6000": 0.038,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "wings_flock.wav",
+      "duration_s": 3.0,
+      "hit_s": 0.03,
+      "description": "A flock taking off: 30 pigeons (wing claps, ~9 Hz strokes) and 30 sparrows (fast light strokes), spreading across the stereo field and flying away (level and brightness drop).",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.06,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -18.9,
+      "dc_dbfs": -198.2,
+      "lr_correlation": 0.62,
+      "centroid_hz": 3152,
+      "measured_peak_s": 0.549,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.002,
+        "250-500": 0.024,
+        "500-2000": 0.386,
+        "2000-6000": 0.473,
+        "6000-24000": 0.115
+      }
+    },
+    {
+      "file": "wings_pigeon.wav",
+      "duration_s": 1.4,
+      "hit_s": 0.02,
+      "description": "One pigeon flapping up close: wing claps on take-off, ~9 Hz strokes, then a glide.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.15,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -23.64,
+      "dc_dbfs": -203.7,
+      "lr_correlation": 0.947,
+      "centroid_hz": 2851,
+      "measured_peak_s": 0.241,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.004,
+        "250-500": 0.024,
+        "500-2000": 0.46,
+        "2000-6000": 0.417,
+        "6000-24000": 0.096
+      }
+    },
+    {
+      "file": "fire_ignite.wav",
+      "duration_s": 2.6,
+      "hit_s": 0.12,
+      "description": "Flames catching: a low whumph, a rising roar sweep (300 Hz -> 2.5 kHz bandpass), crackles flaring up.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.14,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -15.77,
+      "dc_dbfs": -211.8,
+      "lr_correlation": 0.857,
+      "centroid_hz": 273,
+      "measured_peak_s": 0.143,
+      "band_energy": {
+        "0-60": 0.71,
+        "60-100": 0.092,
+        "100-250": 0.072,
+        "250-500": 0.022,
+        "500-2000": 0.059,
+        "2000-6000": 0.045,
+        "6000-24000": 0.001
+      }
+    },
+    {
+      "file": "dirt_throw.wav",
+      "duration_s": 1.8,
+      "hit_s": 0.18,
+      "description": "Three shovelfuls of earth thrown onto a wooden boat in a pit: soil sliding off the shovel, a hollow wooden thud, a shower of grains.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -19.36,
+      "dc_dbfs": -203.4,
+      "lr_correlation": 0.89,
+      "centroid_hz": 538,
+      "measured_peak_s": 0.207,
+      "band_energy": {
+        "0-60": 0.004,
+        "60-100": 0.013,
+        "100-250": 0.775,
+        "250-500": 0.05,
+        "500-2000": 0.1,
+        "2000-6000": 0.044,
+        "6000-24000": 0.015
+      }
+    },
+    {
+      "file": "door_bar.wav",
+      "duration_s": 1.4,
+      "hit_s": 0.01,
+      "description": "A heavy wooden beam dropped into the brackets of a log door: wooden knock (modes 190-1230 Hz), a second smaller knock, iron rattle.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -20.56,
+      "dc_dbfs": -197.4,
+      "lr_correlation": 0.778,
+      "centroid_hz": 353,
+      "measured_peak_s": 0.031,
+      "band_energy": {
+        "0-60": 0.001,
+        "60-100": 0.002,
+        "100-250": 0.722,
+        "250-500": 0.174,
+        "500-2000": 0.075,
+        "2000-6000": 0.025,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "swords_draw.wav",
+      "duration_s": 1.8,
+      "hit_s": 0.1,
+      "description": "Four swords drawn from scabbards one after another: metal scrape sliding up, then a ring.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -18.51,
+      "dc_dbfs": -198.2,
+      "lr_correlation": 0.58,
+      "centroid_hz": 5184,
+      "measured_peak_s": 0.428,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.0,
+        "500-2000": 0.031,
+        "2000-6000": 0.623,
+        "6000-24000": 0.345
+      }
+    }
+  ],
+  "tempo": {
+    "bpm": 80.0,
+    "beat_s": 0.75,
+    "loop_bars": 4,
+    "loop_s": 12.0
+  }
+}

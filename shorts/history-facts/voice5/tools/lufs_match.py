@@ -4,8 +4,11 @@
 # The series voice sits at -18 LUFS (lines back to back, no pauses), the level of the v4 and v5 videos.
 import glob, json, os, re, subprocess, sys, tempfile
 import numpy as np
-sys.path[:0] = ['/home/user/work/voice/shorts/voxcpm2/tools']
+sys.dont_write_bytecode = True                  # no __pycache__ next to make_sfx.py in the repo
+sys.path[:0] = ['/home/user/work/voice/shorts/voxcpm2/tools',
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'sfx')]
 import aud
+from make_sfx import limiter          # lookahead peak limiter (48 kHz lines)
 
 
 def lufs(d):
@@ -24,11 +27,11 @@ except ValueError:
     a = lufs(ref)
 b = lufs(tgt)
 g = a - b
+worst = 0.0
 for p in glob.glob(tgt + '/L*.wav'):
     x, sr = aud.read_wav(p)
     y = x * 10 ** (g / 20)
-    pk = np.abs(y).max()
-    if pk > 0.95:
-        y *= 0.95 / pk
-    aud.write_wav(p, y, sr)
-print(f'ref {a:.1f} LUFS, before {b:.1f}, gain {g:+.1f} dB, after {lufs(tgt):.1f}')
+    z = limiter(y, -0.5, look_ms=3.0)[0]     # only the few loudest peaks come down; the line keeps its level
+    worst = max(worst, float(20 * np.log10(np.abs(y).max() / max(np.abs(z).max(), 1e-9))))
+    aud.write_wav(p, z, sr)
+print(f'ref {a:.1f} LUFS, before {b:.1f}, gain {g:+.1f} dB, after {lufs(tgt):.1f}; peaks limited by up to {worst:.1f} dB')
