@@ -13,7 +13,11 @@ texts = {l['id']: l['text'] for l in json.load(open(script_p))['lines']}
 DIG = [('тысяча пятьсот восемнадцатом', '1518'), ('тысяча девятьсот восьмом', '1908'), ('шестьдесят пять', '65'),
        ('девятнадцать', '19'), ('тридцатого', '30'), ('девятьсот сорок шестом', '946'), ('двадцать', '20'),
        ('пять тысяч', '5000'), ('пять тысяч', '5 000'), ('пять тысяч', '5 тысяч'),
-       ('три голубя и три воробья', '3 голубя и 3 воробья')]
+       ('три голубя и три воробья', '3 голубя и 3 воробья'),
+       ('две тысячи восемнадцатом', '2018'), ('двенадцать', '12'), ('четырёх', '4'), ('девять', '9'),
+       ('десятый', '10-й'), ('десятый', '10'), ('тринадцать', '13'), ('три дня', '3 дня'), ('четыре', '4'),
+       ('две тысячи шестом', '2006'), ('восемь тысяч шестьсот', '8600'), ('восемь тысяч шестьсот', '8 600'),
+       ('пятидесятилетний', '50-летний'), ('два часа', '2 часа'), ('десятью', '10')]
 
 # 1. intelligibility: each line cut from the final mix (voice + music + sfx)
 worst = 0.0
@@ -24,8 +28,14 @@ with tempfile.TemporaryDirectory() as td:
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{a:.3f}', '-to', f'{b:.3f}', '-i', video,
                         '-vn', '-ac', '1', '-ar', '16000', w], check=True)
         hyp = aud.asr(w)
-        ref = texts[lid]
-        refs = [ref] + [ref.replace(x, y) for x, y in DIG if x in ref]
+        ref = texts[lid].lower()
+        refs, every = [ref], ref           # each number as digits alone, and all of them at once
+        for x, y in DIG:
+            if x in ref:
+                refs.append(ref.replace(x, y))
+            if x in every:
+                every = every.replace(x, y)
+        refs.append(every)
         c = min(aud.cer(r, hyp) for r in refs)
         worst = max(worst, c)
         print(f'{lid:4s} CER {c:.3f} | {hyp}', flush=True)

@@ -244,10 +244,12 @@ class Birds:
 
 
 class Particles:
-    """kind: embers (rising sparks), ash (grey flakes falling), snow, dust (floating motes)."""
+    """kind: embers (rising sparks), ash (grey flakes falling), snow, dust (floating motes), rain (slanted streaks),
+    bubbles (rising rings, underwater), blizzard (snow driven sideways by the wind, streaked)."""
 
     def __init__(self, kind, n, seed=1, depth_par=1.0):
         self.kind, self.n = kind, n
+        self.slant = {'rain': 0.18, 'blizzard': 1.9}.get(kind, 0.0)   # sideways drift per unit of fall
         rng = np.random.default_rng(seed)
         self.x = rng.random(n) * W
         self.y = rng.random(n) * H
@@ -264,6 +266,33 @@ class Particles:
             self.cache[k] = sprite(max(k, 0.6))
         return self.cache[k]
 
+    def _streak(self, length, width):
+        """a soft line along the fall direction: the motion blur of a fast drop or flake"""
+        key = ('streak', int(round(length / 3)) * 3, round(width * 4) / 4)
+        if key not in self.cache:
+            L, w = max(key[1], 3), max(key[2], 0.5)
+            ang = math.atan(self.slant)
+            dx, dy = math.sin(ang), math.cos(ang)
+            R = int(math.ceil(L / 2 + 2.5 * w))
+            yy, xx = np.mgrid[-R:R + 1, -R:R + 1].astype(np.float32)
+            along, across = xx * dx + yy * dy, xx * dy - yy * dx
+            s = np.exp(-(across / w) ** 2) * np.clip(1 - (along / (L / 2)) ** 2, 0, 1) ** 0.7
+            self.cache[key] = s.astype(np.float32)
+        return self.cache[key]
+
+    def _ring(self, rad):
+        """an air bubble: a bright rim, a faint body and a highlight at the top left"""
+        key = ('ring', round(rad * 2) / 2)
+        if key not in self.cache:
+            r = max(key[1], 1.0)
+            R = int(math.ceil(r + 3))
+            yy, xx = np.mgrid[-R:R + 1, -R:R + 1].astype(np.float32)
+            d = np.sqrt(xx * xx + yy * yy)
+            s = np.exp(-((d - r) / max(0.7, 0.22 * r)) ** 2) + 0.18 * np.exp(-(d / (0.6 * r)) ** 2)
+            hl = np.exp(-((xx + 0.35 * r) ** 2 + (yy + 0.35 * r) ** 2) / (0.09 * r * r + 0.5))
+            self.cache[key] = (s + 0.8 * hl).astype(np.float32)
+        return self.cache[key]
+
     def draw(self, frame, t, cam_dx=0.0, cam_dy=0.0, intensity=1.0):
         """frame: float32 HxWx3 (0..1+), additive for embers/dust, alpha-ish for ash/snow."""
         if intensity <= 0:
@@ -271,6 +300,7 @@ class Particles:
         k = self.kind
         for i in range(self.n):
             z = self.z[i]
+            s = None
             if k == 'embers':
                 vy = -(40 + 160 * z) * self.sp[i]
                 vx = 25 * math.sin(t * 1.3 + self.ph[i])
@@ -289,6 +319,24 @@ class Particles:
                 col = np.array([0.9, 0.93, 1.0], np.float32) * (0.35 + 0.6 * z)
                 rad = 1.0 + 4.0 * z * (0.5 + self.size[i])
                 flick = 1.0
+            elif k == 'rain':
+                vy = (1300 + 1100 * z) * (0.8 + 0.3 * self.sp[i])
+                vx = vy * self.slant
+                col = np.array([0.72, 0.78, 0.86], np.float32) * (0.10 + 0.32 * z)
+                s = self._streak(24 + 60 * z, 0.5 + 0.8 * z)
+                flick = 1.0
+            elif k == 'bubbles':
+                vy = -(45 + 170 * z) * self.sp[i]
+                vx = 16 * math.sin(t * 2.6 * self.sp[i] + self.ph[i])
+                col = np.array([0.66, 0.86, 1.0], np.float32) * (0.25 + 0.6 * z)
+                s = self._ring(2.0 + 10.0 * z * (0.4 + self.size[i]))
+                flick = 0.85 + 0.15 * math.sin(t * 6 + self.ph[i])
+            elif k == 'blizzard':
+                vy = (160 + 300 * z) * self.sp[i]
+                vx = vy * self.slant + 120 * math.sin(t * 1.7 + self.ph[i])
+                col = np.array([0.88, 0.92, 1.0], np.float32) * (0.25 + 0.55 * z)
+                s = self._streak(6 + 34 * z, 0.7 + 1.6 * z)
+                flick = 1.0
             else:  # dust motes in light
                 vy = -6 * self.sp[i]
                 vx = 10 * math.sin(t * 0.4 + self.ph[i])
@@ -297,7 +345,8 @@ class Particles:
                 flick = 0.6 + 0.4 * math.sin(t * 2 + self.ph[i])
             x = (self.x[i] + vx * t + cam_dx * (0.3 + z) * self.depth_par) % (W + 80) - 40
             y = (self.y[i] + vy * t + cam_dy * (0.3 + z) * self.depth_par) % (H + 80) - 40
-            s = self._spr(rad)
+            if s is None:
+                s = self._spr(rad)
             r = s.shape[0] // 2
             x0, y0 = int(x) - r, int(y) - r
             x1, y1 = x0 + s.shape[1], y0 + s.shape[0]

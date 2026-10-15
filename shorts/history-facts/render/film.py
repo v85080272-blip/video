@@ -293,7 +293,7 @@ def render_shot(sh, t, n):
         a = a + radial_light(L['x'] * W, L['y'] * H, L['r'] * W, L['col']) * fl
     # particles
     dx = -cam.parx * 0.5 * (u - 0.5)
-    for kind in ('embers', 'ash', 'snow', 'dust'):
+    for kind in ('embers', 'ash', 'snow', 'dust', 'rain', 'bubbles', 'blizzard'):
         if fx.get(kind):
             key = (sh['img'], kind)
             if key not in _PART:
@@ -307,10 +307,11 @@ def render_shot(sh, t, n):
         if t >= bf.get('t0', sh['start']):
             _PART[key].draw(a, t - bf.get('t0', sh['start']))
     # flashes
-    for (t0, dur, k) in fx.get('flash', []):
+    for f in fx.get('flash', []):           # (t0, dur, strength[, colour]): warm by default, blue-white for lightning
+        t0, dur, k = f[:3]
         if t0 - 0.04 <= t < t0 + dur:
             e = 1.0 if t < t0 + 0.06 else (1 - (t - t0 - 0.06) / (dur - 0.06)) ** 2
-            a = a + e * k * np.array([1.0, 0.85, 0.65], np.float32)
+            a = a + e * k * np.array(f[3] if len(f) > 3 else (1.0, 0.85, 0.65), np.float32)
             if e > 0.3:
                 a = chroma_shift(a, 6 * e)
     # shockwave smear: a horizontal motion blur that dies out
