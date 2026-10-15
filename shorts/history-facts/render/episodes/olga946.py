@@ -102,13 +102,12 @@ def layout(c):
     add('o02_olga_s202', l2, l3, into='zoom', cam=dict(zoom=(1.12, 1.24), dolly=(0.0, 0.08)),
         fx=dict(embers=30, bloom=0.5, punch=[(ch, 0.08)], shake=[(ch, 0.6, 12)], light=glow(0.7, 0.5, 0.7),
                 blackout=(L('L2')['end'] + 0.15, l3), grade=dict(night, exposure=-0.02)))
-    # L3 a year earlier: Igor rides into the forest; the forest tribe; «убило»
-    le = wt('L3', 'ЛЕСНОЕ') - 0.06
+    # L3 a year earlier: Igor rides into the forest; the forest tribe on «убило»
     ub = wt('L3', 'УБИЛО')
     l4 = L('L4')['start'] - 0.08
-    add('o03_igor_ride', l3, le, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.08), parx=(-16, 16)),
+    add('o03_igor_ride', l3, ub - 0.06, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.08), parx=(-16, 16)),
         fx=dict(fog=0.3, dust=20, grade=forest))
-    add('o04_forest_tribe', le, l4, cam=dict(zoom=(1.04, 1.16), dolly=(0.0, 0.1), parx=(10, -10)),
+    add('o04_forest_tribe', ub - 0.06, l4, cam=dict(zoom=(1.04, 1.16), dolly=(0.0, 0.1), parx=(10, -10)),
         fx=dict(fog=0.25, punch=[(ub, 0.07)], shake=[(ub, 0.5, 10)], grade=forest))
     # L4 twenty matchmakers come by boat: «выходи за нашего князя!»
     vy = wt('L4', 'ВЫХОДИ') - 0.06
@@ -171,7 +170,10 @@ def layout(c):
     l11 = L('L11')['start'] - 0.08
     add('o13_olga_camp', l10, kd, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(dust=20, grade=dusk))
-    add('o14_bird_cages', kd, l11, cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-12, 12)), fx=dict(dust=25, grade=dusk))
+    v3 = wt('L10', '3', nth=1) - 0.06               # the second «три»: in close on the cages
+    add('o14_bird_cages', kd, v3, cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-12, 12)), fx=dict(dust=25, grade=dusk))
+    add('o14_bird_cages', v3, l11, cam=dict(zoom=(1.32, 1.42), panx=(0.02, 0.03), pany=(0.03, 0.02), parx=(-8, 8)),
+        fx=dict(dust=20, grade=dusk))
     # L11 tinder tied to every bird; released at dusk
     ve = wt('L11', 'ВЕЧЕРОМ') - 0.06
     ot = wt('L11', 'ОТПУСТИЛИ')
@@ -200,23 +202,31 @@ def layout(c):
         fx=dict(dust=20, bloom=0.5, grade=dict(exposure=0.02, contrast=1.06, sat=1.0, warm=0.5)))
     add('o20_kiev', a13, l14, into='fade', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-14, 14)),
         fx=dict(dust=20, grade=dict(exposure=0.03, contrast=1.04, sat=1.0, warm=0.4)))
-    # L14 the question: the chronicler, then the ashes with one pigeon
+    # L14 the question, cut back and forth: the chronicler, «у викингов» the king, «или наоборот?» the chronicler again;
+    # then the ashes
     kak = wt('L14', 'КАК') - 0.06
-    add('o21_chronicle', l14, kak, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
-        fx=dict(dust=25, light=glow(0.6, 0.45, 0.6), grade=dict(exposure=-0.02, contrast=1.08, sat=0.95, warm=0.6)))
+    uv = wt('L14', 'ВИКИНГОВ') - 0.3                 # on «у викингов»
+    il = wt('L14', 'ИЛИ') - 0.06
+    scribe = dict(exposure=-0.02, contrast=1.08, sat=0.95, warm=0.6)
+    add('o21_chronicle', l14, uv, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+        fx=dict(dust=25, light=glow(0.6, 0.45, 0.6), grade=scribe))
+    add('o19_viking_king', uv, il, cam=dict(zoom=(1.3, 1.38), pany=(-0.04, -0.05), parx=(-6, 6)),
+        fx=dict(dust=15, grade=dict(exposure=0.02, contrast=1.06, sat=1.0, warm=0.5)))
+    add('o21_chronicle', il, kak, cam=dict(zoom=(1.32, 1.42), panx=(0.0, 0.01), pany=(0.03, 0.04), parx=(-6, 6)),
+        fx=dict(dust=20, light=glow(0.6, 0.45, 0.6), grade=scribe))
     add('o22_ashes', kak, total, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
         fx=dict(ash=40, fog=0.2, embers=15, grade=dict(exposure=-0.03, contrast=1.06, sat=0.85, warm=0.3, teal=0.3)))
 
     cards = [
-        dict(text='№4', sub='МЕСТЬ', start=ch, end=L('L2')['end'] + 0.1, y=560),
-        dict(text='20', sub='СВАТОВ', start=wt('L4', '20'), end=vy - 0.04, y=760, count=True),
-        dict(text='5000', sub='ДРЕВЛЯН', start=pt, end=L('L8')['end'] + 0.12, y=760, count=True, count_dur=0.6),
+        dict(text='№4', sub='МЕСТЬ', start=ch, end=L('L2')['end'] + 0.1, y=270),     # above her eyes
+        dict(text='20', sub='СВАТОВ', start=wt('L4', '20'), end=vy + 0.4, y=760, count=True),
+        dict(text='5000', sub='ДРЕВЛЯН', start=pt, end=l9 - 0.05, y=760, count=True, count_dur=0.6),
     ]
     tags = [
-        dict(text='ДРЕВЛЯНЕ · 945', start=le + 0.15, end=l4 - 0.1),
+        dict(text='ДРЕВЛЯНЕ · 945', start=ub + 0.1, end=l4 - 0.1),
         dict(text='МЕСТЬ №1 · ЯМА', start=sb + 0.1, end=l6e + 0.1),
-        dict(text='МЕСТЬ №2 · БАНЯ', start=pd + 0.1, end=L('L7')['end'] + 0.3),
-        dict(text='МЕСТЬ №3 · ТРИЗНА', start=nap, end=vo - 0.05),
+        dict(text='МЕСТЬ №2 · БАНЯ', start=dv + 0.1, end=L('L7')['end'] + 0.3),
+        dict(text='МЕСТЬ №3 · ТРИЗНА', start=L('L8')['start'] + 0.3, end=vo - 0.05),
         dict(text='ИСКОРОСТЕНЬ · 946', start=l9 + 0.15, end=l10 - 0.1),
         dict(text='МЕСТЬ №4 · ПТИЦЫ', start=fi + 0.25, end=L('L12')['end'] + 0.3),
         dict(text='ХАРАЛЬД СУРОВЫЙ · САГИ', start=l13 + 0.15, end=a13 - 0.1),
