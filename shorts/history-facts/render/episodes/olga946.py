@@ -184,7 +184,7 @@ def layout(c):
     dusk_dark = dict(dusk, exposure=-0.06, contrast=1.1)
     add('o15_tie_tinder', l11, ve, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.1)),
         fx=dict(embers=20, bloom=0.6, light=glow(0.5, 0.55, 0.7), grade=dusk))
-    add('o16_release_s216', ve, l12, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), pany=(0.0, -0.02)),
+    add('o16b_release_field_s316', ve, l12, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), pany=(0.0, -0.02)),
         fx=dict(embers=40, bloom=0.8, grade=dusk_dark,
                 birds=[dict(n=50, seed=21, dir=(0.25, -1.0), speed=320.0, ember=1.2, dur=2.5, area=(0.0, 0.05, 1.0, 0.95),
                             t0=ot - 0.3)]))
