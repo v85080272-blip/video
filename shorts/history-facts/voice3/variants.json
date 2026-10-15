@@ -1,0 +1,62 @@
+[
+ {
+  "id": "c1_s31",
+  "seed": 31,
+  "instruct": "Male, about 45 years old, deep low baritone voice, calm and restrained. Native Russian speaker. A serious documentary narrator telling a true story: measured, unhurried pace, short sentences separated by short pauses, quiet tension, no excitement, clear diction."
+ },
+ {
+  "id": "c1_s32",
+  "seed": 32,
+  "instruct": "Male, about 45 years old, deep low baritone voice, calm and restrained. Native Russian speaker. A serious documentary narrator telling a true story: measured, unhurried pace, short sentences separated by short pauses, quiet tension, no excitement, clear diction."
+ },
+ {
+  "id": "c1_s33",
+  "seed": 33,
+  "instruct": "Male, about 45 years old, deep low baritone voice, calm and restrained. Native Russian speaker. A serious documentary narrator telling a true story: measured, unhurried pace, short sentences separated by short pauses, quiet tension, no excitement, clear diction."
+ },
+ {
+  "id": "c2_s31",
+  "seed": 31,
+  "instruct": "Male, about 40 years old, low warm voice with a slight rasp. Native Russian speaker. Calm investigative documentary voice-over: steady medium-slow pace, matter-of-fact, understated drama, brief pauses after each sentence."
+ },
+ {
+  "id": "c2_s32",
+  "seed": 32,
+  "instruct": "Male, about 40 years old, low warm voice with a slight rasp. Native Russian speaker. Calm investigative documentary voice-over: steady medium-slow pace, matter-of-fact, understated drama, brief pauses after each sentence."
+ },
+ {
+  "id": "c2_s33",
+  "seed": 33,
+  "instruct": "Male, about 40 years old, low warm voice with a slight rasp. Native Russian speaker. Calm investigative documentary voice-over: steady medium-slow pace, matter-of-fact, understated drama, brief pauses after each sentence."
+ },
+ {
+  "id": "c3_s31",
+  "seed": 31,
+  "instruct": "Male, about 50 years old, deep resonant bass-baritone, calm and grave. Native Russian speaker. Narrates historical disasters like a film documentary: slow, deliberate, serious, gentle emphasis on numbers and times, short pauses."
+ },
+ {
+  "id": "c3_s32",
+  "seed": 32,
+  "instruct": "Male, about 50 years old, deep resonant bass-baritone, calm and grave. Native Russian speaker. Narrates historical disasters like a film documentary: slow, deliberate, serious, gentle emphasis on numbers and times, short pauses."
+ },
+ {
+  "id": "c3_s33",
+  "seed": 33,
+  "instruct": "Male, about 50 years old, deep resonant bass-baritone, calm and grave. Native Russian speaker. Narrates historical disasters like a film documentary: slow, deliberate, serious, gentle emphasis on numbers and times, short pauses."
+ },
+ {
+  "id": "c4_s31",
+  "seed": 31,
+  "instruct": "Male, about 38 years old, low-pitched smooth voice, calm and confident. Native Russian speaker. A modern YouTube documentary narrator: neutral, focused, slightly dark tone, medium pace, clean pauses between short phrases."
+ },
+ {
+  "id": "c4_s32",
+  "seed": 32,
+  "instruct": "Male, about 38 years old, low-pitched smooth voice, calm and confident. Native Russian speaker. A modern YouTube documentary narrator: neutral, focused, slightly dark tone, medium pace, clean pauses between short phrases."
+ },
+ {
+  "id": "c4_s33",
+  "seed": 33,
+  "instruct": "Male, about 38 years old, low-pitched smooth voice, calm and confident. Native Russian speaker. A modern YouTube documentary narrator: neutral, focused, slightly dark tone, medium pace, clean pauses between short phrases."
+ }
+]
