@@ -10,7 +10,8 @@ from PIL import Image, ImageDraw, ImageFont
 video, tl_p, script_p, sheet_p = sys.argv[1:5]
 tl = json.load(open(tl_p))
 texts = {l['id']: l['text'] for l in json.load(open(script_p))['lines']}
-DIG = [('тысяча пятьсот восемнадцатом', '1518')]
+DIG = [('тысяча пятьсот восемнадцатом', '1518'), ('тысяча девятьсот восьмом', '1908'), ('шестьдесят пять', '65'),
+       ('девятнадцать', '19')]
 
 # 1. intelligibility: each line cut from the final mix (voice + music + sfx)
 worst = 0.0
