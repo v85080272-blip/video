@@ -1,0 +1,122 @@
+[
+ {
+  "id": "d1_s41",
+  "seed": 41,
+  "instruct": "Male, about 35 years old, medium-low baritone, clean and resonant, no rasp. Native Russian speaker. A calm, confident documentary narrator recorded close to a studio microphone: crisp diction, rich warm tone, lively natural intonation, short sentences each followed by a brief pause."
+ },
+ {
+  "id": "d1_s42",
+  "seed": 42,
+  "instruct": "Male, about 35 years old, medium-low baritone, clean and resonant, no rasp. Native Russian speaker. A calm, confident documentary narrator recorded close to a studio microphone: crisp diction, rich warm tone, lively natural intonation, short sentences each followed by a brief pause."
+ },
+ {
+  "id": "d1_s43",
+  "seed": 43,
+  "instruct": "Male, about 35 years old, medium-low baritone, clean and resonant, no rasp. Native Russian speaker. A calm, confident documentary narrator recorded close to a studio microphone: crisp diction, rich warm tone, lively natural intonation, short sentences each followed by a brief pause."
+ },
+ {
+  "id": "d2_s41",
+  "seed": 41,
+  "instruct": "Male, about 40 years old, low smooth baritone with rich chest resonance, a clean voice without hoarseness. Native Russian speaker. Tells a true survival story in the present tense: steady medium pace, quiet tension, expressive rises and falls, short pauses between short sentences."
+ },
+ {
+  "id": "d2_s42",
+  "seed": 42,
+  "instruct": "Male, about 40 years old, low smooth baritone with rich chest resonance, a clean voice without hoarseness. Native Russian speaker. Tells a true survival story in the present tense: steady medium pace, quiet tension, expressive rises and falls, short pauses between short sentences."
+ },
+ {
+  "id": "d2_s43",
+  "seed": 43,
+  "instruct": "Male, about 40 years old, low smooth baritone with rich chest resonance, a clean voice without hoarseness. Native Russian speaker. Tells a true survival story in the present tense: steady medium pace, quiet tension, expressive rises and falls, short pauses between short sentences."
+ },
+ {
+  "id": "d3_s41",
+  "seed": 41,
+  "instruct": "Male, about 32 years old, medium-low baritone, definitely not high-pitched, clear and polished like a professional voice actor. Native Russian speaker. Calm but gripping storytelling for short history videos: measured pace, vivid emphasis on numbers, natural pauses after each sentence."
+ },
+ {
+  "id": "d3_s42",
+  "seed": 42,
+  "instruct": "Male, about 32 years old, medium-low baritone, definitely not high-pitched, clear and polished like a professional voice actor. Native Russian speaker. Calm but gripping storytelling for short history videos: measured pace, vivid emphasis on numbers, natural pauses after each sentence."
+ },
+ {
+  "id": "d3_s43",
+  "seed": 43,
+  "instruct": "Male, about 32 years old, medium-low baritone, definitely not high-pitched, clear and polished like a professional voice actor. Native Russian speaker. Calm but gripping storytelling for short history videos: measured pace, vivid emphasis on numbers, natural pauses after each sentence."
+ },
+ {
+  "id": "d4_s41",
+  "seed": 41,
+  "instruct": "Male, about 38 years old, deep warm radio host voice, smooth and clear, close to the microphone. Native Russian speaker. Narrates a documentary about a historical disaster: composed, serious, intriguing, expressive intonation, medium pace with brief dramatic pauses."
+ },
+ {
+  "id": "d4_s42",
+  "seed": 42,
+  "instruct": "Male, about 38 years old, deep warm radio host voice, smooth and clear, close to the microphone. Native Russian speaker. Narrates a documentary about a historical disaster: composed, serious, intriguing, expressive intonation, medium pace with brief dramatic pauses."
+ },
+ {
+  "id": "d4_s43",
+  "seed": 43,
+  "instruct": "Male, about 38 years old, deep warm radio host voice, smooth and clear, close to the microphone. Native Russian speaker. Narrates a documentary about a historical disaster: composed, serious, intriguing, expressive intonation, medium pace with brief dramatic pauses."
+ },
+ {
+  "id": "d5_s41",
+  "seed": 41,
+  "instruct": "Male, about 45 years old, low resonant voice, clean and confident, a professional audiobook narrator. Native Russian speaker. Matter-of-fact storytelling with understated drama, medium pace, clear articulation, short pauses after each short sentence, lively intonation, not monotone."
+ },
+ {
+  "id": "d5_s42",
+  "seed": 42,
+  "instruct": "Male, about 45 years old, low resonant voice, clean and confident, a professional audiobook narrator. Native Russian speaker. Matter-of-fact storytelling with understated drama, medium pace, clear articulation, short pauses after each short sentence, lively intonation, not monotone."
+ },
+ {
+  "id": "d5_s43",
+  "seed": 43,
+  "instruct": "Male, about 45 years old, low resonant voice, clean and confident, a professional audiobook narrator. Native Russian speaker. Matter-of-fact storytelling with understated drama, medium pace, clear articulation, short pauses after each short sentence, lively intonation, not monotone."
+ },
+ {
+  "id": "d6_s41",
+  "seed": 41,
+  "instruct": "Male, about 30 years old, low baritone, crisp and modern, like a popular YouTube documentary channel. Native Russian speaker. Calm, focused and engaging, natural conversational delivery, medium pace, short pauses, emphasis on key words."
+ },
+ {
+  "id": "d6_s42",
+  "seed": 42,
+  "instruct": "Male, about 30 years old, low baritone, crisp and modern, like a popular YouTube documentary channel. Native Russian speaker. Calm, focused and engaging, natural conversational delivery, medium pace, short pauses, emphasis on key words."
+ },
+ {
+  "id": "d6_s43",
+  "seed": 43,
+  "instruct": "Male, about 30 years old, low baritone, crisp and modern, like a popular YouTube documentary channel. Native Russian speaker. Calm, focused and engaging, natural conversational delivery, medium pace, short pauses, emphasis on key words."
+ },
+ {
+  "id": "d7_s41",
+  "seed": 41,
+  "instruct": "Male, about 42 years old, deep voice, velvety and clear, a cinematic narrator. Native Russian speaker. Builds suspense calmly, unhurried but not slow, expressive melody, crisp consonants, brief pauses between sentences."
+ },
+ {
+  "id": "d7_s42",
+  "seed": 42,
+  "instruct": "Male, about 42 years old, deep voice, velvety and clear, a cinematic narrator. Native Russian speaker. Builds suspense calmly, unhurried but not slow, expressive melody, crisp consonants, brief pauses between sentences."
+ },
+ {
+  "id": "d7_s43",
+  "seed": 43,
+  "instruct": "Male, about 42 years old, deep voice, velvety and clear, a cinematic narrator. Native Russian speaker. Builds suspense calmly, unhurried but not slow, expressive melody, crisp consonants, brief pauses between sentences."
+ },
+ {
+  "id": "d8_s41",
+  "seed": 41,
+  "instruct": "Male, about 36 years old, medium-low voice with a firm, slightly dark tone, clean studio recording. Native Russian speaker. A true-crime podcast narrator: calm, intriguing, precise, lively intonation, medium pace, short pauses after every sentence."
+ },
+ {
+  "id": "d8_s42",
+  "seed": 42,
+  "instruct": "Male, about 36 years old, medium-low voice with a firm, slightly dark tone, clean studio recording. Native Russian speaker. A true-crime podcast narrator: calm, intriguing, precise, lively intonation, medium pace, short pauses after every sentence."
+ },
+ {
+  "id": "d8_s43",
+  "seed": 43,
+  "instruct": "Male, about 36 years old, medium-low voice with a firm, slightly dark tone, clean studio recording. Native Russian speaker. A true-crime podcast narrator: calm, intriguing, precise, lively intonation, medium pace, short pauses after every sentence."
+ }
+]
