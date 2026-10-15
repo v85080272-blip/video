@@ -39,6 +39,14 @@
       "prompt": "a long wooden boat with twenty bearded Slavic men in embroidered linen shirts and fur hats sitting proudly, rowing on a wide misty river below a hill with a wooden fortress, early morning"
     },
     {
+      "id": "o05b_envoys_river",
+      "seeds": [
+        305,
+        405
+      ],
+      "prompt": "a long wooden boat with twenty bearded Slavic men in embroidered linen shirts and fur hats sitting proudly, rowing on a wide misty river between dense dark pine forests, early morning"
+    },
+    {
       "id": "o06_olga_hall",
       "seeds": [
         106
@@ -52,6 +60,14 @@
         207
       ],
       "prompt": "warriors carrying a wooden boat with seated proud bearded men on their shoulders through the courtyard of a wooden fortress, crowd of Slavic people watching, overcast morning"
+    },
+    {
+      "id": "o07b_carry_shoulders",
+      "seeds": [
+        307,
+        407
+      ],
+      "prompt": "low angle, a crowd of Slavic warriors carrying a big wooden boat high on their shoulders, proud bearded envoys sitting in the boat above the crowd, courtyard of a wooden log fortress, overcast morning"
     },
     {
       "id": "o08_pit",
