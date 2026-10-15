@@ -129,7 +129,7 @@ def layout(c):
         fx=dict(dust=20, grade=tent))
     add('e06_radio', pv, zh, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
         fx=dict(snow=20, grade=dict(night, exposure=0.0, sat=0.9)))
-    add('e08b_wife_phone', zh, l6, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
+    add('e08b_wife_phone_s408', zh, l6, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
         fx=dict(dust=10, punch=[(p['dead'], 0.05)], blackout=(L('L5')['end'] + 0.2, l6), grade=home))
     # L6 the night alone: no tent, no sleeping bag, no oxygen (a hit on every «без»)
     b1, b2, b3 = p['without']
@@ -158,18 +158,18 @@ def layout(c):
     add('e12_man_edge_s212', l8, bz, into='zoom', cam=dict(zoom=(1.24, 1.32), pany=(0.09, 0.1), dolly=(0.0, 0.04),
                                                        parx=(-8, 8)),
         fx=dict(snow=30, bloom=0.6, light=sun(0.75, 0.3), punch=[(wt('L8', 'ЧЕЛОВЕК'), 0.05)], grade=dawn))
-    add('e13b_face_bare', bz, bz1, cam=dict(zoom=(1.0, 1.06), dolly=(0.0, 0.05)),
+    add('e13b_face_bare_s413', bz, bz1, cam=dict(zoom=(1.22, 1.26), pany=(0.09, 0.1), dolly=(0.0, 0.04)),
         fx=dict(snow=20, bloom=0.4, grade=dawn))
-    add('e14_bare_hands', bz1, vr, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.05)),
+    add('e14_bare_hands_s114', bz1, vr, cam=dict(zoom=(1.28, 1.34), pany=(0.1, 0.1), dolly=(0.0, 0.04)),
         fx=dict(snow=20, bloom=0.4, grade=dawn))
     add('e12c_unzipped', vr, l9, cam=dict(zoom=(1.04, 1.14), dolly=(0.0, 0.06), parx=(-6, 6)),
         fx=dict(snow=20, bloom=0.5, light=sun(0.75, 0.3, 0.7), grade=dawn))
     # L9 «I imagine you are surprised to see me here»
     vy = wt('L9', 'ВЫ') - 0.06
     l10 = L('L10')['start'] - 0.1
-    add('e13b_face_bare', l9, vy, into='fade', cam=dict(zoom=(1.1, 1.18), pany=(-0.02, -0.03)),
+    add('e13b_face_bare_s413', l9, vy, into='fade', cam=dict(zoom=(1.24, 1.3), pany=(0.09, 0.1)),
         fx=dict(snow=15, bloom=0.4, grade=dawn))
-    add('e13b_face_bare', vy, l10, cam=dict(zoom=(1.3, 1.42), pany=(-0.05, -0.06), dolly=(0.0, 0.04)),
+    add('e13b_face_bare_s413', vy, l10, cam=dict(zoom=(1.4, 1.5), pany=(0.12, 0.13), dolly=(0.0, 0.04)),
         fx=dict(snow=10, bloom=0.5, punch=[(wt('L9', 'ЗДЕСЬ'), 0.04)], grade=dawn))
     # L10 they give up the summit, give him their oxygen and water, and wait for twelve guides (drums)
     ot = wt('L10', 'ОТДАЛИ') - 0.06

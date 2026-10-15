@@ -201,6 +201,14 @@
         419
       ],
       "prompt": "close-up of a man's hands with white bandages on the fingertips holding a mug of hot tea, hospital blanket, warm light"
+    },
+    {
+      "id": "e12d_open_suit",
+      "seeds": [
+        512,
+        612
+      ],
+      "prompt": "a bearded man sitting in the snow with his orange down jacket wide open, showing a thin grey thermal shirt underneath, bare hands resting on his knees, bare head with messy hair, high mountain ridge at sunrise"
     }
   ]
 }
