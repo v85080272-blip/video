@@ -113,10 +113,10 @@ def layout(c):
     vy = wt('L4', 'ВЫХОДИ') - 0.06
     l5 = L('L5')['start'] - 0.08
     river = dict(exposure=0.02, contrast=1.04, sat=0.95, warm=0.3, teal=0.3, demagenta=0.4)
-    add('o05_envoys_boat', l4, vy, into='fade', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-14, 14)),
+    add('o05b_envoys_river_s405', l4, vy, into='fade', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-14, 14)),
         fx=dict(fog=0.2, dust=15, grade=river))
-    add('o05_envoys_boat', vy, l5, cam=dict(zoom=(1.3, 1.4), panx=(0.02, 0.03), pany=(0.02, 0.01), parx=(-8, 8)),
-        fx=dict(fog=0.15, grade=river))
+    add('o05b_envoys_river_s405', vy, l5, cam=dict(zoom=(1.35, 1.45), panx=(0.05, 0.05), pany=(0.12, 0.11), parx=(-8, 8)),
+        fx=dict(fog=0.15, grade=river))         # in on the matchmakers' faces
     # L5 Olga answers kindly; the boat is carried
     pn = wt('L5', 'ПОНЕСУТ') - 0.06
     l6 = L('L6')['start'] - 0.08
