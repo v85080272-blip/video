@@ -1,0 +1,163 @@
+{
+  "steps": 5,
+  "styles": {
+    "avatar": "cinematic still life photography, dramatic chiaroscuro lighting, pitch black background, warm amber and gold color palette, highly detailed, sharp focus, photorealistic, 8k",
+    "banner": "cinematic matte painting, dramatic volumetric light, warm amber and deep shadow color palette, film still, highly detailed, sharp focus, 8k"
+  },
+  "items": [
+    {
+      "id": "av_hourglass",
+      "style": "avatar",
+      "size": [
+        1024,
+        1024
+      ],
+      "seeds": [
+        11,
+        12
+      ],
+      "prompt": "a single antique brass hourglass standing in the center, the sand inside glows like molten gold and burning embers, glowing orange light from within the glass, floating golden sparks and embers around it, rim light, symmetrical composition, centered"
+    },
+    {
+      "id": "bn_skyline",
+      "style": "banner",
+      "size": [
+        1536,
+        640
+      ],
+      "seeds": [
+        21,
+        22
+      ],
+      "prompt": "epic ultra wide panorama, skyline of famous historical landmarks in dark silhouette, egyptian pyramids, roman colosseum, medieval castle on a hill, gothic cathedral spires, ancient greek temple, against a dramatic glowing orange sunset sky with smoke and floating embers, dark foreground, horizon in the lower third"
+    },
+    {
+      "id": "av_storyteller",
+      "style": "avatar",
+      "size": [
+        1024,
+        1024
+      ],
+      "seeds": [
+        31,
+        32
+      ],
+      "prompt": "portrait of a mysterious old storyteller in a dark hooded cloak holding a glowing oil lantern in front of him, warm lantern light on his bearded face, eyes looking at the viewer, floating embers, centered head and shoulders"
+    },
+    {
+      "id": "bn_desk",
+      "style": "banner",
+      "size": [
+        1536,
+        640
+      ],
+      "seeds": [
+        41,
+        42
+      ],
+      "prompt": "top-down view of an antique parchment world map spread on a dark wooden desk, an old brass hourglass on the left side, a brass compass, a magnifying glass and a feather quill on the right side, burning candles, old letters and coins, empty middle of the map, moody warm candle light, dark vignette"
+    },
+    {
+      "id": "av_storyteller_close",
+      "style": "avatar",
+      "size": [
+        1024,
+        1024
+      ],
+      "seeds": [
+        61,
+        62,
+        63
+      ],
+      "prompt": "close-up portrait of a mysterious old storyteller with a white beard in a dark hooded cloak, his face lit from below by the warm orange glow of an oil lantern he holds near his chest, looking straight at the viewer with a calm knowing look, head and shoulders filling the frame, floating embers"
+    },
+    {
+      "id": "av_hourglass_dark",
+      "style": "avatar",
+      "size": [
+        1024,
+        1024
+      ],
+      "seeds": [
+        71
+      ],
+      "prompt": "low key photograph of an ornate antique brass hourglass in a black void, the sand inside glows bright orange like molten lava, golden sparks rising around the glass, thin rim light on the brass, the hourglass fills the frame, symmetrical, centered"
+    },
+    {
+      "id": "bn_pyramids",
+      "style": "banner",
+      "size": [
+        1536,
+        640
+      ],
+      "seeds": [
+        81,
+        82
+      ],
+      "prompt": "ultra wide cinematic panorama of the great pyramids of giza at night, lit by burning torches and campfires, ancient egyptian caravan with camels and torches in the foreground, dramatic dark orange sky with smoke, stars, floating embers"
+    },
+    {
+      "id": "bn_library",
+      "style": "banner",
+      "size": [
+        1536,
+        640
+      ],
+      "seeds": [
+        91
+      ],
+      "prompt": "ultra wide cinematic panorama of a vast ancient library hall with endless tall bookshelves, old books and scrolls, lit by hundreds of candles and oil lamps, warm golden light rays, dust in the air, mysterious dark atmosphere"
+    },
+    {
+      "id": "bn_rome",
+      "style": "banner",
+      "size": [
+        1536,
+        640
+      ],
+      "seeds": [
+        101
+      ],
+      "prompt": "ultra wide cinematic panorama of the roman colosseum and ancient ruins at dusk, burning braziers and torches, dramatic fiery orange sky with dark clouds and smoke, silhouettes of roman soldiers, floating embers"
+    },
+    {
+      "id": "av_compass",
+      "style": "avatar",
+      "size": [
+        1024,
+        1024
+      ],
+      "seeds": [
+        51,
+        52
+      ],
+      "prompt": "an ancient golden compass with an engraved compass rose and roman numerals, top view, perfectly round, glowing warm light reflecting on the gold, floating embers, centered, symmetrical"
+    },
+    {
+      "id": "bnp_skyline",
+      "style": "banner",
+      "size": [
+        2304,
+        576
+      ],
+      "seeds": [
+        201,
+        202
+      ],
+      "prompt": "ultra wide panoramic skyline at sunset made of famous landmarks of world history in dark silhouette: egyptian pyramids, the roman colosseum, a greek temple with columns, a medieval castle with towers, a gothic cathedral, under a huge dramatic fiery orange and red sky with smoke clouds, embers in the air, horizon in the lower part of the image"
+    },
+    {
+      "id": "bnp_pyramids",
+      "style": "banner",
+      "size": [
+        2304,
+        576
+      ],
+      "seeds": [
+        211,
+        212
+      ],
+      "prompt": "ultra wide panorama of the giza pyramids at dusk under a huge dramatic fiery orange sky with smoke clouds, silhouettes of a long camel caravan with burning torches crossing the desert, embers in the air, horizon in the lower part of the image"
+    }
+  ]
+}
