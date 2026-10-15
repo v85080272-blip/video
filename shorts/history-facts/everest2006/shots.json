@@ -185,6 +185,22 @@
         412
       ],
       "prompt": "a bearded man sitting cross-legged in the snow at the edge of a cliff with his orange down suit unzipped to the waist and his arms out of the sleeves, bare hands, no hat, sunrise, high mountain ridge, huge drop"
+    },
+    {
+      "id": "e20b_huddled",
+      "seeds": [
+        320,
+        420
+      ],
+      "prompt": "a lone climber in a down suit huddled motionless with his knees to his chest under a small rock overhang in the snow on a high mountain ridge, face hidden, a line of climbers with headlamps walking past him in the dark, cold blue night light"
+    },
+    {
+      "id": "e19b_bandaged",
+      "seeds": [
+        319,
+        419
+      ],
+      "prompt": "close-up of a man's hands with white bandages on the fingertips holding a mug of hot tea, hospital blanket, warm light"
     }
   ]
 }

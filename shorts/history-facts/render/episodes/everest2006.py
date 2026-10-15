@@ -109,9 +109,9 @@ def layout(c):
     add('e02_summit', l3, no, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-12, 12)),
         fx=dict(snow=30, bloom=0.4, grade=day))
     un = wt('L3', 'У') - 0.06
-    add('e03_collapse', no, un, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e03b_collapse_orange', no, un, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(blizzard=140, grade=dusk))
-    add('e03_collapse', un, l4, cam=dict(zoom=(1.35, 1.5), pany=(-0.04, -0.05), roll=(0.0, 1.5)),
+    add('e03b_collapse_orange', un, l4, cam=dict(zoom=(1.35, 1.5), pany=(-0.04, -0.05), roll=(0.0, 1.5)),
         fx=dict(blizzard=120, punch=[(wt('L3', 'МОЗГ'), 0.06)], grade=dusk))
     # L4 the guides drag him down for hours; by night no sign of life
     kn = wt('L4', 'К') - 0.06
@@ -124,11 +124,11 @@ def layout(c):
     zh = wt('L5', 'А') - 0.06
     l6 = L('L6')['start'] - 0.1
     pv = wt('L5', 'ПРОВОДНИКАМ') - 0.06
-    add('e07_leader_radio', l5, pv, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e07b_leader_radio', l5, pv, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(dust=20, grade=tent))
     add('e06_radio', pv, zh, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06)),
         fx=dict(snow=20, grade=dict(night, exposure=0.0, sat=0.9)))
-    add('e08_wife_phone', zh, l6, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
+    add('e08b_wife_phone', zh, l6, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
         fx=dict(dust=10, punch=[(p['dead'], 0.05)], blackout=(L('L5')['end'] + 0.2, l6), grade=home))
     # L6 the night alone: no tent, no sleeping bag, no oxygen (a hit on every «без»)
     b1, b2, b3 = p['without']
@@ -149,22 +149,25 @@ def layout(c):
         fx=dict(snow=40, bloom=0.5, grade=dawn))
     add('e16_summit_near', dc, l8, cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
         fx=dict(snow=30, bloom=0.5, light=sun(0.6, 0.2, 0.8), grade=dawn))
-    # L8 a man sits at the edge of the cliff: no hat, no gloves, his jacket open
+    # L8 a man sits at the edge of the cliff: no hat, no gloves, his suit open (a cut on each item)
     bz = wt('L8', 'БЕЗ') - 0.06
+    bz1 = wt('L8', 'БЕЗ', nth=1) - 0.06
     vr = wt('L8', 'РАССТЁГНУТОЙ') - 0.3
     l9 = L('L9')['start'] - 0.08
     add('e12_man_edge_s212', l8, bz, into='zoom', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(snow=30, bloom=0.6, light=sun(0.75, 0.3), punch=[(wt('L8', 'ЧЕЛОВЕК'), 0.05)], grade=dawn))
-    add('e13_face_frost', bz, vr, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06)),
+    add('e13b_face_bare', bz, bz1, cam=dict(zoom=(1.0, 1.06), dolly=(0.0, 0.05)),
         fx=dict(snow=20, bloom=0.4, grade=dawn))
-    add('e12_man_edge_s112', vr, l9, cam=dict(zoom=(1.3, 1.4), pany=(0.04, 0.05), parx=(-6, 6)),
-        fx=dict(snow=20, bloom=0.5, grade=dawn))
+    add('e14_bare_hands', bz1, vr, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.05)),
+        fx=dict(snow=20, bloom=0.4, grade=dawn))
+    add('e12c_unzipped', vr, l9, cam=dict(zoom=(1.04, 1.14), dolly=(0.0, 0.06), parx=(-6, 6)),
+        fx=dict(snow=20, bloom=0.5, light=sun(0.75, 0.3, 0.7), grade=dawn))
     # L9 «I imagine you are surprised to see me here»
     vy = wt('L9', 'ВЫ') - 0.06
     l10 = L('L10')['start'] - 0.1
-    add('e13_face_frost', l9, vy, into='fade', cam=dict(zoom=(1.1, 1.18), pany=(-0.02, -0.03)),
+    add('e13b_face_bare', l9, vy, into='fade', cam=dict(zoom=(1.1, 1.18), pany=(-0.02, -0.03)),
         fx=dict(snow=15, bloom=0.4, grade=dawn))
-    add('e13_face_frost', vy, l10, cam=dict(zoom=(1.3, 1.42), pany=(-0.05, -0.06), dolly=(0.0, 0.04)),
+    add('e13b_face_bare', vy, l10, cam=dict(zoom=(1.3, 1.42), pany=(-0.05, -0.06), dolly=(0.0, 0.04)),
         fx=dict(snow=10, bloom=0.5, punch=[(wt('L9', 'ЗДЕСЬ'), 0.04)], grade=dawn))
     # L10 they give up the summit, give him their oxygen and water, and wait for twelve guides (drums)
     ot = wt('L10', 'ОТДАЛИ') - 0.06
@@ -181,7 +184,7 @@ def layout(c):
         fx=dict(blizzard=100, beat=[refuse], grade=day))
     # L11 he lived, and lost only his fingertips
     l12 = L('L12')['start'] - 0.1
-    add('e19_hands', l11, l12, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
+    add('e19b_bandaged', l11, l12, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
         fx=dict(dust=20, bloom=0.4, beat=[refuse], light=lamp(0.5, 0.5, 0.8), grade=tent))
     # L12 ten days earlier, on the same route, dozens walked past a freezing Englishman
     pr = wt('L12', 'ПРОШЛИ') - 0.06
@@ -189,7 +192,7 @@ def layout(c):
     mm = wt('L12', 'МИМО') - 0.06
     add('e21_line_passing', l12, mm, into='fade', cam=dict(zoom=(1.0, 1.1), panx=(-0.03, 0.03), parx=(-14, 14)),
         fx=dict(blizzard=160, grade=dict(day, exposure=-0.04, sat=0.85)))
-    add('e20_rock_shelter', mm, pr, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e20b_huddled', mm, pr, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(blizzard=150, grade=night))
     add('e21_line_passing', pr, l13, cam=dict(zoom=(1.35, 1.45), pany=(0.06, 0.07), parx=(-8, 8)),
         fx=dict(blizzard=160, grade=dict(day, exposure=-0.06, sat=0.8)))
