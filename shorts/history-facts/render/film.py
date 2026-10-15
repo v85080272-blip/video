@@ -151,15 +151,22 @@ def pick(img_id):
     return f'{SHOTS}/{name}'
 
 
+def ensure_depth(p):
+    """Depth map next to the still; written to a temp file and renamed, so a parallel worker never reads half a PNG."""
+    dp = p[:-4] + '_depth.png'
+    if not os.path.exists(dp):
+        import depth as dmod
+        tmp = f'{dp[:-4]}.{os.getpid()}.tmp.png'
+        dmod.depth_of(Image.open(p)).save(tmp)
+        os.replace(tmp, dp)
+    return dp
+
+
 def source(img_id, grade_kw=None):
     key = (img_id, json.dumps(grade_kw or {}, sort_keys=True))
     if key not in _SRC:
         p = pick(img_id)
-        dp = p[:-4] + '_depth.png'
-        if not os.path.exists(dp):
-            import depth as dmod
-            dmod.depth_of(Image.open(p)).save(dp)
-        _SRC[key] = Source(p, dp, grade_kw=grade_kw)
+        _SRC[key] = Source(p, ensure_depth(p), grade_kw=grade_kw)
     return _SRC[key]
 
 
@@ -556,6 +563,8 @@ def render_video(out_path, workers=3):
     tl = build_timeline()
     nframes = int(round(tl['total'] * FPS))
     print('frames', nframes, 'duration', round(tl['total'], 2), flush=True)
+    for img in dict.fromkeys(sh['img'] for sh in tl['shots']):    # every depth map once, before the workers start
+        ensure_depth(pick(img))
     silent = out_path[:-4] + '_silent.mp4'
     ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}',
                            '-r', str(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '17',
