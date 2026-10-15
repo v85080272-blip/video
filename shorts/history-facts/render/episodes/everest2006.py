@@ -162,7 +162,7 @@ def layout(c):
         fx=dict(snow=20, bloom=0.4, grade=dawn))
     add('e14_bare_hands_s114', bz1, vr, cam=dict(zoom=(1.28, 1.34), pany=(0.1, 0.1), dolly=(0.0, 0.04)),
         fx=dict(snow=20, bloom=0.4, grade=dawn))
-    add('e12c_unzipped', vr, l9, cam=dict(zoom=(1.04, 1.14), dolly=(0.0, 0.06), parx=(-6, 6)),
+    add('e12d_open_suit_s512', vr, l9, cam=dict(zoom=(1.1, 1.16), pany=(0.04, 0.05), dolly=(0.0, 0.05), parx=(-6, 6)),
         fx=dict(snow=20, bloom=0.5, light=sun(0.75, 0.3, 0.7), grade=dawn))
     # L9 «I imagine you are surprised to see me here»
     vy = wt('L9', 'ВЫ') - 0.06
@@ -186,7 +186,7 @@ def layout(c):
         fx=dict(blizzard=100, beat=[refuse], grade=day))
     # L11 he lived, and lost only his fingertips
     l12 = L('L12')['start'] - 0.1
-    add('e19b_bandaged', l11, l12, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
+    add('e19b_bandaged_s319', l11, l12, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08)),
         fx=dict(dust=20, bloom=0.4, beat=[refuse], light=lamp(0.5, 0.5, 0.8), grade=tent))
     # L12 ten days earlier, on the same route, dozens walked past a freezing Englishman
     pr = wt('L12', 'ПРОШЛИ') - 0.06
@@ -194,7 +194,7 @@ def layout(c):
     mm = wt('L12', 'МИМО') - 0.06
     add('e21_line_passing', l12, mm, into='fade', cam=dict(zoom=(1.0, 1.1), panx=(-0.03, 0.03), parx=(-14, 14)),
         fx=dict(blizzard=160, grade=dict(day, exposure=-0.04, sat=0.85)))
-    add('e20b_huddled', mm, pr, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add('e20b_huddled_s420', mm, pr, cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(blizzard=150, grade=night))
     add('e21_line_passing', pr, l13, cam=dict(zoom=(1.35, 1.45), pany=(0.06, 0.07), parx=(-8, 8)),
         fx=dict(blizzard=160, grade=dict(day, exposure=-0.06, sat=0.8)))
