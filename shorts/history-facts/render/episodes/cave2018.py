@@ -36,6 +36,7 @@ LEAD_IN = 0.25
 TAIL = 2.0
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №4', year='2018', lines=['ДЕТЕЙ УСЫПИЛИ,', 'ЧТОБЫ СПАСТИ?'])
 COVER_B = ['13 ЧЕЛОВЕК', 'ПОД ЗЕМЛЁЙ']
+ENDCARD = None                     # published before the closing «Подпишись» card; kept as released
 SFX_DIRS = ['/home/user/work/sfx/rescue', '/home/user/work/sfx/olga', '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
 

@@ -160,6 +160,8 @@ def main(tl_path=f'{WORK}/timeline.json', out_wav=f'{WORK}/mix.wav'):
     voice, hits, beds = build(tl)
     mix = voice + hits + beds
     mix = mix[:int(tl['total'] * SR)]
+    nf = min(len(mix), int(0.8 * SR))     # the sound fades with the picture instead of stopping on the last frame
+    mix[-nf:] *= (np.linspace(1.0, 0.0, nf) ** 2)[:, None]
     pk = np.abs(mix).max()
     if pk > 0.98:
         mix = mix * 0.98 / pk
@@ -170,12 +172,12 @@ def main(tl_path=f'{WORK}/timeline.json', out_wav=f'{WORK}/mix.wav'):
         w.setsampwidth(2)
         w.setframerate(SR)
         w.writeframes(pcm.tobytes())
-    # two-pass loudnorm to -14 LUFS, -1 dBTP
-    r1 = subprocess.run(['ffmpeg', '-hide_banner', '-i', raw, '-af', 'loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json',
+    # two-pass loudnorm to -14 LUFS, -1.5 dBTP (AAC adds about 0.3 dB of peaks)
+    r1 = subprocess.run(['ffmpeg', '-hide_banner', '-i', raw, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json',
                          '-f', 'null', '-'], capture_output=True, text=True)
     js = r1.stderr[r1.stderr.rfind('{'):r1.stderr.rfind('}') + 1]
     st = json.loads(js)
-    af = (f"loudnorm=I=-14:TP=-1.0:LRA=11:measured_I={st['input_i']}:measured_TP={st['input_tp']}:"
+    af = (f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={st['input_i']}:measured_TP={st['input_tp']}:"
           f"measured_LRA={st['input_lra']}:measured_thresh={st['input_thresh']}:offset={st['target_offset']}:linear=true")
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', af, '-ar', '48000', out_wav], check=True)
     print('mix written', out_wav, 'input LUFS', st['input_i'])

@@ -120,6 +120,11 @@ def build_timeline():
 
     c = Ctx(lines, words, total)
     lay = EP.layout(c)
+    # closing call to subscribe after the last line (vla 16.10: «вместо колокола надо добавить байт в конце»);
+    # an episode can pass its own 'endcard' from layout() or set ENDCARD = None (episodes published without it)
+    ec = getattr(EP, 'ENDCARD', {})
+    if ec is not None and 'endcard' not in lay:
+        lay['endcard'] = dict(ec, start=lines[LINE_IDS[-1]]['end'] + 0.3)
     cover = dict(getattr(EP, 'COVER', {}), **lay['cover'])
     tl = dict(total=total, lines=lines, shots=c.shots, cards=lay.get('cards', []), cover=cover, tags=lay.get('tags', []),
               words={k: v for k, v in words.items()}, episode=EPISODE)
@@ -433,6 +438,26 @@ def draw_cover(a, t, cv, tl_text, static=False):
         paste_rgba(a, im, W / 2, 835 + i * 128 + lift, alpha=al, scale=min(1.0, 880 / im.width))
 
 
+def draw_endcard(a, t, ec, tl_text):
+    """«Подпишись» in the cover's layout, so the Shorts loop back to the cover reads as one design."""
+    if t < ec['start']:
+        return
+    u = t - ec['start']
+    al = min(1.0, u / 0.3)
+    grad = np.clip(1 - np.linspace(0, 1, H)[:, None] / 0.66, 0, 1) ** 1.4
+    a *= (1 - 0.62 * al * grad[..., None])
+    tag = tl_text.render(ec.get('tag', 'ТАЙНЫ ИСТОРИИ'), F('Inter-ExtraBold.otf', 48), ORANGE, stroke=5, track=8)
+    paste_rgba(a, tag, W / 2, 455, alpha=al)
+    big = tl_text.render(ec.get('big', 'ПОДПИШИСЬ,'), F('InterDisplay-Black.otf', 190), YELLOW, stroke=12, squeeze=0.9,
+                         track=-4)
+    pop = 1.0 + 0.35 * (1 - ease_out(min(1.0, u / 0.28), 3)) + 0.03 * np.sin(2 * np.pi * 1.1 * max(0.0, u - 0.5))
+    paste_rgba(a, big, W / 2, 620, alpha=al, scale=min(1.0, 900 / big.width) * pop)
+    for i, txt in enumerate(ec.get('lines', ['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ ИСТОРИИ'])):
+        ai = min(1.0, max(0.0, (u - 0.2 - 0.15 * i) / 0.25))
+        im = tl_text.render(txt, F('InterDisplay-Black.otf', 116), (255, 255, 255), stroke=9, squeeze=0.86, track=-2)
+        paste_rgba(a, im, W / 2, 805 + i * 122 + (1 - ease_out(ai, 3)) * 30, alpha=ai, scale=min(1.0, 880 / im.width))
+
+
 _BAND = None
 
 
@@ -528,6 +553,8 @@ def render_frame(n, tl=None):
     for tg in tl.get('tags', []):
         draw_tag(a, t, tg, _TEXT)
     draw_captions(a, t, tl, _TEXT)
+    if tl.get('endcard'):
+        draw_endcard(a, t, tl['endcard'], _TEXT)
     # final fade
     if t > tl['total'] - 0.4:
         a = a * max(0.0, (tl['total'] - t) / 0.4)

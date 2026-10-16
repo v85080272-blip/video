@@ -31,6 +31,7 @@ LEAD_IN = 0.25
 TAIL = 1.9
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №2', year='1518', lines=['ТАНЦЕВАЛИ', 'ДО СМЕРТИ?'])
 COVER_B = ['ЭПИДЕМИЯ', 'ТАНЦА']
+ENDCARD = None                     # published before the closing «Подпишись» card; kept as released
 SFX_DIRS = ['/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
 

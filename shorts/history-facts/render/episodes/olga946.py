@@ -33,6 +33,7 @@ LEAD_IN = 0.25
 TAIL = 2.0
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №3', year='946', lines=['СОЖГЛА ГОРОД', 'ПТИЦАМИ?'])
 COVER_B = ['МЕСТЬ', 'КНЯГИНИ ОЛЬГИ']
+ENDCARD = None                     # published before the closing «Подпишись» card; kept as released
 SFX_DIRS = ['/home/user/work/sfx/olga', '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
 

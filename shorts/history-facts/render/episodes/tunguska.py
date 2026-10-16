@@ -27,6 +27,7 @@ LEAD_IN = 0.25
 TAIL = 1.6
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №1', year='1908', lines=['ЧТО ВЗОРВАЛОСЬ', 'НАД СИБИРЬЮ?'])
 COVER_B = ['ВЗРЫВ', 'БЕЗ ВОРОНКИ']
+ENDCARD = None                     # published before the closing «Подпишись» card; kept as released
 SFX_DIRS = ['/home/user/work/sfx']
 
 
