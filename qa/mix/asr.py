@@ -28,15 +28,36 @@ def is_num(w):
     return bool(re.fullmatch(r'[0-9]+([.,:][0-9]+)*(-?[а-я]{1,3})?', w) or _CARD.match(w) or _ORD.match(w))
 
 
+GAP = 2.0   # s without a word that gets a second, separate decode
+
+
+def _decode(m, x, at=0.0, strict=False):
+    segs, _ = m.transcribe(np.asarray(x, np.float32), language='ru', word_timestamps=True, beam_size=5,
+                           vad_filter=False, condition_on_previous_text=False)
+    out = []
+    for s in segs:
+        if _HALLU.search(s.text) or (strict and (s.no_speech_prob > 0.5 or s.avg_logprob < -1.0)):
+            continue
+        out += [(w.word.strip(), at + float(w.start), at + float(w.end), float(w.probability)) for w in s.words]
+    return out
+
+
 def transcribe(x16, model_dir=MODEL, threads=None):
     """16 kHz mono -> [(word, start, end, prob)] from faster-whisper."""
     from faster_whisper import WhisperModel
     m = WhisperModel(model_dir, device='cpu', compute_type='int8',
                      cpu_threads=int(threads or os.environ.get('QA_THREADS', '4')))
-    segs, _ = m.transcribe(np.asarray(x16, np.float32), language='ru', word_timestamps=True, beam_size=5,
-                           vad_filter=False, condition_on_previous_text=False)
-    return [(w.word.strip(), float(w.start), float(w.end), float(w.probability)) for s in segs
-            if not _HALLU.search(s.text) for w in s.words]
+    words = _decode(m, x16)
+    # long-form decoding can jump over a quiet passage inside its 30 s window (a voice muffled behind a door):
+    # every long stretch without words is decoded once more on its own
+    sr, edge, gaps = 16000, 0.0, []
+    for w in words + [('', len(x16) / sr, 0.0, 0.0)]:
+        if w[1] - edge >= GAP:
+            gaps.append((edge, w[1]))
+        edge = max(edge, w[2])
+    for a, b in gaps:
+        words += _decode(m, x16[int(a * sr):int(b * sr)], a, strict=True)
+    return sorted(words, key=lambda w: w[1])
 
 
 def _groups(tokens):
@@ -57,7 +78,8 @@ def _groups(tokens):
 
 
 # what Whisper writes over music or silence when nobody speaks (learned from subtitle credits of Russian videos)
-_HALLU = re.compile(r'субтитр|dimatorzok|синецкая|кулакова|егорова', re.I)
+_HALLU = re.compile(r'субтитр|dimatorzok|синецкая|кулакова|егорова|продолжение следует|спасибо за просмотр|'
+                    r'подписывайтесь', re.I)
 
 
 def noise(op):

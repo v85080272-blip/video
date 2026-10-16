@@ -221,8 +221,10 @@ def _speech_checks(mono, E, hop, segs, t_end, M, add, music_expected, dialog=Fal
                 lvl = WARN if music_expected else INFO
                 add(lvl, 'no_music', 'В паузах между фразами тишина: музыки под голосом нет или она пропадает в паузах.')
             elif v - m < 4:
-                add(ERR, 'music_loud', f'Музыка в паузах почти так же громка, как голос (разница {v - m:.0f} дБ): '
-                                       f'если под голосом она не приглушается, слова тонут.')
+                # in a cartoon the music and effects swell between lines on purpose: worth a listen, not a stop
+                add(WARN if dialog else ERR, 'music_loud',
+                    f'Музыка в паузах почти так же громка, как голос (разница {v - m:.0f} дБ): '
+                    f'если под голосом она не приглушается, слова тонут.')
             elif v - m < 8:
                 add(WARN, 'music_loud', f'Музыка в паузах всего на {v - m:.0f} дБ тише голоса (обычно 10–15 дБ): '
                                         f'если под голосом она не приглушается, слова тонут.')
