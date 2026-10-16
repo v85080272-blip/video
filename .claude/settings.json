@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__claude-code-remote__send_message|mcp__hearthbot__reply",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"$CLAUDE_PROJECT_DIR/qa/hooks/gate.py\"; [ -f \"$f\" ] || f=/mnt/project-files/qa/hooks/gate.py; [ -f \"$f\" ] && exec python3 \"$f\"; exit 0",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"$CLAUDE_PROJECT_DIR/qa/hooks/gate.py\"; [ -f \"$f\" ] || f=/mnt/project-files/qa/hooks/gate.py; [ -f \"$f\" ] && exec python3 \"$f\" --remind; exit 0",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
