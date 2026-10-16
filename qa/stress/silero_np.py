@@ -8,7 +8,8 @@ import numpy as np
 VOWELS = 'аоуыэиеяёю'
 _DTYPES = {'FloatStorage': np.float32, 'LongStorage': np.int64, 'CharStorage': np.int8, 'IntStorage': np.int32,
            'ByteStorage': np.uint8, 'HalfStorage': np.float16, 'DoubleStorage': np.float64, 'BoolStorage': np.bool_}
-DATA = os.environ.get('QA_SILERO', os.path.expanduser('~/.cache/qa/silero_stress'))
+CACHE = os.environ.get('QA_CACHE', os.path.expanduser('~/.cache/qa'))
+DATA = os.environ.get('QA_SILERO', os.path.join(CACHE, 'silero_stress'))
 
 
 # ---------------------------------------------------------------- reading the torch.package without torch

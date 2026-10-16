@@ -3,7 +3,8 @@
 import difflib, os, re
 import numpy as np
 
-MODEL = os.environ.get('QA_WHISPER', os.path.expanduser('~/.cache/qa/whisper-turbo'))
+CACHE = os.environ.get('QA_CACHE', os.path.expanduser('~/.cache/qa'))
+MODEL = os.environ.get('QA_WHISPER', os.path.join(CACHE, 'whisper-turbo'))
 _CARD = re.compile(
     r'^(ноль|нуль|один|одна|одно|одного|одной|одному|одним|два|две|двух|двум|двумя|три|тр[её]х|тр[её]м|тремя|четыре|'
     r'четыр[её]х|четыр[её]м|четырьмя|пять|пяти|пятью|шесть|шести|шестью|семь|семи|семью|восемь|восьми|восемью|девять|'

@@ -2,8 +2,9 @@
 # TRAPS: the school orthoepic minimum (ЕГЭ, task 4) and a few more words people and voices often get wrong;
 # '+' stands before the stressed vowel. KNOWN: words a voice engine of this project has already got wrong
 # (qa/known_errors.json, threads add to it), so a script with them can be reworded before synthesis.
-# DOUBLETS: words with two accepted stresses (orthoepic dictionaries mark the second «допустимо»): a voice that
-# picks either one is not wrong.
+# PLACES: names and places from the project's scripts that the Silero dictionary stresses wrong; they override it
+# like TRAPS do. DOUBLETS: words with two accepted stresses (orthoepic dictionaries mark the second «допустимо»): a
+# voice that picks either one is not wrong.
 import json, os
 
 TRAPS = '''
@@ -26,9 +27,12 @@ TRAPS = '''
 в+овремя д+оверху дон+ельзя д+онизу д+осуха з+авидно з+агодя з+асветло з+атемно +исстари над+олго ненад+олго
 обесп+ечение ход+атайство мусоропров+од д+еньгами
 '''.split()
+PLACES = '''
+страсб+ург ванав+ара
+'''.split()
 DOUBLETS = '''
-взорв+алось/взорвал+ось твор+ог/тв+орог одновр+еменно/одноврем+енно мышл+ение/м+ышление ржав+еть/рж+аветь
-заржав+еть/зарж+аветь б+аржа/барж+а миз+ерный/м+изерный м+аркетинг/марк+етинг ин+аче/+иначе
+жив+ы/ж+ивы взорв+алось/взорвал+ось твор+ог/тв+орог одновр+еменно/одноврем+енно мышл+ение/м+ышление
+ржав+еть/рж+аветь заржав+еть/зарж+аветь б+аржа/барж+а миз+ерный/м+изерный м+аркетинг/марк+етинг ин+аче/+иначе
 кулин+ария/кулинар+ия комб+айнер/комбайн+ер нап+ились/напил+ись нап+илось/напил+ось нап+ился/напилс+я
 род+ились/родил+ись
 '''.split()
@@ -46,7 +50,7 @@ def _parse(w):
 
 
 TRAP = {}
-for _w in TRAPS:
+for _w in TRAPS + PLACES:
     _k, _s = _parse(_w)
     TRAP[_k] = _s
 DOUBLE = {}

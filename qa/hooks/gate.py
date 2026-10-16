@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # Claude Code hook: a clip goes to the gallery or to the user only after qa/check_clip.py has checked it.
-# PreToolUse (send_message, reply): any recent .mp4 of /mnt/project-files/videos/ named in the message must have
-# a fresh report without unaccepted errors, else the call is stopped with what to run. "[qa:skip <reason>]" in the
-# message lets it through and is logged. PostToolUse (Bash) with --remind: a command that names a clip it has just
-# written gets a nudge if that clip has no report yet.
+# PreToolUse: a recent .mp4 of /mnt/project-files/videos/ named in a send_message to another session (that is how
+# clips reach the gallery) or attached to a reply must have a fresh report without unaccepted errors, else the call
+# is stopped with what to run. A message that also cites the QA reports (qa/reports/) is about the findings, so a
+# checked clip with errors passes; "[qa:skip <reason>]" lets anything through and is logged. PostToolUse (Bash)
+# with --remind: a command that names a clip it has just written gets a nudge if that clip has no report yet.
 import json, os, re, sys, time
 
 VIDEOS = '/mnt/project-files/videos'
@@ -76,8 +77,15 @@ def main():
                    f'(see {QA}/README.md).')
             print(json.dumps({'hookSpecificOutput': {'hookEventName': 'PostToolUse', 'additionalContext': msg}}))
         return 0
-    texts = list(strings(ev.get('tool_input', {})))
-    whole = '\n'.join(texts)
+    ti = ev.get('tool_input', {}) or {}
+    cites_report = False
+    if ev.get('tool_name', '').endswith('reply'):
+        # a reply only delivers a clip when it attaches it; talking about a clip is fine
+        whole = '\n'.join(strings([o.get('ref', '') for o in ti.get('attached_outputs') or [] if isinstance(o, dict)]))
+        whole += '\n' + ''.join(re.findall(r'\[qa:skip [^\]]*\]', ti.get('text', '') or ''))
+    else:
+        whole = '\n'.join(strings(ti))
+        cites_report = 'qa/reports/' in whole
     clips = [c for c in clips_in(whole) if time.time() - os.path.getmtime(c) < RECENT]
     if not clips:
         return 0
@@ -92,7 +100,7 @@ def main():
             pass
         return 0
     bad = [(c, state(c)) for c in clips]
-    bad = [(c, s) for c, s in bad if s]
+    bad = [(c, s) for c, s in bad if s and not (cites_report and s.startswith('errors'))]
     if not bad:
         return 0
     lines = [f'- {os.path.basename(c)}: {s}' for c, s in bad]
