@@ -13,7 +13,7 @@ from scipy.ndimage import minimum_filter1d
 from sfx import SFX, SR, hp, peak, room, verb, pan
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_LUFS, CEIL_DBTP = -14.0, -1.5
+TARGET_LUFS, CEIL_DBTP = -14.0, -2.0    # AAC adds up to ~1.4 dB of true peak on the slams
 END_FADE = 0.9
 
 MUSIC_DB, SFX_DB, VALYA_LU = -6.0, -5.0, 3.0    # баба Валя sits this far under the narrator
