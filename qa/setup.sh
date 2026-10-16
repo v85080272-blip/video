@@ -2,7 +2,7 @@
 # One-time setup of the clip checks in a fresh container: Python packages and models into ~/.cache/qa.
 #   bash qa/setup.sh            everything (about 3 GB of downloads, a few minutes)
 #   bash qa/setup.sh --no-asr   without Whisper (no check that the voice says the script)
-# Without Hugging Face access it copies the models from /mnt/project-files/models/qa-cache when that exists.
+# Without Hugging Face access it takes the models from /mnt/project-files/models when another thread left them there.
 # Models: Russian wav2vec2 XLSR-53 letter recogniser (jonatasgrosman, Apache-2.0; ONNX export by onnx-community)
 # with the stress head of meter2 (siriusfreak, Apache-2.0), Silero Stress 1.5 (MIT, converted to numpy here,
 # torch not needed), faster-whisper large-v3-turbo (MIT). Revisions are pinned.
@@ -23,16 +23,26 @@ py_has onnx || $PIP onnx
 if [ "$ASR" = 1 ]; then py_has faster_whisper || $PIP faster-whisper; fi
 command -v ffmpeg >/dev/null || { echo "ffmpeg is missing: apt-get install -y ffmpeg"; exit 1; }
 
-# a thread whose network has no Hugging Face takes the models another thread left in the shared folder
-SHARED_MODELS=/mnt/project-files/models/qa-cache
-for f in meter/meter.onnx silero_stress/silero_stress.npz whisper-turbo/model.bin; do
-  d="${f%%/*}"
-  [ "$d" = whisper-turbo ] && [ "$ASR" = 0 ] && continue
-  if [ -f "$SHARED_MODELS/$f" ] && [ ! -f "$CACHE/$f" ]; then
-    echo "== $d from $SHARED_MODELS"
-    mkdir -p "$CACHE/$d" && cp -r "$SHARED_MODELS/$d/." "$CACHE/$d/"
-  fi
-done
+# a thread whose network has no Hugging Face takes the models another thread left in the shared folder: small
+# files whole in models/qa-cache, big ones as 50 MB parts in models/parts (the folder does not carry gigabyte files);
+# SIZES lists each file's sha256
+M=/mnt/project-files/models
+if [ -f "$M/parts/SIZES" ]; then
+  grep -v '^#' "$M/parts/SIZES" | while read -r rel size sum how; do
+    case "$rel" in qa-cache/*) ;; *) continue ;; esac
+    case "$rel" in qa-cache/whisper-turbo/*) [ "$ASR" = 0 ] && continue ;; esac
+    f="$CACHE/${rel#qa-cache/}"
+    [ -f "$f" ] && continue
+    echo "== $rel from $M"
+    mkdir -p "$(dirname "$f")"
+    case "$how" in
+      parts/*) cat "$M/parts/$(basename "$rel")".part* > "$f.tmp" ;;
+      *) cp "$M/${how#whole:}" "$f.tmp" ;;
+    esac
+    if echo "$sum  $f.tmp" | sha256sum -c --quiet - 2>/dev/null; then mv "$f.tmp" "$f"
+    else echo "   the copy in $M is incomplete, skipped"; rm -f "$f.tmp"; fi
+  done
+fi
 
 echo "== letter recogniser and stress head (1.3 GB)"
 if [ ! -f "$CACHE/meter/meter.onnx" ] || [ ! -f "$CACHE/meter/head.npz" ]; then
