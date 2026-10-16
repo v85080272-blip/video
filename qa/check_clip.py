@@ -53,7 +53,10 @@ def read_script(arg):
         if isinstance(lines, dict):
             lines = list(lines.values())
         texts = [l if isinstance(l, str) else l.get('text', '') for l in lines]
-        return ' '.join(t.strip() for t in texts if t.strip()), f'{os.path.basename(arg)} ({len(texts)} фраз)'
+        n = len(texts)
+        word = ('фраза' if n % 10 == 1 and n % 100 != 11 else
+                'фразы' if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14 else 'фраз')
+        return ' '.join(t.strip() for t in texts if t.strip()), f'{os.path.basename(arg)} ({n} {word})'
     return ' '.join(raw.split()), os.path.basename(arg)
 
 

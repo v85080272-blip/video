@@ -42,11 +42,16 @@ def _decode(m, x, at=0.0, strict=False):
     return out
 
 
+_LOADED = {}
+
+
 def transcribe(x16, model_dir=MODEL, threads=None):
     """16 kHz mono -> [(word, start, end, prob)] from faster-whisper."""
     from faster_whisper import WhisperModel
-    m = WhisperModel(model_dir, device='cpu', compute_type='int8',
-                     cpu_threads=int(threads or os.environ.get('QA_THREADS', '4')))
+    key = (model_dir, int(threads or os.environ.get('QA_THREADS', '4')))
+    if key not in _LOADED:
+        _LOADED[key] = WhisperModel(model_dir, device='cpu', compute_type='int8', cpu_threads=key[1])
+    m = _LOADED[key]
     words = _decode(m, x16)
     # long-form decoding can jump over a quiet passage inside its 30 s window (a voice muffled behind a door):
     # every long stretch without words is decoded once more on its own
