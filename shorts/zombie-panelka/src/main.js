@@ -756,11 +756,11 @@ export function cues() {
   add(A.dip + 0.32, 'splash', -10); add(A.dip + 0.4, 'hiss_small', -12);
   for (const [, t0] of ITEMS()) { add(t0 - 0.12, 'whoosh_short', -14); add(t0 + 0.28, 'drop', -8); }
   add(A.catIn - 0.24, 'whoosh', -10); add(A.catIn + 0.06, 'thump_bag', -6); add(A.catIn + 0.35, 'mrr', -8);
-  add(A.lift, 'ui', -10); add(A.trap, 'error', -6); add(A.below, 'horde', -6, { dur: A.exitEnd - A.below });
+  add(A.lift, 'ui', -10); add(A.trap, 'error', -6); add(E('L17'), 'horde', -6, { dur: A.exitEnd - E('L17') });   // roars after «Внизу — они», not over it
   add(A.exit + 0.15, 'route', -14, { dur: A.exitEnd - A.exit - 0.25 });
   for (const b of BEEPS.slice(0, 3)) add(b, 'beep', -8);
   add(BEEPS[3], 'beep_long', -6);
-  add(A.black1, 'power_down', -2);
+  add(A.black1, 'power_down', -5);
   add(A.torchOn, 'click', -4);
   for (const s of A.scratches) add(s, 'scratch', -6);
   add(A.scratch, 'door_rattle', -10);

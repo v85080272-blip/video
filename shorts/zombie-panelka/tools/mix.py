@@ -8,7 +8,7 @@ import sys
 import numpy as np
 import soundfile as sf
 from scipy import signal
-from scipy.ndimage import minimum_filter1d
+from scipy.ndimage import maximum_filter1d, minimum_filter1d
 
 from sfx import SFX, SR, hp, peak, room, verb, pan
 
@@ -17,14 +17,17 @@ TARGET_LUFS, CEIL_DBTP = -14.0, -2.0    # AAC adds up to ~1.4 dB of true peak on
 END_FADE = 0.9
 
 MUSIC_DB, SFX_DB, VALYA_LU = -6.0, -5.0, 3.0    # баба Валя sits this far under the narrator
+MUSIC_UNDER = 8.0                                # the score never closer than this to the voice while it speaks
 BREATH_DB = -2.0                                 # the narrator's own breaths, a touch under their natural level
-TRIM = {'alert': -4, 'beep': -3, 'beep_long': -3, 'error': -4, 'buzz': -3, 'zap': -2, 'slam': -6, 'tick_big': 3, 'scratch': 2,
+TRIM = {'boom': -3, 'alert': -4, 'beep': -3, 'beep_long': -3, 'error': -4, 'buzz': -3, 'zap': -2, 'slam': -6, 'tick_big': 3, 'scratch': 2,
         'clang': -5, 'thud': -3, 'meow': -3, 'power_down': -2, 'hit_end': -3, 'cut': -2}
 DUCK = {  # how far each layer dips while someone speaks (dB)
     'music': 6,
     'long': 7,      # beds and long effects
     'short': 2,
+    'deep': 12,     # effects that sit on a key word: the power-down under «Свет гаснет» bent its stress for the checker
 }
+DEEP = {'power_down', 'beep_long'}
 LONG = {'amb_city', 'amb_room', 'amb_stairs', 'water', 'horde', 'route', 'heartbeat', 'alert', 'buzz', 'sputter', 'groan', 'power_down',
         'sting', 'sting_small'}
 
@@ -167,7 +170,7 @@ def main():
     act = per_sample(act, n)
 
     # effects
-    fx_long, fx_short = np.zeros((2, n)), np.zeros((2, n))
+    fx_long, fx_short, fx_deep = np.zeros((2, n)), np.zeros((2, n)), np.zeros((2, n))
     for idx, c in enumerate(cues['cues']):
         name = c['n']
         kw = {k: v for k, v in c.items() if k not in ('t', 'n', 'db')}
@@ -177,13 +180,21 @@ def main():
             y = y[..., :keep].copy()
             f = min(keep, at(0.12))
             y[..., keep - f:] *= np.linspace(1, 0, f)
-        place(fx_long if name in LONG else fx_short, c['t'], y, c['db'] + TRIM.get(name, 0) + SFX_DB)
+        place(fx_deep if name in DEEP else fx_long if name in LONG else fx_short, c['t'], y, c['db'] + TRIM.get(name, 0) + SFX_DB)
 
     music = load(os.path.join(ROOT, 'build/music.wav'))[:, :n]
     music = np.pad(music, ((0, 0), (0, n - music.shape[1])))
     duck = lambda d: 10 ** (-d * act / 20)
-    music = music * duck(DUCK['music']) * 10 ** (MUSIC_DB / 20)
-    fx = fx_long * duck(DUCK['long']) + fx_short * duck(DUCK['short'])
+    music = music * 10 ** (MUSIC_DB / 20)
+    # while someone speaks the score dips DUCK['music'] dB, and more if it would still sit closer than MUSIC_UNDER dB
+    # to the voice (the riser before the escape route buried «Внизу — они»)
+    ms = lambda x: np.convolve(x, np.ones(50) / 50, mode='same')                    # 50 ms average of a per-ms level
+    vl = maximum_filter1d(ms(level_db(voice_mono)), 120)                            # held over the gaps between words
+    ml = ms(level_db(music.mean(0)))
+    act_ms = act[::48][:len(vl)]
+    need = np.maximum(DUCK['music'] * act_ms, np.where(act_ms > 0.5, np.clip(ml - (vl - MUSIC_UNDER), 0, 12), 0.0))
+    music = music * 10 ** (-per_sample(smooth(need, 0.02, 0.3), n) / 20)
+    fx = fx_long * duck(DUCK['long']) + fx_short * duck(DUCK['short']) + fx_deep * duck(DUCK['deep'])
 
     mix = voice + fx + music
     for it in range(3):
