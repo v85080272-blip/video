@@ -14,6 +14,7 @@ from sfx import SFX, SR, hp, peak, room, verb, pan
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_LUFS, CEIL_DBTP = -14.0, -1.5
+END_FADE = 0.9
 
 MUSIC_DB, SFX_DB, VALYA_LU = -6.0, -5.0, 3.0    # баба Валя sits this far under the narrator
 BREATH_DB = -2.0                                 # the narrator's own breaths, a touch under their natural level
@@ -188,6 +189,8 @@ def main():
     for it in range(3):
         g = TARGET_LUFS - lufs(mix)
         mix = limit(mix * 10 ** (g / 20), CEIL_DBTP - 0.3)
+    f = at(END_FADE)                                     # the end card fades out instead of stopping on the last frame
+    mix[:, -f:] *= np.cos(np.linspace(0, np.pi / 2, f)) ** 2
     loud, tp = lufs(mix), true_peak_db(mix)
     sf.write(out, mix.T, SR, subtype='PCM_24')
     print(f'mix {total:.2f}s  {loud:.2f} LUFS  true peak {tp:.2f} dBTP → {out}')
