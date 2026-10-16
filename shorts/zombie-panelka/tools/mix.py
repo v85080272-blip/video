@@ -80,10 +80,10 @@ def compress(x, thr_db=-26.0, ratio=3.0, att=0.005, rel=0.09):
 
 
 def voice_chain(x):
+    """light touch: a presence boost and fast compression made the TTS narrator sound more artificial"""
     x = hp(x, 70)
-    x = peak(x, 300, 1.0, -1.5)
-    x = peak(x, 3500, 0.9, 2.5)
-    return compress(x)
+    x = peak(x, 300, 1.0, -1.0)
+    return compress(x, thr_db=-28.0, ratio=1.8, att=0.02, rel=0.25)
 
 
 # ——— loudness (ITU-R BS.1770-4) and true peak ———
