@@ -344,7 +344,7 @@ function slamShot(bg, num, word, key, colors) {
   };
 }
 const shSlam1 = slamShot(t => { setLight(HALL); cam(540, 940, 1.02); hall(t, { bolt: 0 }); }, '1', 'ДВЕРЬ', 's1', ['#c6ff7a', '#54b82c']);
-const shSlam2 = slamShot(t => { setLight(LAMP); cam(540, 900, 1.02); livingRoom(t, { curtains: 0 }); }, '2', 'СТАНЬ НЕВИДИМКОЙ', 's2', ['#e8c4ff', '#9a5ce0']);
+const shSlam2 = slamShot(t => { setLight(LAMP); cam(540, 900, 1.02); livingRoom(t, { curtains: 0 }); }, '2', 'СТАНЬ НЕВИДИМЫМ', 's2', ['#e8c4ff', '#9a5ce0']);
 const shSlam3 = slamShot(t => { setLight({ x: 0.2, y: -0.9, rim: '#e0f4ff', rimA: 0.45 }); cam(540, 960, 1.02); bathroom(t, { water: 0.1 }); }, '3', 'ВОДА', 's3', ['#c4ecff', '#2f93e6']);
 const shSlam4 = slamShot(t => { setLight(HALL); cam(540, 1000, 1.02); parquet(-300, -200, 1680, 2320); bagTop(t); }, '4', 'ТРЕВОЖНЫЙ РЮКЗАК', 's4', ['#ffdc9a', '#f07a1e']);
 const shSlam5 = slamShot(t => { cam(540, 1040, 1.02); cutaway(t, {}); }, '5', 'ПУТЬ ОТХОДА', 's5', ['#ffb0a0', '#e0402e']);
