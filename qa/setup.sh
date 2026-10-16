@@ -74,15 +74,27 @@ EOF
   rm -rf "$T"
 fi
 
-if [ "$ASR" = 1 ] && [ ! -f "$CACHE/whisper-turbo/model.bin" ]; then
-  echo "== Whisper large-v3-turbo (1.6 GB)"
-  python3 - "$CACHE/whisper-turbo" <<'EOF'
+# faster-whisper needs all five files; without vocabulary.json the model does not load
+W="$CACHE/whisper-turbo"
+MISSING=""
+for f in model.bin config.json preprocessor_config.json tokenizer.json vocabulary.json; do
+  [ -f "$W/$f" ] || MISSING="$MISSING $f"
+done
+if [ "$ASR" = 1 ] && [ -n "$MISSING" ]; then
+  echo "== Whisper large-v3-turbo, fetching:$MISSING"
+  python3 - "$W" $MISSING <<'EOF'
 import sys
-from huggingface_hub import snapshot_download
-snapshot_download('mobiuslabsgmbh/faster-whisper-large-v3-turbo', local_dir=sys.argv[1])
+from huggingface_hub import hf_hub_download
+for f in sys.argv[2:]:
+    hf_hub_download('mobiuslabsgmbh/faster-whisper-large-v3-turbo', f, local_dir=sys.argv[1],
+                    revision='0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf')
 EOF
 fi
 
 echo "== self-test"
 python3 "$HERE/tests/selftest.py"
+if [ "$ASR" = 1 ]; then
+  python3 -c "import sys; from faster_whisper import WhisperModel; WhisperModel(sys.argv[1], device='cpu', compute_type='int8')" "$W"
+  echo "Whisper loads"
+fi
 echo "ready: python3 $HERE/check_clip.py <clip.mp4> --text <script>"

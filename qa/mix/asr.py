@@ -50,7 +50,10 @@ def transcribe(x16, model_dir=MODEL, threads=None):
     from faster_whisper import WhisperModel
     key = (model_dir, int(threads or os.environ.get('QA_THREADS', '4')))
     if key not in _LOADED:
-        _LOADED[key] = WhisperModel(model_dir, device='cpu', compute_type='int8', cpu_threads=key[1])
+        try:
+            _LOADED[key] = WhisperModel(model_dir, device='cpu', compute_type='int8', cpu_threads=key[1])
+        except RuntimeError as e:
+            raise RuntimeError(f'Whisper in {model_dir} does not load ({e}): bash qa/setup.sh adds the missing files') from e
     m = _LOADED[key]
     words = _decode(m, x16)
     # long-form decoding can jump over a quiet passage inside its 30 s window (a voice muffled behind a door):
