@@ -2,6 +2,7 @@
 # One-time setup of the clip checks in a fresh container: Python packages and models into ~/.cache/qa.
 #   bash qa/setup.sh            everything (about 3 GB of downloads, a few minutes)
 #   bash qa/setup.sh --no-asr   without Whisper (no check that the voice says the script)
+# Without Hugging Face access it copies the models from /mnt/project-files/models/qa-cache when that exists.
 # Models: Russian wav2vec2 XLSR-53 letter recogniser (jonatasgrosman, Apache-2.0; ONNX export by onnx-community)
 # with the stress head of meter2 (siriusfreak, Apache-2.0), Silero Stress 1.5 (MIT, converted to numpy here,
 # torch not needed), faster-whisper large-v3-turbo (MIT). Revisions are pinned.
@@ -21,6 +22,17 @@ py_has huggingface_hub || $PIP huggingface_hub
 py_has onnx || $PIP onnx
 if [ "$ASR" = 1 ]; then py_has faster_whisper || $PIP faster-whisper; fi
 command -v ffmpeg >/dev/null || { echo "ffmpeg is missing: apt-get install -y ffmpeg"; exit 1; }
+
+# a thread whose network has no Hugging Face takes the models another thread left in the shared folder
+SHARED_MODELS=/mnt/project-files/models/qa-cache
+for f in meter/meter.onnx silero_stress/silero_stress.npz whisper-turbo/model.bin; do
+  d="${f%%/*}"
+  [ "$d" = whisper-turbo ] && [ "$ASR" = 0 ] && continue
+  if [ -f "$SHARED_MODELS/$f" ] && [ ! -f "$CACHE/$f" ]; then
+    echo "== $d from $SHARED_MODELS"
+    mkdir -p "$CACHE/$d" && cp -r "$SHARED_MODELS/$d/." "$CACHE/$d/"
+  fi
+done
 
 echo "== letter recogniser and stress head (1.3 GB)"
 if [ ! -f "$CACHE/meter/meter.onnx" ] || [ ! -f "$CACHE/meter/head.npz" ]; then
