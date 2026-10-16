@@ -16,6 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_LUFS, CEIL_DBTP = -14.0, -1.5
 
 MUSIC_DB, SFX_DB, VALYA_LU = -6.0, -5.0, 3.0    # баба Валя sits this far under the narrator
+BREATH_DB = -2.0                                 # the narrator's own breaths, a touch under their natural level
 TRIM = {'alert': -4, 'beep': -3, 'beep_long': -3, 'error': -4, 'buzz': -3, 'zap': -2, 'slam': -6, 'tick_big': 3, 'scratch': 2,
         'clang': -5, 'thud': -3, 'meow': -3, 'power_down': -2, 'hit_end': -3, 'cut': -2}
 DUCK = {  # how far each layer dips while someone speaks (dB)
@@ -142,6 +143,13 @@ def main():
         y = load(line['file'])[0]
         y = voice_chain(y)
         i = at(line['start'])
+        narr[i:i + len(y)] += y[:n - i]
+    for k, b in timing.get('breaths', {}).items():
+        y = load(b['file'])[0][at(b['skip']):]
+        f = min(len(y) // 3, at(0.04))
+        y[:f] *= np.linspace(0, 1, f)
+        y = voice_chain(y) * 10 ** (BREATH_DB / 20)
+        i = at(b['start'])
         narr[i:i + len(y)] += y[:n - i]
     valya = np.zeros(n)
     v = compress(load(os.path.join(ROOT, timing['valya']['file']))[0], thr_db=-30.0, ratio=2.5)   # evens out her loud «Внучок»
