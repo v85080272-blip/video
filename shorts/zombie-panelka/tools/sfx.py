@@ -275,8 +275,8 @@ def power_dip(rng, **_):
     sec = 0.6
     t = tt(sec)
     hum = sum(np.sin(TAU * 100 * h * t) / h for h in range(1, 8))
-    crackle = (rng.random(len(t)) > 0.985) * rng.standard_normal(len(t)) * 3
-    y = (0.6 * hum + lp(crackle, 5000)) * env(sec, 0.002, 0.12)
+    crackle = (rng.random(len(t)) > 0.985) * rng.standard_normal(len(t)) * 1.2      # softer: the clip check heard v1's as a click
+    y = (0.6 * hum + lp(crackle, 3000)) * env(sec, 0.015, 0.12)
     drop = np.sin(sweep(sec, 160, 40)) * env(sec, 0.01, 0.2) * 0.6
     return norm(y + drop, 0.75)
 

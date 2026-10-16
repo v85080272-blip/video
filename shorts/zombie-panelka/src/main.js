@@ -39,7 +39,7 @@ export function init(timing, env) {
     pots: ws('L12', 'кастрюли'), bottles: ws('L12', 'бутылки'), dip: ws('L12', 'без'), pumps: ws('L12', 'встанут'), dry: ws('L12', 'и'),
     s4: S('L13'), s4w: ws('L13', 'тревожный'),
     torch: ws('L14', 'фонарик'), aid: ws('L14', 'аптечка'), power: ws('L14', 'пауэрбанк'), food: ws('L14', 'еда'), three: ws('L14', 'три'),
-    catIn: ws('L15', 'кот'),
+    catIn: we('L15', 'кот') + 0.05,     // after the word: the whoosh and the thump buried a hushed «И кот»
     s5: S('L16'), s5w: ws('L16', 'путь'),
     lift: ws('L17', 'лифт'), trap: ws('L17', 'ловушка'), below: ws('L17', 'внизу'), they: ws('L17', 'они'),
     exit: ws('L18', 'твой'), roof: ws('L18', 'крыше'), next: ws('L18', 'соседний'), exitEnd: we('L18', 'подъезд'),
