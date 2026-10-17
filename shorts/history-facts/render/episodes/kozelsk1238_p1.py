@@ -132,7 +132,7 @@ def layout(c):
     tags = [
         dict(text='РЯЗАНЬ · МОСКВА · ВЛАДИМИР', start=sz + 0.15, end=l3 - 0.1),
         dict(text='КОЗЕЛЬСК · ВЕСНА 1238', start=l3 + 0.15, end=w7 - 0.05),
-        dict(text='КНЯЗЬ ВАСИЛИЙ · ОКОЛО 12 ЛЕТ', start=l4 + 0.15, end=l5 - 0.1),
+        dict(text='КНЯЗЬ ВАСИЛИЙ · ОКОЛО 12 ЛЕТ', start=l4 + 0.15, end=l5 - 0.1, y=560),  # Codex k07: the face is at the tag's usual height
     ]
     cover = dict(start=0.0, end=wt('L1', 'МОНГОЛЫ') - 0.1)
     return dict(cards=cards, tags=tags, cover=cover)

@@ -410,7 +410,7 @@ def draw_tag(a, t, tg, tl_text):
     im = tl_text.render(tg['text'], F('Inter-ExtraBold.otf', 46), (255, 255, 255), stroke=0, shadow=False, track=5)
     bar_w = im.width + 56
     x0 = int(W / 2 - bar_w / 2 + (1 - ease_out(u, 3)) * -40)
-    y0 = 300
+    y0 = int(tg.get('y', 300))          # a shot whose face sits high moves its tag below the chin
     # dark pill with an orange edge
     region = a[y0:y0 + 76, max(0, x0):min(W, x0 + bar_w)]
     region *= 1 - 0.62 * al
