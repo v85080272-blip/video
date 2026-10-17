@@ -20,4 +20,9 @@ for L in ST['lines']:
     rms = np.array([np.sqrt(np.mean(x[i * hop:(i + 1) * hop] ** 2)) for i in range(n)])
     env = np.clip(rms / (np.percentile(rms, 90) + 1e-9), 0, 1.2)
     L['env'] = [round(float(v), 3) for v in env]; L['tts'] = f"out/tts_{L['id']}.wav"; L['d'] = round(d, 3)
+    if ext and os.path.exists(ext):   # для звука нейроголос без обрезки краёв: обрезка по -45 дБ съедает тихое начало слова («Для» слышно как «До»)
+        full = os.path.join(HERE, 'out', f"tts_{L['id']}_full.wav"); head = os.path.join(HERE, 'out', 'tts_head.wav')
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', 'highpass=f=90,acompressor=threshold=-20dB:ratio=3:attack=5:release=80', '-ar', '48000', '-ac', '1', full], check=True)
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', 'silenceremove=start_periods=1:start_threshold=-45dB', '-ar', '48000', '-ac', '1', head], check=True)
+        L['lead'] = round((sf.info(raw).frames - sf.info(head).frames) / 48000, 4); L['tts_full'] = f"out/tts_{L['id']}_full.wav"; os.remove(head)   # звук ставится на t0 - lead
 json.dump(ST, open(p, 'w'), ensure_ascii=False, indent=1)

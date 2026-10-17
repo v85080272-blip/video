@@ -171,8 +171,8 @@ add('music', pad([53, 57, 60, 64], DUR - SH['END'] + .5, 800, .8, 1.2), SH['END'
 PAN = {'P': -.12, 'N': .12}
 for L in ST['lines']:
     if 'tts' not in L: continue
-    x, _ = sf.read(os.path.join(HERE, L['tts'])); x = x if x.ndim == 1 else x.mean(1); x = x / (np.abs(x).max() + 1e-9)
-    add('voice', x, L['t0'], 1.0, PAN[L['who']])
+    x, _ = sf.read(os.path.join(HERE, L.get('tts_full', L['tts']))); x = x if x.ndim == 1 else x.mean(1); x = x / (np.abs(x).max() + 1e-9)
+    add('voice', x, L['t0'] - L.get('lead', 0), 1.0, PAN[L['who']])   # нейроголос целиком, обрезанное начало встаёт на t0
 
 # ——— сведение ———
 v = bus['voice'].mean(1)
