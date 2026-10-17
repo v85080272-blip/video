@@ -1,6 +1,7 @@
 #!/bin/bash
 # Re-read the narrator lines whose stress was wrong, in the same voice: clone take p4s1 with the Qwen3-TTS Base model
 # (ICL; reference = its own L13–L14) and read each line with its neighbour for context, four seeds each.
+# «Внизу — они» read as Они in every seed once the score was under it, so L17 became «Внизу — зомби» (L17z, six seeds).
 # Cut each take with tools/cut_voice.py and a two-line script, let the stress check pick, then tools/patch_lines.py.
 # usage: bash voice/narrator_patch.sh
 set -e
@@ -15,8 +16,8 @@ open('ref.txt', 'w').write('Четвёртое. Тревожный рюкзак.
 PY
 printf '%s' 'Второе. Стань невидимым. Задёрни шторы, выключи свет, телефон на беззвучный.' > text_L8.txt
 printf '%s' 'Третье. Вода. Набери ванну, кастрюли, бутылки. Без света насосы встанут, и воды не будет.' > text_L12.txt
-printf '%s' 'Пятое. Путь отхода. Лифт — ловушка. Внизу — они.' > text_L17.txt
-for k in L8 L12 L17; do for s in 1 2 3 4; do
+printf '%s' 'Пятое. Путь отхода. Лифт — ловушка. Внизу — зомби.' > text_L17z.txt
+for ks in 'L8 1 2 3 4' 'L12 1 2 3 4' 'L17z 1 2 3 4 5 6'; do set -- $ks; k=$1; shift; for s in "$@"; do
   [ -f takes/${k}_s$s.wav ] || QT_THREADS=4 $B --model $M/qwen-talker-1.7b-base-Q8_0.gguf --codec $M/qwen-tokenizer-12hz-Q8_0.gguf \
     --ref-wav ref.wav --ref-text ref.txt --lang Russian --seed $s -o takes/${k}_s$s.wav < text_$k.txt > logs/${k}_s$s.log 2>&1
 done; done

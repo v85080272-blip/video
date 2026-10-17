@@ -41,7 +41,7 @@ export function init(timing, env) {
     torch: ws('L14', 'фонарик'), aid: ws('L14', 'аптечка'), power: ws('L14', 'пауэрбанк'), food: ws('L14', 'еда'), three: ws('L14', 'три'),
     catIn: we('L15', 'кот') + 0.05,     // after the word: the whoosh and the thump buried a hushed «И кот»
     s5: S('L16'), s5w: ws('L16', 'путь'),
-    lift: ws('L17', 'лифт'), trap: ws('L17', 'ловушка'), below: ws('L17', 'внизу'), they: ws('L17', 'они'),
+    lift: ws('L17', 'лифт'), trap: ws('L17', 'ловушка'), below: ws('L17', 'внизу'), they: ws('L17', 'зомби'),
     exit: ws('L18', 'твой'), roof: ws('L18', 'крыше'), next: ws('L18', 'соседний'), exitEnd: we('L18', 'подъезд'),
     gasnet: ws('L19', 'гаснет'), torchOn: ws('L19', 'ты') - 0.04, uspel: ws('L19', 'успел'),
     i: S('L20'), scratch: ws('L20', 'скребётся'),
@@ -756,7 +756,7 @@ export function cues() {
   add(A.dip + 0.32, 'splash', -10); add(A.dip + 0.4, 'hiss_small', -12);
   for (const [, t0] of ITEMS()) { add(t0 - 0.12, 'whoosh_short', -14); add(t0 + 0.28, 'drop', -8); }
   add(A.catIn - 0.24, 'whoosh', -10); add(A.catIn + 0.06, 'thump_bag', -6); add(A.catIn + 0.35, 'mrr', -8);
-  add(A.lift, 'ui', -10); add(A.trap, 'error', -6); add(E('L17'), 'horde', -6, { dur: A.exitEnd - E('L17') });   // roars after «Внизу — они», not over it
+  add(A.lift, 'ui', -10); add(A.trap, 'error', -11); add(E('L17'), 'horde', -6, { dur: A.exitEnd - E('L17') });   // roars after «Внизу — зомби», not over it
   add(A.exit + 0.15, 'route', -14, { dur: A.exitEnd - A.exit - 0.25 });
   for (const b of BEEPS.slice(0, 3)) add(b, 'beep', -8);
   add(BEEPS[3], 'beep_long', -6);

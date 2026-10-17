@@ -16,8 +16,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_LUFS, CEIL_DBTP = -14.0, -2.0    # AAC adds up to ~1.4 dB of true peak on the slams
 END_FADE = 0.9
 
-MUSIC_DB, SFX_DB, VALYA_LU = -6.0, -5.0, 3.0    # баба Валя sits this far under the narrator
-MUSIC_UNDER = 8.0                                # the score never closer than this to the voice while it speaks
+MUSIC_DB, SFX_DB, VALYA_LU = -9.0, -5.0, 3.0    # баба Валя sits this far under the narrator
+MUSIC_UNDER = 12.0                               # the score never closer than this to the voice while it speaks
+MUSIC_DUCK_MAX = 18.0                            # the riser and the tape stop need up to this much
 BREATH_DB = -2.0                                 # the narrator's own breaths, a touch under their natural level
 TRIM = {'boom': -3, 'alert': -4, 'beep': -3, 'beep_long': -3, 'error': -4, 'buzz': -3, 'zap': -2, 'slam': -6, 'tick_big': 3, 'scratch': 2,
         'clang': -5, 'thud': -3, 'meow': -3, 'power_down': -2, 'hit_end': -3, 'cut': -2}
@@ -25,7 +26,7 @@ DUCK = {  # how far each layer dips while someone speaks (dB)
     'music': 6,
     'long': 7,      # beds and long effects
     'short': 2,
-    'deep': 12,     # effects that sit on a key word: the power-down under «Свет гаснет» bent its stress for the checker
+    'deep': 18,     # effects that sit on a key word: the power-down under «Свет гаснет» bent its stress for the checker
 }
 DEEP = {'power_down', 'beep_long'}
 LONG = {'amb_city', 'amb_room', 'amb_stairs', 'water', 'horde', 'route', 'heartbeat', 'alert', 'buzz', 'sputter', 'groan', 'power_down',
@@ -187,12 +188,12 @@ def main():
     duck = lambda d: 10 ** (-d * act / 20)
     music = music * 10 ** (MUSIC_DB / 20)
     # while someone speaks the score dips DUCK['music'] dB, and more if it would still sit closer than MUSIC_UNDER dB
-    # to the voice (the riser before the escape route buried «Внизу — они»)
+    # to the voice (the riser before the escape route buried «Внизу», the tape stop «Свет гаснет»)
     ms = lambda x: np.convolve(x, np.ones(50) / 50, mode='same')                    # 50 ms average of a per-ms level
     vl = maximum_filter1d(ms(level_db(voice_mono)), 120)                            # held over the gaps between words
     ml = ms(level_db(music.mean(0)))
     act_ms = act[::48][:len(vl)]
-    need = np.maximum(DUCK['music'] * act_ms, np.where(act_ms > 0.5, np.clip(ml - (vl - MUSIC_UNDER), 0, 12), 0.0))
+    need = np.maximum(DUCK['music'] * act_ms, np.where(act_ms > 0.5, np.clip(ml - (vl - MUSIC_UNDER), 0, MUSIC_DUCK_MAX), 0.0))
     music = music * 10 ** (-per_sample(smooth(need, 0.02, 0.3), n) / 20)
     fx = fx_long * duck(DUCK['long']) + fx_short * duck(DUCK['short']) + fx_deep * duck(DUCK['deep'])
 
