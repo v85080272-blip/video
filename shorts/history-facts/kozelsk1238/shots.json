@@ -132,6 +132,11 @@
       "prompt": "a boy's fur-trimmed red velvet cap lying in a dark muddy puddle with melting snow, reflections of fire in the water, smoke, embers, close-up"
     },
     {
+      "id": "k21b_cap_in_mud",
+      "seeds": [222, 322],
+      "prompt": "a small round medieval Russian prince's hat, soft red velvet crown with a thick band of brown fur, no brim and no visor, lying alone in a dark muddy puddle on a trampled snowy field, faint firelight reflected in the water, ashes, close-up, shallow depth of field"
+    },
+    {
       "id": "k22_khan_ruins",
       "seeds": [123],
       "prompt": "a Mongol khan on horseback seen from behind looking at the smoking burnt ruins of a wooden fortress on a hill, sunset, ravens circling"
