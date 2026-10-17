@@ -295,7 +295,7 @@ def _loud_moments(path, segs, anywords, t_end, M, add):
     M['loud_moments'] = [[round(a, 1), round(b, 1), round(x, 1)] for a, b, x in found]
     for a, b, x in sorted(found, key=lambda f: -f[2])[:5]:
         add(ERR if x >= FX_ERR else WARN, 'fx_loud',
-            f'{a:.1f}–{b:.1f} с: звук без речи (эффект или музыка) громче голоса на {x:.0f} дБ. '
+            f'Звук без речи на {a:.1f}–{b:.1f} с (эффект или музыка) громче голоса на {x:.0f} дБ. '
             f'Если это не задуманный испуг, сделайте его тише голоса.', a)
     if len(found) > 5:
         add(INFO, 'fx_loud_more', f'И ещё {len(found) - 5} таких мест, все — в отчёте .json (loud_moments).')
