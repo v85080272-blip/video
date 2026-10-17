@@ -24,7 +24,7 @@
 | Шаг | Чем | Где |
 |---|---|---|
 | Факты и сценарий | WebSearch, проверка каждой строки | `tunguska/script_v2.json`, `tunguska/factcheck.md`, `tunguska/format.md` |
-| Кадры | SDXL RealVisXL V5.0 Lightning (openrail++, коммерция разрешена) в stable-diffusion.cpp на процессоре; VAE декодирует ONNX Runtime. С 17.10 можно картинками из Codex на компьютере vla: пишем задание (`/mnt/project-files/history-facts/<серия>/codex-kadry.txt`, файлы k01.png…), vla присылает картинки, они ложатся в папку кадров под теми же id | `gen/` |
+| Кадры | SDXL RealVisXL V5.0 Lightning (openrail++, коммерция разрешена) в stable-diffusion.cpp на процессоре; VAE декодирует ONNX Runtime. С 17.10 можно картинками из Codex на компьютере vla: пишем задание (`/mnt/project-files/history-facts/<серия>/codex-kadry.txt`, файлы k01.png…), vla присылает картинки, они ложатся в папку кадров под теми же id. С компа (Claude Code там рисует через `codex exec`, 941×1672) картинки приходят приватной страницей-артефактом: `Artifact read` с `paths` k01.png…, потом `python3 -I tools/import_codex.py <серия>/shots.json <папка> k01=<файл> …` кладёт их как `<id>.png`; №6 v2 собран так (`SHOTS_DIR=…/shots_codex`) | `gen/` |
 | Глубина для 3D-параллакса | Depth Anything V2 Small (ONNX, Apache-2.0) | `render/depth.py` |
 | Камера, частицы, свет, субтитры, карточки, обложка | свой рендер на numpy + Pillow | `render/engine.py`, `render/film.py` |
 | Голос (v2, живой) | Qwen3-TTS 1.7B (Apache-2.0) через qwentts.cpp: голос по описанию, затем клон, оценка UTMOS и Whisper | `voice2/` (там же README) |
