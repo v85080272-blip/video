@@ -1,0 +1,219 @@
+{
+  "title": "«Злой город» (Козельск, 1238) - original synthesized siege kit",
+  "generator": "make_sfx_kozelsk.py (numpy only, re-runnable, deterministic seeds; helpers from make_sfx.py)",
+  "sample_rate": 48000,
+  "channels": 2,
+  "bit_depth": 24,
+  "level_policy": "hits/one-shots normalised to -1 dBTP true peak; ambiences/beds to -28 dBFS RMS",
+  "hit_s_note": "sync point in seconds: onset of the main hit, centre of a pass-by, cut point of a riser/tension bed, measured loudest point for rumble_long; 0.0 for loops/beds",
+  "files": [
+    {
+      "file": "trebuchet_throw.wav",
+      "duration_s": 2.4,
+      "hit_s": 0.55,
+      "description": "A trebuchet throwing: the wooden frame groaning under the counterweight, the arm's heavy thunk at 0.55 s, the sling's rope swish and the stone flying off (a whoosh falling in pitch and level).",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -19.8,
+      "dc_dbfs": -203.2,
+      "lr_correlation": 0.796,
+      "centroid_hz": 272,
+      "measured_peak_s": 0.584,
+      "band_energy": {
+        "0-60": 0.218,
+        "60-100": 0.406,
+        "100-250": 0.099,
+        "250-500": 0.131,
+        "500-2000": 0.139,
+        "2000-6000": 0.007,
+        "6000-24000": 0.001
+      }
+    },
+    {
+      "file": "stone_hit.wav",
+      "duration_s": 2.6,
+      "hit_s": 0.02,
+      "description": "A trebuchet stone smashing into a log wall: a deep body blow (90 -> 45 Hz), the logs' wooden crack (modes 180 Hz - 2.1 kHz), splinters flying, debris raining down, field echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.03,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -20.61,
+      "dc_dbfs": -194.6,
+      "lr_correlation": 0.823,
+      "centroid_hz": 220,
+      "measured_peak_s": 0.06,
+      "band_energy": {
+        "0-60": 0.673,
+        "60-100": 0.175,
+        "100-250": 0.076,
+        "250-500": 0.04,
+        "500-2000": 0.018,
+        "2000-6000": 0.011,
+        "6000-24000": 0.007
+      }
+    },
+    {
+      "file": "arrows_volley.wav",
+      "duration_s": 3.0,
+      "hit_s": 0.75,
+      "description": "A volley of 40 arrows: whistles falling from about 3.5 to 1.5 kHz spread over the stereo field, then the arrows thudding into wood and earth around 0.75 s.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.04,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -22.72,
+      "dc_dbfs": -211.5,
+      "lr_correlation": 0.587,
+      "centroid_hz": 1945,
+      "measured_peak_s": 0.369,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.005,
+        "250-500": 0.213,
+        "500-2000": 0.125,
+        "2000-6000": 0.658,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "wall_crash.wav",
+      "duration_s": 3.4,
+      "hit_s": 0.05,
+      "description": "A log wall giving way: three big wooden cracks, logs groaning, then the collapse (a low rumble with timber and earth falling), field echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.04,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -18.01,
+      "dc_dbfs": -199.3,
+      "lr_correlation": 0.61,
+      "centroid_hz": 306,
+      "measured_peak_s": 0.799,
+      "band_energy": {
+        "0-60": 0.486,
+        "60-100": 0.098,
+        "100-250": 0.209,
+        "250-500": 0.135,
+        "500-2000": 0.056,
+        "2000-6000": 0.008,
+        "6000-24000": 0.009
+      }
+    },
+    {
+      "file": "gate_creak.wav",
+      "duration_s": 3.0,
+      "hit_s": 0.05,
+      "description": "Heavy wooden gates swinging open: a slow, deep hinge creak (stick-slip 14-40 Hz through log body modes) over 2.2 s, then the gate stopping with a dull thud.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -17.55,
+      "dc_dbfs": -195.1,
+      "lr_correlation": 0.763,
+      "centroid_hz": 344,
+      "measured_peak_s": 2.344,
+      "band_energy": {
+        "0-60": 0.138,
+        "60-100": 0.132,
+        "100-250": 0.054,
+        "250-500": 0.549,
+        "500-2000": 0.126,
+        "2000-6000": 0.001,
+        "6000-24000": 0.0
+      }
+    },
+    {
+      "file": "ravens.wav",
+      "duration_s": 2.8,
+      "hit_s": 0.02,
+      "description": "Ravens over the ruins: three hoarse caws from two birds, left and right, with an open-air echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.06,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -25.99,
+      "dc_dbfs": -204.1,
+      "lr_correlation": 0.467,
+      "centroid_hz": 1390,
+      "measured_peak_s": 0.164,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.132,
+        "500-2000": 0.68,
+        "2000-6000": 0.187,
+        "6000-24000": 0.001
+      }
+    },
+    {
+      "file": "cavalry.wav",
+      "duration_s": 9.0,
+      "hit_s": 0.0,
+      "description": "Cavalry at the gallop in spring mud: 40 horses (three hoof falls per stride, about 2 strides a second, low thumps with mud splats), a ground rumble, wide stereo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -11.43,
+      "true_peak_dbtp": -11.43,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -203.0,
+      "lr_correlation": 0.474,
+      "centroid_hz": 104,
+      "measured_peak_s": 7.503,
+      "band_energy": {
+        "0-60": 0.095,
+        "60-100": 0.476,
+        "100-250": 0.415,
+        "250-500": 0.008,
+        "500-2000": 0.006,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 78.4,
+        "joint_rms_db": -24.5,
+        "block_rms_db_range": [
+          -27.78,
+          -20.56
+        ]
+      }
+    },
+    {
+      "file": "battle_din.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "The din of a battle at a distance: steel clashing on steel (inharmonic rings 1.8-6 kHz), blows on wooden shields, a roaring crowd of fighters in surges, open-air echo. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -7.23,
+      "true_peak_dbtp": -6.98,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -196.7,
+      "lr_correlation": 0.54,
+      "centroid_hz": 1631,
+      "measured_peak_s": 4.462,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.001,
+        "100-250": 0.082,
+        "250-500": 0.06,
+        "500-2000": 0.562,
+        "2000-6000": 0.289,
+        "6000-24000": 0.007
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 56.2,
+        "joint_rms_db": -26.62,
+        "block_rms_db_range": [
+          -28.49,
+          -20.33
+        ]
+      }
+    }
+  ]
+}

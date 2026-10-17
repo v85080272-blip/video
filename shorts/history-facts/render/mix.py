@@ -160,7 +160,9 @@ def main(tl_path=f'{WORK}/timeline.json', out_wav=f'{WORK}/mix.wav'):
     voice, hits, beds = build(tl)
     mix = voice + hits + beds
     mix = mix[:int(tl['total'] * SR)]
-    nf = min(len(mix), int(0.8 * SR))     # the sound fades with the picture instead of stopping on the last frame
+    # the sound fades with the picture instead of stopping on the last frame; a looping clip only de-clicks, so the
+    # music runs straight into the start
+    nf = min(len(mix), int((0.06 if tl.get('loop') else 0.8) * SR))
     mix[-nf:] *= (np.linspace(1.0, 0.0, nf) ** 2)[:, None]
     pk = np.abs(mix).max()
     if pk > 0.98:

@@ -7,127 +7,122 @@
       "prompt": "a small wooden town surrounded by a tall log palisade with log watchtowers on a steep hill above a river, melting snow and mud, a huge Mongol army camp with hundreds of felt yurts, campfires and horsemen surrounding the hill, smoke rising, dramatic stormy sky, wide aerial view"
     },
     {
-      "id": "k02_horde_riders",
-      "seeds": [102, 202],
-      "prompt": "hundreds of Mongol horse archers in fur hats and lamellar armor galloping across a muddy field with patches of snow toward a distant wooden log fortress on a hill, horse-tail banners, mud splashing, mist, low angle"
-    },
-    {
-      "id": "k03_wall_defenders",
-      "seeds": [103],
-      "prompt": "medieval Russian defenders in chainmail and conical helmets with red round shields and spears standing on top of a wooden log palisade wall, looking down at an enemy army below, smoke, grim determined faces, overcast light"
-    },
-    {
-      "id": "k04_mongol_uneasy",
+      "id": "k02_mongol_uneasy",
       "seeds": [104],
       "prompt": "close-up of a scarred Mongol warrior in a fur-trimmed iron helmet looking uneasily over his shoulder, a smoking wooden fortress on a hill behind him, dusk, dark mood"
     },
     {
-      "id": "k05_batu",
-      "seeds": [105, 205],
-      "prompt": "portrait of Batu Khan, a Mongol ruler in his thirties with a thin black mustache and narrow cold eyes, wearing a gilded fur-trimmed helmet and ornate lamellar armor, on horseback in front of his army with horse-tail standards, cold winter light, stern face"
+      "id": "k03_horde_riders",
+      "seeds": [102, 202],
+      "prompt": "hundreds of Mongol horse archers in fur hats and lamellar armor galloping across a muddy field with patches of snow, horse-tail banners, mud splashing, mist, low angle"
     },
     {
-      "id": "k06_city_burns_winter",
+      "id": "k04_city_burns",
       "seeds": [106],
-      "prompt": "a large medieval Russian city with wooden houses, log walls and white stone churches with golden domes burning at night in deep winter snow, huge flames and smoke, silhouettes of Mongol horsemen in the foreground"
+      "prompt": "a large medieval Russian city with wooden houses, log walls and white stone churches with golden helmet-shaped domes burning at night in deep winter snow, huge flames and smoke, silhouettes of Mongol horsemen in the foreground"
     },
     {
-      "id": "k07_march_spring",
-      "seeds": [107],
-      "prompt": "an endless column of Mongol cavalry and wooden carts marching across a muddy spring field with melting snow and puddles, bare birch forest, grey sky, crows"
-    },
-    {
-      "id": "k08_kozelsk_hill",
+      "id": "k05_kozelsk_hill",
       "seeds": [108, 208],
-      "prompt": "a small medieval Russian wooden town on a high hill between two rivers, tall log palisade with log watchtowers, a small wooden church with an onion dome inside the walls, early spring flood water and melting snow, morning mist, wide shot"
+      "prompt": "a small medieval Russian wooden town on a high hill between two rivers, tall log palisade with log watchtowers, a small wooden church with a single dome inside the walls, early spring flood water and melting snow, morning mist, wide shot"
     },
     {
-      "id": "k09_boy_prince",
+      "id": "k06_wall_defenders",
+      "seeds": [103],
+      "prompt": "medieval Russian defenders in chainmail and conical helmets with red round shields and spears standing on top of a wooden log palisade wall, looking down at an enemy army below, smoke, grim determined faces, overcast light"
+    },
+    {
+      "id": "k07_boy_prince",
       "seeds": [109, 209],
       "prompt": "portrait of a 12-year-old boy prince of medieval Russia, serious brave face, fur-trimmed red velvet cap, red cloak with gold embroidery over chainmail, standing on a wooden log fortress wall, cold morning light, smoke behind"
     },
     {
-      "id": "k10_town_council",
+      "id": "k08_town_council",
       "seeds": [110],
       "prompt": "medieval Russian townspeople, bearded men in linen shirts and sheepskin coats and women in headscarves, gathered in a muddy town square between log houses at dusk, torches, determined faces, a small wooden church behind"
     },
     {
-      "id": "k11_old_warrior",
+      "id": "k09_old_warrior",
       "seeds": [111],
       "prompt": "close-up of a grey-bearded medieval Russian warrior in chainmail holding a battle axe to his chest, torchlight on his face, determined eyes, dark background"
     },
     {
-      "id": "k12_trebuchets",
+      "id": "k10_trebuchets",
       "seeds": [112, 212],
       "prompt": "Mongol siege camp, large wooden trebuchets with counterweights and ropes standing in a muddy field in front of a wooden log fortress on a hill, warriors loading big stones, smoke, overcast"
     },
     {
-      "id": "k13_wall_breach",
+      "id": "k11_wall_breach",
       "seeds": [113],
       "prompt": "a breach in a tall wooden log palisade wall, splintered broken logs, smoke and dust, warriors with shields climbing up the earthen rampart, chaos"
     },
     {
-      "id": "k14_knife_fight",
+      "id": "k12_knife_fight",
       "seeds": [114],
       "prompt": "close-up of a medieval Russian townsman in a torn linen shirt with a knife in his fist, fighting in smoke and chaos on a muddy rampart, grim face, sparks"
     },
     {
-      "id": "k15_gates_sortie",
+      "id": "k13_behind_gates",
+      "seeds": [127],
+      "prompt": "night inside a wooden fortress, a group of medieval Russian warriors with axes and torches gathered behind closed massive wooden gates, tense faces lit by firelight, smoke"
+    },
+    {
+      "id": "k14_gates_sortie",
       "seeds": [115],
       "prompt": "massive wooden gates of a log fortress swinging open at night, medieval Russian warriors with axes and torches rushing out into the darkness, smoke, firelight"
     },
     {
-      "id": "k16_trebuchet_fire",
-      "seeds": [116],
-      "prompt": "a large wooden trebuchet on fire at night, flames and sparks flying, silhouettes of medieval warriors with axes against the fire, smoke"
+      "id": "k15_trebuchet_axes",
+      "seeds": [116, 316],
+      "prompt": "a large wooden trebuchet on fire at night, splintered beams and cut ropes, medieval warriors with battle axes around it, flames and sparks flying, smoke"
     },
     {
-      "id": "k17_night_battle",
+      "id": "k16_night_battle",
       "seeds": [117],
       "prompt": "chaotic night battle between medieval Russian warriors and Mongol warriors among burning felt tents, axes and sabres, smoke and embers, firelight"
     },
     {
-      "id": "k18_fallen_shield",
+      "id": "k17_fallen_shield",
       "seeds": [118],
       "prompt": "a broken red round shield and a battle axe lying in trampled snow and mud at dawn, smoke drifting, quiet, close-up"
     },
     {
-      "id": "k19_reinforcements",
+      "id": "k18_reinforcements",
       "seeds": [119],
       "prompt": "thousands of fresh Mongol cavalry with horse-tail banners coming over a hill at sunrise, dust and mist, a wooden fortress on a hill in the distance"
     },
     {
-      "id": "k20_town_burns",
+      "id": "k19_town_burns",
       "seeds": [120],
       "prompt": "a small wooden fortress town burning at dawn, collapsing log towers, thick black smoke rising into the sky, Mongol horsemen in front of the flames"
     },
     {
-      "id": "k21_empty_cradle",
+      "id": "k20_empty_cradle",
       "seeds": [121],
       "prompt": "an empty wooden cradle in a burnt log house, ash and glowing embers, soft light through smoke, quiet and sad"
     },
     {
-      "id": "k22_cap_in_mud",
+      "id": "k21_cap_in_mud",
       "seeds": [122],
       "prompt": "a boy's fur-trimmed red velvet cap lying in a dark muddy puddle with melting snow, reflections of fire in the water, smoke, embers, close-up"
     },
     {
-      "id": "k23_khan_ruins",
+      "id": "k22_khan_ruins",
       "seeds": [123],
       "prompt": "a Mongol khan on horseback seen from behind looking at the smoking burnt ruins of a wooden fortress on a hill, sunset, ravens circling"
     },
     {
-      "id": "k24_ruins_wide",
+      "id": "k23_ruins_wide",
       "seeds": [124],
       "prompt": "the smoking burnt ruins of a wooden log fortress on a hill above a river, charred logs and posts, ravens, grey sky, spring"
     },
     {
-      "id": "k25_gates_guard",
+      "id": "k24_gates_guard",
       "seeds": [125],
       "prompt": "closed massive wooden gates of a log fortress with iron bands, a lone medieval Russian warrior with a spear and a red shield standing guard in front of them, smoke and fire glow beyond the walls"
     },
     {
-      "id": "k26_boy_campfires",
+      "id": "k25_boy_campfires",
       "seeds": [126],
       "prompt": "a boy in a red cloak seen from behind standing on a wooden log fortress wall at dusk, looking at thousands of enemy campfires on the plain below"
     }

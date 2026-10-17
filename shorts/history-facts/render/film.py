@@ -124,10 +124,13 @@ def build_timeline():
     # an episode can pass its own 'endcard' from layout() or set ENDCARD = None (episodes published without it)
     ec = getattr(EP, 'ENDCARD', {})
     if ec is not None and 'endcard' not in lay:
-        lay['endcard'] = dict(ec, start=lines[LINE_IDS[-1]]['end'] + 0.3)
+        # 'over_last': the card comes up that many seconds into the last line, so the clip can end on the last word
+        # and loop back to the start (vla 17.10, YouTube's advice: no dead tail, a CTA plaque instead)
+        st = (lines[LINE_IDS[-1]]['start'] + ec['over_last']) if 'over_last' in ec else lines[LINE_IDS[-1]]['end'] + 0.3
+        lay['endcard'] = dict(ec, start=st)
     cover = dict(getattr(EP, 'COVER', {}), **lay['cover'])
     tl = dict(total=total, lines=lines, shots=c.shots, cards=lay.get('cards', []), cover=cover, tags=lay.get('tags', []),
-              words={k: v for k, v in words.items()}, episode=EPISODE)
+              words={k: v for k, v in words.items()}, episode=EPISODE, loop=bool(getattr(EP, 'LOOP', False)))
     for k in lay:
         if k not in tl:
             tl[k] = lay[k]
@@ -436,6 +439,15 @@ def draw_cover(a, t, cv, tl_text, static=False):
     for i, txt in enumerate(lines):
         im = tl_text.render(txt, F('InterDisplay-Black.otf', 128), (255, 255, 255), stroke=9, squeeze=0.86, track=-2)
         paste_rgba(a, im, W / 2, 835 + i * 128 + lift, alpha=al, scale=min(1.0, 880 / im.width))
+    if cv.get('part'):                  # «ЧАСТЬ 1» on a yellow plaque under the title (a story told in parts)
+        im = tl_text.render(cv['part'], F('InterDisplay-Black.otf', 84), (24, 18, 8), stroke=0, shadow=False, track=4)
+        y = int(835 + len(lines) * 128 + 40 + lift)
+        bw, bh = im.width + 16, 118
+        x0, y0 = int(W / 2 - bw / 2), y - bh // 2
+        box = a[max(0, y0):y0 + bh, max(0, x0):x0 + bw]
+        box *= 1 - al
+        box += np.array(YELLOW, np.float32) / 255 * al
+        paste_rgba(a, im, W / 2, y, alpha=al)
 
 
 def draw_endcard(a, t, ec, tl_text):
@@ -555,8 +567,8 @@ def render_frame(n, tl=None):
     draw_captions(a, t, tl, _TEXT)
     if tl.get('endcard'):
         draw_endcard(a, t, tl['endcard'], _TEXT)
-    # final fade
-    if t > tl['total'] - 0.4:
+    # final fade (a looping clip cuts straight back to its first frame instead)
+    if not tl.get('loop') and t > tl['total'] - 0.4:
         a = a * max(0.0, (tl['total'] - t) / 0.4)
     return (np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8)
 
