@@ -40,6 +40,21 @@ def loudness(path):
         return dict(lufs=None, lra=None, true_peak=None)
 
 
+def momentary(path):
+    """EBU R128 momentary loudness via ffmpeg: K-weighted, 400 ms windows every 100 ms, as loud as the ear hears it.
+    Returns (window starts in s, LUFS); the first value comes once 400 ms of sound have passed."""
+    r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-nostdin', '-i', path, '-vn', '-af',
+                        'ebur128=metadata=1,ametadata=mode=print:key=lavfi.r128.M:file=-', '-f', 'null', '-'],
+                       capture_output=True, text=True)
+    t = re.findall(r'pts_time:(-?[\d.]+)', r.stdout)
+    m = re.findall(r'lavfi\.r128\.M=(\S+)', r.stdout)
+    n = min(len(t), len(m))
+    t = np.array([float(v) for v in t[:n]]) - 0.3          # the value at pts covers [pts - 0.3, pts + 0.1]
+    m = np.nan_to_num(np.array([float(v) for v in m[:n]]), nan=-120.0, neginf=-120.0)
+    keep = t >= -1e-6
+    return t[keep], np.maximum(m[keep], -120.0)
+
+
 def db(x):
     return 10 * np.log10(np.mean(np.square(x)) + 1e-12) if len(x) else -120.0
 
@@ -103,9 +118,10 @@ def merge_spans(spans, gap=0.12):
     return out
 
 
-def check_mix(path, speech=None, findings=None, music_expected=None, dialog=False):
+def check_mix(path, speech=None, findings=None, music_expected=None, dialog=False, heard=None):
     """path: the clip; speech: [(start, end)] of words or None; dialog: a scene with characters, where pauses
-    between lines are part of the action. Returns (metrics, findings)."""
+    between lines are part of the action; heard: Whisper's word spans, speech the alignment may have missed.
+    Returns (metrics, findings)."""
     F = findings if findings is not None else []
     add = lambda lvl, code, msg, t=None: F.append(dict(level=lvl, code=code, msg=msg, t=t))
     info = probe(path)
@@ -180,7 +196,9 @@ def check_mix(path, speech=None, findings=None, music_expected=None, dialog=Fals
         if t_end - sound_end > 1.5:
             add(INFO, 'quiet_tail', f'Последние {t_end - sound_end:.1f} с без звука.', sound_end)
     if speech:
-        _speech_checks(mono, E, hop, merge_spans(speech), t_end, M, add, music_expected, dialog)
+        segs = merge_spans(speech)
+        _speech_checks(mono, E, hop, segs, t_end, M, add, music_expected, dialog)
+        _loud_moments(path, segs, merge_spans(list(speech) + list(heard or [])), t_end, M, add)
     return M, F
 
 
@@ -238,3 +256,46 @@ def _speech_checks(mono, E, hop, segs, t_end, M, add, music_expected, dialog=Fal
                         add(WARN, 'music_hole', f'В паузе {a:.1f}–{b:.1f} с музыка проваливается на {m - np.median(g):.0f} дБ.', a)
         elif music_expected:
             add(INFO, 'bed_unknown', 'Пауз почти нет, уровень музыки под голосом не измерить.')
+
+
+FX_WARN, FX_ERR = 3.0, 4.0     # dB a sound without speech may stand above the voice's usual loudness
+
+
+def _loud_moments(path, segs, anywords, t_end, M, add):
+    """Effects and music swells louder than the voice. The pause median above does not see a short hit, so every
+    400 ms window without speech is weighed against the voice's median momentary loudness: a meow 4.4 dB over
+    the narrator's level already sounded much louder than the narration (zombie series 1 v2, vla's note of
+    2026-10-17), while the history reels and most cartoons stay under +3 dB.
+    segs: aligned words (tight) set the voice's level; anywords adds Whisper's words, so a word the alignment
+    missed («4.» heard for «Четвёртое») is not taken for an effect."""
+    t, m = momentary(path)
+    step = 0.01
+    i = np.round(t / step).astype(int)
+
+    def cover(spans):                                      # share of each 400 ms window taken by speech
+        on = np.zeros(int(t_end / step) + 42, bool)
+        for a, b in spans:
+            on[int(a / step):int(b / step) + 1] = True
+        cs = np.concatenate([[0], np.cumsum(on)])
+        k = np.clip(i, 0, len(on) - 40)
+        return (cs[k + 40] - cs[k]) / 40
+    voiced = m[cover(segs) >= 0.8]
+    if len(voiced) < 10:
+        return
+    v = float(np.median(voiced))
+    M['voice_momentary_lufs'] = round(v, 1)
+    over = (cover(anywords) <= 0.2) & (m - v >= FX_WARN)
+    found = []
+    for a, b in _runs(over):
+        s, e, x = t[a] + 0.1, t[b - 1] + 0.3, float(m[a:b].max()) - v      # around the window centres
+        if found and s - found[-1][1] <= 0.3:
+            found[-1] = (found[-1][0], e, max(found[-1][2], x))
+        else:
+            found.append((s, e, x))
+    M['loud_moments'] = [[round(a, 1), round(b, 1), round(x, 1)] for a, b, x in found]
+    for a, b, x in sorted(found, key=lambda f: -f[2])[:5]:
+        add(ERR if x >= FX_ERR else WARN, 'fx_loud',
+            f'{a:.1f}–{b:.1f} с: звук без речи (эффект или музыка) громче голоса на {x:.0f} дБ. '
+            f'Если это не задуманный испуг, сделайте его тише голоса.', a)
+    if len(found) > 5:
+        add(INFO, 'fx_loud_more', f'И ещё {len(found) - 5} таких мест, все — в отчёте .json (loud_moments).')

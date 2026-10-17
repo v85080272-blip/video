@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Quick self-test after qa/setup.sh: models load, the stress dictionary agrees with Silero, the aligner finds letters
-# where they are, the mix checks fire on a synthetic clip with known faults (clipping, a click, a dead stop).
+# where they are, the mix checks fire on a synthetic clip with known faults (clipping, a click, a dead stop,
+# an effect louder than the voice).
 import os, sys, tempfile, wave
 import numpy as np
 
@@ -37,7 +38,7 @@ check('letter alignment', al and al['letters'][1] == (2, 5) and al['letters'][3]
 
 from mixcheck import check_mix
 sr = 48000
-t = np.arange(int(6.0 * sr)) / sr
+t = np.arange(int(7.5 * sr)) / sr
 rng = np.random.default_rng(1)
 bed = 0.04 * np.sin(2 * np.pi * 220 * t)                     # quiet music bed all along, ends at full level
 voice = np.zeros_like(t)
@@ -48,6 +49,8 @@ for a, b in spans:
 x = bed + voice
 x[(t > 3.0) & (t < 3.002)] = 1.0                              # clipping
 x[int(2.2 * sr)] += 0.6                                       # a click in the pause between the phrases
+fx = (t >= 5.9) & (t < 6.5)
+x[fx] += 0.6 * rng.standard_normal(fx.sum())                 # an effect after the last phrase, far louder than it
 x = np.clip(x, -1, 1)
 st = np.stack([x, x], 1)
 with tempfile.TemporaryDirectory() as d:
@@ -61,6 +64,9 @@ codes = {f['code'] for f in F}
 check('mix: clipping', 'clipping' in codes, str(codes))
 check('mix: click', 'click' in codes, str(codes))
 check('mix: dead stop at the end', 'abrupt_end' in codes, str(codes))
+loud = [f for f in F if f['code'] == 'fx_loud']
+check('mix: effect louder than the voice', len(loud) == 1 and loud[0]['level'] == 'ошибка'
+      and 5.6 < loud[0]['t'] < 6.2, str(loud))
 check('mix: voice over music measured', Mx.get('voice_over_bed_db') is not None and Mx['voice_over_bed_db'] > 10,
       str(Mx.get('voice_over_bed_db')))
 sys.exit(0 if ok else 1)
