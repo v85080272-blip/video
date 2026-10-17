@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# One-time setup of the clip checks in a fresh container: Python packages and models into ~/.cache/qa.
+#   bash qa/setup.sh            everything (about 3 GB of downloads, a few minutes)
+#   bash qa/setup.sh --no-asr   without Whisper (no check that the voice says the script)
+# Without Hugging Face access it takes the models from /mnt/project-files/models when another thread left them there.
+# Models: Russian wav2vec2 XLSR-53 letter recogniser (jonatasgrosman, Apache-2.0; ONNX export by onnx-community)
+# with the stress head of meter2 (siriusfreak, Apache-2.0), Silero Stress 1.5 (MIT, converted to numpy here,
+# torch not needed), faster-whisper large-v3-turbo (MIT). Revisions are pinned.
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+CACHE="${QA_CACHE:-$HOME/.cache/qa}"
+ASR=1
+[ "${1:-}" = "--no-asr" ] && ASR=0
+mkdir -p "$CACHE"
+PIP="python3 -m pip install -q --disable-pip-version-check"
+py_has() { python3 -c "import $1" 2>/dev/null; }
+
+echo "== packages"
+py_has numpy || $PIP numpy
+py_has onnxruntime || $PIP onnxruntime
+py_has huggingface_hub || $PIP huggingface_hub
+py_has onnx || $PIP onnx
+if [ "$ASR" = 1 ]; then py_has faster_whisper || $PIP faster-whisper; fi
+command -v ffmpeg >/dev/null || { echo "ffmpeg is missing: apt-get install -y ffmpeg"; exit 1; }
+
+# a thread whose network has no Hugging Face takes the models another thread left in the shared folder: small
+# files whole in models/qa-cache, big ones as 50 MB parts in models/parts (the folder does not carry gigabyte files);
+# SIZES lists each file's sha256
+M=/mnt/project-files/models
+if [ -f "$M/parts/SIZES" ]; then
+  grep -v '^#' "$M/parts/SIZES" | while read -r rel size sum how; do
+    case "$rel" in qa-cache/*) ;; *) continue ;; esac
+    case "$rel" in qa-cache/whisper-turbo/*) [ "$ASR" = 0 ] && continue ;; esac
+    f="$CACHE/${rel#qa-cache/}"
+    [ -f "$f" ] && continue
+    echo "== $rel from $M"
+    mkdir -p "$(dirname "$f")"
+    case "$how" in
+      parts/*) cat "$M/parts/$(basename "$rel")".part* > "$f.tmp" ;;
+      *) cp "$M/${how#whole:}" "$f.tmp" ;;
+    esac
+    if echo "$sum  $f.tmp" | sha256sum -c --quiet - 2>/dev/null; then mv "$f.tmp" "$f"
+    else echo "   the copy in $M is incomplete, skipped"; rm -f "$f.tmp"; fi
+  done
+fi
+
+echo "== letter recogniser and stress head (1.3 GB)"
+if [ ! -f "$CACHE/meter/meter.onnx" ] || [ ! -f "$CACHE/meter/head.npz" ]; then
+  python3 - "$CACHE/meter" <<'EOF'
+import sys
+from huggingface_hub import hf_hub_download
+d = sys.argv[1]
+for f in ('vocab.json', 'onnx/model.onnx'):
+    hf_hub_download('onnx-community/wav2vec2-large-xlsr-53-russian-ONNX', f, local_dir=d,
+                    revision='df5ba1d9e0f9a34c44eec437b441f4ae43c842eb')
+hf_hub_download('siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf', 'meter/head.pt', local_dir=d,
+                revision='c16b3af3db3095120efc1ebb73f6522442bcb3b1')
+EOF
+  python3 "$HERE/stress/meter.py" prepare "$CACHE/meter"
+  rm -rf "$CACHE/meter/onnx"
+fi
+
+echo "== stress dictionary (Silero Stress, 40 MB)"
+if [ ! -f "$CACHE/silero_stress/silero_stress.npz" ]; then
+  T="$(mktemp -d)"
+  python3 -m pip download -q --disable-pip-version-check --no-deps silero-stress==1.5 -d "$T"
+  python3 - "$T" <<'EOF'
+import glob, sys, zipfile
+whl = glob.glob(sys.argv[1] + '/silero_stress-*.whl')[0]
+with zipfile.ZipFile(whl) as z:
+    open(sys.argv[1] + '/accentor.pt', 'wb').write(z.read('silero_stress/data/accentor.pt'))
+EOF
+  python3 "$HERE/stress/silero_np.py" "$T/accentor.pt" "$CACHE/silero_stress"
+  rm -rf "$T"
+fi
+
+# faster-whisper needs all five files; without vocabulary.json the model does not load
+W="$CACHE/whisper-turbo"
+MISSING=""
+for f in model.bin config.json preprocessor_config.json tokenizer.json vocabulary.json; do
+  [ -f "$W/$f" ] || MISSING="$MISSING $f"
+done
+if [ "$ASR" = 1 ] && [ -n "$MISSING" ]; then
+  echo "== Whisper large-v3-turbo, fetching:$MISSING"
+  python3 - "$W" $MISSING <<'EOF'
+import sys
+from huggingface_hub import hf_hub_download
+for f in sys.argv[2:]:
+    hf_hub_download('mobiuslabsgmbh/faster-whisper-large-v3-turbo', f, local_dir=sys.argv[1],
+                    revision='0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf')
+EOF
+fi
+
+echo "== self-test"
+python3 "$HERE/tests/selftest.py"
+if [ "$ASR" = 1 ]; then
+  python3 -c "import sys; from faster_whisper import WhisperModel; WhisperModel(sys.argv[1], device='cpu', compute_type='int8')" "$W"
+  echo "Whisper loads"
+fi
+echo "ready: python3 $HERE/check_clip.py <clip.mp4> --text <script>"
