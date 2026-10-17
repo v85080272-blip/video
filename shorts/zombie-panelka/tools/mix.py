@@ -1,5 +1,6 @@
 # Final mix for «Зомби в панельке»: the narrator and баба Валя, every effect from build/cues.json and the score,
-# with the score and the long effects ducked under the voices, then normalised to −14 LUFS under a −1.5 dBTP ceiling.
+# with the score and the long effects ducked under the voices and every effect but the scares held under the narrator
+# (FX_CAP; levels go to build/fx_levels.json), then normalised to −14 LUFS under a −2 dBTP ceiling.
 # usage: python3 tools/mix.py <out.wav> [stems dir]   (reads build/timing.json, build/cues.json, build/music.wav)
 import json
 import os
@@ -29,6 +30,11 @@ DUCK = {  # how far each layer dips while someone speaks (dB)
     'deep': 18,     # effects that sit on a key word: the power-down under «Свет гаснет» bent its stress for the checker
 }
 DEEP = {'power_down', 'beep_long'}
+# No effect jumps over the narrator unless it is there to scare: a cue's loudest 400 ms (BS.1770 momentary loudness,
+# after ducking) is held to FX_CAP LU against the narrator's integrated loudness. The meow came out 5 LU over him.
+FX_CAP = {'scare': 3.0, 'cat': -3.0, 'other': -1.0}
+SCARE = {'sting', 'sting_small', 'sting_big', 'zap', 'scratch', 'door_rattle', 'heartbeat', 'hiss'}   # the door, the shadow, the blood
+CAT = {'meow', 'mrr', 'clang', 'clang_small', 'scrape_short', 'land_soft', 'thump_bag'}             # the cat and the mess it makes
 LONG = {'amb_city', 'amb_room', 'amb_stairs', 'water', 'horde', 'route', 'heartbeat', 'alert', 'buzz', 'sputter', 'groan', 'power_down',
         'sting', 'sting_small'}
 
@@ -43,12 +49,15 @@ def at(t):
     return int(round(t * SR))
 
 
-def place(bus, t, x, gain_db=0.0):
+def stereo(x):
     x = np.asarray(x, float)
     if x.ndim == 1:
-        x = pan(x, 0.0)
-    elif x.shape[0] == 1:
-        x = pan(x[0], 0.0)
+        return pan(x, 0.0)
+    return pan(x[0], 0.0) if x.shape[0] == 1 else x
+
+
+def place(bus, t, x, gain_db=0.0):
+    x = stereo(x)
     i = at(t)
     j = min(bus.shape[1], i + x.shape[1])
     if j > i:
@@ -93,10 +102,22 @@ def voice_chain(x):
 
 
 # ——— loudness (ITU-R BS.1770-4) and true peak ———
-def lufs(x):
+def kweight(x):
     b1, a1 = [1.53512485958697, -2.69169618940638, 1.19839281085285], [1.0, -1.69065929318241, 0.73248077421585]
     b2, a2 = [1.0, -2.0, 1.0], [1.0, -1.99004745483398, 0.99007225036621]
-    k = signal.lfilter(b2, a2, signal.lfilter(b1, a1, x, axis=1), axis=1)
+    return signal.lfilter(b2, a2, signal.lfilter(b1, a1, x, axis=-1), axis=-1)
+
+
+def loudest(x, win=0.4):
+    """loudness of the loudest `win` seconds of a stereo signal (BS.1770 momentary loudness at win = 0.4)"""
+    p = np.sum(kweight(x) ** 2, axis=0)
+    w = int(win * SR)
+    p = np.pad(p, (0, max(0, w - len(p))))
+    return -0.691 + 10 * np.log10(np.convolve(p, np.ones(w) / w, mode='valid').max() + 1e-15)
+
+
+def lufs(x):
+    k = kweight(x)
     blk, hop = int(0.4 * SR), int(0.1 * SR)
     z = np.array([np.sum(np.mean(k[:, i:i + blk] ** 2, axis=1)) for i in range(0, k.shape[1] - blk, hop)])
     l = -0.691 + 10 * np.log10(z + 1e-15)
@@ -170,18 +191,31 @@ def main():
     act = smooth(act, 0.015, 0.4)
     act = per_sample(act, n)
 
-    # effects
+    # effects, each turned down to its FX_CAP against the narrator as it will sound after ducking
+    ref = lufs(np.vstack([narr, narr]))
     fx_long, fx_short, fx_deep = np.zeros((2, n)), np.zeros((2, n)), np.zeros((2, n))
+    levels = []
     for idx, c in enumerate(cues['cues']):
         name = c['n']
         kw = {k: v for k, v in c.items() if k not in ('t', 'n', 'db')}
-        y = np.asarray(SFX[name](np.random.default_rng(1000 + idx), **kw), float)
+        y = stereo(SFX[name](np.random.default_rng(1000 + idx), **kw))
         if name.startswith('amb_') and 'dur' in c:                                          # beds end on the cut
             keep = min(at(c['dur'] + 0.12), y.shape[-1])
             y = y[..., :keep].copy()
             f = min(keep, at(0.12))
             y[..., keep - f:] *= np.linspace(1, 0, f)
-        place(fx_deep if name in DEEP else fx_long if name in LONG else fx_short, c['t'], y, c['db'] + TRIM.get(name, 0) + SFX_DB)
+        d = DUCK['deep'] if name in DEEP else DUCK['long'] if name in LONG else DUCK['short']
+        gain = c['db'] + TRIM.get(name, 0) + SFX_DB
+        i = at(c['t'])
+        m = min(y.shape[1], n - i)
+        rel = loudest(y[:, :m] * 10 ** ((gain - d * act[i:i + m]) / 20)) - ref
+        cls = 'scare' if name in SCARE else 'cat' if name in CAT else 'other'
+        cut = max(0.0, rel - FX_CAP[cls])
+        levels.append(dict(t=round(c['t'], 2), n=name, cls=cls, rel=round(rel - cut, 1), cut=round(cut, 1)))
+        place(fx_deep if name in DEEP else fx_long if name in LONG else fx_short, c['t'], y, gain - cut)
+    json.dump(dict(narrator_lufs=round(ref, 1), cap=FX_CAP, cues=levels), open(os.path.join(ROOT, 'build/fx_levels.json'), 'w'),
+              ensure_ascii=False, indent=1)
+    print('turned down to the cap: ' + ', '.join(f"{l['n']} {l['t']:.1f} s −{l['cut']:.1f} dB" for l in levels if l['cut'] > 0))
 
     music = load(os.path.join(ROOT, 'build/music.wav'))[:, :n]
     music = np.pad(music, ((0, 0), (0, n - music.shape[1])))
