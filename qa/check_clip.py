@@ -187,7 +187,8 @@ def run_checks(clip, text, engine, voice, music, use_asr, dialog=False):
                 add(WARN, 'asr', 'unclear', f"«{u['word']}» звучит не так, как написано (или его нет).", u['t'])
     elif heard:
         spans = [(h[1], h[2]) for h in heard]
-    M, MF = check_mix(clip, spans, music_expected=music, dialog=dialog)
+    M, MF = check_mix(clip, spans, music_expected=music, dialog=dialog,
+                      heard=[(h[1], h[2]) for h in heard] if heard else None)
     for f in MF:
         add(f['level'], 'mix', f['code'], f['msg'], f['t'])
     R['mix'] = {k: v for k, v in M.items() if k != 'probe'}
