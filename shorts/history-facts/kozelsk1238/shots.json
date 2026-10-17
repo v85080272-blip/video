@@ -13,7 +13,7 @@
     },
     {
       "id": "k03_horde_riders",
-      "seeds": [102, 202],
+      "seeds": [102],
       "prompt": "hundreds of Mongol horse archers in fur hats and lamellar armor galloping across a muddy field with patches of snow, horse-tail banners, mud splashing, mist, low angle"
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "id": "k05_kozelsk_hill",
-      "seeds": [108, 208],
+      "seeds": [108],
       "prompt": "a small medieval Russian wooden town on a high hill between two rivers, tall log palisade with log watchtowers, a small wooden church with a single dome inside the walls, early spring flood water and melting snow, morning mist, wide shot"
     },
     {
@@ -48,7 +48,7 @@
     },
     {
       "id": "k10_trebuchets",
-      "seeds": [112, 212],
+      "seeds": [112],
       "prompt": "Mongol siege camp, large wooden trebuchets with counterweights and ropes standing in a muddy field in front of a wooden log fortress on a hill, warriors loading big stones, smoke, overcast"
     },
     {

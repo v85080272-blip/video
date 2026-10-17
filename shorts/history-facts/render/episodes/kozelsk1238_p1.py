@@ -10,14 +10,14 @@ import numpy as np
 
 DISPLAY = {
     'L1': 'ЭТОТ ГОРОД МОНГОЛЫ НЕ СМЕЛИ ДАЖЕ НАЗЫВАТЬ ПО ИМЕНИ.',
-    'L2': 'МОНГОЛЬСКАЯ ОРДА УЖЕ СОЖГЛА РЯЗАНЬ, МОСКВУ И ВЛАДИМИР.',
+    'L2': 'ИХ ВОЙСКО УЖЕ СОЖГЛО РЯЗАНЬ, МОСКВУ И ВЛАДИМИР.',
     'L3': 'А МАЛЕНЬКИЙ ДЕРЕВЯННЫЙ КОЗЕЛЬСК ДЕРЖАЛСЯ 7{семь} НЕДЕЛЬ.',
     'L4': 'КНЯЗЮ ТАМ БЫЛО ЛЕТ 12{двенадцать}.',
     'L5': 'ЖИТЕЛИ РЕШИЛИ: КНЯЗЬ НАШ РЕБЁНОК, НО МЫ ОТДАДИМ ЗА НЕГО ЖИЗНЬ.',
     'L6': 'МОНГОЛЫ РАЗБИЛИ СТЕНУ И ПОЛЕЗЛИ НА ВАЛ. ГОРОЖАНЕ БИЛИСЬ С НИМИ НОЖАМИ.',
     'L7': 'А ПОТОМ ЗАЩИТНИКИ СДЕЛАЛИ ТО, ЧЕГО ОТ НИХ НИКТО НЕ ЖДАЛ.',
 }
-HILITE = {'СМЕЛИ', 'ИМЕНИ.', 'СОЖГЛА', 'МАЛЕНЬКИЙ', 'ДЕРЕВЯННЫЙ', '7', 'НЕДЕЛЬ.', '12.', 'РЕБЁНОК,', 'ЖИЗНЬ.',
+HILITE = {'СМЕЛИ', 'ИМЕНИ.', 'СОЖГЛО', 'МАЛЕНЬКИЙ', 'ДЕРЕВЯННЫЙ', '7', 'НЕДЕЛЬ.', '12.', 'РЕБЁНОК,', 'ЖИЗНЬ.',
           'СТЕНУ', 'НОЖАМИ.', 'НИКТО', 'ЖДАЛ.'}
 
 # gap (s) after each line before the next one starts (voice5/tools/gaps_used.py keeps the narrator's own pauses where
@@ -55,7 +55,7 @@ def plan(lines, words):
     p = {}
     p['hook'] = (0.0, lines['L1']['end'] + 0.2)                      # drums + choir + horses under the hook
     p['dare'] = wt('L1', 'СМЕЛИ')
-    p['burn'] = wt('L2', 'СОЖГЛА')
+    p['burn'] = wt('L2', 'СОЖГЛО')
     p['weeks'] = wt('L3', '7')
     p['story'] = (lines['L4']['start'] - 0.2, lines['L6']['start'] - 0.05)   # gusli while the town decides
     p['wall'] = wt('L6', 'СТЕНУ')
@@ -84,7 +84,7 @@ def layout(c):
     add('k02_mongol_uneasy', ne, l2, into='zoom', cam=dict(zoom=(1.08, 1.2), dolly=(0.0, 0.08)),
         fx=dict(dust=15, punch=[(p['dare'], 0.08)], shake=[(p['dare'], 0.6, 12)], beat=[hook],
                 grade=dict(dusk, exposure=-0.04)))
-    # L2 the horde has already burnt Ryazan, Moscow and Vladimir
+    # L2 their army has already burnt Ryazan, Moscow and Vladimir
     sz = p['burn'] - 0.06
     l3 = L('L3')['start'] - 0.08
     add('k03_horde_riders', l2, sz, into='flash', cam=dict(zoom=(1.04, 1.14), dolly=(0.0, 0.08), parx=(-16, 16)),
