@@ -21,4 +21,4 @@ for ks in 'L8 1 2 3 4' 'L12 1 2 3 4' 'L17z 1 2 3 4 5 6'; do set -- $ks; k=$1; sh
   [ -f takes/${k}_s$s.wav ] || QT_THREADS=4 $B --model $M/qwen-talker-1.7b-base-Q8_0.gguf --codec $M/qwen-tokenizer-12hz-Q8_0.gguf \
     --ref-wav ref.wav --ref-text ref.txt --lang Russian --seed $s -o takes/${k}_s$s.wav < text_$k.txt > logs/${k}_s$s.log 2>&1
 done; done
-echo "used in version 2: L8 seed 1, L12 seed 3, L17 seed 1"
+echo "used in version 2: L8 seed 1, L12 seed 3, L17z seed 1"

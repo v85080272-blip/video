@@ -21,7 +21,7 @@ MUSIC_UNDER = 12.0                               # the score never closer than t
 MUSIC_DUCK_MAX = 18.0                            # the riser and the tape stop need up to this much
 BREATH_DB = -2.0                                 # the narrator's own breaths, a touch under their natural level
 TRIM = {'boom': -3, 'alert': -4, 'beep': -3, 'beep_long': -3, 'error': -4, 'buzz': -3, 'zap': -2, 'slam': -6, 'tick_big': 3, 'scratch': 2,
-        'clang': -5, 'thud': -3, 'meow': -3, 'power_down': -2, 'hit_end': -3, 'cut': -2}
+        'clang': -7, 'thud': -3, 'meow': -3, 'power_down': -2, 'hit_end': -3, 'cut': -2}
 DUCK = {  # how far each layer dips while someone speaks (dB)
     'music': 6,
     'long': 7,      # beds and long effects
