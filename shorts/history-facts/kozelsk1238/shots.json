@@ -7,6 +7,11 @@
       "prompt": "a small wooden town surrounded by a tall log palisade with log watchtowers on a steep hill above a river, melting snow and mud, a huge Mongol army camp with hundreds of felt yurts, campfires and horsemen surrounding the hill, smoke rising, dramatic stormy sky, wide aerial view"
     },
     {
+      "id": "k01b_fortress_army",
+      "seeds": [301, 401],
+      "prompt": "a wooden fort with tall log walls and log towers on top of a steep lonely hill, seen from far away at dusk, hundreds of white felt yurts and campfires on the plain all around the foot of the hill, thick smoke, Mongol horsemen, melting snow, wide shot"
+    },
+    {
       "id": "k02_mongol_uneasy",
       "seeds": [104],
       "prompt": "close-up of a scarred Mongol warrior in a fur-trimmed iron helmet looking uneasily over his shoulder, a smoking wooden fortress on a hill behind him, dusk, dark mood"
@@ -55,6 +60,16 @@
       "id": "k11_wall_breach",
       "seeds": [113],
       "prompt": "a breach in a tall wooden log palisade wall, splintered broken logs, smoke and dust, warriors with shields climbing up the earthen rampart, chaos"
+    },
+    {
+      "id": "k10b_trebuchets",
+      "seeds": [212, 312],
+      "prompt": "a giant medieval counterweight trebuchet built of heavy dark timber beams, its long throwing arm raised high against the sky, a big wooden box full of stones as the counterweight, Mongol soldiers in fur hats pulling ropes, a boulder in the sling, muddy siege camp, a wooden log fortress on a hill in the distance, smoke, low angle"
+    },
+    {
+      "id": "k11b_wall_breach",
+      "seeds": [213],
+      "prompt": "a wide gap smashed through a fortress wall of tall vertical sharpened logs, broken splintered logs falling, dust and smoke, Mongol warriors with round shields and spears rushing up the earthen slope into the gap, defenders with axes above them, fire, low angle, dramatic"
     },
     {
       "id": "k12_knife_fight",
