@@ -250,8 +250,9 @@ def markdown(R):
         L.append('')
     if any(f['part'] == 'stress' and f['level'] == ERR for f in F):
         L += ['Как исправить ударение: перегенерировать фразу другим дублем (`qa/pick_take.py` выберет лучший) или заменить '
-              'слово простым. Qwen3-TTS знаков ударения не понимает; RHVoice и Silero TTS понимают «+» перед гласной '
-              '(`qa/check_text.py --engine rhvoice` расставит).', '']
+              'слово простым. Qwen3-TTS знаков ударения не понимает; Silero TTS понимает «+» перед гласной, RHVoice тоже, '
+              'если в RHVoice.conf есть `languages.Russian.stress_marker=+` (`qa/check_text.py --engine rhvoice` '
+              'расставит).', '']
     T = R.get('text')
     if T and (T['risky'] or T['traps']):
         L.append('## Текст: на что обратить внимание в следующий раз')

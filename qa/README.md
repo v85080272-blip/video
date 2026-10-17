@@ -71,6 +71,8 @@
   (huggingface.co/siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf, Apache-2.0, 96–100% верных ударений по замерам
   автора), — с ней ударение можно задавать прямо в тексте.
 - **RHVoice, Silero TTS**: понимают «+» перед ударной гласной; `check_text.py --engine rhvoice` выдаст текст с ними.
+  RHVoice берёт «+» только со строкой `languages.Russian.stress_marker=+` в `/etc/RHVoice/RHVoice.conf`
+  (или `~/.config/RHVoice/RHVoice.conf`); в облачном образе этот файл пустой, и без строки «+» не работает.
 - **Имена и названия**: поставьте «+» в сценарии (`Кул+ик`), тогда и проверка, и голос возьмут это ударение.
 - Слово, в котором наш голос уже ошибался, допишите в `qa/known_errors.json`: `check_text.py` предупредит заранее.
 

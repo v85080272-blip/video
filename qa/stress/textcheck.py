@@ -9,7 +9,8 @@ ENGINES = {
     'qwen3': dict(plus=False, note='Qwen3-TTS читает «+» вслух, а знак U+0301 добавляет звуки: слова, где он ошибается, '
                                    'заменяем простыми, термин оставляем на плашке.'),
     'voxcpm2': dict(plus=False, note='VoxCPM2: пометки ударений не проверены, текст отдаём без них.'),
-    'rhvoice': dict(plus=True, note='RHVoice понимает «+» перед ударной гласной.'),
+    'rhvoice': dict(plus=True, note='RHVoice понимает «+» перед ударной гласной, только если в RHVoice.conf есть строка '
+                                    'languages.Russian.stress_marker=+ (в облачном образе файл пустой).'),
     'silero': dict(plus=True, note='Silero TTS понимает «+» перед ударной гласной.'),
     'any': dict(plus=False, note=''),
 }
