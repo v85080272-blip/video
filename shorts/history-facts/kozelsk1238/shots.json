@@ -87,6 +87,11 @@
       "prompt": "massive wooden gates of a log fortress swinging open at night, medieval Russian warriors with axes and torches rushing out into the darkness, smoke, firelight"
     },
     {
+      "id": "k14b_gates_sortie",
+      "seeds": [215],
+      "prompt": "medieval Russian warriors in chainmail with axes and red round shields charging out through open wooden fortress gates at night, straight into an enemy siege camp, torches and fire, motion, shouting faces, low angle"
+    },
+    {
       "id": "k15_trebuchet_axes",
       "seeds": [116, 316],
       "prompt": "a large wooden trebuchet on fire at night, splintered beams and cut ropes, medieval warriors with battle axes around it, flames and sparks flying, smoke"
@@ -105,6 +110,11 @@
       "id": "k18_reinforcements",
       "seeds": [119],
       "prompt": "thousands of fresh Mongol cavalry with horse-tail banners coming over a hill at sunrise, dust and mist, a wooden fortress on a hill in the distance"
+    },
+    {
+      "id": "k18b_reinforcements",
+      "seeds": [219],
+      "prompt": "a long column of Mongol horsemen with horsetail banners riding across a wide misty plain toward a small burning wooden fort on a distant hill, dawn, dust, aerial view"
     },
     {
       "id": "k19_town_burns",
