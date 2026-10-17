@@ -179,7 +179,7 @@ v = bus['voice'].mean(1)
 vel = np.convolve(np.abs(v), np.ones(2400) / 2400, 'same'); duck = 1 - .5 * np.clip(vel / (vel.max() + 1e-9) * 5, 0, 1)
 mix = bus['voice'] * 1.0 + bus['music'] * duck[:, None] * .42 + bus['fx'] * .7 * (.6 + .4 * duck[:, None]) + bus['amb'] * .75
 mix = mix[:int(DUR * SR)]
-mix *= np.minimum(1, (DUR - np.arange(len(mix)) / SR) / .4)[:, None]
+mix *= (np.sin(np.pi / 2 * np.clip((DUR - np.arange(len(mix)) / SR) / 1.0, 0, 1)) ** 2)[:, None]   # затухание за последнюю секунду
 mix = np.tanh(mix / (np.abs(mix).max() + 1e-9) * 1.4) * .9
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
 sf.write(os.path.join(HERE, 'out', 'mix.wav'), mix.astype(np.float32), SR, subtype='PCM_24')
