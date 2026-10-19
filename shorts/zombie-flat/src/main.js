@@ -7,7 +7,7 @@ import { view, toScreen } from './camera.js';
 import * as S from './set.js';
 import { drawCat } from './cat.js';
 import { drawZombie, drawArm } from './zombie.js';
-import { text, stamp, bubble, measure, FONTS } from './type.js';
+import { text, stamp, pill, measure, FONTS } from './type.js';
 
 export const DUR = 22.5;
 const HALF = S.HALF_Y, FL = S.FLOOR, CAT_X = 450, CAT_S = 0.8;
@@ -39,7 +39,7 @@ const D8 = S.DOOR8, D8X = D8.x + D8.w / 2;
 }
 // he ducks into the doorway (shrinks a little into the dark), the door swings shut and slams, then the cut to the cat
 const IN_T = [15.5, 15.72], SHUT_T = [15.72, 15.93], CUT = 16.0;
-export const CUTS = [CUT];
+export const CUTS = [12.86, CUT];                // the snap turn and the cut: motion blur never straddles them
 const insideAt = t => seg(IN_T[0], IN_T[1], t);
 ORDER.sort((a, b) => a.t - b.t);
 
@@ -219,7 +219,7 @@ function hermite(keys, t) {
 }
 let CAM_A = null;
 // after the hit: hold both of them, then whip after the zombie, keeping him a little left of centre with room to run into
-const CAM_RUN = [[11, 580, 990, 0.95], [12.6, 600, 1000, 1.0], [12.95, 650, 1020, 1.0], [13.3, 1050, 1350, 0.95], [13.6, 1390, 1600, 0.9],
+const CAM_RUN = [[11, 580, 990, 0.95], [12.6, 640, 1000, 1.0], [12.9, 780, 1030, 0.93], [13.3, 1080, 1360, 0.92], [13.6, 1390, 1600, 0.9],
   [14.0, 1800, 1700, 0.9], [14.4, 2190, 1760, 0.9], [14.8, 2600, 1960, 0.9], [15.2, 3000, 2110, 0.9], [15.6, 3320, 2075, 1.02], [16, 3370, 2050, 1.12]];
 export function camAt(t) {
   let x, y, z, r = 0, dx = 0, dy = 0;
@@ -234,7 +234,7 @@ export function camAt(t) {
     r += -0.03 * bump((t - 13.1) / 0.6);
     if (t >= SHUT_T[1]) { const e2 = Math.exp(-(t - SHUT_T[1]) * 14); dx += 12 * e2 * Math.sin((t - SHUT_T[1]) * 70); dy += 22 * e2 * Math.sin((t - SHUT_T[1]) * 55); }
   } else {
-    [x, y, z] = hermite([[16, 340, 1000, 1.22], [16.5, 290, 1006, 1.32], [19.5, 292, 1012, 1.35], [20.15, 455, 1084, 1.55], [22.0, 456, 1078, 1.58], [22.5, 450, 1000, 1.25]], t);
+    [x, y, z] = hermite([[16, 340, 1000, 1.22], [16.5, 290, 1006, 1.32], [19.5, 292, 1012, 1.35], [20.15, 500, 1084, 1.55], [22.0, 501, 1078, 1.58], [22.5, 450, 1000, 1.25]], t);
     const e1 = Math.exp(-(t - 16) * 9), e2 = t > 16.5 ? Math.exp(-(t - 16.5) * 10) : 0;
     dy = 14 * e1 * Math.sin((t - 16) * 50) + 16 * e2 * Math.sin((t - 16.5) * 46);
   }
@@ -318,23 +318,24 @@ function rule(t) {
   for (let i = 0; i < 10; i++) letter(t, i, false);
 }
 const ruleLate = t => { if (t >= T_A_FALL && t < T_A_SNAP) letter(t, 9, true); };
-// screen-space lettering of the last shot: the question, a comment bubble, the series name
+// screen-space lettering of the last shot: the series name, the question, a subscribe button
+const QX = 560;
 function question(t) {
   if (t < 19.9) return;
   const out = 1 - seg(22.05, 22.35, t);
   const k1 = sp(t, 20.0, 2.4, 7), k2 = sp(t, 20.25, 2.4, 7);
   g.setTransform(1, 0, 0, 1, 0, 0);
-  text('А ТВОЙ КОТ', 510, 400, 104 * k1, '#fff3d6', { fam: FONTS.cond, a: out });
-  text('БЫ СПРАВИЛСЯ?', 510, 520, 104 * k2, '#ff8a3d', { fam: FONTS.cond, a: out });
-  const kb = sp(t, 20.75, 2.6, 6) * (1 + 0.12 * bump((t - 21.25) / 0.2) + 0.12 * bump((t - 21.75) / 0.2));
-  bubble(510, 650, 46, { k: kb, a: out, dots: t * 1.5 });
+  text('А ТВОЙ КОТ', QX, 400, 104 * k1, '#fff3d6', { fam: FONTS.cond, a: out });
+  text('БЫ СПРАВИЛСЯ?', QX, 520, 104 * k2, '#ff8a3d', { fam: FONTS.cond, a: out });
+  const kb = sp(t, 20.75, 2.6, 6) * (1 + 0.1 * bump((t - 21.25) / 0.2) + 0.1 * bump((t - 21.75) / 0.2));
+  pill('ПОДПИШИСЬ', QX, 660, 50, { k: kb, a: out });
   const kl = sp(t, 20.5, 2.4, 8);
   if (kl > 0.01) {
     const hw = measure('ЗОМБИ В ПАНЕЛЬКЕ', 38, FONTS.cond) / 2 + 22;
-    g.save(); g.globalAlpha = out; g.translate(510, 268); g.scale(kl, kl);
+    g.save(); g.globalAlpha = out; g.translate(QX, 268); g.scale(kl, kl);
     fill(polyPath([[-hw, -26], [hw, -26], [hw, 26], [-hw, 26]]), '#ff4d4d');
     g.restore();
-    text('ЗОМБИ В ПАНЕЛЬКЕ', 510, 282, 38 * kl, '#fff3d6', { fam: FONTS.cond, a: out, shadow: false });
+    text('ЗОМБИ В ПАНЕЛЬКЕ', QX, 282, 38 * kl, '#fff3d6', { fam: FONTS.cond, a: out, shadow: false });
   }
 }
 // «Ш-Ш-Ш!» bursting from the cat's mouth
@@ -472,7 +473,8 @@ export function motion(t, h = 1 / 240) {
   return m;
 }
 
-// sound cues for the mix (seconds, name, level dB, pan -1…1)
+// sound cues for the mix (seconds, name, level dB, pan -1…1); the letters, the ding and other pitched accents are in the
+// music (tools/music.py reads MARKS)
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
@@ -486,9 +488,9 @@ export function cues() {
   add(0.0, 'pop_word', -12, 0); add(0.25, 'pop_word', -13, -0.1); add(0.5, 'pop_word', -13, 0.15);
   add(1.95, 'whoosh_short', -10, -0.4);
   add(9.5, 'drip', -6, -0.05);
-  add(10.5, 'tail_thump', -4, -0.15);
+  add(10.5, 'tail_thump', -4, -0.15); add(10.62, 'eye_shing', -14, -0.1); add(10.45, 'pre_hit', -16, 0);
   add(11.0, 'hiss', 0, -0.1);
-  add(ARM_T, 'pop', -4, 0.2);
+  add(ARM_T, 'pop_arm', -6, 0.2);
   for (const [tt] of HOPS) add(tt, 'clack', -8, 0.45);
   add(13.1, 'whoosh', -6, 0.3);
   add(GRAB_T, 'grab', -8, 0.4);
@@ -496,8 +498,11 @@ export function cues() {
   add(SHUT_T[1], 'slam', -3, panOf(SHUT_T[1], [D8X, S.LOW_Y - 300]));
   add(16.0, 'deflate', -9, 0);
   add(T_STAMP, 'stamp', -4, 0);
-  LETTER_T.forEach((tt, i) => add(tt, 'tok', -9, (i % 5 - 2) * 0.1, { pitch: i }));
-  add(T_A_FLOOR, 'thud_small', -8, -0.2); add(T_A_KICK - 0.15, 'swish', -10, -0.1); add(T_A_SNAP, 'ding', -9, 0);
+  add(T_A_FLOOR, 'thud_small', -8, -0.3); add(T_A_KICK, 'flick', -10, -0.25);
+  // the cat's licks where we see them: on guard at the start, deaf to the stairs under the loom, smug after the slam
+  for (let t = 0.375; t < 22.5; t += 0.5) {
+    if ((t < 2.0) || (t > 7.6 && t < 9.5) || (t > 16.9 && t < 18.2) || t > 22.1) add(t, 'lick', t > 7 && t < 10 ? -10 : -13, panOf(t, [CAT_X + 30, FL - 200]));
+  }
   add(19.55, 'whoosh_short', -11, 0.2); add(19.6, 'purr', -12, 0, { dur: 2.8 });
   add(20.6, 'blink', -14, 0); add(20.75, 'pop_ui', -11, 0);
   return c.sort((a, b) => a.t - b.t);

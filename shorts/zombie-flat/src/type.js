@@ -34,6 +34,18 @@ export function stamp(str, x, y, size, o = {}) {
   g.fillStyle = col(o.ink ?? '#fff3d6'); g.fillText(str, 0, size * 0.04);
   g.restore();
 }
+// a red button with white letters ("subscribe"), scaled from its centre
+export function pill(str, x, y, size, o = {}) {
+  const a = o.a ?? 1, k = o.k ?? 1;
+  if (a <= 0 || k <= 0) return;
+  const w = measure(str, size, FONTS.cond) + size * 1.1, h = size * 1.6;
+  g.save(); g.globalAlpha *= a; g.translate(x, y); g.scale(k, k);
+  fill(rrPath(-w / 2 + size * 0.07, -h / 2 + size * 0.1, w, h, h / 2), INK);
+  fill(rrPath(-w / 2, -h / 2, w, h, h / 2), o.color ?? '#ff4d4d');
+  font(size, FONTS.cond); g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = col(o.ink ?? '#fff3d6'); g.fillText(str, 0, size * 0.04);
+  g.restore();
+}
 // speech bubble with three dots: "write in the comments"
 export function bubble(x, y, r, o = {}) {
   const a = o.a ?? 1, k = o.k ?? 1;
