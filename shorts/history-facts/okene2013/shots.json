@@ -1,0 +1,29 @@
+{
+  "style": "cinematic film still, photorealistic, underwater shipwreck rescue off the coast of Nigeria in 2013, dark teal-green water, beams of dive lamps, floating particles, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+  "shots": [
+    {"id": "o01_hand_reach", "seeds": [101, 201], "codex": true,
+     "prompt": "a dark flooded corridor inside a capsized tugboat, a diver's helmet lamp lights a human hand reaching out of the black water toward the diver's gloved hand, fingers almost touching, floating particles, cold blue-green light, deep shadows"},
+    {"id": "o02_handshake", "gran": "image3.png",
+     "prompt": "a commercial diver in a yellow helmet clasping the hand of a survivor in the doorway of a sunken ship, helmet lamp, bubbles"},
+    {"id": "o03_tug_capsize", "seeds": [103, 203], "codex": true,
+     "prompt": "night storm at sea off West Africa, a small orange offshore tugboat capsizing in huge waves, floodlights, spray and rain, lights of an oil platform far in the distance"},
+    {"id": "o04_tug_seabed", "gran": "image1.png",
+     "prompt": "an overturned tugboat lying on the dark seabed thirty metres deep, light rays from the surface, silt"},
+    {"id": "o05_swim_corridor", "seeds": [105, 205], "codex": true,
+     "prompt": "inside an overturned tugboat, a young African man swimming through a dark flooded corridor, everything upside down, doors and pipes overhead, a faint glow above where a pocket of air remains"},
+    {"id": "o06_air_pocket", "gran": "image2.png",
+     "prompt": "a young African man with his head above water in a tiny air pocket under a steel ceiling inside a sunken ship, looking up, faint blue light"},
+    {"id": "o07_dark_face", "seeds": [107, 207], "codex": true,
+     "prompt": "almost total darkness, a young African man's face barely visible in a tiny air pocket under a steel ceiling, water up to his chest, only a faint cold glint on his eyes and wet skin"},
+    {"id": "o08_breath", "seeds": [108, 208], "codex": true,
+     "prompt": "close-up of a young African man struggling to breathe, mouth open, drops of condensation on the steel ceiling a few centimetres above his head, fear in his eyes, dim blue light"},
+    {"id": "o09_knock_hull", "seeds": [109, 209], "codex": true,
+     "prompt": "a young African man sitting on a small shelf just above the water in a dark flooded ship cabin, hugging his knees and shivering, knocking on the steel hull with his fist"},
+    {"id": "o10_diving_bell", "gran": "image4.png",
+     "prompt": "a yellow diving bell with lights descending into dark blue water on cables, light rays from the surface"},
+    {"id": "o11_lamp_corridor", "seeds": [111, 211], "codex": true,
+     "prompt": "a diver's helmet lamp beam cutting through a flooded ship corridor full of floating debris and loose cables, empty and silent, no people"},
+    {"id": "o12_chamber", "seeds": [112, 212], "codex": true,
+     "prompt": "a rescued exhausted young African man wrapped in a blanket inside a decompression chamber, seen through a small round porthole, warm yellow light inside"}
+  ]
+}

@@ -259,9 +259,29 @@ def render_shot(sh, t, n):
     cam, u = cam_for(sh, t)
     fx = sh.get('fx', {})
     src = source(sh['img'], fx.get('grade'))
-    need_depth = fx.get('fog', 0) > 0 or 'skyglow' in fx
+    need_depth = fx.get('fog', 0) > 0 or 'skyglow' in fx or 'focus' in fx
     im, dep = warp(src, cam, with_depth=need_depth)
     a = to_np(im)
+    # rack focus (vizavi-motion): the sharp plane travels in depth through keys [(t, depth: 0 far .. 1 near), ...],
+    # whatever lies off it softens up to r px
+    if 'focus' in fx:
+        fc = fx['focus']
+        ks = fc['keys']
+        fd = ks[0][1] if t < ks[0][0] else ks[-1][1]
+        for (ta, da), (tb, db) in zip(ks, ks[1:]):
+            if ta <= t < tb:
+                fd = lerp(da, db, ease_in_out((t - ta) / max(tb - ta, 1e-3)))
+        off = np.abs(np.asarray(dep, np.float32) / 255.0 - fd)
+        w = np.clip((off - fc.get('dof', 0.08)) * fc.get('gain', 4.0), 0, 1)
+        soft = to_np(to_img(a).filter(ImageFilter.GaussianBlur(fc.get('r', 9))))
+        a = a + (soft - a) * w[..., None]
+    # a falling camera (fx 'drop') smears vertically by half the distance it travels in a frame
+    for (t0, dur, dy, droll) in fx.get('drop', []):
+        if t0 <= t < t0 + dur:
+            r = int(abs(dy) * (t - t0) / dur ** 2 / FPS)
+            if r >= 2:
+                c = np.cumsum(np.pad(a, ((r + 1, r), (0, 0), (0, 0)), mode='edge'), axis=0)
+                a = (c[2 * r + 1:] - c[:-2 * r - 1]) / (2 * r + 1)
     # glowing night sky (silvery-orange, brightest at the top, only where the scene is far away)
     if 'skyglow' in fx:
         g = fx['skyglow']
@@ -481,9 +501,69 @@ def _band():
     return _BAND
 
 
-def draw_captions(a, t, tl, tl_text):
-    for lid, ws in tl['words'].items():
+def draw_hook_text(a, t, tl, tl_text):
+    """Live hook text (vizavi-motion): the hook's lines build up big in the middle of the frame, word by word, each
+    word slamming in from above with a trail; a line flies off when the next one starts. The bottom captions skip
+    these lines. Words spoken under the cover come up together when the cover lifts."""
+    ht = tl.get('hook_text')
+    if not ht:
+        return
+    ids = ht['lines']
+    cov = tl['cover']['end']
+    hotset = {x.strip('.,!?:;') for x in HILITE}
+    fnt = F('InterDisplay-Black.otf', ht.get('size', 132))
+    for i, lid in enumerate(ids):
+        ws = tl['words'][lid]
         if not ws:
+            continue
+        shown = [(w, max(w0 - 0.06, cov + 0.02)) for (w, w0, w1) in ws if t >= max(w0 - 0.06, cov + 0.02)]
+        if not shown:
+            continue
+        # the line is gone before the next one's first word comes up
+        nxt = tl['words'][ids[i + 1]][0][1] - 0.24 if i + 1 < len(ids) and tl['words'][ids[i + 1]] else ws[-1][2] + ht.get('hold', 0.35)
+        if t >= nxt + 0.16:
+            continue
+        gone = max(0.0, (t - nxt) / 0.16)       # 0 .. 1 while the line flies off upwards
+        al_line = 1 - gone
+        # rows of words that fit the frame
+        ims = [(tl_text.render(w, fnt, YELLOW if w.strip('.,!?:;') in hotset else (255, 255, 255), stroke=10,
+                               squeeze=0.9, track=-2), ta) for (w, ta) in shown]
+        allw = [tl_text.render(w, fnt, (255, 255, 255), stroke=10, squeeze=0.9, track=-2).width for (w, _, _) in ws]
+        space = 30
+        rows, cur, cw = [], [], 0
+        for k, wd in enumerate(allw):
+            if cur and cw + space + wd > 940:
+                rows.append(cur)
+                cur, cw = [], 0
+            cur.append(k)
+            cw += (space if len(cur) > 1 else 0) + wd
+        rows.append(cur)
+        lh = ht.get('size', 132) * 1.08
+        y0 = ht.get('y', 860) - (len(rows) - 1) * lh / 2 - gone * 90
+        band = np.exp(-((np.arange(H, dtype=np.float32) - ht.get('y', 860)) / (lh * (len(rows) + 1) * 0.6)) ** 2)
+        a *= (1 - 0.45 * band * al_line)[:, None, None]
+        for r, row in enumerate(rows):
+            rw = sum(allw[k] for k in row) + space * (len(row) - 1)
+            x = W / 2 - rw / 2
+            for k in row:
+                if k < len(ims):
+                    im, ta = ims[k]
+                    u = min(1.0, (t - ta) / 0.16)
+                    sc = (1 + 0.6 * (1 - ease_out(u, 3))) * (1 + 0.25 * gone)
+                    al = min(1.0, (t - ta) / 0.07) * al_line
+                    cx, cy = x + allw[k] / 2, y0 + r * lh
+                    for g in (3, 2, 1):           # the trail of a word slamming down
+                        tr = (1 - u) ** 2
+                        if tr > 0.02:
+                            paste_rgba(a, im, cx, cy - g * 26 * tr, scale=sc, alpha=al * 0.22 * tr * (4 - g) / 3)
+                    paste_rgba(a, im, cx, cy, scale=sc, alpha=al)
+                x += allw[k] + space
+
+
+def draw_captions(a, t, tl, tl_text):
+    skip = set((tl.get('hook_text') or {}).get('lines', []))
+    for lid, ws in tl['words'].items():
+        if not ws or lid in skip:
             continue
         if not (ws[0][1] - 0.15 <= t <= ws[-1][2] + 0.25):
             continue
@@ -548,12 +628,18 @@ def render_frame(n, tl=None):
         a = a * (dt / 0.3)
     if into == 'zoom' and dt < 0.22:
         a = radial_blur(a, 0.12 * (1 - dt / 0.22) ** 1.5)
-    # transition out: zoom into the next shot
+    if into == 'whip' and dt < 0.16:
+        a = whip_blur(a, 1 - dt / 0.16, -1)
+    # transition out: zoom (or whip) into the next shot
     idx = shots.index(cur)
     if idx + 1 < len(shots) and shots[idx + 1].get('into') == 'zoom':
         left = cur['end'] - t
         if 0 <= left < 0.14:
             a = radial_blur(a, 0.10 * (1 - left / 0.14))
+    if idx + 1 < len(shots) and shots[idx + 1].get('into') == 'whip':
+        left = cur['end'] - t
+        if 0 <= left < 0.12:
+            a = whip_blur(a, 1 - left / 0.12, 1)
     fxr = cur.get('fx', {}).get('ring')
     if fxr:
         draw_ring(a, t, fxr, cur)
@@ -564,6 +650,7 @@ def render_frame(n, tl=None):
         draw_card(a, t, cd, _TEXT)
     for tg in tl.get('tags', []):
         draw_tag(a, t, tg, _TEXT)
+    draw_hook_text(a, t, tl, _TEXT)
     draw_captions(a, t, tl, _TEXT)
     if tl.get('endcard'):
         draw_endcard(a, t, tl['endcard'], _TEXT)
@@ -587,6 +674,20 @@ def radial_blur(a, amt, n=5):
         x0, y0 = (W - cw) // 2, (H - ch) // 2
         acc += to_np(im.crop((x0, y0, x0 + cw, y0 + ch)).resize((W, H), Image.BILINEAR))
     return acc / n
+
+
+def whip_blur(a, k, sign):
+    """Whip pan between two shots (vizavi-motion): the frame slides sideways and smears, hardest at the cut; the old
+    shot leaves to the left (sign 1), the new one arrives from the right (sign -1)."""
+    r = int(64 * k ** 1.5)
+    if r < 2:
+        return a
+    s = int(150 * k ** 2)
+    if s > 0:
+        pad = np.repeat(a[:, -1:] if sign > 0 else a[:, :1], s, axis=1)
+        a = np.concatenate([a[:, s:], pad], axis=1) if sign > 0 else np.concatenate([pad, a[:, :-s]], axis=1)
+    c = np.cumsum(np.pad(a, ((0, 0), (r + 1, r), (0, 0)), mode='edge'), axis=1)
+    return (c[:, 2 * r + 1:] - c[:, :-2 * r - 1]) / (2 * r + 1)
 
 
 def _init_worker(tl):
