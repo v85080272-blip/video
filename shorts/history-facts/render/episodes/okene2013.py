@@ -35,7 +35,14 @@ LOOP = True
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №7', year='2013', lines=['ЖИВОЙ', 'НА ДНЕ'])
 COVER_B = ['60 ЧАСОВ', 'НА ДНЕ МОРЯ']
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №7', over_last=1.0)
-STORM = ('o03_tug_capsize_s301', 'o03_tug_capsize_s302')     # two takes of the storm (see shots_cloud.json)
+# the cloud stills chosen by seed (shots_cloud.json): two takes of the storm, the corridor towards the light,
+# the dark cabin, him waiting in the dark, a diver's helmet in the wreck, the chamber's lit porthole
+STORM = ('o03_tug_capsize_s301', 'o03_tug_capsize_s302')
+SWIM = 'o07_dark_cabin_s701'
+DARK = 'o07_dark_cabin_s702'
+WAIT = 'o09_shelf_wait_s901'
+DIVER = 'o11_lamp_corridor_s1102'
+CHAMBER = 'o12_chamber_s1201'
 SFX_DIRS = ['/home/user/work/sfx/rescue', '/home/user/work/sfx/olga', '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
 
@@ -121,15 +128,15 @@ def layout(c):
     # L6 the cook swims to the cabin where the air was left; the focus finds his face
     gd = p['air'] - 0.06
     l7 = L('L7')['start'] - 0.08
-    add('o05_swim_corridor', l6, gd, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), parx=(-10, 10)),
-        fx=dict(bubbles=50, light=lamp(0.5, 0.25, 0.6), grade=deep))
+    add(SWIM, l6, gd, into='fade', cam=dict(zoom=(1.0, 1.3), dolly=(0.0, 0.12), parx=(-10, 10)),
+        fx=dict(bubbles=60, grade=deep))           # swimming down the flooded corridor towards the light
     add('o06_air_pocket', gd, l7, into='whip', cam=dict(zoom=(1.1, 1.22), panx=(0.0, -0.03), pany=(-0.02, -0.04),
                                                          dolly=(0.0, 0.06)),
         fx=dict(dust=15, grade=codex, focus=dict(keys=[(gd, 0.02), (gd + 0.5, 0.02), (gd + 1.1, 0.22)], r=9)))
     # L7 cold water and total darkness
     tm = wt('L7', 'ТЕМНОТА')
     l8 = L('L8')['start'] - 0.08
-    add('o07_dark_cabin', l7, l8, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-8, 8)),
+    add(DARK, l7, l8, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-8, 8)),
         fx=dict(dust=10, punch=[(tm, 0.04)], blackout=(L('L7')['end'] + 0.12, l8), grade=dict(deep, exposure=-0.12)))
     # L8 every hour it is harder to breathe: his face, close, the heart beating
     heart = dict(t0=l8, t1=L('L9')['start'] - 0.08, grid=l8, period=0.8, zoom=0.025)
@@ -138,7 +145,7 @@ def layout(c):
         fx=dict(dust=10, beat=[heart], punch=[(wt('L8', 'ТРУДНЕЕ'), 0.05)], grade=dark))
     # L9 sixty hours he waits for help
     l10 = L('L10')['start'] - 0.08
-    add('o09_shelf_wait', l9, l10, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), parx=(-8, 8)),
+    add(WAIT, l9, l10, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.08), parx=(-8, 8)),
         fx=dict(dust=15, punch=[(p['hours'], 0.06)], shake=[(p['hours'], 0.5, 8)], grade=deep))
     # L10 the divers come down for the dead: the bell sinks into the deep, the focus finds it
     l11 = L('L11')['start'] - 0.08
@@ -147,11 +154,11 @@ def layout(c):
     # L11 nobody is looking for the living: an empty corridor in a diver's lamp
     jv = wt('L11', 'ЖИВЫХ')
     l12 = L('L12')['start'] - 0.08
-    add('o11_lamp_corridor', l11, l12, into='whip', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), panx=(0.02, -0.02)),
+    add(DIVER, l11, l12, into='whip', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), panx=(0.02, -0.02)),
         fx=dict(bubbles=30, light=lamp(0.5, 0.35, 0.9), punch=[(jv, 0.05)], grade=deep))
     # L12 out of twelve men only he survived: the decompression chamber, warm light inside
     l13 = L('L13')['start'] - 0.08
-    add('o12_chamber', l12, l13, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
+    add(CHAMBER, l12, l13, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.08), parx=(-10, 10)),
         fx=dict(dust=10, bloom=0.5, punch=[(p['alive'], 0.05)], grade=alive))
     # L13 «а спасла его всего секунда, когда...»: back to the diver at the door, ending on the first frame (the loop)
     add('o02_handshake', l13, total, into='fade', cam=dict(zoom=(1.95, door['zoom']), panx=(-0.16, door['panx']),
@@ -161,8 +168,8 @@ def layout(c):
 
     cards = [
         dict(text='30', sub='МЕТРОВ', start=p['deep'], end=l6 - 0.05, y=760, count=True),
-        dict(text='60', sub='ЧАСОВ', start=p['hours'], end=l10 - 0.05, y=760, count=True),
-        dict(text='1', sub='ИЗ 12', start=p['alive'], end=l13 - 0.05, y=760),
+        dict(text='60', sub='ЧАСОВ', start=p['hours'], end=l10 - 0.05, y=470, count=True),    # above his head
+        dict(text='1', sub='ИЗ 12', start=p['alive'], end=l13 - 0.05, y=470),                 # above the porthole
     ]
     tags = [
         dict(text='БУКСИР JASCON-4 · НИГЕРИЯ', start=L('L4')['start'] + 0.1, end=fl - 0.05),
