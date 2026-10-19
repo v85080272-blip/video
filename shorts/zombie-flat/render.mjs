@@ -11,7 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setCtx, W, H } from './src/flat.js';
-import { init, frame, motion, cues, DUR, MARKS } from './src/main.js';
+import { init, frame, motion, cues, DUR, MARKS, CUTS } from './src/main.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 60, SHUTTER = 0.5 / FPS, PX_PER_SUB = 3, MAX_SUB = 16;
@@ -26,9 +26,12 @@ function draw(t) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.
 export function render(t) {
   const n = Math.max(1, Math.min(MAX_SUB, Math.ceil(motion(t) / PX_PER_SUB)));
   if (n === 1) { draw(t); return [canvas.data(), 1]; }
+  // the shutter stays on one side of a cut: the first frame of a shot never shows the end of the previous one
+  let open = t - SHUTTER / 2;
+  for (const c of CUTS) { if (t >= c && open < c) open = c; else if (t < c && open + SHUTTER >= c) open = c - SHUTTER - 1e-6; }
   acc.fill(0);
   for (let j = 0; j < n; j++) {
-    draw(t + ((j + 0.5) / n - 0.5) * SHUTTER);
+    draw(open + (j + 0.5) / n * SHUTTER);
     const d = canvas.data();
     for (let k = 0; k < d.length; k++) acc[k] += d[k];
   }

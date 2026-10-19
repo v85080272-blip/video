@@ -25,16 +25,22 @@ for (let k = 7, i = 0; k >= 1; k--, i++) plant(3.5 + 0.5 * i, i % 2 ? 'near' : '
 plant(7.0, 'near', [735, FL]); plant(7.5, 'far', [665, FL]);
 // the recoil: two quick steps back to the top of the stairs
 plant(11.1, 'near', S.tread(1), 0.1, 30); plant(11.2, 'far', [762, FL], 0.1, 24);
-// the run down: a tread every 0.11 s, along the half-landing past the lost arm, down flight 2 and away
+// the run down: a tread every 0.115 s, along the half-landing past the lost arm, down flight 2 and into the open door of
+// flat 32 on the 8th floor, which slams behind him
 const RUN = [];
+const D8 = S.DOOR8, D8X = D8.x + D8.w / 2;
 {
   let t = 13.0, foot = 'far';
   const spots = [2, 3, 4, 5, 6, 7].map(k => S.tread(k));
   spots.push([1550, HALF], [1670, HALF], [1785, HALF], [1900, HALF], [2020, HALF], [2140, HALF]);
   for (let k = 9; k < 16; k++) spots.push(S.tread(k));
-  spots.push([3010, S.LOW_Y], [3120, S.LOW_Y], [3230, S.LOW_Y]);
+  spots.push([3010, S.LOW_Y], [3120, S.LOW_Y], [3230, S.LOW_Y], [D8X - 50, S.LOW_Y], [D8X + 20, S.LOW_Y]);
   for (const p of spots) { plant(t, foot, p, 0.1, 26); RUN.push(t); t += 0.115; foot = foot === 'far' ? 'near' : 'far'; }
 }
+// he ducks into the doorway (shrinks a little into the dark), the door swings shut and slams, then the cut to the cat
+const IN_T = [15.5, 15.72], SHUT_T = [15.72, 15.93], CUT = 16.0;
+export const CUTS = [CUT];
+const insideAt = t => seg(IN_T[0], IN_T[1], t);
 ORDER.sort((a, b) => a.t - b.t);
 
 function footAt(foot, t) {
@@ -180,7 +186,9 @@ function catAt(t) {
     o.blink = lk > 0.5 ? 1 : 0;
     if (t > 18.25 && t < 19.5) {                               // the А falls by its tail: a glance, a flick, smug
       o.turn = lerp(0.55, 0.2, seg(18.25, 18.4, t)); o.look = [-0.9, lerp(0.2, -0.8, seg(18.75, 19.0, t))];
-      o.thump = 0; o.swish = 1.3 * bump((t - 18.55) / 0.3); o.swishPh = (t - 18.55) / 0.3 * 0.9;
+      // the tip slips under the letter, then flicks up and throws it back onto the wall
+      o.thump = t < 18.72 ? -0.25 * seg(18.58, 18.72, t) : lerp(-0.25, 1.3, seg(18.72, 18.8, t, ease.out)) * (1 - seg(18.85, 19.25, t));
+      o.swish = 0;
       if (t > 19.0) { o.blink = 0.45; o.mouth = 'smile'; o.turn = lerp(0.2, 0.45, seg(19.0, 19.3, t)); o.look = [0.2, 0]; }
     }
     if (t >= 19.5) {                                           // looks into the camera, a slow blink, a smile
@@ -210,19 +218,23 @@ function hermite(keys, t) {
   return k0.slice(1).map((p0, c) => (2 * u3 - 3 * u2 + 1) * p0 + (u3 - 2 * u2 + u) * h * m0[c] + (-2 * u3 + 3 * u2) * k1[c + 1] + (u3 - u2) * h * m1[c]);
 }
 let CAM_A = null;
+// after the hit: hold both of them, then whip after the zombie, keeping him a little left of centre with room to run into
+const CAM_RUN = [[11, 580, 990, 0.95], [12.6, 600, 1000, 1.0], [12.95, 650, 1020, 1.0], [13.3, 1050, 1350, 0.95], [13.6, 1390, 1600, 0.9],
+  [14.0, 1800, 1700, 0.9], [14.4, 2190, 1760, 0.9], [14.8, 2600, 1960, 0.9], [15.2, 3000, 2110, 0.9], [15.6, 3320, 2075, 1.02], [16, 3370, 2050, 1.12]];
 export function camAt(t) {
   let x, y, z, r = 0, dx = 0, dy = 0;
   if (t < 11) [x, y, z] = hermite(CAM_A, t);
   else if (t < 16) {
     const from = hermite(CAM_A, 11), k = sp(t, 11, 1.5, 5.5);
-    const to = hermite([[11, 530, 990, 0.95], [12.6, 555, 1000, 1.0], [13.1, 525, 1012, 1.0], [13.55, 1290, 1585, 0.9], [14.05, 1660, 1730, 0.9], [14.7, 1900, 1790, 0.9], [16, 1925, 1775, 0.92]], t);
+    const to = hermite(CAM_RUN, t);
     const w = clamp((t - 11) / 0.6);
     [x, y, z] = to.map((v, i) => lerp(lerp(from[i], v, k), v, ease.inOut(w)));
     const e = Math.exp(-(t - 11) * 5.5);
     dx = 26 * e * noise(t * 45, 1); dy = 20 * e * noise(t * 41, 2); r = -0.035 * e * Math.sin((t - 11) * 30);
     r += -0.03 * bump((t - 13.1) / 0.6);
+    if (t >= SHUT_T[1]) { const e2 = Math.exp(-(t - SHUT_T[1]) * 14); dx += 12 * e2 * Math.sin((t - SHUT_T[1]) * 70); dy += 22 * e2 * Math.sin((t - SHUT_T[1]) * 55); }
   } else {
-    [x, y, z] = hermite([[16, 280, 1006, 1.32], [19.5, 292, 1012, 1.35], [20.15, 455, 1084, 1.55], [22.0, 456, 1078, 1.58], [22.5, 450, 1000, 1.25]], t);
+    [x, y, z] = hermite([[16, 340, 1000, 1.22], [16.5, 290, 1006, 1.32], [19.5, 292, 1012, 1.35], [20.15, 455, 1084, 1.55], [22.0, 456, 1078, 1.58], [22.5, 450, 1000, 1.25]], t);
     const e1 = Math.exp(-(t - 16) * 9), e2 = t > 16.5 ? Math.exp(-(t - 16.5) * 10) : 0;
     dy = 14 * e1 * Math.sin((t - 16) * 50) + 16 * e2 * Math.sin((t - 16.5) * 46);
   }
@@ -270,37 +282,42 @@ function caption(t) {
 }
 // S7: the stamp, then ЗАВЕДИ and КОТА letter by letter, the А misses, falls, the tail sends it back
 const LETTER_X = (() => { const xs = []; for (let i = 0; i < 6; i++) xs.push(-28 + i * 86); for (let i = 0; i < 4; i++) xs.push(-12 + i * 110); return xs; })();
+const A_FLOOR = [150, FL - 56], A_LIE = 1.45;                   // where the А lies on its side: its apex at the tip of the tail
+// in the last shot everything flies up and away to make room for the question
+const awayAt = (t, i) => { const u = clamp((t - 19.55 - 0.05 * i) / 0.38); return [-1400 * u * u, 1 - u * u]; };
+function letter(t, i, late) {
+  const t0 = LETTER_T[i];
+  if (t < t0 - 0.12) return;
+  const isA = i === 9, big = i >= 6, ch = big ? KOTA[i - 6] : ZAVEDI[i];
+  const x = big ? LETTER_X[i] + 6 : LETTER_X[i] + 40, y = big ? 985 : 790, size = big ? 150 : 112;
+  const off = isA && t >= T_A_FALL && t < T_A_SNAP;             // off the wall: drawn in front of the cat
+  if (off !== late) return;
+  let px = x, py = y, rot = 0;
+  const fall = clamp((t - (t0 - 0.12)) / 0.12);
+  py = lerp(y - 170, y, fall * fall) + (t > t0 ? -18 * Math.exp(-(t - t0) * 9) * Math.sin((t - t0) * 30) : 0);
+  if (isA && t >= t0) {                                         // lands crooked, tips over, drops to the floor by the cat
+    rot = 0.38 * seg(t0, t0 + 0.06, t, ease.outBack);
+    if (t >= T_A_FALL) {
+      const u = clamp((t - T_A_FALL) / (T_A_FLOOR - T_A_FALL));
+      px = lerp(x, A_FLOOR[0], u); py = lerp(y, A_FLOOR[1], u * u); rot = lerp(0.38, A_LIE, u);
+    }
+    if (t >= T_A_FLOOR) { px = A_FLOOR[0]; py = A_FLOOR[1] - 10 * bump((t - T_A_FLOOR) / 0.12); rot = A_LIE + 0.06 * bump((t - T_A_FLOOR) / 0.12); }
+    if (t >= T_A_KICK) {                                        // flicked by the tail back into its place
+      const u = clamp((t - T_A_KICK) / (T_A_SNAP - T_A_KICK));
+      px = lerp(A_FLOOR[0], x, ease.out(u)); py = lerp(A_FLOOR[1], y, u) - 260 * 4 * u * (1 - u); rot = lerp(A_LIE, -TAU, ease.out(u));
+    }
+    if (t >= T_A_SNAP) { px = x; py = y; rot = 0.12 * Math.exp(-(t - T_A_SNAP) * 8) * Math.sin((t - T_A_SNAP) * 40); }
+  }
+  const [ay, aa] = awayAt(t, big ? 2 : 1);
+  text(ch, px, py + ay, size, big ? '#ff8a3d' : '#fff3d6', { rot, a: Math.min(1, fall * 1.6) * aa, sy: t > t0 && t < t0 + 0.15 ? 1 - 0.18 * bump((t - t0) / 0.15) : 1 });
+}
 function rule(t) {
   if (t < 16.3 || t > 20.3) return;
-  // in the last shot everything flies up and away to make room for the question
-  const away = i => { const u = clamp((t - 19.55 - 0.05 * i) / 0.38); return [-1400 * u * u, 1 - u * u]; };
-  const sk = sp(t, T_STAMP, 2.2, 8), [sy0, sa0] = away(0), a = clamp((t - T_STAMP) / 0.05) * sa0;
+  const sk = sp(t, T_STAMP, 2.2, 8), [sy0, sa0] = awayAt(t, 0), a = clamp((t - T_STAMP) / 0.05) * sa0;
   if (t >= T_STAMP) stamp('ПРАВИЛО №6', 228, 590 + sy0, 78, { k: lerp(2.2, 1, sk), rot: -0.05, a });
-  for (let i = 0; i < 10; i++) {
-    const t0 = LETTER_T[i];
-    if (t < t0 - 0.12) continue;
-    const isA = i === 9, big = i >= 6, ch = big ? KOTA[i - 6] : ZAVEDI[i];
-    const x = big ? LETTER_X[i] + 6 : LETTER_X[i] + 40, y = big ? 985 : 790, size = big ? 150 : 112;
-    let px = x, py = y, rot = 0;
-    const fall = clamp((t - (t0 - 0.12)) / 0.12);
-    py = lerp(y - 170, y, fall * fall) + (t > t0 ? -18 * Math.exp(-(t - t0) * 9) * Math.sin((t - t0) * 30) : 0);
-    if (isA && t >= t0) {                                       // lands crooked, tips over, drops to the floor by the cat
-      rot = 0.38 * seg(t0, t0 + 0.06, t, ease.outBack);
-      if (t >= T_A_FALL) {
-        const u = clamp((t - T_A_FALL) / (T_A_FLOOR - T_A_FALL));
-        px = lerp(x, 318, u); py = lerp(y, FL - 4, u * u); rot = lerp(0.38, 1.25, u);
-      }
-      if (t >= T_A_FLOOR) { px = 318; py = FL - 4 - 10 * bump((t - T_A_FLOOR) / 0.12); rot = 1.25 + 0.06 * bump((t - T_A_FLOOR) / 0.12); }
-      if (t >= T_A_KICK) {                                      // flicked by the tail back into its place
-        const u = clamp((t - T_A_KICK) / (T_A_SNAP - T_A_KICK));
-        px = lerp(318, x, ease.out(u)); py = lerp(FL - 4, y, u) - 260 * 4 * u * (1 - u); rot = lerp(1.25, -TAU, ease.out(u));
-      }
-      if (t >= T_A_SNAP) { px = x; py = y; rot = 0.12 * Math.exp(-(t - T_A_SNAP) * 8) * Math.sin((t - T_A_SNAP) * 40); }
-    }
-    const [ay, aa] = away(big ? 2 : 1);
-    text(ch, px, py + ay, size, big ? '#ff8a3d' : '#fff3d6', { rot, a: Math.min(1, fall * 1.6) * aa, sy: t > t0 && t < t0 + 0.15 ? 1 - 0.18 * bump((t - t0) / 0.15) : 1 });
-  }
+  for (let i = 0; i < 10; i++) letter(t, i, false);
 }
+const ruleLate = t => { if (t >= T_A_FALL && t < T_A_SNAP) letter(t, 9, true); };
 // screen-space lettering of the last shot: the question, a comment bubble, the series name
 function question(t) {
   if (t < 19.9) return;
@@ -393,23 +410,39 @@ export function frame(t) {
   // shadows: silhouettes into their own layer, laid over the wall at one strength
   setCtx(shadowCtx); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
   MONO.on = true;
-  const zs = zombieShadow(t, zb), cs = catShadow(t);
-  for (const [s, draw] of [[zs, () => { drawZombie(zb); const la = armAt(t); if (la && t < GRAB_T) drawLostArm(frameOf(la.p[0], la.p[1], la.a, 1), la.rest); }], [cs, () => drawCat(ct)]]) {
+  const zs = zombieShadow(t, zb), cs = catShadow(t), gone = t >= SHUT_T[1];
+  const lost = () => { const la = armAt(t); if (la && t < GRAB_T) drawLostArm(frameOf(la.p[0], la.p[1], la.a, 1), la.rest); };
+  for (const [s, draw] of [[zs, () => { if (!gone) drawZombie(zb); lost(); }], [cs, () => drawCat(ct)]]) {
     view(cam); g.translate(s.a[0], s.a[1]); g.transform(s.kx, 0, s.sh * s.ky, s.ky, 0, 0); g.translate(-s.a[0], -s.a[1]);
     draw();
   }
   MONO.on = false;
   setCtx(main);
-  g.save(); view(cam); g.clip(S.wallClip()); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 0.42; g.drawImage(shadowCv, 0, 0); g.restore();
+  // the shadows come from the lamp on the 9th floor: the further down he runs, the fainter his shadow
+  const sa = 0.42 * (t < CUT ? 1 - seg(2500, 3300, zb.hip[0], x => x) : 1);
+  g.save(); view(cam); g.clip(S.wallClip()); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = sa; g.drawImage(shadowCv, 0, 0); g.restore();
 
   view(cam);
+  S.drawDoor8();
   S.drawRailing(); S.drawFloors();
   droolDrop(t);
-  const za = drawZombie(zb);
-  const la = armAt(t);
-  if (la && t < GRAB_T) drawLostArm(frameOf(la.p[0], la.p[1], la.a, 1), la.rest);
-  for (const [tt, x, y] of [[11.6, 1030, FL + 3 * S.SH], [11.9, 1330, FL + 6 * S.SH], [12.18, 1640, HALF], [T_A_FLOOR, 318, FL]]) dust(t, tt, x, y);
+  let za = null;
+  if (!gone) {                                     // into the dark doorway: a little smaller, clipped by the jambs, dimmed
+    const k = insideAt(t);
+    g.save();
+    if (k > 0) {
+      g.clip(S.door8Path());
+      g.translate(D8X, S.LOW_Y); g.scale(1 - 0.14 * k, 1 - 0.14 * k); g.translate(-D8X, -S.LOW_Y - 8 * k);
+    }
+    za = drawZombie(zb);
+    g.restore();
+    if (k > 0) fill(S.door8Path(), S.C.pipe, 0.55 * k);
+  }
+  S.drawDoor8Leaf(t < CUT ? seg(SHUT_T[0], SHUT_T[1], t, ease.inQuad) : 1);
+  lost();
+  for (const [tt, x, y] of [[11.6, 1030, FL + 3 * S.SH], [11.9, 1330, FL + 6 * S.SH], [12.18, 1640, HALF], [T_A_FLOOR, A_FLOOR[0] + 50, FL]]) dust(t, tt, x, y);
   const ca = drawCat(ct);
+  ruleLate(t);
   shock(t, [CAT_X - 10, FL - 170]);
   hissWord(t, ca.mouth);
   view(cam, S.NEAR); S.drawNear();
@@ -422,6 +455,8 @@ export function frame(t) {
 
 // how far things move on screen around t (for the number of motion-blur sub-frames)
 export function motion(t, h = 1 / 240) {
+  let t0 = t - h, t1 = t + h;                                  // never measure across a cut
+  for (const c of CUTS) { if (t >= c && t0 < c) { t0 = c; t1 = c + 2 * h; } else if (t < c && t1 >= c) { t1 = c - 1e-6; t0 = t1 - 2 * h; } }
   const pts = tt => {
     const cam = camAt(tt), zb = zombieAt(tt), la = armAt(tt);
     const w = [zb.hip, [zb.hip[0] - 120 * (zb.face === 1 ? -1 : 1), zb.hip[1] - 300], zb.feet.near, zb.feet.far, [CAT_X, FL - 200], [CAT_X - 160, FL - 420 * clamp(catAt(tt).pose ?? 0)]];
@@ -430,9 +465,9 @@ export function motion(t, h = 1 / 240) {
     out.push(toScreen(cam, [cam.x, cam.y - 700]), toScreen(cam, [cam.x + 400, cam.y + 700]));
     return out;
   };
-  const a = pts(t - h), b = pts(t + h);
+  const a = pts(t0), b = pts(t1), on = ([x, y]) => x > -200 && x < W + 200 && y > -200 && y < H + 200;
   let m = 0;
-  for (let i = 0; i < a.length; i++) m = Math.max(m, Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]));
+  for (let i = 0; i < a.length; i++) if (on(a[i]) || on(b[i])) m = Math.max(m, Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]));
   if (t > 1.85 && t < 2.6) m = Math.max(m, 1500 * 2.2 * 2 * (t - 1.9) * 2 * h * 1.25);    // the caption running away
   return m;
 }
@@ -441,10 +476,11 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
+  const panOf = (t, p) => 0.6 * clamp((toScreen(camAt(t), p)[0] - W / 2) / (W / 2), -1, 1);   // where it is on screen
   for (const o of ORDER) {
     if (o.t < 0) continue;
     const run = o.t >= 12.9, near = o.t >= 6.9 && o.t < 11.5;
-    add(o.t, run ? 'step_run' : 'step', run ? -7 : near ? -3 : lerp(-14, -5, clamp(o.t / 6)), run ? clamp((o.p[0] - 1200) / 1500, -0.8, 0.8) : clamp((o.p[0] - 900) / 1500, -0.6, 0.7));
+    add(o.t, run ? 'step_run' : 'step', run ? -7 : near ? -3 : lerp(-14, -5, clamp(o.t / 6)), panOf(o.t, o.p));
   }
   add(1.1, 'groan', -12, 0.6); add(2.7, 'sniff', -10, 0.4); add(5.1, 'groan', -9, 0.3); add(7.5, 'groan', -6, 0.2); add(8.3, 'groan_big', -4, 0.15);
   add(0.0, 'pop_word', -12, 0); add(0.25, 'pop_word', -13, -0.1); add(0.5, 'pop_word', -13, 0.15);
@@ -456,7 +492,8 @@ export function cues() {
   for (const [tt] of HOPS) add(tt, 'clack', -8, 0.45);
   add(13.1, 'whoosh', -6, 0.3);
   add(GRAB_T, 'grab', -8, 0.4);
-  add(16.0, 'slam', -3, 0.3);
+  add(15.6, 'whoosh_short', -12, panOf(15.6, [D8X, S.LOW_Y - 300])); add(SHUT_T[0], 'creak', -14, panOf(SHUT_T[0], [D8X, S.LOW_Y - 300]));
+  add(SHUT_T[1], 'slam', -3, panOf(SHUT_T[1], [D8X, S.LOW_Y - 300]));
   add(16.0, 'deflate', -9, 0);
   add(T_STAMP, 'stamp', -4, 0);
   LETTER_T.forEach((tt, i) => add(tt, 'tok', -9, (i % 5 - 2) * 0.1, { pitch: i }));
