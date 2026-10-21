@@ -122,14 +122,16 @@ def layout(c):
     l7 = L('L7')['start'] - 0.08
     add('y06_cloud_s601', l6, l7, into='zoom', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-12, 12)),
         fx=dict(ash=40, bloom=0.7, heat=0.5, punch=[(p['km'], 0.06)], grade=blast))
-    # L7 burned, half blind and deaf: his dazed face; «но жив» cuts to him walking out of the ruins
+    # L7 burned, half blind and deaf: his dazed face; «но жив» cuts to him walking out of the ruins. No heat haze and
+    # only a little parallax on him (v2: vla saw his face «поплыла» at 0:20), and a plain cut on «жив»: a whip
+    # between two shots of the same man doubled his face
     l8 = L('L8')['start'] - 0.08
     alive = p['alive'] - 0.1
-    burn = dict(ash=70, embers=30, fire=0.5, heat=0.4, light=dict(x=0.8, y=0.3, r=1.2, col=(0.5, 0.2, 0.03), flicker=0.3),
+    burn = dict(ash=70, embers=30, fire=0.5, light=dict(x=0.8, y=0.3, r=1.2, col=(0.5, 0.2, 0.03), flicker=0.3),
                 grade=ruins)
-    add(DAZED, l7, alive, into='fade', cam=dict(zoom=(1.08, 1.18), pany=(-0.04, -0.06), parx=(8, -8)), fx=burn)
-    add(WALK, alive, l8, into='whip', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.1), parx=(-8, 8)),
-        fx=dict(burn, punch=[(p['alive'], 0.08)], shake=[(p['alive'], 0.4, 10)]))
+    add(DAZED, l7, alive, into='fade', cam=dict(zoom=(1.08, 1.18), pany=(-0.04, -0.06), parx=(4, -4)), fx=burn)
+    add(WALK, alive, l8, cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.05), parx=(-4, 4)),
+        fx=dict(burn, punch=[(p['alive'], 0.06)]))
     # L8 the next day the train home, to Nagasaki
     l9 = L('L9')['start'] - 0.08
     add('y08_train_s801', l8, l9, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), parx=(-14, 14)),
