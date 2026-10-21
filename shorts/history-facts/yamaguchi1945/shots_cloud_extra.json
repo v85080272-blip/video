@@ -1,0 +1,30 @@
+{
+  "note": "№9 second tries (same style, run after shots_cloud.json): the flash brighter (s501 came out as a dim skyline), the wounded hero more hurt and dazed (s701 looked clean and calm), the office again (s1001's bandage looks like a mask, s1002 has a ghost head). Picked: y05_flash_s503, y07_wounded_s702 and s703, y10_office_s1003; injuries stay non-graphic.",
+  "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+  "shots": [
+    {
+      "id": "y05_flash",
+      "seeds": [
+        502,
+        503
+      ],
+      "prompt": "an enormous blinding white-hot light bursting like a second sun in the bright morning sky above the tiled rooftops of a 1940s Japanese city, intense glare and lens flare, rooftops and telegraph poles as black silhouettes, overexposed white sky"
+    },
+    {
+      "id": "y07_wounded",
+      "seeds": [
+        702,
+        703
+      ],
+      "prompt": "a dazed young Japanese man in 1945 staggering through a smoke-filled ruined street, torn scorched white shirt, face and arms covered in grey ash and soot, a rough bandage on his arm, squinting half-blind eyes, one hand pressed to his ear, orange fires and smoke behind him"
+    },
+    {
+      "id": "y10_office",
+      "seeds": [
+        1003,
+        1004
+      ],
+      "prompt": "wide shot of a 1940s Japanese shipbuilding company office, a young Japanese engineer with a white bandage wrapped around his forehead and a bandaged arm standing by a desk and talking, an older manager in round glasses and a dark suit seated behind the desk listening, wooden desks, drafting boards, tall windows, morning light"
+    }
+  ]
+}

@@ -3,7 +3,8 @@
 A looped Short (vla 17.10, YouTube's advice; vla 21.10: «сначала заинтересовать, а потом история»): the hook «он пережил
 две атомные бомбы, за три дня» builds up as big live text over his bandaged face, the story runs from the Hiroshima
 morning to the Nagasaki office, and the cliffhanger «комнату заливает тот же белый свет...» whites out into the hook
-again. Voice «Историк» (voice6, h4_s52). Pictures: cloud stills (SDXL Lightning, shots_cloud.json), vla's PC was off.
+again. Voice «Историк» (voice6, h4_s52). Pictures: cloud stills (SDXL Lightning, shots_cloud.json and the second tries
+in shots_cloud_extra.json), vla's PC was off.
 """
 import numpy as np
 
@@ -34,7 +35,10 @@ COVER_B = ['ХИРОСИМА', 'И НАГАСАКИ']
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №9', over_last=1.0)
 # the cloud stills chosen by seed (shots_cloud.json)
 HERO = 'y01_hero_s101'
-OFFICE = 'y10_office_s1001'
+FLASH = 'y05_flash_s503'           # second tries in yamaguchi1945/shots_cloud_extra.json
+DAZED = 'y07_wounded_s703'
+WALK = 'y07_wounded_s702'
+OFFICE = 'y10_office_s1003'        # s1001's bandage looks like a mask, s1002 has a ghost head, s1004 looks like a clinic
 SFX_DIRS = ['/home/user/work/sfx/rescue', '/home/user/work/sfx/olga', '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
 
@@ -69,6 +73,7 @@ def plan(lines, words):
     p['train'] = (lines['L8']['start'] - 0.1, lines['L9']['start'] - 0.1)
     p['naga'] = wt('L8', 'НАГАСАКИ')
     p['office'] = (lines['L9']['start'] - 0.1, lines['L11']['start'] - 0.1)
+    p['told'] = wt('L9', 'ПРО') - 0.06                               # «про Хиросиму»: a flash of memory, the cloud
     p['doubt'] = wt('L10', 'ВЕРИТ')
     p['white'] = wt('L11', 'БЕЛЫЙ')
     p['cliff'] = (lines['L11']['start'] - 0.1, None)                 # the cliffhanger whites out into the loop
@@ -95,7 +100,7 @@ def layout(c):
     # L1–L2 hook: his bandaged face, the camera creeping in; «за три дня» punches closer
     l2 = L('L2')['start'] - 0.06
     l3 = L('L3')['start'] - 0.08
-    add(HERO, 0.0, l2, cam=dict(zoom=(1.12, 1.22), pany=(-0.04, -0.06), parx=(-6, 6)),
+    add(HERO, 0.0, l2, cam=dict(zoom=(1.12, 1.22), pany=(0.02, 0.03), parx=(-6, 6)),      # eyes high, above the hook
         fx=dict(dust=20, beat=[hook], grade=face))
     add(HERO, l2, l3, into='whip', cam=dict(zoom=(1.45, 1.55), pany=(-0.1, -0.11)),
         fx=dict(dust=20, punch=[(p['days'], 0.1)], shake=[(p['days'], 0.5, 12)], grade=face))
@@ -110,43 +115,56 @@ def layout(c):
     add('y03_street_s301', l5, fl - 0.04, into='fade', cam=dict(zoom=(1.2, 1.26), pany=(-0.12, -0.14)),
         fx=dict(dust=10, oldfilm=True, grade=morning))
     l6 = L('L6')['start'] - 0.08
-    add('y05_flash_s501', fl - 0.04, l6, cam=dict(zoom=(1.0, 1.12), roll=(0.0, -3.0)),
+    add(FLASH, fl - 0.04, l6, cam=dict(zoom=(1.0, 1.12), roll=(0.0, -3.0)),
         fx=dict(flash=[(fl, 0.9, 1.6, white), (bm, 0.4, 0.5)], punch=[(fl, 0.1), (bm, 0.12)], shake=[(bm, 1.2, 36)],
                 smear=[(bm, 0.6, 60)], bloom=1.0, heat=0.6, grade=blast))
-    # L6 three kilometres away: the cloud over the city, a shockwave ring
+    # L6 three kilometres away: the cloud over the city (its base sits behind the captions, so no ring here)
     l7 = L('L7')['start'] - 0.08
     add('y06_cloud_s601', l6, l7, into='zoom', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-12, 12)),
-        fx=dict(ring=dict(start=l6 + 0.15, x=0.5, y=0.35, r=320), ash=40, bloom=0.7, heat=0.5,
-                punch=[(p['km'], 0.06)], grade=blast))
-    # L7 burned, half blind and deaf, but alive
+        fx=dict(ash=40, bloom=0.7, heat=0.5, punch=[(p['km'], 0.06)], grade=blast))
+    # L7 burned, half blind and deaf: his dazed face; «но жив» cuts to him walking out of the ruins
     l8 = L('L8')['start'] - 0.08
-    add('y07_wounded_s701', l7, l8, into='fade', cam=dict(zoom=(1.05, 1.16), dolly=(0.0, 0.08), parx=(8, -8)),
-        fx=dict(ash=70, embers=30, fire=0.5, heat=0.4, punch=[(p['alive'], 0.06)],
-                light=dict(x=0.8, y=0.3, r=1.2, col=(0.5, 0.2, 0.03), flicker=0.3), grade=ruins))
+    alive = p['alive'] - 0.1
+    burn = dict(ash=70, embers=30, fire=0.5, heat=0.4, light=dict(x=0.8, y=0.3, r=1.2, col=(0.5, 0.2, 0.03), flicker=0.3),
+                grade=ruins)
+    add(DAZED, l7, alive, into='fade', cam=dict(zoom=(1.08, 1.18), pany=(-0.04, -0.06), parx=(8, -8)), fx=burn)
+    add(WALK, alive, l8, into='whip', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.1), parx=(-8, 8)),
+        fx=dict(burn, punch=[(p['alive'], 0.08)], shake=[(p['alive'], 0.4, 10)]))
     # L8 the next day the train home, to Nagasaki
     l9 = L('L9')['start'] - 0.08
     add('y08_train_s801', l8, l9, into='fade', cam=dict(zoom=(1.0, 1.12), dolly=(0.0, 0.1), parx=(-14, 14)),
         fx=dict(fog=0.2, dust=10, punch=[(p['naga'], 0.05)], grade=dawn))
-    # L9–L10 Nagasaki, 9 August: bandaged, he tells his boss about Hiroshima; the boss doesn't believe him
-    l10 = L('L10')['start'] - 0.08
-    add(OFFICE, l9, l10, into='whip', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-8, 8)),
+    # L9–L10 Nagasaki, 9 August: bandaged, he tells his boss about Hiroshima (a flash of memory: the cloud);
+    # the boss doesn't believe him, the camera jumps in on his face at «одна бомба»
+    told = p['told']
+    add(OFFICE, l9, told, into='whip', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.06), parx=(-8, 8)),
         fx=dict(dust=20, grade=office))
-    l11 = L('L11')['start'] - 0.08
-    add('y11_boss_s1101', l10, l11, into='whip', cam=dict(zoom=(1.1, 1.22), pany=(-0.02, -0.04)),
+    l10 = L('L10')['start'] - 0.08
+    add('y06_cloud_s601', told, l10, into='fade', cam=dict(zoom=(1.12, 1.2), pany=(-0.02, -0.04)),
+        fx=dict(oldfilm=True, ash=20, grade=dict(exposure=-0.06, contrast=1.15, sat=0.0)))
+    one = wt('L10', 'ОДНА') - 0.06
+    add('y11_boss_s1101', l10, one, into='whip', cam=dict(zoom=(1.05, 1.12), pany=(0.02, 0.03)),
         fx=dict(dust=15, punch=[(p['doubt'], 0.05)], grade=office))
-    # L11 «и в этот момент комнату заливает тот же белый свет...»: the window light swells into a white-out (the loop)
-    add('y12_white_s1201', l11, total, into='fade', cam=dict(zoom=(1.0, 1.18), dolly=(0.0, 0.1)),
+    l11 = L('L11')['start'] - 0.08
+    add('y11_boss_s1101', one, l11, cam=dict(zoom=(1.32, 1.42), pany=(0.08, 0.085)),     # his eyes above the captions
+        fx=dict(dust=15, punch=[(wt('L10', 'ГОРОД'), 0.05)], grade=office))
+    # L11 «и в этот момент комнату заливает тот же белый свет...»: back on him at his desk, then the window light
+    # swells into a white-out (the loop)
+    flood = wt('L11', 'ЗАЛИВАЕТ') - 0.06
+    add(OFFICE, l11, flood, into='whip', cam=dict(zoom=(1.3, 1.36), panx=(0.05, 0.06), pany=(0.06, 0.07)),
+        fx=dict(dust=20, grade=office))
+    add('y12_white_s1201', flood, total, into='fade', cam=dict(zoom=(1.0, 1.18), dolly=(0.0, 0.1)),
         fx=dict(dust=30, bloom=1.2, flash=[(wh, 0.9, 1.5, white), (total - 0.3, 0.35, 2.0, white)], shake=[(wh, 0.8, 14)],
                 punch=[(wh, 0.08)],
                 grade=dict(office, exposure=0.1)))
 
     cards = [
-        dict(text='3', sub='КМ ДО ВЗРЫВА', start=p['km'], end=l7 - 0.05, y=1250, count=True),
+        dict(text='3', sub='КМ ДО ВЗРЫВА', start=p['km'], end=l7 - 0.05, y=760, count=True),   # over the cloud's stem
     ]
     tags = [
         dict(text='ЦУТОМУ ЯМАГУТИ · ИНЖЕНЕР', start=L('L4')['start'] + 0.1, end=l5 - 0.05),
         dict(text='ХИРОСИМА · 6 АВГУСТА, 8:15', start=L('L5')['start'] + 0.05, end=fl - 0.1),
-        dict(text='НАГАСАКИ · 9 АВГУСТА', start=L('L9')['start'] + 0.1, end=l10 - 0.05),
+        dict(text='НАГАСАКИ · 9 АВГУСТА', start=L('L9')['start'] + 0.1, end=told - 0.05, y=180),   # above the boss's head
     ]
     cover = dict(start=0.0, end=wt('L1', 'ПЕРЕЖИЛ') - 0.1)
     hook_text = dict(lines=['L1', 'L2'], y=1150, size=132)
@@ -213,6 +231,7 @@ def mix_cues(m, tl, a):
     loop('beds', 'tick', o0, o1, -12.0, fin=0.2, fout=0.2)
     loop('beds', 'drone_bed_tension', o0, o1, -11.0, fin=0.5, fout=0.3)
     put_hit(m, 'paper_rustle', o0 + 0.3, -12.0)
+    put_hit(m, 'sub_drop', p['told'], -12.0)                          # the memory of the cloud, low and far
     put_hit(m, 'impact_soft', p['doubt'], -7.0)
     # --- the cliffhanger: the same white light, a riser into the loop (the first frame starts with the boom again)
     c0 = p['cliff'][0]
