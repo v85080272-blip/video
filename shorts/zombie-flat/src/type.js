@@ -48,7 +48,7 @@ export function pill(str, x, y, size, o = {}) {
 }
 // word-by-word subtitles of the narration: groups of up to three words, each word pops in as it is spoken
 export const SUB = { y: 1430, size: 86, maxW: 860, cx: 500 };      // above the Shorts caption, clear of the side buttons
-const HOT = { ЗОМБИ: '#8fbf7a', СЛЕПЫЕ: '#ffd27a', ТЕНИ: '#ffd27a', ТЕНЬ: '#ffd27a', БАТОНУ: '#ff8a3d', КОТА: '#ff8a3d', ТИГРА: '#ff4d4d' };
+const HOT = { ЗОМБИ: '#8fbf7a', ЗАПАХ: '#8fbf7a', СЛЕПЫЕ: '#ffd27a', ТЕНИ: '#ffd27a', ТЕНЬ: '#ffd27a', БАТОНУ: '#ff8a3d', КОТА: '#ff8a3d', ТИГРА: '#ff4d4d' };
 const bare = w => w.replace(/[.,!?…:;«»]/g, '').toUpperCase();
 // words: [{w, s, e}] in absolute seconds; sizes = how many words each group takes (dashes aside), so phrases like
 // «всё равно» stay together; without sizes a group ends at a full stop or when it would grow past maxWords / maxChars
