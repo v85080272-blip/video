@@ -1,0 +1,78 @@
+{
+ "note": "№9 «Две бомбы» (Цутому Ямагути, 6 и 9 августа 1945): cloud stills (SDXL Lightning), vla's PC is off; injuries stay non-graphic.",
+ "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "y01_hero",
+   "seeds": [
+    101,
+    102
+   ],
+   "prompt": "close portrait of a 29-year-old Japanese man in August 1945, a white bandage wrapped around his head and over his left cheek, white short-sleeved shirt, calm haunted gaze straight into the camera, dim wooden office, soft window light from the left"
+  },
+  {
+   "id": "y03_street",
+   "seeds": [
+    301
+   ],
+   "prompt": "a street in Hiroshima on a sunny August morning in 1945, low wooden houses with tiled roofs, a streetcar, people in summer clothes and caps walking, clear blue sky, slight haze"
+  },
+  {
+   "id": "y04_engineer",
+   "seeds": [
+    401
+   ],
+   "prompt": "a young Japanese engineer in 1945 in a white shirt and a cap, holding a leather briefcase, walking along a shipyard quay with steel cranes and a half-built ship, bright summer morning, seen from the side"
+  },
+  {
+   "id": "y05_flash",
+   "seeds": [
+    501
+   ],
+   "prompt": "a blinding white flash fills the sky above a 1940s Japanese city, rooftops and telegraph poles turning to dark silhouettes against the overwhelming white light, lens flare, everything washed out"
+  },
+  {
+   "id": "y06_cloud",
+   "seeds": [
+    601
+   ],
+   "prompt": "a giant mushroom cloud rising above a 1940s Japanese city on the horizon, seen from about three kilometres away across rooftops, boiling dark smoke and fire at its base, hazy summer sky"
+  },
+  {
+   "id": "y07_wounded",
+   "seeds": [
+    701
+   ],
+   "prompt": "a young Japanese man in a torn dusty white shirt sitting on rubble in a smoke-filled ruined street in 1945, his face and arms blackened with soot and dust, dazed, holding one hand to his ear, orange glow of fires behind"
+  },
+  {
+   "id": "y08_train",
+   "seeds": [
+    801
+   ],
+   "prompt": "a crowded 1940s Japanese steam locomotive and wooden carriages at a station platform at dawn, steam and smoke, tired people with white bandages boarding, long shadows"
+  },
+  {
+   "id": "y10_office",
+   "seeds": [
+    1001,
+    1002
+   ],
+   "prompt": "a 1940s Japanese shipbuilding company office with wooden desks, drafting boards and tall windows, a young engineer with a bandaged head standing and talking with his hands to an older manager in round glasses seated at a desk, papers, morning light"
+  },
+  {
+   "id": "y11_boss",
+   "seeds": [
+    1101
+   ],
+   "prompt": "close-up of a stern older Japanese manager in round glasses and a 1940s suit sitting at his office desk, skeptical frown, leaning back, window light"
+  },
+  {
+   "id": "y12_white",
+   "seeds": [
+    1201
+   ],
+   "prompt": "a 1940s Japanese office suddenly flooded with blinding white light through the tall windows, silhouettes of two men, papers flying in the air, overexposed, dust"
+  }
+ ]
+}
