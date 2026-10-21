@@ -255,13 +255,48 @@ def project(sh, t, fx_, fy_):
             H / 2 + oy + cam.pary * (d - cam.d0) + cam.shakey, S)
 
 
+_VID = {}
+
+
+def video_frame(sh, t, cam):
+    """A moving scene (a Gemini clip extracted to JPEGs at FPS, vla 20.10) instead of a still: the clip's frame at the
+    shot's own time, cover-fitted; the camera's zoom, pan, shake and roll still apply as a crop. 'video' = dict(dir=,
+    t0=offset into the clip, speed=1.0)."""
+    v = sh['video']
+    d = v['dir']
+    if d not in _VID:
+        _VID[d] = sorted(f for f in os.listdir(d) if f.endswith('.jpg'))
+    fr = _VID[d]
+    i = int(round((v.get('t0', 0.0) + (t - sh['start']) * v.get('speed', 1.0)) * FPS))
+    if v.get('pingpong') and i >= len(fr):          # a scene shorter than its shot runs back instead of freezing
+        k = i % (2 * len(fr) - 2)
+        i = k if k < len(fr) else 2 * len(fr) - 2 - k
+    im = Image.open(os.path.join(d, fr[max(0, min(len(fr) - 1, i))])).convert('RGB')
+    sw, sh_ = im.size
+    s = max(W / sw, H / sh_) * max(cam.zoom, 1.0)
+    cw, ch = W / s, H / s
+    cx = min(max(sw / 2 + cam.panx * sw - cam.shakex / s, cw / 2), sw - cw / 2)
+    cy = min(max(sh_ / 2 + cam.pany * sh_ - cam.shakey / s, ch / 2), sh_ - ch / 2)
+    if abs(cam.roll) > 0.01:
+        im = im.rotate(cam.roll, resample=Image.BILINEAR, center=(cx, cy))
+    im = im.resize((W, H), Image.BICUBIC, box=(cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2))
+    a = to_np(im)
+    if sh.get('fx', {}).get('grade'):
+        a = grade(a, **sh['fx']['grade'])
+    return a
+
+
 def render_shot(sh, t, n):
     cam, u = cam_for(sh, t)
     fx = sh.get('fx', {})
-    src = source(sh['img'], fx.get('grade'))
-    need_depth = fx.get('fog', 0) > 0 or 'skyglow' in fx or 'focus' in fx
-    im, dep = warp(src, cam, with_depth=need_depth)
-    a = to_np(im)
+    if 'video' in sh:
+        a, dep = video_frame(sh, t, cam), None
+        fx = {k: v for k, v in fx.items() if k not in ('fog', 'skyglow', 'focus')}    # no depth map for a moving scene
+    else:
+        src = source(sh['img'], fx.get('grade'))
+        need_depth = fx.get('fog', 0) > 0 or 'skyglow' in fx or 'focus' in fx
+        im, dep = warp(src, cam, with_depth=need_depth)
+        a = to_np(im)
     # rack focus (vizavi-motion): the sharp plane travels in depth through keys [(t, depth: 0 far .. 1 near), ...],
     # whatever lies off it softens up to r px
     if 'focus' in fx:
@@ -704,7 +739,7 @@ def render_video(out_path, workers=3):
     tl = build_timeline()
     nframes = int(round(tl['total'] * FPS))
     print('frames', nframes, 'duration', round(tl['total'], 2), flush=True)
-    for img in dict.fromkeys(sh['img'] for sh in tl['shots']):    # every depth map once, before the workers start
+    for img in dict.fromkeys(sh['img'] for sh in tl['shots'] if 'video' not in sh):    # every depth map once, first
         ensure_depth(pick(img))
     silent = out_path[:-4] + '_silent.mp4'
     ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}',

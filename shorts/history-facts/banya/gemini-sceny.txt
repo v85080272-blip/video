@@ -1,0 +1,18 @@
+Сцены для Gemini «Видео» (вертикаль 9:16), по одной на генерацию.
+
+S1 (строки 1–2 хук; и строка 9 для петли) — СДЕЛАНА 10-20 ~14:03 UTC, лежит в чате Gemini «Vertical 9:16 cinematic video, photoreal...». Первый вариант с «lash each other's backs» Gemini отклонил ошибкой.
+Vertical 9:16 cinematic video, photorealistic. A rustic wooden Russian bathhouse in the 17th century, dim light from a stone stove, thick steam. A bearded man in a linen shirt waves a leafy birch broom through the steam. At the open door a European traveler in a black coat and wide hat looks in, surprised. Slow push-in. Sound: crackling fire and hissing steam, no speech, no music, no text.
+
+S2 (строки 3–6)
+Vertical 9:16 cinematic video, photorealistic. Early medieval Novgorod, 11th century: a grey-bearded wanderer in a plain wool robe with a wooden staff stands by a river among log houses and watches smoke rise from small wooden bathhouses. Two men in linen shirts step out wrapped in steam and pour wooden buckets of icy river water over their heads, laughing. Overcast light. Sound: water splashes, river, distant voices; no speech, no music, no text.
+
+S3 (строка 4, крупно)
+Vertical 9:16 cinematic video, close-up inside a smoke-blackened log bathhouse: a wooden ladle splashes water onto the glowing stones of a stove, a big cloud of steam bursts up, a leafy birch broom swings through the steam in warm firelight. Sound: sizzling hiss and crackle; no speech, no music, no text.
+
+S4 (строка 7)
+Vertical 9:16 cinematic video, photorealistic. A 17th-century Russian village in deep winter by a frozen river: steaming men in linen shirts run out of a small log bathhouse and dive into fresh snow, laughing, steam rising from their shoulders. A German traveler in a fur coat and hat watches and writes in a small notebook. Sound: snow crunch, laughter, wind; no speech, no music, no text.
+
+S5 (строка 8: «чище всего, поэтому там даже рожали»)
+Vertical 9:16 cinematic video, photorealistic. Warm, clean interior of a wooden village bathhouse washed with light through a tiny window; soft steam. An old midwife in a white headscarf gently cradles a newborn wrapped in white linen and smiles. Bundles of dried herbs hang from the beams. Calm slow push-in. Sound: soft crackle of the stove, gentle steam; no speech, no music, no text.
+
+Строка 9 (Европа и петля) идёт на S1, чтобы ролик замкнулся на первый кадр.
