@@ -1,0 +1,77 @@
+[
+ {
+  "id": "h1_s51",
+  "seed": 51,
+  "instruct": "Male, about 45 years old, low warm baritone with a smooth velvety timbre, clean, no hoarseness, close to the microphone. Native Russian speaker. An engaging history storyteller who draws the listener in: calm confident authority, expressive melody with wide rises and falls, emphasis on key words, fluent brisk delivery inside sentences, a clear short pause after each sentence."
+ },
+ {
+  "id": "h1_s52",
+  "seed": 52,
+  "instruct": "Male, about 45 years old, low warm baritone with a smooth velvety timbre, clean, no hoarseness, close to the microphone. Native Russian speaker. An engaging history storyteller who draws the listener in: calm confident authority, expressive melody with wide rises and falls, emphasis on key words, fluent brisk delivery inside sentences, a clear short pause after each sentence."
+ },
+ {
+  "id": "h1_s53",
+  "seed": 53,
+  "instruct": "Male, about 45 years old, low warm baritone with a smooth velvety timbre, clean, no hoarseness, close to the microphone. Native Russian speaker. An engaging history storyteller who draws the listener in: calm confident authority, expressive melody with wide rises and falls, emphasis on key words, fluent brisk delivery inside sentences, a clear short pause after each sentence."
+ },
+ {
+  "id": "h2_s51",
+  "seed": 51,
+  "instruct": "Male, about 50 years old, deep resonant voice, warm and soft, intimate like a documentary narrator telling a story late at night. Native Russian speaker. Quiet fascination with a true historical event: fluent phrases, rich expressive intonation that rises on surprising facts, gentle emphasis, short pauses between sentences, never monotone."
+ },
+ {
+  "id": "h2_s52",
+  "seed": 52,
+  "instruct": "Male, about 50 years old, deep resonant voice, warm and soft, intimate like a documentary narrator telling a story late at night. Native Russian speaker. Quiet fascination with a true historical event: fluent phrases, rich expressive intonation that rises on surprising facts, gentle emphasis, short pauses between sentences, never monotone."
+ },
+ {
+  "id": "h2_s53",
+  "seed": 53,
+  "instruct": "Male, about 50 years old, deep resonant voice, warm and soft, intimate like a documentary narrator telling a story late at night. Native Russian speaker. Quiet fascination with a true historical event: fluent phrases, rich expressive intonation that rises on surprising facts, gentle emphasis, short pauses between sentences, never monotone."
+ },
+ {
+  "id": "h3_s51",
+  "seed": 51,
+  "instruct": "Male, about 40 years old, low baritone with rich chest resonance, polished like a narrator of popular history audiobooks. Native Russian speaker. Engaging and calm with a hint of suspense: lively melodic intonation, words flow smoothly and quickly, a brief pause after each sentence, emphasis on names and numbers."
+ },
+ {
+  "id": "h3_s52",
+  "seed": 52,
+  "instruct": "Male, about 40 years old, low baritone with rich chest resonance, polished like a narrator of popular history audiobooks. Native Russian speaker. Engaging and calm with a hint of suspense: lively melodic intonation, words flow smoothly and quickly, a brief pause after each sentence, emphasis on names and numbers."
+ },
+ {
+  "id": "h3_s53",
+  "seed": 53,
+  "instruct": "Male, about 40 years old, low baritone with rich chest resonance, polished like a narrator of popular history audiobooks. Native Russian speaker. Engaging and calm with a hint of suspense: lively melodic intonation, words flow smoothly and quickly, a brief pause after each sentence, emphasis on names and numbers."
+ },
+ {
+  "id": "h4_s51",
+  "seed": 51,
+  "instruct": "Male, about 55 years old, low mellow voice with warmth and gravitas, a respected historian telling a gripping story. Native Russian speaker. Calm, measured and expressive: wide pitch movement, stress on dramatic words, smooth fluent phrases separated by short pauses."
+ },
+ {
+  "id": "h4_s52",
+  "seed": 52,
+  "instruct": "Male, about 55 years old, low mellow voice with warmth and gravitas, a respected historian telling a gripping story. Native Russian speaker. Calm, measured and expressive: wide pitch movement, stress on dramatic words, smooth fluent phrases separated by short pauses."
+ },
+ {
+  "id": "h4_s53",
+  "seed": 53,
+  "instruct": "Male, about 55 years old, low mellow voice with warmth and gravitas, a respected historian telling a gripping story. Native Russian speaker. Calm, measured and expressive: wide pitch movement, stress on dramatic words, smooth fluent phrases separated by short pauses."
+ },
+ {
+  "id": "h5_s51",
+  "seed": 51,
+  "instruct": "Male, about 38 years old, low smooth baritone, a modern documentary voice-over, close-miked and clear. Native Russian speaker. Captivating, confident, emotionally engaged storytelling: dynamic intonation that rises on surprising facts and settles at sentence ends, fluent pace, short pauses."
+ },
+ {
+  "id": "h5_s52",
+  "seed": 52,
+  "instruct": "Male, about 38 years old, low smooth baritone, a modern documentary voice-over, close-miked and clear. Native Russian speaker. Captivating, confident, emotionally engaged storytelling: dynamic intonation that rises on surprising facts and settles at sentence ends, fluent pace, short pauses."
+ },
+ {
+  "id": "h5_s53",
+  "seed": 53,
+  "instruct": "Male, about 38 years old, low smooth baritone, a modern documentary voice-over, close-miked and clear. Native Russian speaker. Captivating, confident, emotionally engaged storytelling: dynamic intonation that rises on surprising facts and settles at sentence ends, fluent pace, short pauses."
+ }
+]
