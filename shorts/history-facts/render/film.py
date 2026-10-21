@@ -448,20 +448,23 @@ def draw_cover(a, t, cv, tl_text, static=False):
         out = (cv['end'] - t) / 0.35
         al = min(1.0, out)
         lift = (1 - min(1.0, out)) * -60
-    # darken top for legibility
-    grad = np.clip(1 - np.linspace(0, 1, H)[:, None] / 0.62, 0, 1) ** 1.6
+    dy = cv.get('dy', 0)                # the whole title lower (a hero whose eyes sit where the title would be)
+    if dy:                              # darken a band behind the moved title, keeping the face above it bright
+        grad = np.exp(-((np.arange(H, dtype=np.float32)[:, None] - (770 + dy)) / (0.22 * H)) ** 2)
+    else:                               # darken top for legibility
+        grad = np.clip(1 - np.linspace(0, 1, H)[:, None] / 0.62, 0, 1) ** 1.6
     a *= (1 - 0.55 * al * grad[..., None])
     lines = cv.get('lines', ['ЧТО ВЗОРВАЛОСЬ', 'НАД СИБИРЬЮ?'])
     tag = tl_text.render(cv.get('tag', 'ТАЙНЫ ИСТОРИИ · №1'), F('Inter-ExtraBold.otf', 48), ORANGE, stroke=5, track=8)
-    paste_rgba(a, tag, W / 2, 455 + lift, alpha=al)
+    paste_rgba(a, tag, W / 2, 455 + dy + lift, alpha=al)
     yr = tl_text.render(cv.get('year', '1908'), F('InterDisplay-Black.otf', 300), YELLOW, stroke=12, squeeze=0.9, track=-8)
-    paste_rgba(a, yr, W / 2, 625 + lift * 0.5, alpha=al, scale=min(1.0, 760 / yr.width))
+    paste_rgba(a, yr, W / 2, 625 + dy + lift * 0.5, alpha=al, scale=min(1.0, 760 / yr.width))
     for i, txt in enumerate(lines):
         im = tl_text.render(txt, F('InterDisplay-Black.otf', 128), (255, 255, 255), stroke=9, squeeze=0.86, track=-2)
-        paste_rgba(a, im, W / 2, 835 + i * 128 + lift, alpha=al, scale=min(1.0, 880 / im.width))
+        paste_rgba(a, im, W / 2, 835 + dy + i * 128 + lift, alpha=al, scale=min(1.0, 880 / im.width))
     if cv.get('part'):                  # «ЧАСТЬ 1» on a yellow plaque under the title (a story told in parts)
         im = tl_text.render(cv['part'], F('InterDisplay-Black.otf', 84), (24, 18, 8), stroke=0, shadow=False, track=4)
-        y = int(835 + len(lines) * 128 + 40 + lift)
+        y = int(835 + dy + len(lines) * 128 + 40 + lift)
         bw, bh = im.width + 16, 118
         x0, y0 = int(W / 2 - bw / 2), y - bh // 2
         box = a[max(0, y0):y0 + bh, max(0, x0):x0 + bw]

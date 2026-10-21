@@ -30,7 +30,7 @@ GAPS = {'L1': 0.20, 'L2': 0.55, 'L3': 0.20, 'L4': 0.30, 'L5': 0.90, 'L6': 0.45, 
 LEAD_IN = 0.15
 TAIL = 0.6                         # the white-out holds a moment after the last word, then loops back to his face
 LOOP = True
-COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №9', year='1945', lines=['ПЕРЕЖИЛ', 'ДВЕ БОМБЫ'])
+COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №9', year='1945', lines=['ПЕРЕЖИЛ', 'ДВЕ БОМБЫ'], dy=400)    # title under his eyes
 COVER_B = ['ХИРОСИМА', 'И НАГАСАКИ']
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №9', over_last=1.0)
 # the cloud stills chosen by seed (shots_cloud.json)
