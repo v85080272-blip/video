@@ -1,0 +1,12 @@
+{
+  "note": "№9 preview covers (vla 21.10: «нужно придумать обложку цепляющую для превью»): one focal point each, room for 2–4 big words; injuries stay non-graphic",
+  "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic lighting, high contrast, highly detailed, film grain",
+  "shots": [
+    {"id": "t1_face_cloud", "seeds": [2101, 2102],
+     "prompt": "close-up portrait of a tense young Japanese man in August 1945, a white bandage wrapped around his head, wide frightened eyes looking straight into the camera, soot on his cheeks, a gigantic glowing mushroom cloud rising behind him over a burning city, fiery orange backlight on his hair and shoulders, his face lit by warm firelight"},
+    {"id": "t2_two_clouds", "seeds": [2201, 2202],
+     "prompt": "two gigantic mushroom clouds rising side by side over a 1940s Japanese city by the sea, one on the left and one on the right, a lone small silhouette of a man standing on a hill in the foreground between them, dramatic orange and white sky, epic scale"},
+    {"id": "t3_eyes_flash", "seeds": [2301, 2302],
+     "prompt": "extreme close-up of a young Japanese man's face in 1945, a white bandage across his forehead, eyes wide open in shock, a blinding white flash of light reflected in his eyes, one side of his face lit pure white, the other side in deep shadow, sweat and soot"}
+  ]
+}

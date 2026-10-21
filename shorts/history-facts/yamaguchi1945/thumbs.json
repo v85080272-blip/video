@@ -1,0 +1,128 @@
+[
+  {
+    "id": "c1_vyzhil_dvazhdy",
+    "img": "/home/user/work/yamaguchi/thumb/t1_face_cloud_s2102.png",
+    "cam": {
+      "zoom": 1.0,
+      "pany": 0.06
+    },
+    "grade": {
+      "exposure": 0.04,
+      "contrast": 1.12,
+      "sat": 1.15,
+      "warm": 0.3
+    },
+    "bloom": 0.25,
+    "vignette": 0.4,
+    "band": {
+      "y": 1530,
+      "h": 520,
+      "strength": 0.55
+    },
+    "tag": {
+      "text": "ТАЙНЫ ИСТОРИИ · №9",
+      "y": 300
+    },
+    "lines": [
+      {
+        "text": "ВЫЖИЛ",
+        "y": 1430,
+        "size": 230,
+        "color": "white"
+      },
+      {
+        "text": "ДВАЖДЫ",
+        "y": 1620,
+        "size": 170,
+        "box": "yellow"
+      }
+    ]
+  },
+  {
+    "id": "c2_videl_dvazhdy",
+    "img": "/home/user/work/yamaguchi/thumb/t2_two_clouds_s2201.png",
+    "cam": {
+      "zoom": 1.0
+    },
+    "grade": {
+      "exposure": 0.02,
+      "contrast": 1.2,
+      "sat": 1.0,
+      "warm": 1.4
+    },
+    "bloom": 0.3,
+    "vignette": 0.5,
+    "band": {
+      "y": 1380,
+      "h": 520,
+      "strength": 0.5
+    },
+    "tag": {
+      "text": "ТАЙНЫ ИСТОРИИ · №9",
+      "y": 300
+    },
+    "lines": [
+      {
+        "text": "ОН ВИДЕЛ ЭТО",
+        "y": 1290,
+        "size": 150,
+        "color": "white"
+      },
+      {
+        "text": "ДВАЖДЫ",
+        "y": 1470,
+        "size": 170,
+        "box": "red"
+      }
+    ]
+  },
+  {
+    "id": "c3_2_bomby",
+    "img": "/home/user/work/yamaguchi/thumb/t3_eyes_flash_s2302.png",
+    "cam": {
+      "zoom": 1.0
+    },
+    "grade": {
+      "exposure": -0.05,
+      "contrast": 1.25,
+      "sat": 1.0,
+      "warm": 0.9
+    },
+    "glow": {
+      "x": -0.05,
+      "y": 0.18,
+      "r": 0.75,
+      "strength": 0.75,
+      "color": [
+        1.0,
+        0.9,
+        0.7
+      ]
+    },
+    "bloom": 0.35,
+    "vignette": 0.45,
+    "band": {
+      "y": 1500,
+      "h": 560,
+      "strength": 0.55
+    },
+    "tag": {
+      "text": "ТАЙНЫ ИСТОРИИ · №9",
+      "y": 300
+    },
+    "lines": [
+      {
+        "text": "2 БОМБЫ",
+        "y": 1430,
+        "size": 230,
+        "color": "yellow"
+      },
+      {
+        "text": "ЗА 3 ДНЯ",
+        "y": 1625,
+        "size": 150,
+        "box": "red"
+      }
+    ]
+  }
+]

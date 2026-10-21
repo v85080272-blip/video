@@ -438,6 +438,15 @@ def draw_tag(a, t, tg, tl_text):
     paste_rgba(a, im, x0 + 30, y0 + 38, alpha=al, anchor='left')
 
 
+_COVER_IMG = {}
+
+
+def _cover_img(p):
+    if p not in _COVER_IMG:
+        _COVER_IMG[p] = to_np(Image.open(p).convert('RGB').resize((W, H), Image.LANCZOS))
+    return _COVER_IMG[p]
+
+
 def draw_cover(a, t, cv, tl_text, static=False):
     if not static and not (cv['start'] <= t < cv['end']):
         return
@@ -445,9 +454,13 @@ def draw_cover(a, t, cv, tl_text, static=False):
         al = 1.0
         lift = 0.0
     else:
-        out = (cv['end'] - t) / 0.35
+        out = (cv['end'] - t) / (0.15 if cv.get('img') else 0.35)
         al = min(1.0, out)
         lift = (1 - min(1.0, out)) * -60
+    if cv.get('img'):                   # a ready preview cover (thumb.py) stands in for the drawn title, held whole
+        a *= 1 - al                     # until a quick dissolve, so YouTube's frame picker can find it
+        a += _cover_img(cv['img']) * al
+        return
     dy = cv.get('dy', 0)                # the whole title lower (a hero whose eyes sit where the title would be)
     if dy:                              # darken a band behind the moved title, keeping the face above it bright
         grad = np.exp(-((np.arange(H, dtype=np.float32)[:, None] - (770 + dy)) / (0.22 * H)) ** 2)
