@@ -1,0 +1,74 @@
+{
+ "note": "Narration for «Правило №6». at = where the line starts in the short (s), or anchor = the word that lands on a beat; by = the latest it may end; sub = word-by-word subtitles in groups of so many words (lines with no lettering of their own). The silence and the hit 10–12.9 s, the А gag 18.35–19.3 s and the loop seam stay free of voice.",
+ "lines": [
+  {
+   "id": "L1",
+   "text": "Ты спишь. Батон — нет.",
+   "at": 0.05,
+   "by": 1.95
+  },
+  {
+   "id": "L2",
+   "text": "Зомби почти слепые.",
+   "at": 2.3,
+   "by": 4.6,
+   "sub": [
+    2,
+    1
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Они идут на запах и видят только тени.",
+   "at": 4.8,
+   "by": 7.3,
+   "sub": [
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "А Батону всё равно.",
+   "at": 7.6,
+   "by": 9.5,
+   "sub": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Ведь тень у кота — как у тигра.",
+   "at": 13.25,
+   "by": 15.6,
+   "sub": [
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Шестое. Заведи кота.",
+   "at": 16.4,
+   "by": 18.35,
+   "anchor": {
+    "word": 0,
+    "t": 16.4
+   }
+  },
+  {
+   "id": "L7",
+   "text": "А твой кот бы справился?",
+   "at": 20.0,
+   "by": 22.0,
+   "anchor": {
+    "word": 0,
+    "t": 20.0
+   }
+  }
+ ]
+}

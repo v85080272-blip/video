@@ -1,6 +1,6 @@
 // Lettering in the same flat language: solid letters with a solid offset shadow, single letters that fall, stamps.
 import { g, col, rrPath, fill, polyPath } from './flat.js';
-import { rgba } from './lib.js';
+import { rgba, clamp, spring } from './lib.js';
 
 export const FONTS = { block: 'Russo', cond: 'Oswald' };
 export const INK = '#17162f';
@@ -44,6 +44,55 @@ export function pill(str, x, y, size, o = {}) {
   fill(rrPath(-w / 2, -h / 2, w, h, h / 2), o.color ?? '#ff4d4d');
   font(size, FONTS.cond); g.textAlign = 'center'; g.textBaseline = 'middle';
   g.fillStyle = col(o.ink ?? '#fff3d6'); g.fillText(str, 0, size * 0.04);
+  g.restore();
+}
+// word-by-word subtitles of the narration: groups of up to three words, each word pops in as it is spoken
+export const SUB = { y: 1430, size: 86, maxW: 860, cx: 500 };      // above the Shorts caption, clear of the side buttons
+const HOT = { ЗОМБИ: '#8fbf7a', СЛЕПЫЕ: '#ffd27a', ТЕНИ: '#ffd27a', ТЕНЬ: '#ffd27a', БАТОНУ: '#ff8a3d', КОТА: '#ff8a3d', ТИГРА: '#ff4d4d' };
+const bare = w => w.replace(/[.,!?…:;«»]/g, '').toUpperCase();
+// words: [{w, s, e}] in absolute seconds; sizes = how many words each group takes (dashes aside), so phrases like
+// «всё равно» stay together; without sizes a group ends at a full stop or when it would grow past maxWords / maxChars
+export function groupWords(words, sizes = null, maxWords = 3, maxChars = 16) {
+  const out = []; let cur = [];
+  const flush = () => { if (cur.length) out.push(cur); cur = []; };
+  for (const w of words) {
+    if (w.w === '—' || w.w === '-') continue;
+    if (sizes) {
+      cur.push(w);
+      if (cur.length >= sizes[out.length]) flush();
+      continue;
+    }
+    const len = cur.reduce((a, x) => a + bare(x.w).length + 1, 0) + bare(w.w).length;
+    if (cur.length >= maxWords || (cur.length && len > maxChars)) flush();
+    cur.push(w);
+    if (/[.?!]$/.test(w.w)) flush();
+  }
+  flush();
+  return out;
+}
+// the group being spoken at t, from its first word until the next group starts (or `hold` after its last word)
+export function subtitles(t, groups, o = {}) {
+  let gi = -1;
+  for (let i = 0; i < groups.length; i++) if (t >= groups[i][0].s - 0.05) gi = i;
+  if (gi < 0) return;
+  const grp = groups[gi], next = groups[gi + 1];
+  const hideAt = Math.min(next ? next[0].s - 0.05 : Infinity, grp[grp.length - 1].e + (o.hold ?? 0.35));
+  if (t > hideAt + 0.12) return;
+  const out = clamp((t - hideAt) / 0.12), size = SUB.size;
+  const words = grp.map(w => ({ ...w, txt: bare(w.w) }));
+  const sp = size * 0.36;
+  for (const w of words) w.wd = measure(w.txt, size, FONTS.cond);
+  const lw = words.reduce((a, w) => a + w.wd, 0) + sp * (words.length - 1), fit = Math.min(1, SUB.maxW / lw);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+  let x = SUB.cx - lw * fit / 2;
+  for (const w of words) {
+    const age = t - w.s + 0.05;
+    if (age >= 0) {
+      const s = 1 - spring(age, 2.6, 9), k = 1 + 0.14 * s - 0.2 * out, cx = x + w.wd * fit / 2;
+      text(w.txt, cx, SUB.y + 14 * s, size * fit * k, HOT[w.txt] ?? '#fff3d6', { fam: FONTS.cond, a: Math.min(1, age / 0.05) * (1 - out) });
+    }
+    x += (w.wd + sp) * fit;
+  }
   g.restore();
 }
 // speech bubble with three dots: "write in the comments"

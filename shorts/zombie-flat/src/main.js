@@ -1,5 +1,6 @@
 // «Правило №6»: the whole short as pure functions of time t (seconds), so any frame or motion-blur sub-frame can be drawn
 // in any order. 120 BPM, a beat is 0.5 s: footsteps, licks, letters, the hit and the cut sit on beats (STORYBOARD.md).
+import fs from 'node:fs';
 import { createCanvas } from '@napi-rs/canvas';
 import { lerp, clamp, ease, spring, bump, hash, noise, TAU } from './lib.js';
 import { g, setCtx, W, H, MONO, ell, limb, fill, polyPath, frame as frameOf } from './flat.js';
@@ -7,9 +8,13 @@ import { view, toScreen } from './camera.js';
 import * as S from './set.js';
 import { drawCat } from './cat.js';
 import { drawZombie, drawArm } from './zombie.js';
-import { text, stamp, pill, measure, FONTS } from './type.js';
+import { text, stamp, pill, measure, FONTS, groupWords, subtitles } from './type.js';
 
 export const DUR = 22.5;
+// the narration's word times in the short (tools/voice.py writes them); without the file it renders as the silent version
+const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
+const SUBS = VOICE ? VOICE.lines.filter(l => l.sub).flatMap(l => groupWords(l.words, Array.isArray(l.sub) ? l.sub : null)) : [];
+const wordAt = (id, i, t) => VOICE?.lines.find(l => l.id === id)?.words[i]?.s ?? t;
 const HALF = S.HALF_Y, FL = S.FLOOR, CAT_X = 450, CAT_S = 0.8;
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
@@ -319,11 +324,11 @@ function rule(t) {
 }
 const ruleLate = t => { if (t >= T_A_FALL && t < T_A_SNAP) letter(t, 9, true); };
 // screen-space lettering of the last shot: the series name, the question, a subscribe button
-const QX = 560;
+const QX = 560, Q1 = wordAt('L7', 0, 20.0), Q2 = wordAt('L7', 3, 20.25);     // the two lines pop as the narrator says them
 function question(t) {
-  if (t < 19.9) return;
+  if (t < Q1 - 0.1) return;
   const out = 1 - seg(22.05, 22.35, t);
-  const k1 = sp(t, 20.0, 2.4, 7), k2 = sp(t, 20.25, 2.4, 7);
+  const k1 = sp(t, Q1, 2.4, 7), k2 = sp(t, Q2, 2.4, 7);
   g.setTransform(1, 0, 0, 1, 0, 0);
   text('А ТВОЙ КОТ', QX, 400, 104 * k1, '#fff3d6', { fam: FONTS.cond, a: out });
   text('БЫ СПРАВИЛСЯ?', QX, 520, 104 * k2, '#ff8a3d', { fam: FONTS.cond, a: out });
@@ -448,6 +453,7 @@ export function frame(t) {
   hissWord(t, ca.mouth);
   view(cam, S.NEAR); S.drawNear();
   question(t);
+  subtitles(t, SUBS);
   // the hit flashes the frame once
   const fl = t >= 11 ? 0.3 * Math.exp(-(t - 11) * 22) : 0;
   if (fl > 0.01) { g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = fl; g.fillStyle = '#fff3d6'; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
