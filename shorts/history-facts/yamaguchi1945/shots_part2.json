@@ -1,0 +1,83 @@
+{
+ "note": "№9 часть 2 (Нагасаки, 9 августа 1945 и после): cloud stills (SDXL Lightning), vla's PC is off; injuries stay non-graphic.",
+ "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "p01_tunnel",
+   "seeds": [
+    101,
+    102
+   ],
+   "prompt": "a young Japanese mother in 1945 with her hair tied back, plain work blouse and monpe trousers, crouching inside a dark rough stone tunnel and holding her baby wrapped in a cloth tightly to her chest, the arched tunnel entrance behind her blazing with blinding white light, dust hanging in the air, her face lit from the side, fear in her eyes"
+  },
+  {
+   "id": "p02_nagasaki",
+   "seeds": [
+    201
+   ],
+   "prompt": "Nagasaki in August 1945 seen from a green hillside above the harbour, a shipyard with tall steel cranes and a ship under construction, dense tiled roofs of wooden houses, calm hazy summer morning, small boats on the water"
+  },
+  {
+   "id": "p03_window",
+   "seeds": [
+    301,
+    302
+   ],
+   "prompt": "close-up of a young Japanese engineer in 1945 with a white bandage wrapped around his head and over his left cheek, white shirt, turning his head towards a tall office window that blazes with blinding white light, his face lit pure white on one side, eyes wide with recognition, dim wooden office behind him"
+  },
+  {
+   "id": "p04_floor",
+   "seeds": [
+    401,
+    402
+   ],
+   "prompt": "a young Japanese man in a white shirt with a bandaged head lying flat face down on the wooden floor of a 1940s office beside a desk, arms covering his head, blinding white light pouring through the tall windows above him, papers floating in the air, dust"
+  },
+  {
+   "id": "p05_glass",
+   "seeds": [
+    501
+   ],
+   "prompt": "the tall wooden-framed windows of a 1940s Japanese office bursting inward, shards of glass and papers flying through the air towards the camera, dust and debris, harsh white and orange light outside, chaos"
+  },
+  {
+   "id": "p06_run",
+   "seeds": [
+    601,
+    602
+   ],
+   "prompt": "a young Japanese man in 1945 with a torn dirty white shirt and loose bandages on his arms running through a smoke-filled ruined street of Nagasaki, collapsed wooden houses and broken roof tiles on both sides, smoke and orange glow, seen from the front, desperate face"
+  },
+  {
+   "id": "p07_house",
+   "seeds": [
+    701
+   ],
+   "prompt": "the ruins of a small traditional Japanese wooden house in Nagasaki in 1945, collapsed into a heap of broken beams and grey roof tiles, smoke rising, a lone standing doorframe, hazy orange sky, a hillside behind"
+  },
+  {
+   "id": "p08_family",
+   "seeds": [
+    801,
+    802
+   ],
+   "prompt": "a young Japanese man with bandaged arms and a white bandage on his head embracing his young wife who holds a baby wrapped in cloth, standing together amid smoking ruins in Nagasaki in 1945, dusty faces, tears of relief, warm evening light"
+  },
+  {
+   "id": "p09_shelter",
+   "seeds": [
+    901,
+    902
+   ],
+   "prompt": "a feverish young Japanese man lying on a thin straw mat inside a dim earthen air-raid shelter in 1945, sweat on his pale face, bandages on his arms, eyes half closed, his young wife kneeling beside him holding a wet cloth, a single small oil lamp"
+  },
+  {
+   "id": "p13_mother_walk",
+   "seeds": [
+    1301,
+    1302
+   ],
+   "prompt": "a young Japanese mother in 1945 in a plain work blouse and monpe trousers walking quickly along a sunny street of wooden houses with her baby tied to her back in a cloth carrier, holding a small paper medicine packet, worried face, morning light"
+  }
+ ]
+}

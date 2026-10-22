@@ -1,0 +1,21 @@
+{
+ "note": "№9 часть 2: the present-day shots (him at 90+, the film), so no 1940s style",
+ "style": "cinematic photo, photorealistic, natural light, shot on 35mm film, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "p10_old",
+   "seeds": [
+    1001,
+    1002
+   ],
+   "prompt": "portrait of a very old Japanese man in his nineties with thin white hair and large glasses, wearing a grey cardigan, sitting by a window in a quiet room, gentle tired smile, soft daylight, photograph from the 2000s"
+  },
+  {
+   "id": "p11_film",
+   "seeds": [
+    1101
+   ],
+   "prompt": "a film clapperboard lying on a table on a dark film set, a vintage movie camera on a tripod behind it, a spotlight beam cutting through dust"
+  }
+ ]
+}
