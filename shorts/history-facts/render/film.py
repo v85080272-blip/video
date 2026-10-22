@@ -577,7 +577,8 @@ def draw_hook_text(a, t, tl, tl_text):
 
 
 def draw_captions(a, t, tl, tl_text):
-    skip = set((tl.get('hook_text') or {}).get('lines', []))
+    # the hook's live text and lines a plaque already shows (layout's 'no_caps', e.g. a spoken «подпишись») get none
+    skip = set((tl.get('hook_text') or {}).get('lines', [])) | set(tl.get('no_caps', []))
     for lid, ws in tl['words'].items():
         if not ws or lid in skip:
             continue

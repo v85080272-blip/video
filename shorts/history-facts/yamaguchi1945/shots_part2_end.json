@@ -1,0 +1,15 @@
+{
+ "note": "№9 часть 2, v2 (vla 22.10: the ending needs the why): the last shots. Picked s1402 (her with the baby on the hill above the smoking city) under «его ожоги спасли им жизнь» and s1403 (her from behind under a big sky) under the subscribe plaque; s1401 has no baby. None came out at the tunnel's mouth.",
+ "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "p14_exit",
+   "seeds": [
+    1401,
+    1402,
+    1403
+   ],
+   "prompt": "wide shot from behind: a young Japanese mother in 1945 in a plain work blouse and monpe trousers holding her baby wrapped in a white cloth, standing at the arched mouth of a rough stone tunnel air-raid shelter dug into a hillside and looking out over the flattened smoking ruins of Nagasaki below, small figures in the lower third of the frame, a huge hazy grey and orange sky filling the upper half, drifting smoke, soft light breaking through the clouds, quiet, alive"
+  }
+ ]
+}
