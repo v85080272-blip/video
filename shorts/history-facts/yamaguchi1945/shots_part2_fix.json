@@ -1,0 +1,34 @@
+{
+ "note": "№9 часть 2, v3 (vla 22.10: «на 32 секунде малыш жестко поплыл»): p13_mother_walk_s1301 drew the baby with a long dangling leg and stray fingers, which the camera's depth move made swim; a swaddled bundle with only the face showing leaves SDXL no limbs to get wrong; in s1311-s1313 she got a third hand or six fingers and the baby still showed tangled legs, so the second try is a back view: she walks away with the baby tied on her back, only its head above the carrier; the back views s1321-s1324 came out clean but without the baby, so the third try is a close-up, which this model draws best (as the family and tunnel stills)",
+ "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "p13b_mother",
+   "seeds": [
+    1311,
+    1312,
+    1313
+   ],
+   "prompt": "medium shot from the front of a young Japanese mother in 1945 in a plain beige work blouse walking quickly along a sunny street of old wooden houses, holding a sleeping newborn baby against her chest with both arms, the baby tightly swaddled in a white cloth bundle so that only its small peaceful face shows, no arms or legs visible, worried determined face, soft morning light, shallow depth of field"
+  },
+  {
+   "id": "p13c_mother_back",
+   "seeds": [
+    1321,
+    1322,
+    1323,
+    1324
+   ],
+   "prompt": "seen from behind, a young Japanese mother in 1945 in a plain beige work blouse and grey monpe trousers walking away along a sunny street of old wooden houses, a baby tied to her back in a white cloth carrier, only the baby's small sleeping head visible above the carrier, her arms relaxed at her sides, long morning shadows, dust in the light"
+  },
+  {
+   "id": "p13d_mother_close",
+   "seeds": [
+    1331,
+    1332,
+    1333
+   ],
+   "prompt": "close-up portrait of a young Japanese mother in 1945 in a plain beige work blouse walking along a sunny street of old wooden houses, her sleeping baby's head resting on her shoulder, the baby wrapped in a white cloth, both faces in frame, her worried determined face looking ahead, soft morning light, shallow depth of field"
+  }
+ ]
+}

@@ -12,6 +12,10 @@ v2 (vla 22.10 on v1, which ended on «...и спряталась с малышо
 другие крутые истории». So the answer is spelled out (she had gone out with the baby for ointment for his burns, so
 the blast caught them in a tunnel shelter, not at home; his burns saved their lives), the narrator asks to subscribe
 over the plaque, and the week of fever goes to keep the clip near 45 s.
+
+v3 (vla 22.10 on v2: «на 32 секунде малыш жестко поплыл»): the still of her with the baby had a malformed bare leg and
+the depth move made it swim. Now a close-up with the baby swaddled to the chin, and every shot where the baby shows a
+bare limb (the close-up, the family at 24 s) gets a plain push-in, no depth move.
 """
 import numpy as np
 
@@ -66,7 +70,10 @@ EXIT = 'p14_exit_s1402'              # her with the baby on the hill above the s
 EXIT2 = 'p14_exit_s1403'             # her from behind under a big burning sky: room for the plaque
 OLD = 'p10_old_s1001'
 FILM = 'p11_film_s1101'
-MOTHER = 'p13_mother_walk_s1301'     # s1302 has no baby
+MOTHER = 'p13d_mother_close_s1333'  # her and the baby close, no hands or legs in frame; v1-v2 had
+                                     # p13_mother_walk_s1301, whose baby had a long dangling leg and stray fingers that
+                                     # swam (vla 22.10: «малыш поплыл»); whole-figure and back views in
+                                     # shots_part2_fix.json came out with extra fingers or without the baby
 SFX_DIRS = ['/home/user/work/sfx/yamaguchi', '/home/user/work/sfx/rescue', '/home/user/work/sfx/olga',
             '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
@@ -187,8 +194,9 @@ def layout(c):
     add(HOUSE, ruin, l7, into='whip', cam=dict(zoom=(1.0, 1.08), pany=(0.0, -0.02), parx=(-10, 10)),
         fx=dict(burn, fog=0.2, punch=[(p['ruin'], 0.06)]))
     # L7 his wife and their little son alive: the two of them in the ruins
+    # (the baby's bare foot shows under the wrap, so a plain push-in, no depth move)
     l8 = L('L8')['start'] - 0.08
-    add(FAMILY, l7, l8, into='fade', cam=dict(zoom=(1.02, 1.1), dolly=(0.0, 0.05), parx=(-4, 4)),
+    add(FAMILY, l7, l8, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.01)),
         fx=dict(ash=25, punch=[(p['alive'], 0.05)], grade=warm))
     # L8 «он выживет»: him at ninety-three; «и Джеймс Кэмерон захочет снять о нём фильм»: the clapperboard
     jc = p['cameron'] - 0.06
@@ -201,9 +209,9 @@ def layout(c):
     l10 = L('L10')['start'] - 0.08
     add(HOUSE2, l9, l10, into='fade', cam=dict(zoom=(1.08, 1.16), pany=(0.02, 0.03)),
         fx=dict(dust=20, ash=30, fog=0.3, punch=[(p['how'], 0.05)], grade=dict(ruins, sat=0.5)))
-    # L10 she had gone out with the baby for ointment for his burns
+    # L10 she had gone out with the baby for ointment for his burns: a plain push-in, no depth move over the baby
     bl = p['blast'] - 0.06
-    add(MOTHER, l10, bl, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-6, 6)),
+    add(MOTHER, l10, bl, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.01)),
         fx=dict(dust=15, punch=[(p['ointment'], 0.05)], grade=morning))
     # L11 «и взрыв застал их не дома»: a white flash onto the flattened district where the house stood; «а в
     # тоннеле-убежище»: her in the tunnel with the baby, the entrance blazing behind her (another subject: a whip)
