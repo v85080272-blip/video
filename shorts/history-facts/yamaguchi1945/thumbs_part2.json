@@ -1,0 +1,152 @@
+[
+ {
+  "id": "c1_tonnel",
+  "img": "/home/user/work/yamaguchi/shots/p01b_tunnel_s111.png",
+  "cam": {
+   "zoom": 1.0,
+   "pany": 0.0
+  },
+  "grade": {
+   "exposure": 0.04,
+   "contrast": 1.15,
+   "sat": 1.0,
+   "warm": 0.45
+  },
+  "glow": {
+   "x": 0.75,
+   "y": 0.18,
+   "r": 0.65,
+   "strength": 0.9,
+   "color": [
+    1.0,
+    0.95,
+    0.85
+   ]
+  },
+  "bloom": 0.3,
+  "vignette": 0.45,
+  "band": {
+   "y": 1540,
+   "h": 520,
+   "strength": 0.6
+  },
+  "tag": {
+   "text": "ТАЙНЫ ИСТОРИИ · №9 · ЧАСТЬ 2",
+   "y": 300
+  },
+  "lines": [
+   {
+    "text": "ОЖОГИ",
+    "y": 1430,
+    "size": 230,
+    "color": "white"
+   },
+   {
+    "text": "СПАСЛИ СЕМЬЮ",
+    "y": 1625,
+    "size": 150,
+    "box": "yellow"
+   }
+  ]
+ },
+ {
+  "id": "c2_semya",
+  "img": "/home/user/work/yamaguchi/shots/p08_family_s802.png",
+  "cam": {
+   "zoom": 1.0,
+   "pany": 0.0
+  },
+  "grade": {
+   "exposure": 0.02,
+   "contrast": 1.12,
+   "sat": 1.1,
+   "warm": 0.4
+  },
+  "glow": {
+   "x": 0.15,
+   "y": 0.12,
+   "r": 0.7,
+   "strength": 0.45,
+   "color": [
+    1.0,
+    0.8,
+    0.55
+   ]
+  },
+  "bloom": 0.25,
+  "vignette": 0.4,
+  "band": {
+   "y": 1540,
+   "h": 520,
+   "strength": 0.55
+  },
+  "tag": {
+   "text": "ТАЙНЫ ИСТОРИИ · №9 · ЧАСТЬ 2",
+   "y": 300
+  },
+  "lines": [
+   {
+    "text": "ОЖОГИ",
+    "y": 1430,
+    "size": 230,
+    "color": "white"
+   },
+   {
+    "text": "СПАСЛИ СЕМЬЮ",
+    "y": 1625,
+    "size": 150,
+    "box": "yellow"
+   }
+  ]
+ },
+ {
+  "id": "c3_vtoraya",
+  "img": "/home/user/work/yamaguchi/shots/p03_window_s302.png",
+  "cam": {
+   "zoom": 1.0,
+   "pany": 0.0
+  },
+  "grade": {
+   "exposure": 0.0,
+   "contrast": 1.15,
+   "sat": 0.9,
+   "warm": 0.3
+  },
+  "glow": {
+   "x": 0.15,
+   "y": 0.3,
+   "r": 0.75,
+   "strength": 1.0,
+   "color": [
+    1.0,
+    0.97,
+    0.9
+   ]
+  },
+  "bloom": 0.35,
+  "vignette": 0.45,
+  "band": {
+   "y": 1540,
+   "h": 520,
+   "strength": 0.55
+  },
+  "tag": {
+   "text": "ТАЙНЫ ИСТОРИИ · №9 · ЧАСТЬ 2",
+   "y": 300
+  },
+  "lines": [
+   {
+    "text": "ВТОРАЯ",
+    "y": 1430,
+    "size": 220,
+    "color": "white"
+   },
+   {
+    "text": "ВСПЫШКА",
+    "y": 1625,
+    "size": 160,
+    "box": "yellow"
+   }
+  ]
+ }
+]

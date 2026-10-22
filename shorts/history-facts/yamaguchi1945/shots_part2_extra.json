@@ -1,0 +1,45 @@
+{
+ "note": "№9 часть 2: second tries (the tunnel's white mouth, the bandage torn off, the house flattened, the windows bursting, the fever)",
+ "style": "cinematic film still, photorealistic, 1940s Japan, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {
+   "id": "p01b_tunnel",
+   "seeds": [
+    111,
+    112
+   ],
+   "prompt": "a young Japanese mother in 1945 facing the camera, kneeling deep inside a dark rough stone tunnel, holding her baby wrapped in a white cloth with its face pressed against her chest, behind her the round tunnel entrance is an overwhelming blinding white glare like a second sun, strong white rim light on her hair and shoulders, dust swirling in the air, fear and determination on her face"
+  },
+  {
+   "id": "p04b_bandage",
+   "seeds": [
+    411,
+    412
+   ],
+   "prompt": "a young Japanese man lying face down on the wooden floor of a wrecked 1940s office, a long loose white bandage unravelling and flying through the air above him, shards of glass and papers flying, dust, harsh white light from shattered windows"
+  },
+  {
+   "id": "p07b_house",
+   "seeds": [
+    711,
+    712
+   ],
+   "prompt": "nothing left standing where a small Japanese wooden house stood in Nagasaki in 1945, a flat heap of charred broken beams and smashed grey roof tiles, smoke rising from the rubble, a burned-out neighbourhood all around, hills behind, grey hazy sky"
+  },
+  {
+   "id": "p05b_glass",
+   "seeds": [
+    511
+   ],
+   "prompt": "the instant a blast wave blows in the tall windows of a 1940s Japanese office, thousands of glass shards and papers flying through the air towards the camera, a wooden desk in the foreground, white-hot light outside the empty window frames, dust"
+  },
+  {
+   "id": "p09b_shelter",
+   "seeds": [
+    911,
+    912
+   ],
+   "prompt": "a sick young Japanese man in 1945 lying on his back on a thin straw mat in a dim earthen air-raid shelter, eyes closed, pale sweaty face, a folded wet white cloth on his forehead, bandaged arms, a small oil lamp glowing beside him, dark earth walls"
+  }
+ ]
+}

@@ -5,8 +5,9 @@ so part 2 picks up in the Nagasaki office. Hook first (vla 21.10): «ожоги 
 сына от второй» as big live text, then the story: the flash he recognises, the floor, the windows bursting, his house
 gone, his wife and son alive, a week of fever, the long life and Cameron's film. The last line answers the hook's
 riddle (she had gone out for ointment for his burns and hid with the baby in a tunnel) and runs back into it: the
-tunnel whites out into the cover, which is the same tunnel. Voice «Историк» (h4_s52). Pictures: cloud stills
-(SDXL Lightning, yamaguchi1945/shots_part2.json and shots_part2_modern.json) plus part 1's office and his face.
+tunnel whites out into the cover (his wife with the baby in the ruins, «ожоги спасли семью»). Voice «Историк»
+(h4_s52). Pictures: cloud stills (SDXL Lightning, yamaguchi1945/shots_part2.json, shots_part2_modern.json and the
+second tries in shots_part2_extra.json) plus part 1's office and his face.
 """
 import numpy as np
 
@@ -36,25 +37,26 @@ LOOP = True
 COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №9', year='1945', lines=['ОЖОГИ', 'СПАСЛИ СЕМЬЮ'], part='ЧАСТЬ 2',
              # the preview cover (thumb.py, yamaguchi1945/thumbs_part2.json) in the first frames, so YouTube's frame
              # picker can take it (vla 21.10: catchy covers only for the newest video)
-             img='/mnt/project-files/history-facts/yamaguchi1945-chast2/covers/c1_ozhogi_spasli.jpg')
+             img='/mnt/project-files/history-facts/yamaguchi1945-chast2/covers/ozhogi_spasli_semyu.jpg')
 COVER_B = ['ОЖОГИ', 'СПАСЛИ СЕМЬЮ']
-ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №9', over_last=1.0)
+ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №9', over_last=3.7)      # on «в тоннеле», after she is seen hiding with the baby
 # stills chosen by seed: part 2's (shots_part2*.json) and part 1's office and face
 HERO = 'y01_hero_s101'
 OFFICE = 'y10_office_s1003'
-TUNNEL = 'p01_tunnel_s101'
+TUNNEL = 'p01_tunnel_s102'           # light from above reads as the flash; s101's baby has a red eye
 NAGA = 'p02_nagasaki_s201'
-WINDOW = 'p03_window_s301'
-FLOOR = 'p04_floor_s401'
-FLOOR2 = 'p04_floor_s402'
-GLASS = 'p05_glass_s501'
+WINDOW = 'p03_window_s302'           # s301 is a passport photo, no window
+FLOOR = 'p04_floor_s402'             # s401 looks asleep at a desk
+FLOOR2 = 'p04b_bandage_s411'         # on his back among flying papers (shots_part2_extra.json)
+GLASS = 'p05b_glass_s511'            # glass in mid-air; s501 is a still window
 RUN = 'p06_run_s601'
-HOUSE = 'p07_house_s701'
-FAMILY = 'p08_family_s801'
-SHELTER = 'p09_shelter_s901'
+HOUSE = 'p07b_house_s712'            # the burned district in smoke; s711 has whole roofs
+HOUSE2 = 'p07_house_s701'            # a lone house among debris, for «где были жена и сын?»
+FAMILY = 'p08_family_s802'           # s801 has him holding a toddler, no wife
+SHELTER = 'p09b_shelter_s911'        # s901 has a stray limb, s902 two men kneeling
 OLD = 'p10_old_s1001'
 FILM = 'p11_film_s1101'
-MOTHER = 'p13_mother_walk_s1301'
+MOTHER = 'p13_mother_walk_s1301'     # s1302 has no baby
 SFX_DIRS = ['/home/user/work/sfx/yamaguchi', '/home/user/work/sfx/rescue', '/home/user/work/sfx/olga',
             '/home/user/work/sfx/dance', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
@@ -133,7 +135,7 @@ def layout(c):
     l2 = L('L2')['start'] - 0.08
     add(HERO, 0.0, saved, cam=dict(zoom=(1.12, 1.2), pany=(0.02, 0.03), parx=(-4, 4)),
         fx=dict(dust=20, beat=[hook], grade=face))
-    add(TUNNEL, saved, l2, into='whip', cam=dict(zoom=(1.05, 1.15), parx=(-6, 6)),
+    add(TUNNEL, saved, l2, into='whip', cam=dict(zoom=(1.05, 1.15), panx=(0.04, 0.06), parx=(-6, 6)),
         fx=dict(dust=40, beat=[hook], bloom=0.6, punch=[(p['second'], 0.08)],
                 flash=[(p['second'], 0.35, 0.9, white)], grade=tunnel))
     # L2 9 August, Nagasaki: the harbour and the shipyard from the hill, the last calm minutes
@@ -182,35 +184,35 @@ def layout(c):
     add(SHELTER, l8, l9, into='fade', cam=dict(zoom=(1.05, 1.14), pany=(0.0, 0.01)),
         fx=dict(dust=15, light=dict(x=0.2, y=0.6, r=0.9, col=(0.45, 0.25, 0.08), flicker=0.25), grade=dim))
     # L9 «он выживет»: him at ninety-three; «и Джеймс Кэмерон захочет снять о нём фильм»: the clapperboard
-    cam = p['cameron'] - 0.06
-    add(OLD, l9, cam, into='flash', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.05), parx=(-4, 4)),
+    jc = p['cameron'] - 0.06
+    add(OLD, l9, jc, into='flash', cam=dict(zoom=(1.0, 1.08), pany=(0.03, 0.04), parx=(-4, 4)),
         fx=dict(dust=10, punch=[(p['survive'], 0.05)], grade=now))
     l10 = L('L10')['start'] - 0.08
-    add(FILM, cam, l10, into='whip', cam=dict(zoom=(1.0, 1.12), panx=(0.02, -0.02), parx=(-10, 10)),
-        fx=dict(dust=30, bloom=0.6, punch=[(p['film'], 0.06)], flash=[(cam + 0.06, 0.25, 0.4, white)], grade=now))
-    # L10 «но где были жена и сын?»: back to the empty ruins of the house, closer
+    add(FILM, jc, l10, into='whip', cam=dict(zoom=(1.0, 1.12), panx=(0.02, -0.02), parx=(-10, 10)),
+        fx=dict(dust=30, bloom=0.6, punch=[(p['film'], 0.06)], flash=[(jc + 0.06, 0.25, 0.4, white)], grade=now))
+    # L10 «но где были жена и сын?»: a lone broken house, nobody there
     l11 = L('L11')['start'] - 0.08
-    add(HOUSE, l10, l11, into='fade', cam=dict(zoom=(1.2, 1.28), pany=(0.04, 0.05)),
+    add(HOUSE2, l10, l11, into='fade', cam=dict(zoom=(1.08, 1.16), pany=(0.02, 0.03)),
         fx=dict(dust=20, ash=30, fog=0.3, punch=[(p['where'], 0.05)], grade=dict(ruins, sat=0.5)))
     # L11 she had gone out for ointment for his burns, the baby on her back; «и спряталась с малышом в тоннеле...»:
-    # the tunnel again, its mouth swelling white into the loop (the cover is the same tunnel)
+    # the tunnel again (a white flash into it: the bomb), the light swelling into the loop and the cover
     hid = p['hid'] - 0.06
     add(MOTHER, l11, hid, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-6, 6)),
         fx=dict(dust=15, punch=[(p['ointment'], 0.05)], grade=morning))
-    add(TUNNEL, hid, total, into='whip', cam=dict(zoom=(1.1, 1.24), dolly=(0.0, 0.08)),
-        fx=dict(dust=50, bloom=1.0, shake=[(p['tunnel'], 0.6, 10)], punch=[(p['tunnel'], 0.06)],
-                flash=[(p['tunnel'], 0.6, 1.2, white), (total - 0.3, 0.35, 2.0, white)], grade=tunnel))
+    add(TUNNEL, hid, total, into='flash', cam=dict(zoom=(1.1, 1.24), panx=(0.05, 0.07), dolly=(0.0, 0.08)),
+        fx=dict(dust=50, bloom=0.6, shake=[(p['tunnel'], 0.6, 10)], punch=[(p['tunnel'], 0.06)],
+                flash=[(p['tunnel'], 0.4, 0.45, white), (total - 0.3, 0.35, 2.0, white)], grade=tunnel))
 
     cards = [
-        dict(text='93', sub='ГОДА ОН ПРОЖИЛ', start=p['survive'] + 0.1, end=cam - 0.05, y=760, count=True),
+        dict(text='93 ГОДА', start=p['survive'] + 0.1, end=jc - 0.05, y=950, count=True),   # on his chest, under the chin
     ]
     tags = [
         dict(text='НАГАСАКИ · 9 АВГУСТА, 11:02', start=L('L2')['start'] + 0.05, end=l3 - 0.05),
         dict(text='ЛУЧЕВАЯ БОЛЕЗНЬ', start=L('L8')['start'] + 0.1, end=l9 - 0.05),
-        dict(text='ДЖЕЙМС КЭМЕРОН · «ТИТАНИК», «АВАТАР»', start=cam + 0.15, end=l10 - 0.05),
+        dict(text='РЕЖИССЁР «ТИТАНИКА»', start=jc + 0.15, end=l10 - 0.05),
     ]
-    cover = dict(start=0.0, end=wt('L1', 'ПЕРВОЙ') - 0.1)
-    hook_text = dict(lines=['L1'], y=1180, size=118)
+    cover = dict(start=0.0, end=wt('L1', 'ОТ') - 0.2)
+    hook_text = dict(lines=['L1'], y=1330, size=84)           # 12 words in 5 rows, under the mother and the baby
     return dict(cards=cards, tags=tags, cover=cover, hook_text=hook_text)
 
 
