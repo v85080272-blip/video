@@ -1,4 +1,4 @@
-// Render «Правило №6»: stills for review, or the picture track at 60 fps. Fast frames get motion blur: several sub-frames
+// Render «Вулкан проснулся»: stills for review, or the picture track at 60 fps. Fast frames get motion blur: several sub-frames
 // inside a 180° shutter, averaged; how many depends on how far things move on screen during the exposure.
 // usage: node render.mjs stills <out dir> <t> [<t> ...]
 //        node render.mjs video <out.mp4> [workers = 4]
