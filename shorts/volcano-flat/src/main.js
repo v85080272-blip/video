@@ -247,7 +247,7 @@ export function hunterAt(t) {
     if (pOut > 0.3) o.look = [-0.6, 0.8];
     // the scarf off the neck into the far hand, held out in front; the flask from the belt pours water on it
     const fl0 = A.L6w6 - 0.05, fl1 = A.L6w11 - 0.35, tie0 = fl1 + 0.1, tie1 = A.L6w12 - 0.05;
-    const neck = F.T.p([-44, -226]), clothP = [sh[0] - 150 * S, sh[1] + 30 * S];
+    const neck = F.T.p([-44, -226]), clothP = [sh[0] - 150 * S, sh[1] + 90 * S];
     const offU = seg(fl0 - 0.15, fl0 + 0.15, t);
     if (t >= fl0 - 0.15 && t < tie0 + 0.15) {
       o.hands = { far: { p: [lerp(neck[0], clothP[0], offU), lerp(neck[1], clothP[1], offU)], shape: 'grip' } };
@@ -255,7 +255,7 @@ export function hunterAt(t) {
       o.cloth = { wet: seg(fl0 + 0.5, fl1, t), wave: Math.sin(t * 8) * 0.6 };
     }
     const flU = seg(fl0 + 0.05, fl0 + 0.35, t) * (1 - seg(fl1, fl1 + 0.2, t));
-    const over = [clothP[0] + 34 * S, clothP[1] - 96 * S];
+    const over = [clothP[0] + 30 * S, clothP[1] - 84 * S];
     if (flU > 0) { near = { p: [lerp(rest[0], over[0], flU), lerp(rest[1], over[1], flU)], shape: 'grip' }; o.look = [-0.6, 0.7]; }
     o.prop = flU > 0 ? { kind: 'flask', p: null, tilt: seg(fl0 + 0.35, fl0 + 0.55, t) * (1 - seg(fl1 - 0.1, fl1 + 0.1, t)) } : null;
     // the wet scarf goes up over nose and mouth, tied at the back

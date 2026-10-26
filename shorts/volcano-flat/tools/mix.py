@@ -29,7 +29,7 @@ TRIM = {}
 V_CAP = {'scare': 3.0, 'soft': -6.0, 'other': -1.0}     # an effect's loudest 400 ms against the narrator's integrated loudness
 V_UNDER = {'soft': -12.0, 'other': -7.0}                # …when that loudest moment falls while he speaks
 REST_LU, SCARE_LU = 0.0, 3.0                            # everything but him together, against him: anywhere / at the hit
-MUSIC_LU, MUSIC_UNDER, MUSIC_DUCK, MUSIC_DUCK_MAX = -9.0, 12.0, 6.0, 18.0
+MUSIC_LU, MUSIC_UNDER, MUSIC_DUCK, MUSIC_DUCK_MAX = -7.0, 12.0, 6.0, 18.0
 FX_DUCK, BED_V = 2.0, -27.0                            # every effect dips 2 dB while he speaks; the bed under him
 
 
