@@ -29,9 +29,10 @@ HILITE = {'РЕАКТОР', 'ЧЕРНОБЫЛЯ,', 'НИКТО', 'ВЕРНУТС
 
 # gap (s) after each line before the next one starts (voice5/tools/gaps_used.py keeps the narrator's own pauses where
 # they are longer); after L3 the imagined blast gets a beat of its own, after L7 the water is heard going
-GAPS = {'L1': 0.35, 'L2': 0.2, 'L3': 0.5, 'L4': 0.3, 'L5': 0.3, 'L6': 0.25, 'L7': 0.6, 'L8': 0.25, 'L9': 0.35,
-        'L10': 0.4, 'L11': 0.0}
-GAP_MAX = 0.5
+GAPS = {'L1': 0.35, 'L2': 0.2, 'L3': 0.6, 'L4': 0.3, 'L5': 0.3, 'L6': 0.25, 'L7': 0.6, 'L8': 0.25, 'L9': 0.3,
+        'L10': 0.3, 'L11': 0.0}
+GAP_MAX = 0.3                      # «Историк» reads it in 43.6 s: with VOICE_SPEED 1.05 and the narrator's own pauses
+                                   # capped (the blast's and the water's stay) the clip runs about 46 s
 LEAD_IN = 0.15
 TAIL = 0.6                         # the plaque holds a moment after «истории», then a white flash loops to the cover
 LOOP = True
@@ -100,9 +101,9 @@ def plan(lines, words):
     p['myth'] = wt('L9', 'МИФ')
     p['nursed'] = wt('L9', 'ВЫХОДИЛИ')
     p['lived'] = wt('L9', 'ВЫЖИЛИ')
-    p['y19'] = wt('L10', 'ДЕВЯТНАДЦАТЬ')
+    p['y19'] = wt('L10', '19')
     p['anan'] = wt('L10', 'АНАНЕНКО')
-    p['y30'] = wt('L10', 'ТРИДЦАТЬ')
+    p['y30'] = wt('L10', '30')
     p['sub'] = lines['L11']['start']
     return p
 
@@ -196,8 +197,8 @@ def layout(c):
         dict(text='30 ЛЕТ', start=p['y30'] + 0.1, end=sub - 0.05, y=950, count=True),
     ]
     tags = [
-        dict(text='ЧАЭС · 4-Й ЭНЕРГОБЛОК · МАЙ 1986', start=L('L2')['start'] + 0.05, end=l3 - 0.05),
-        dict(text='АЛЕКСЕЙ АНАНЕНКО · ВАЛЕРИЙ БЕСПАЛОВ · БОРИС БАРАНОВ', start=p['three'] + 0.1, end=l6 - 0.05),
+        dict(text='ЧАЭС · 4-Й БЛОК · МАЙ 1986', start=L('L2')['start'] + 0.05, end=l3 - 0.05),
+        dict(text='ИНЖЕНЕРЫ И НАЧАЛЬНИК СМЕНЫ', start=p['three'] + 0.1, end=l6 - 0.05),
     ]
     cover = dict(start=0.0, end=wt('L1', 'ЧЕРНОБЫЛЯ') - 0.2)
     hook_text = dict(lines=['L1'], y=1330, size=84)
