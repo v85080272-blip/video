@@ -1,0 +1,134 @@
+{
+  "style": "cinematic film still, photorealistic, Renaissance era, year 1518, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+  "shots": [
+    {
+      "id": "d01_crowd_night",
+      "seeds": [
+        101,
+        201
+      ],
+      "prompt": "a frenzied crowd of 16th century peasants dancing wildly in a narrow cobblestone street at night, torches and firelight, ecstatic exhausted faces, raised arms, motion blur, half-timbered houses, gothic cathedral spire in the background"
+    },
+    {
+      "id": "d02_silhouettes",
+      "seeds": [
+        102
+      ],
+      "prompt": "dark silhouettes of medieval people dancing against a blood red sky at dusk, smoke and dust, ominous atmosphere, town rooftops in the background"
+    },
+    {
+      "id": "d03_strasbourg_street",
+      "seeds": [
+        103
+      ],
+      "prompt": "a sunny summer street in 16th century Strasbourg, colorful half-timbered houses, cobblestones, townspeople in Renaissance clothes, the tall gothic cathedral spire at the end of the street, warm light, dust in the air"
+    },
+    {
+      "id": "d04_troffea",
+      "seeds": [
+        104,
+        204
+      ],
+      "prompt": "a lone woman in a simple 16th century linen dress and white headscarf dancing alone in the middle of a cobblestone street, arms raised, eyes closed, townspeople staring at her from doorways and windows, harsh midday sun"
+    },
+    {
+      "id": "d05_exhausted_face",
+      "seeds": [
+        105
+      ],
+      "prompt": "close-up portrait of an exhausted 16th century woman with a white headscarf, sweat on her face, strands of hair, eyes half closed, dusk light, shallow depth of field"
+    },
+    {
+      "id": "d06_feet",
+      "seeds": [
+        106
+      ],
+      "prompt": "close-up of feet in worn dusty leather shoes dancing on old cobblestones, hem of a linen dress, motion blur, low angle, evening light"
+    },
+    {
+      "id": "d07_square_crowd",
+      "seeds": [
+        107
+      ],
+      "prompt": "hundreds of 16th century townspeople dancing in a crowded medieval town square, chaotic, dust in the air, half-timbered houses all around, wide shot from a high window"
+    },
+    {
+      "id": "d08_physicians",
+      "seeds": [
+        108
+      ],
+      "prompt": "two 16th century physicians in black robes and black caps examining a glass flask against the window light in a dim stone room, old books and candles on the table, serious faces"
+    },
+    {
+      "id": "d09_stage",
+      "seeds": [
+        409,
+        509
+      ],
+      "prompt": "German Renaissance street musicians in puffed slashed doublets, hose and feathered berets playing fiddles, drums and long wooden shawms on a raised wooden stage in a crowded town square, exhausted townspeople dancing below the stage, colorful banners, golden evening light, half-timbered Alsatian houses"
+    },
+    {
+      "id": "d10_collapse",
+      "seeds": [
+        110
+      ],
+      "prompt": "exhausted 16th century people lying on the ground of a town square at night, others still dancing around them, torches, smoke, dramatic shadows"
+    },
+    {
+      "id": "d11_pilgrims",
+      "seeds": [
+        111
+      ],
+      "prompt": "a procession of 16th century pilgrims with wooden carts on a forest road leading to a small stone chapel on a hill, misty morning, rays of light through the trees"
+    },
+    {
+      "id": "d12_red_shoes",
+      "seeds": [
+        112
+      ],
+      "prompt": "a pair of red leather 16th century shoes with crosses painted on them standing on the stone floor of a candlelit chapel, incense smoke, close-up, warm candle light"
+    },
+    {
+      "id": "d13_empty_square",
+      "seeds": [
+        113
+      ],
+      "prompt": "an empty medieval town square at dawn, an abandoned wooden stage, scattered straw, a dropped tambourine on the cobblestones, light fog, quiet, cold blue light"
+    },
+    {
+      "id": "d14_ergot",
+      "seeds": [
+        114
+      ],
+      "prompt": "macro photo of ripe rye ears with dark purple ergot fungus spurs growing from the grains, dramatic dark background, moody side light"
+    },
+    {
+      "id": "d15_fear_crowd",
+      "seeds": [
+        115
+      ],
+      "prompt": "a crowd of frightened 16th century townspeople in front of a gothic church, gaunt hungry faces, fear and despair, dark stormy sky"
+    },
+    {
+      "id": "d16_sunset_dance",
+      "seeds": [
+        116
+      ],
+      "prompt": "silhouettes of people dancing in a circle on a hill against a blazing orange sunset, medieval town skyline with a gothic cathedral spire on the horizon"
+    },
+    {
+      "id": "d17_decree",
+      "seeds": [
+        117
+      ],
+      "prompt": "a 16th century town herald in a red and white tunic reading a decree from a parchment scroll on the steps of a gothic town hall, a crowd of townspeople listening, overcast daylight"
+    },
+    {
+      "id": "d18_frenzy",
+      "seeds": [
+        118
+      ],
+      "prompt": "close-up of a 16th century peasant man dancing ecstatically at night, head thrown back, eyes closed, sweat, linen shirt, torchlight, other dancers blurred behind him, motion blur"
+    }
+  ]
+}

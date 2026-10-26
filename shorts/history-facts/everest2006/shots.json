@@ -1,0 +1,214 @@
+{
+  "style": "cinematic film still, photorealistic, Mount Everest north side, Tibet, high altitude mountaineering, 2006, shot on 35mm film, dramatic lighting, highly detailed, film grain",
+  "shots": [
+    {
+      "id": "e01_lone_ridge",
+      "seeds": [
+        101,
+        201
+      ],
+      "prompt": "a lone climber in an orange down suit sitting motionless in the snow on a narrow knife edge ridge near the summit of Everest at dusk, huge drop below, sea of clouds far below, deep blue sky"
+    },
+    {
+      "id": "e02_summit",
+      "seeds": [
+        102
+      ],
+      "prompt": "a mountaineer in an orange down suit and oxygen mask standing on the summit of Everest among colorful prayer flags in the wind, bright blue sky, sea of clouds below"
+    },
+    {
+      "id": "e03_collapse",
+      "seeds": [
+        103
+      ],
+      "prompt": "an exhausted climber in an oxygen mask collapsing on the snow while two Sherpa guides hold his arms on a steep rocky ridge, late afternoon, wind blowing snow"
+    },
+    {
+      "id": "e05_sherpas_night",
+      "seeds": [
+        105,
+        205
+      ],
+      "prompt": "three Sherpa guides with headlamps dragging an unconscious climber down a steep snowy ridge at night, stars, wind, darkness"
+    },
+    {
+      "id": "e06_radio",
+      "seeds": [
+        106
+      ],
+      "prompt": "close-up of a gloved hand holding a walkie-talkie radio covered in frost, dark tent wall, headlamp light, night at high altitude"
+    },
+    {
+      "id": "e07_leader_radio",
+      "seeds": [
+        107
+      ],
+      "prompt": "a grey bearded expedition leader speaking into a radio in a tent at night at Everest base camp, maps and oxygen bottles, lamp light, grim face"
+    },
+    {
+      "id": "e08_wife_phone",
+      "seeds": [
+        108
+      ],
+      "prompt": "a woman at home at night holding a phone to her ear in shock, dim kitchen light, suburban house, tears in her eyes"
+    },
+    {
+      "id": "e09_night_alone",
+      "seeds": [
+        109
+      ],
+      "prompt": "a lone climber lying in the snow on a high mountain ridge at night under a sky full of stars, moonlight on the snow, extreme cold, wind blowing snow"
+    },
+    {
+      "id": "e10_everest_night",
+      "seeds": [
+        110
+      ],
+      "prompt": "the summit pyramid of Mount Everest at night under a sky full of stars and the Milky Way, moonlit snow, wind plume"
+    },
+    {
+      "id": "e11_dawn_team",
+      "seeds": [
+        111
+      ],
+      "prompt": "a line of climbers with headlamps and oxygen masks climbing a steep snowy ridge at dawn on Everest, first pink light, deep shadows"
+    },
+    {
+      "id": "e12_man_edge",
+      "seeds": [
+        112,
+        212
+      ],
+      "prompt": "a man in an unzipped orange down suit without hat and gloves sitting cross-legged in the snow at the edge of a huge cliff on a high mountain ridge at sunrise, frost on his beard, golden light"
+    },
+    {
+      "id": "e13_face_frost",
+      "seeds": [
+        113
+      ],
+      "prompt": "close-up portrait of a 50 year old bearded man with frost on his beard and eyebrows, sunburned face, calm tired eyes, high altitude, sunrise light"
+    },
+    {
+      "id": "e15_oxygen_help",
+      "seeds": [
+        115
+      ],
+      "prompt": "a climber kneeling in the snow putting an oxygen mask on another climber sitting on a high ridge, morning light, care"
+    },
+    {
+      "id": "e16_summit_near",
+      "seeds": [
+        116
+      ],
+      "prompt": "the summit of Everest seen from the north ridge, close but out of reach, morning sun, snow plume blowing from the top"
+    },
+    {
+      "id": "e17_sherpas_up",
+      "seeds": [
+        117
+      ],
+      "prompt": "a team of a dozen Sherpa climbers in down suits climbing up a snowy ridge with ropes and oxygen bottles, wind, morning, determined"
+    },
+    {
+      "id": "e19_hands",
+      "seeds": [
+        119
+      ],
+      "prompt": "close-up of a man's bare hands with slightly darkened frostbitten fingertips, holding a cup of tea in a mountain tent, warm light"
+    },
+    {
+      "id": "e20_rock_shelter",
+      "seeds": [
+        120
+      ],
+      "prompt": "a small rock overhang shelter on a snowy mountain ridge with a lone huddled climber inside in shadow, a line of climbers with headlamps walking past, night"
+    },
+    {
+      "id": "e21_line_passing",
+      "seeds": [
+        121
+      ],
+      "prompt": "a long line of climbers in down suits and oxygen masks walking along a fixed rope on a snowy ridge of Everest, wind, crowded"
+    },
+    {
+      "id": "e22_turn_back",
+      "seeds": [
+        122
+      ],
+      "prompt": "a climber standing on a snowy ridge looking back down the mountain with the summit of Everest behind him, golden hour, a choice"
+    },
+    {
+      "id": "e03b_collapse_orange",
+      "seeds": [
+        303,
+        403
+      ],
+      "prompt": "an exhausted climber in an orange down suit and oxygen mask collapsed on his knees in the snow, a Sherpa guide in a red jacket kneeling beside him holding his shoulder, steep rocky ridge near the summit, late afternoon, wind blowing snow"
+    },
+    {
+      "id": "e07b_leader_radio",
+      "seeds": [
+        307,
+        407
+      ],
+      "prompt": "a stern middle-aged expedition leader with a grey beard in a red down jacket speaking into a handheld walkie-talkie radio held to his mouth, inside a tent at base camp at night, lamp light, grim face"
+    },
+    {
+      "id": "e08b_wife_phone",
+      "seeds": [
+        308,
+        408
+      ],
+      "prompt": "a Caucasian woman in her forties with light brown hair at home at night holding a phone to her ear in shock, dim kitchen light, suburban house in Australia, tears in her eyes"
+    },
+    {
+      "id": "e13b_face_bare",
+      "seeds": [
+        313,
+        413,
+        513
+      ],
+      "prompt": "close-up portrait of a 50 year old man with a short dark beard covered in frost, bare head with messy windblown hair, no hat, no goggles, sunburned face, calm tired eyes, sunrise light"
+    },
+    {
+      "id": "e14_bare_hands",
+      "seeds": [
+        114,
+        214
+      ],
+      "prompt": "close-up of a man's bare hands without gloves resting on his knees in the snow, fingers red and white from frost, sleeves of an orange down suit, high mountain ridge at sunrise"
+    },
+    {
+      "id": "e12c_unzipped",
+      "seeds": [
+        312,
+        412
+      ],
+      "prompt": "a bearded man sitting cross-legged in the snow at the edge of a cliff with his orange down suit unzipped to the waist and his arms out of the sleeves, bare hands, no hat, sunrise, high mountain ridge, huge drop"
+    },
+    {
+      "id": "e20b_huddled",
+      "seeds": [
+        320,
+        420
+      ],
+      "prompt": "a lone climber in a down suit huddled motionless with his knees to his chest under a small rock overhang in the snow on a high mountain ridge, face hidden, a line of climbers with headlamps walking past him in the dark, cold blue night light"
+    },
+    {
+      "id": "e19b_bandaged",
+      "seeds": [
+        319,
+        419
+      ],
+      "prompt": "close-up of a man's hands with white bandages on the fingertips holding a mug of hot tea, hospital blanket, warm light"
+    },
+    {
+      "id": "e12d_open_suit",
+      "seeds": [
+        512,
+        612
+      ],
+      "prompt": "a bearded man sitting in the snow with his orange down jacket wide open, showing a thin grey thermal shirt underneath, bare hands resting on his knees, bare head with messy hair, high mountain ridge at sunrise"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+description: A deep bass-baritone male voice, a man around 40, warm and slightly husky, low pitch, a documentary narrator telling a gripping historical mystery, lively confident pace, vivid natural intonation, crisp diction, dry close-mic studio recording
+seed: 3
+take: cast/takes/R4_s3.wav (VoxCPM2 voice design, cfg 2.0, 10 timesteps, temperature 1.0)
+casting line: В тысяча девятьсот восьмом году над Сибирью взорвалось нечто в сотни раз мощнее Хиросимы. И никто до сих пор не знает, что это было.
+whisper: В 1908 году над Сибирью взорвалось нечто в сотни раз мощнее Хиросимы. И никто до сих пор не знает, что это было.  (CER 0)
+metrics of the take: f0 median 117 Hz (p10-p90 87-147 Hz, 9.08 semitones), pace 5.51 syl/s, noise floor -75.5 dB under speech, reverb tail 50 ms, timbre steadiness 0.99
+narrator.wav: edges trimmed (40 ms pad), the 0.64 s pause between the sentences shortened to 0.40 s; 48 kHz 16-bit mono, 7.62 s

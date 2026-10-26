@@ -1,0 +1,18 @@
+{
+ "note": "Cloud stand-ins (SDXL Lightning) for the six stills the PC's Codex did not get to on the night of 19.10; no faces, so the hero stays the one from the Codex still o06. The Codex stills o02, o04, o06 and o10 carry the rest.",
+ "style": "cinematic film still, photorealistic, shot on 35mm film, dramatic volumetric lighting, deep shadows, highly detailed, film grain",
+ "shots": [
+  {"id": "o03_tug_capsize", "seeds": [301, 302, 303],
+   "prompt": "night storm at sea off the coast of West Africa, a small orange offshore tugboat heeling far over and capsizing in huge black waves, its deck floodlights tilted, white spray and heavy rain, a flash of lightning on the horizon, distant lights of an oil platform"},
+  {"id": "o05_swim_corridor", "seeds": [501, 502],
+   "prompt": "underwater inside a capsized ship, a man in a white t-shirt seen from behind swimming away through a narrow flooded corridor, everything upside down, doors and pipes overhead, dark teal-green water, a faint glow far ahead, floating particles and bubbles"},
+  {"id": "o07_dark_cabin", "seeds": [701, 702],
+   "prompt": "almost pitch-black flooded ship cabin turned upside down, a few centimetres of air under a rusty steel ceiling with pipes, the black water surface reflecting a faint cold blue glint, condensation drops, eerie silence, no people"},
+  {"id": "o09_shelf_wait", "seeds": [901, 902],
+   "prompt": "dark flooded ship cabin, the silhouette of a man seen from behind sitting on a narrow shelf just above black water, hugging his knees, rusty steel wall, faint blue light from the water, cold and lonely"},
+  {"id": "o11_lamp_corridor", "seeds": [1101, 1102],
+   "prompt": "underwater, the beam of a diver's helmet lamp cutting through a flooded ship corridor full of floating debris, loose cables and silt, dark teal-green water, empty and silent, no people"},
+  {"id": "o12_chamber", "seeds": [1201, 1202],
+   "prompt": "a cylindrical steel decompression chamber on the deck of a diving support vessel at night, warm yellow light glowing from inside through its small round porthole, wet deck, floodlights, light steam, the dark sea behind"}
+ ]
+}

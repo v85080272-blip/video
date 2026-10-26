@@ -1,0 +1,481 @@
+{
+  "title": "Rescue episodes (the Thai cave 2018, Everest 2006) - original synthesized kit (70 bpm, 4-bar loops)",
+  "generator": "make_sfx_rescue.py (numpy only, re-runnable, deterministic seeds; helpers from make_sfx.py)",
+  "sample_rate": 48000,
+  "channels": 2,
+  "bit_depth": 24,
+  "level_policy": "hits/one-shots normalised to -1 dBTP true peak; ambiences/beds to -28 dBFS RMS",
+  "hit_s_note": "sync point in seconds: onset of the main hit, centre of a pass-by, cut point of a riser/tension bed, measured loudest point for rumble_long; 0.0 for loops/beds",
+  "files": [
+    {
+      "file": "pulse_dark.wav",
+      "duration_s": 13.714,
+      "hit_s": 0.0,
+      "description": "Dark synth pulse, 70 bpm, 4 bars over A - F - C - G roots: a filtered saw bass in eighths with accents on 1 and 3, a sub sine under it, a muted tick on the off-beats. Tension bed. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -5.46,
+      "true_peak_dbtp": -5.46,
+      "rms_dbfs": -21.0,
+      "dc_dbfs": -215.2,
+      "lr_correlation": 0.865,
+      "centroid_hz": 83,
+      "measured_peak_s": 5.195,
+      "band_energy": {
+        "0-60": 0.537,
+        "60-100": 0.263,
+        "100-250": 0.167,
+        "250-500": 0.027,
+        "500-2000": 0.007,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 29.6,
+        "joint_rms_db": -16.55,
+        "block_rms_db_range": [
+          -35.5,
+          -13.56
+        ]
+      }
+    },
+    {
+      "file": "piano_sad.wav",
+      "duration_s": 13.714,
+      "hit_s": 0.0,
+      "description": "Soft felt piano, 70 bpm, 4 bars: a low note on every bar and a broken chord in eighths over Am - F - C - G, gentle velocities, big hall. Original. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -9.78,
+      "true_peak_dbtp": -9.78,
+      "rms_dbfs": -23.0,
+      "dc_dbfs": -210.3,
+      "lr_correlation": 0.579,
+      "centroid_hz": 342,
+      "measured_peak_s": 10.752,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.161,
+        "100-250": 0.328,
+        "250-500": 0.348,
+        "500-2000": 0.158,
+        "2000-6000": 0.006,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 85.9,
+        "joint_rms_db": -21.99,
+        "block_rms_db_range": [
+          -28.89,
+          -18.5
+        ]
+      }
+    },
+    {
+      "file": "pad_hope.wav",
+      "duration_s": 13.714,
+      "hit_s": 0.0,
+      "description": "Warm string pad, 70 bpm, 4 bars: Am - F - C - G chords of detuned saws, slow swells that overlap into the next chord, low-passed, wide hall. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -7.61,
+      "true_peak_dbtp": -7.61,
+      "rms_dbfs": -22.0,
+      "dc_dbfs": -203.5,
+      "lr_correlation": 0.319,
+      "centroid_hz": 375,
+      "measured_peak_s": 0.932,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.3,
+        "250-500": 0.517,
+        "500-2000": 0.181,
+        "2000-6000": 0.002,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 49.9,
+        "joint_rms_db": -27.05,
+        "block_rms_db_range": [
+          -26.84,
+          -18.69
+        ]
+      }
+    },
+    {
+      "file": "drums_build.wav",
+      "duration_s": 13.714,
+      "hit_s": 0.0,
+      "description": "Cinematic drums for the rescue, 70 bpm, 4 bars: big low drum on 1 and 3, low toms answering, a fill in bar 4, big hall. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -2.41,
+      "true_peak_dbtp": -2.41,
+      "rms_dbfs": -19.0,
+      "dc_dbfs": -209.2,
+      "lr_correlation": 0.83,
+      "centroid_hz": 75,
+      "measured_peak_s": 0.0,
+      "band_energy": {
+        "0-60": 0.675,
+        "60-100": 0.231,
+        "100-250": 0.087,
+        "250-500": 0.005,
+        "500-2000": 0.002,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 91.8,
+        "joint_rms_db": -12.39,
+        "block_rms_db_range": [
+          -51.63,
+          -10.05
+        ]
+      }
+    },
+    {
+      "file": "cave_drips.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "Inside a big flooded cave: water drops into pools (rising plinks at random pitches, ~1.6 per s), a distant trickle, a low rumble of water far away, long dark cave reverb. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -7.95,
+      "true_peak_dbtp": -7.95,
+      "rms_dbfs": -30.0,
+      "dc_dbfs": -203.5,
+      "lr_correlation": 0.247,
+      "centroid_hz": 1603,
+      "measured_peak_s": 11.713,
+      "band_energy": {
+        "0-60": 0.018,
+        "60-100": 0.027,
+        "100-250": 0.022,
+        "250-500": 0.003,
+        "500-2000": 0.621,
+        "2000-6000": 0.308,
+        "6000-24000": 0.001
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 94.7,
+        "joint_rms_db": -28.47,
+        "block_rms_db_range": [
+          -42.8,
+          -20.51
+        ]
+      }
+    },
+    {
+      "file": "water_rush.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "Flood water rushing through a narrow cave passage: deep roar with surges, a mid-band torrent, gurgling bubbles, cave reflections. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -8.27,
+      "true_peak_dbtp": -8.25,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -204.9,
+      "lr_correlation": 0.01,
+      "centroid_hz": 564,
+      "measured_peak_s": 9.675,
+      "band_energy": {
+        "0-60": 0.222,
+        "60-100": 0.171,
+        "100-250": 0.2,
+        "250-500": 0.111,
+        "500-2000": 0.23,
+        "2000-6000": 0.058,
+        "6000-24000": 0.007
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 86.3,
+        "joint_rms_db": -23.65,
+        "block_rms_db_range": [
+          -28.8,
+          -20.03
+        ]
+      }
+    },
+    {
+      "file": "rain_heavy.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "Monsoon downpour over the jungle: dense drops on leaves and ground (thousands of tiny clicks), a broadband hiss, a low rumble of distant thunder rolling in and out. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -2.59,
+      "true_peak_dbtp": -1.35,
+      "rms_dbfs": -24.0,
+      "dc_dbfs": -216.5,
+      "lr_correlation": -0.002,
+      "centroid_hz": 5508,
+      "measured_peak_s": 8.277,
+      "band_energy": {
+        "0-60": 0.015,
+        "60-100": 0.02,
+        "100-250": 0.013,
+        "250-500": 0.008,
+        "500-2000": 0.173,
+        "2000-6000": 0.422,
+        "6000-24000": 0.349
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 76.3,
+        "joint_rms_db": -24.7,
+        "block_rms_db_range": [
+          -25.3,
+          -22.88
+        ]
+      }
+    },
+    {
+      "file": "underwater.wav",
+      "duration_s": 10.0,
+      "hit_s": 0.0,
+      "description": "Underwater in a flooded cave: muffled low rumble and pressure throb, distant bubbles, the creak of rock, everything above 1.5 kHz gone. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -9.62,
+      "true_peak_dbtp": -9.62,
+      "rms_dbfs": -25.0,
+      "dc_dbfs": -212.5,
+      "lr_correlation": 0.009,
+      "centroid_hz": 177,
+      "measured_peak_s": 9.82,
+      "band_energy": {
+        "0-60": 0.51,
+        "60-100": 0.159,
+        "100-250": 0.129,
+        "250-500": 0.069,
+        "500-2000": 0.132,
+        "2000-6000": 0.0,
+        "6000-24000": 0.0
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 97.0,
+        "joint_rms_db": -22.62,
+        "block_rms_db_range": [
+          -31.66,
+          -20.97
+        ]
+      }
+    },
+    {
+      "file": "thunder.wav",
+      "duration_s": 7.0,
+      "hit_s": 0.05,
+      "description": "Thunder close by: a sharp crack, then a rolling rumble with three swells, long outdoor decay.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.25,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -16.86,
+      "dc_dbfs": -200.8,
+      "lr_correlation": 0.586,
+      "centroid_hz": 280,
+      "measured_peak_s": 1.557,
+      "band_energy": {
+        "0-60": 0.578,
+        "60-100": 0.195,
+        "100-250": 0.187,
+        "250-500": 0.022,
+        "500-2000": 0.002,
+        "2000-6000": 0.003,
+        "6000-24000": 0.013
+      }
+    },
+    {
+      "file": "diver_breath.wav",
+      "duration_s": 4.5,
+      "hit_s": 0.05,
+      "description": "A diver's breath through a regulator: an inhale hiss with the valve's squeak, then the exhale as a burst of bubbles rising past the mask, muffled.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -21.29,
+      "dc_dbfs": -205.9,
+      "lr_correlation": 0.896,
+      "centroid_hz": 1327,
+      "measured_peak_s": 1.923,
+      "band_energy": {
+        "0-60": 0.004,
+        "60-100": 0.013,
+        "100-250": 0.101,
+        "250-500": 0.379,
+        "500-2000": 0.269,
+        "2000-6000": 0.207,
+        "6000-24000": 0.025
+      }
+    },
+    {
+      "file": "pump_fail.wav",
+      "duration_s": 5.0,
+      "hit_s": 2.6,
+      "description": "A big water pump dies: the motor's hum (50 Hz and harmonics) winds down over 2.5 s with a grinding rattle, a heavy clunk at 2.6 s, then water starts gurgling back in and swells.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.02,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -18.89,
+      "dc_dbfs": -198.7,
+      "lr_correlation": 0.673,
+      "centroid_hz": 174,
+      "measured_peak_s": 2.65,
+      "band_energy": {
+        "0-60": 0.341,
+        "60-100": 0.266,
+        "100-250": 0.24,
+        "250-500": 0.097,
+        "500-2000": 0.05,
+        "2000-6000": 0.005,
+        "6000-24000": 0.001
+      }
+    },
+    {
+      "file": "wind_high.wav",
+      "duration_s": 12.0,
+      "hit_s": 0.0,
+      "description": "High-altitude wind on an exposed ridge: a broadband roar with strong gusts and two wandering whistling resonances (300-900 Hz), snow hiss in the gusts. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -6.23,
+      "true_peak_dbtp": -6.23,
+      "rms_dbfs": -23.0,
+      "dc_dbfs": -214.5,
+      "lr_correlation": -0.004,
+      "centroid_hz": 671,
+      "measured_peak_s": 11.307,
+      "band_energy": {
+        "0-60": 0.211,
+        "60-100": 0.169,
+        "100-250": 0.235,
+        "250-500": 0.219,
+        "500-2000": 0.131,
+        "2000-6000": 0.007,
+        "6000-24000": 0.028
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 38.4,
+        "joint_rms_db": -21.29,
+        "block_rms_db_range": [
+          -30.5,
+          -18.17
+        ]
+      }
+    },
+    {
+      "file": "breath_mask.wav",
+      "duration_s": 6.0,
+      "hit_s": 0.0,
+      "description": "Heavy slow breathing through an oxygen mask at altitude: two cycles of a hissing inhale and a longer, lower exhale with the mask valve's click, close and dry. Loops seamlessly.",
+      "type": "loop",
+      "loopable": true,
+      "peak_dbfs": -9.85,
+      "true_peak_dbtp": -9.85,
+      "rms_dbfs": -26.0,
+      "dc_dbfs": -198.2,
+      "lr_correlation": 0.967,
+      "centroid_hz": 1684,
+      "measured_peak_s": 5.034,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.004,
+        "250-500": 0.033,
+        "500-2000": 0.673,
+        "2000-6000": 0.283,
+        "6000-24000": 0.006
+      },
+      "loop_seam": {
+        "wrap_step_percentile": 0.0,
+        "joint_rms_db": -56.58,
+        "block_rms_db_range": [
+          -142.82,
+          -20.76
+        ]
+      }
+    },
+    {
+      "file": "steps_snow.wav",
+      "duration_s": 3.2,
+      "hit_s": 0.02,
+      "description": "Four slow steps in crampons on hard snow: a crunch, a low thud, a tiny metallic bite of the points.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -24.93,
+      "dc_dbfs": -201.0,
+      "lr_correlation": 0.963,
+      "centroid_hz": 1562,
+      "measured_peak_s": 0.006,
+      "band_energy": {
+        "0-60": 0.01,
+        "60-100": 0.738,
+        "100-250": 0.037,
+        "250-500": 0.004,
+        "500-2000": 0.029,
+        "2000-6000": 0.101,
+        "6000-24000": 0.082
+      }
+    },
+    {
+      "file": "radio_static.wav",
+      "duration_s": 2.4,
+      "hit_s": 0.02,
+      "description": "A two-way radio: squelch burst opening, hiss and crackles through a tiny speaker, a short roger beep and the closing squelch tail.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.0,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -16.72,
+      "dc_dbfs": -196.2,
+      "lr_correlation": 1.0,
+      "centroid_hz": 1781,
+      "measured_peak_s": 1.78,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.007,
+        "500-2000": 0.691,
+        "2000-6000": 0.298,
+        "6000-24000": 0.004
+      }
+    },
+    {
+      "file": "phone_ring.wav",
+      "duration_s": 3.6,
+      "hit_s": 0.02,
+      "description": "A house phone ringing in a quiet kitchen at night: double ring (400 + 450 Hz with a fast warble), twice, through a small speaker, room echo.",
+      "type": "hit",
+      "loopable": false,
+      "peak_dbfs": -1.01,
+      "true_peak_dbtp": -1.0,
+      "rms_dbfs": -14.02,
+      "dc_dbfs": -197.2,
+      "lr_correlation": 0.952,
+      "centroid_hz": 490,
+      "measured_peak_s": 2.34,
+      "band_energy": {
+        "0-60": 0.0,
+        "60-100": 0.0,
+        "100-250": 0.0,
+        "250-500": 0.925,
+        "500-2000": 0.072,
+        "2000-6000": 0.003,
+        "6000-24000": 0.0
+      }
+    }
+  ],
+  "tempo": {
+    "bpm": 70.0,
+    "beat_s": 0.8571428571428571,
+    "loop_bars": 4,
+    "loop_s": 13.714285714285714
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "style": "cinematic film still, photorealistic, early medieval Kievan Rus, 10th century Eastern Europe, Slavic, shot on 35mm film, dramatic volumetric lighting, highly detailed, film grain",
+  "shots": [
+    {
+      "id": "o01_city_birds",
+      "seeds": [
+        101,
+        201
+      ],
+      "prompt": "a wooden early medieval Slavic hillfort town with log houses and thatched roofs on a high riverbank burning at dusk, huge orange flames and sparks, a flock of pigeons and sparrows with tiny glowing embers flying over the roofs, tall wooden palisade, dark blue sky, smoke"
+    },
+    {
+      "id": "o02_olga",
+      "seeds": [
+        102,
+        202
+      ],
+      "prompt": "close-up portrait of a stern young 10th century Slavic princess with a long blonde braid, white silk veil, golden diadem with pearl temple pendants, red cloak with fur trim, cold piercing eyes, firelight on her face, dark smoky background with sparks"
+    },
+    {
+      "id": "o03_igor_ride",
+      "seeds": [
+        103
+      ],
+      "prompt": "a 10th century Kievan Rus prince in a red cloak and conical helmet riding a horse with a small band of warriors into a dark dense pine forest, morning mist, ominous, wide shot"
+    },
+    {
+      "id": "o04_forest_tribe",
+      "seeds": [
+        104
+      ],
+      "prompt": "fierce bearded Slavic forest tribesmen in wolf furs and linen shirts with spears and axes stepping out from behind dark pine trees in fog, menacing, low angle"
+    },
+    {
+      "id": "o05_envoys_boat",
+      "seeds": [
+        105
+      ],
+      "prompt": "a long wooden boat with twenty bearded Slavic men in embroidered linen shirts and fur hats sitting proudly, rowing on a wide misty river below a hill with a wooden fortress, early morning"
+    },
+    {
+      "id": "o05b_envoys_river",
+      "seeds": [
+        305,
+        405
+      ],
+      "prompt": "a long wooden boat with twenty bearded Slavic men in embroidered linen shirts and fur hats sitting proudly, rowing on a wide misty river between dense dark pine forests, early morning"
+    },
+    {
+      "id": "o06_olga_hall",
+      "seeds": [
+        106
+      ],
+      "prompt": "a young Slavic princess with a white veil and golden diadem sitting on a carved wooden throne in a dim timber hall, smiling slyly, torches on the log walls, bearded envoys bowing before her"
+    },
+    {
+      "id": "o07_carry_boat",
+      "seeds": [
+        107,
+        207
+      ],
+      "prompt": "warriors carrying a wooden boat with seated proud bearded men on their shoulders through the courtyard of a wooden fortress, crowd of Slavic people watching, overcast morning"
+    },
+    {
+      "id": "o08_pit",
+      "seeds": [
+        108
+      ],
+      "prompt": "a huge deep pit dug in the dark earth inside a wooden fortress yard, a wooden boat lying at the bottom of the pit, piles of fresh earth and wooden shovels around, grim warriors standing at the edge, overcast, high angle"
+    },
+    {
+      "id": "o09_bathhouse",
+      "seeds": [
+        109,
+        209
+      ],
+      "prompt": "an old small Slavic log bathhouse engulfed in flames at night, its wooden door barred with a heavy beam, sparks and smoke rising, warriors with torches standing in the dark"
+    },
+    {
+      "id": "o10_feast",
+      "seeds": [
+        110
+      ],
+      "prompt": "a funeral feast at a large grass burial mound in an open field at dusk, long wooden tables, bearded Slavic men drinking from horns and wooden cups, torches and bonfires"
+    },
+    {
+      "id": "o11_swords",
+      "seeds": [
+        111
+      ],
+      "prompt": "Kievan Rus warriors in chainmail and conical helmets drawing swords at a torchlit feast at night, overturned cups and benches, chaos, dramatic shadows, smoke"
+    },
+    {
+      "id": "o12_siege",
+      "seeds": [
+        112
+      ],
+      "prompt": "a 10th century army camp with tents, campfires and banners besieging a wooden hillfort town with a tall palisade on a high riverbank, summer evening, smoke, wide aerial view"
+    },
+    {
+      "id": "o13_olga_camp",
+      "seeds": [
+        113
+      ],
+      "prompt": "a young Slavic princess in a red cloak with fur trim standing in a military camp at dusk, looking at a distant wooden fortress on a hill, cold determined face, warriors behind her"
+    },
+    {
+      "id": "o14_bird_cages",
+      "seeds": [
+        114
+      ],
+      "prompt": "Slavic villagers in linen clothes carrying wicker cages full of grey pigeons and small sparrows out of the open gate of a wooden fortress, warriors receiving them"
+    },
+    {
+      "id": "o15_tie_tinder",
+      "seeds": [
+        115
+      ],
+      "prompt": "close-up of rough hands tying a small cloth bundle with a glowing ember to the leg of a grey pigeon with thread, dusk, smoke, shallow depth of field"
+    },
+    {
+      "id": "o16_release",
+      "seeds": [
+        116,
+        216
+      ],
+      "prompt": "warriors releasing hundreds of pigeons and sparrows into the dusk sky, tiny glowing embers trailing behind the birds, dark silhouettes, a wooden fortress on the horizon"
+    },
+    {
+      "id": "o16b_release_field",
+      "seeds": [
+        316,
+        416
+      ],
+      "prompt": "dark silhouettes of warriors on an open field releasing hundreds of pigeons and sparrows into the orange dusk sky, tiny glowing embers trailing behind the birds, a low wooden palisade with log watchtowers far on the horizon"
+    },
+    {
+      "id": "o17_roofs",
+      "seeds": [
+        117
+      ],
+      "prompt": "pigeons landing on the thatched straw roofs of log houses in an early medieval Slavic town at twilight, small flames starting in the straw"
+    },
+    {
+      "id": "o18_city_fire",
+      "seeds": [
+        118,
+        218
+      ],
+      "prompt": "an entire wooden early medieval town engulfed in fire at night, every log house burning, huge flames, smoke and sparks rising into the black sky, wide shot from a hill"
+    },
+    {
+      "id": "o18b_street_fire",
+      "seeds": [
+        318,
+        418
+      ],
+      "prompt": "a street of an early medieval Slavic town of small log houses with thatched straw roofs at night, every roof on fire, huge flames, sparks and smoke rising into the black sky, a tall wooden palisade behind, wide shot"
+    },
+    {
+      "id": "o19_viking_king",
+      "seeds": [
+        119
+      ],
+      "prompt": "a tall Viking king with a long blond beard, dark blue cloak and chainmail, standing on a rocky Mediterranean coast in front of a besieged stone town with smoke, 11th century, golden hour"
+    },
+    {
+      "id": "o20_kiev",
+      "seeds": [
+        120
+      ],
+      "prompt": "the 11th century city of Kiev, wooden houses and a stone church on green hills above a wide river, Viking longships at the riverbank, summer day"
+    },
+    {
+      "id": "o21_chronicle",
+      "seeds": [
+        121
+      ],
+      "prompt": "an old bearded monk writing a chronicle with a quill on parchment by candlelight in a dark stone monastery cell, old leather books"
+    },
+    {
+      "id": "o22_ashes",
+      "seeds": [
+        122
+      ],
+      "prompt": "smoldering black ruins of a burned wooden town at dawn, smoke, a single grey pigeon sitting on a charred beam in the foreground"
+    }
+  ]
+}

@@ -1,0 +1,1783 @@
+{
+ "L1": {
+  "text": "В тысяча пятьсот восемнадцатом году сотни людей начали танцевать — и не могли остановиться.",
+  "emotion": "intriguing, dramatic hook, confident",
+  "file": "L1.wav",
+  "duration_s": 5.34,
+  "take": "L1_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "В 1518 году сотни людей начали танцевать и не могли остановиться.",
+  "words": [
+   {
+    "word": "В",
+    "start": 0.02,
+    "end": 0.1,
+    "p": 0.985
+   },
+   {
+    "word": "1518",
+    "start": 0.1,
+    "end": 1.4,
+    "p": 0.997
+   },
+   {
+    "word": "году",
+    "start": 1.4,
+    "end": 1.84,
+    "p": 0.994
+   },
+   {
+    "word": "сотни",
+    "start": 1.84,
+    "end": 2.26,
+    "p": 0.997
+   },
+   {
+    "word": "людей",
+    "start": 2.26,
+    "end": 2.54,
+    "p": 0.999
+   },
+   {
+    "word": "начали",
+    "start": 2.54,
+    "end": 3.02,
+    "p": 0.995
+   },
+   {
+    "word": "танцевать",
+    "start": 3.02,
+    "end": 3.69,
+    "p": 0.999
+   },
+   {
+    "word": "и",
+    "start": 3.97,
+    "end": 4.06,
+    "p": 0.911
+   },
+   {
+    "word": "не",
+    "start": 4.06,
+    "end": 4.18,
+    "p": 1.0
+   },
+   {
+    "word": "могли",
+    "start": 4.18,
+    "end": 4.44,
+    "p": 0.999
+   },
+   {
+    "word": "остановиться.",
+    "start": 4.44,
+    "end": 5.34,
+    "p": 0.996
+   }
+  ],
+  "script_words": [
+   {
+    "word": "В",
+    "start": 0.02,
+    "end": 0.1,
+    "matched": true
+   },
+   {
+    "word": "тысяча",
+    "start": 0.1,
+    "end": 0.4,
+    "matched": false
+   },
+   {
+    "word": "пятьсот",
+    "start": 0.4,
+    "end": 0.75,
+    "matched": false
+   },
+   {
+    "word": "восемнадцатом",
+    "start": 0.75,
+    "end": 1.4,
+    "matched": false
+   },
+   {
+    "word": "году",
+    "start": 1.4,
+    "end": 1.84,
+    "matched": true
+   },
+   {
+    "word": "сотни",
+    "start": 1.84,
+    "end": 2.26,
+    "matched": true
+   },
+   {
+    "word": "людей",
+    "start": 2.26,
+    "end": 2.54,
+    "matched": true
+   },
+   {
+    "word": "начали",
+    "start": 2.54,
+    "end": 3.02,
+    "matched": true
+   },
+   {
+    "word": "танцевать —",
+    "start": 3.02,
+    "end": 3.69,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 3.97,
+    "end": 4.06,
+    "matched": true
+   },
+   {
+    "word": "не",
+    "start": 4.06,
+    "end": 4.18,
+    "matched": true
+   },
+   {
+    "word": "могли",
+    "start": 4.18,
+    "end": 4.44,
+    "matched": true
+   },
+   {
+    "word": "остановиться.",
+    "start": 4.44,
+    "end": 5.34,
+    "matched": true
+   }
+  ]
+ },
+ "L2": {
+  "text": "Говорят, некоторые — до смерти.",
+  "emotion": "mysterious, lower voice",
+  "file": "L2.wav",
+  "duration_s": 2.0,
+  "take": "L2_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Говорят, некоторые до смерти.",
+  "words": [
+   {
+    "word": "Говорят,",
+    "start": 0.04,
+    "end": 0.58,
+    "p": 0.475
+   },
+   {
+    "word": "некоторые",
+    "start": 0.77,
+    "end": 1.24,
+    "p": 0.99
+   },
+   {
+    "word": "до",
+    "start": 1.24,
+    "end": 1.4,
+    "p": 0.884
+   },
+   {
+    "word": "смерти.",
+    "start": 1.4,
+    "end": 2.0,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Говорят,",
+    "start": 0.04,
+    "end": 0.58,
+    "matched": true
+   },
+   {
+    "word": "некоторые —",
+    "start": 0.77,
+    "end": 1.24,
+    "matched": true
+   },
+   {
+    "word": "до",
+    "start": 1.24,
+    "end": 1.4,
+    "matched": true
+   },
+   {
+    "word": "смерти.",
+    "start": 1.4,
+    "end": 2.0,
+    "matched": true
+   }
+  ]
+ },
+ "L3": {
+  "text": "Страсбург, июль. Фрау Троффея выходит на улицу и начинает танцевать.",
+  "emotion": "calm, setting the scene",
+  "file": "L3.wav",
+  "duration_s": 4.5,
+  "take": "L3_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.015,
+  "cer_take": 0.015,
+  "whisper": "Страсбург, июль. Фрау Трофея выходит на улицу и начинает танцевать.",
+  "words": [
+   {
+    "word": "Страсбург,",
+    "start": 0.03,
+    "end": 0.68,
+    "p": 0.791
+   },
+   {
+    "word": "июль.",
+    "start": 0.68,
+    "end": 1.2,
+    "p": 0.979
+   },
+   {
+    "word": "Фрау",
+    "start": 1.3,
+    "end": 1.8,
+    "p": 0.585
+   },
+   {
+    "word": "Трофея",
+    "start": 1.8,
+    "end": 2.32,
+    "p": 0.574
+   },
+   {
+    "word": "выходит",
+    "start": 2.32,
+    "end": 2.62,
+    "p": 0.991
+   },
+   {
+    "word": "на",
+    "start": 2.62,
+    "end": 2.8,
+    "p": 1.0
+   },
+   {
+    "word": "улицу",
+    "start": 2.8,
+    "end": 3.22,
+    "p": 1.0
+   },
+   {
+    "word": "и",
+    "start": 3.22,
+    "end": 3.54,
+    "p": 0.997
+   },
+   {
+    "word": "начинает",
+    "start": 3.54,
+    "end": 3.94,
+    "p": 0.999
+   },
+   {
+    "word": "танцевать.",
+    "start": 3.94,
+    "end": 4.5,
+    "p": 0.997
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Страсбург,",
+    "start": 0.03,
+    "end": 0.68,
+    "matched": true
+   },
+   {
+    "word": "июль.",
+    "start": 0.68,
+    "end": 1.2,
+    "matched": true
+   },
+   {
+    "word": "Фрау",
+    "start": 1.3,
+    "end": 1.8,
+    "matched": true
+   },
+   {
+    "word": "Троффея",
+    "start": 1.8,
+    "end": 2.32,
+    "matched": false
+   },
+   {
+    "word": "выходит",
+    "start": 2.32,
+    "end": 2.62,
+    "matched": true
+   },
+   {
+    "word": "на",
+    "start": 2.62,
+    "end": 2.8,
+    "matched": true
+   },
+   {
+    "word": "улицу",
+    "start": 2.8,
+    "end": 3.22,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 3.22,
+    "end": 3.54,
+    "matched": true
+   },
+   {
+    "word": "начинает",
+    "start": 3.54,
+    "end": 3.94,
+    "matched": true
+   },
+   {
+    "word": "танцевать.",
+    "start": 3.94,
+    "end": 4.5,
+    "matched": true
+   }
+  ]
+ },
+ "L4": {
+  "text": "Без музыки. Без причины. День, второй, третий — пока не падает без сил.",
+  "emotion": "tense, building",
+  "file": "L4.wav",
+  "duration_s": 5.98,
+  "take": "L4_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Без музыки, без причины, день, второй, третий пока не падает без сил.",
+  "words": [
+   {
+    "word": "Без",
+    "start": 0.05,
+    "end": 0.4,
+    "p": 0.634
+   },
+   {
+    "word": "музыки,",
+    "start": 0.4,
+    "end": 1.16,
+    "p": 0.998
+   },
+   {
+    "word": "без",
+    "start": 1.41,
+    "end": 1.72,
+    "p": 0.992
+   },
+   {
+    "word": "причины,",
+    "start": 1.72,
+    "end": 2.49,
+    "p": 0.997
+   },
+   {
+    "word": "день,",
+    "start": 2.83,
+    "end": 3.2,
+    "p": 0.843
+   },
+   {
+    "word": "второй,",
+    "start": 3.2,
+    "end": 3.62,
+    "p": 0.962
+   },
+   {
+    "word": "третий",
+    "start": 3.62,
+    "end": 4.0,
+    "p": 0.914
+   },
+   {
+    "word": "пока",
+    "start": 4.13,
+    "end": 4.74,
+    "p": 0.516
+   },
+   {
+    "word": "не",
+    "start": 4.74,
+    "end": 4.94,
+    "p": 0.991
+   },
+   {
+    "word": "падает",
+    "start": 4.94,
+    "end": 5.34,
+    "p": 0.995
+   },
+   {
+    "word": "без",
+    "start": 5.34,
+    "end": 5.58,
+    "p": 0.992
+   },
+   {
+    "word": "сил.",
+    "start": 5.58,
+    "end": 5.97,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Без",
+    "start": 0.05,
+    "end": 0.4,
+    "matched": true
+   },
+   {
+    "word": "музыки.",
+    "start": 0.4,
+    "end": 1.16,
+    "matched": true
+   },
+   {
+    "word": "Без",
+    "start": 1.41,
+    "end": 1.72,
+    "matched": true
+   },
+   {
+    "word": "причины.",
+    "start": 1.72,
+    "end": 2.49,
+    "matched": true
+   },
+   {
+    "word": "День,",
+    "start": 2.83,
+    "end": 3.2,
+    "matched": true
+   },
+   {
+    "word": "второй,",
+    "start": 3.2,
+    "end": 3.62,
+    "matched": true
+   },
+   {
+    "word": "третий —",
+    "start": 3.62,
+    "end": 4.0,
+    "matched": true
+   },
+   {
+    "word": "пока",
+    "start": 4.13,
+    "end": 4.74,
+    "matched": true
+   },
+   {
+    "word": "не",
+    "start": 4.74,
+    "end": 4.94,
+    "matched": true
+   },
+   {
+    "word": "падает",
+    "start": 4.94,
+    "end": 5.34,
+    "matched": true
+   },
+   {
+    "word": "без",
+    "start": 5.34,
+    "end": 5.58,
+    "matched": true
+   },
+   {
+    "word": "сил.",
+    "start": 5.58,
+    "end": 5.97,
+    "matched": true
+   }
+  ]
+ },
+ "L5": {
+  "text": "А отдохнув, встаёт — и танцует снова.",
+  "emotion": "storytelling, a little surprised",
+  "file": "L5.wav",
+  "duration_s": 3.08,
+  "take": "L5_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "а отдохнув, встаёт и танцует снова.",
+  "words": [
+   {
+    "word": "а",
+    "start": 0.01,
+    "end": 0.14,
+    "p": 0.795
+   },
+   {
+    "word": "отдохнув,",
+    "start": 0.14,
+    "end": 0.91,
+    "p": 0.848
+   },
+   {
+    "word": "встаёт",
+    "start": 1.07,
+    "end": 1.64,
+    "p": 0.64
+   },
+   {
+    "word": "и",
+    "start": 1.64,
+    "end": 1.98,
+    "p": 0.996
+   },
+   {
+    "word": "танцует",
+    "start": 1.98,
+    "end": 2.5,
+    "p": 0.993
+   },
+   {
+    "word": "снова.",
+    "start": 2.5,
+    "end": 3.08,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "А",
+    "start": 0.01,
+    "end": 0.14,
+    "matched": true
+   },
+   {
+    "word": "отдохнув,",
+    "start": 0.14,
+    "end": 0.91,
+    "matched": true
+   },
+   {
+    "word": "встаёт —",
+    "start": 1.07,
+    "end": 1.64,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 1.64,
+    "end": 1.98,
+    "matched": true
+   },
+   {
+    "word": "танцует",
+    "start": 1.98,
+    "end": 2.5,
+    "matched": true
+   },
+   {
+    "word": "снова.",
+    "start": 2.5,
+    "end": 3.08,
+    "matched": true
+   }
+  ]
+ },
+ "L6": {
+  "text": "Через неделю танцуют уже десятки людей. Через месяц — сотни.",
+  "emotion": "growing alarm",
+  "file": "L6.wav",
+  "duration_s": 3.86,
+  "take": "L6_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Через неделю танцуют уже десятки людей, через месяц — сотни.",
+  "words": [
+   {
+    "word": "Через",
+    "start": 0.04,
+    "end": 0.3,
+    "p": 0.962
+   },
+   {
+    "word": "неделю",
+    "start": 0.3,
+    "end": 0.66,
+    "p": 1.0
+   },
+   {
+    "word": "танцуют",
+    "start": 0.66,
+    "end": 1.16,
+    "p": 0.989
+   },
+   {
+    "word": "уже",
+    "start": 1.16,
+    "end": 1.34,
+    "p": 0.998
+   },
+   {
+    "word": "десятки",
+    "start": 1.34,
+    "end": 1.84,
+    "p": 0.998
+   },
+   {
+    "word": "людей,",
+    "start": 1.84,
+    "end": 2.28,
+    "p": 0.999
+   },
+   {
+    "word": "через",
+    "start": 2.66,
+    "end": 2.86,
+    "p": 0.567
+   },
+   {
+    "word": "месяц",
+    "start": 2.86,
+    "end": 3.32,
+    "p": 0.998
+   },
+   {
+    "word": "сотни.",
+    "start": 3.32,
+    "end": 3.86,
+    "p": 0.997
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Через",
+    "start": 0.04,
+    "end": 0.3,
+    "matched": true
+   },
+   {
+    "word": "неделю",
+    "start": 0.3,
+    "end": 0.66,
+    "matched": true
+   },
+   {
+    "word": "танцуют",
+    "start": 0.66,
+    "end": 1.16,
+    "matched": true
+   },
+   {
+    "word": "уже",
+    "start": 1.16,
+    "end": 1.34,
+    "matched": true
+   },
+   {
+    "word": "десятки",
+    "start": 1.34,
+    "end": 1.84,
+    "matched": true
+   },
+   {
+    "word": "людей.",
+    "start": 1.84,
+    "end": 2.28,
+    "matched": true
+   },
+   {
+    "word": "Через",
+    "start": 2.66,
+    "end": 2.86,
+    "matched": true
+   },
+   {
+    "word": "месяц —",
+    "start": 2.86,
+    "end": 3.32,
+    "matched": true
+   },
+   {
+    "word": "сотни.",
+    "start": 3.32,
+    "end": 3.86,
+    "matched": true
+   }
+  ]
+ },
+ "L7": {
+  "text": "Врачи ставят диагноз: перегрелась кровь. И назначают лечение — танцевать ещё больше.",
+  "emotion": "ironic",
+  "file": "L7.wav",
+  "duration_s": 5.82,
+  "take": "L7_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Врачи ставят диагноз «перегрелась кровь» и назначают лечение танцевать еще больше.",
+  "words": [
+   {
+    "word": "Врачи",
+    "start": 0.05,
+    "end": 0.44,
+    "p": 0.96
+   },
+   {
+    "word": "ставят",
+    "start": 0.44,
+    "end": 0.76,
+    "p": 1.0
+   },
+   {
+    "word": "диагнозперегрелась",
+    "start": 0.76,
+    "end": 1.61,
+    "p": 0.978
+   },
+   {
+    "word": "кровь»",
+    "start": 1.69,
+    "end": 2.82,
+    "p": 0.999
+   },
+   {
+    "word": "и",
+    "start": 2.82,
+    "end": 3.14,
+    "p": 0.784
+   },
+   {
+    "word": "назначают",
+    "start": 3.14,
+    "end": 3.7,
+    "p": 0.998
+   },
+   {
+    "word": "лечение",
+    "start": 3.7,
+    "end": 4.18,
+    "p": 0.946
+   },
+   {
+    "word": "танцевать",
+    "start": 4.18,
+    "end": 4.84,
+    "p": 0.914
+   },
+   {
+    "word": "еще",
+    "start": 4.84,
+    "end": 5.16,
+    "p": 0.742
+   },
+   {
+    "word": "больше.",
+    "start": 5.16,
+    "end": 5.81,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Врачи",
+    "start": 0.05,
+    "end": 0.44,
+    "matched": true
+   },
+   {
+    "word": "ставят",
+    "start": 0.44,
+    "end": 0.76,
+    "matched": true
+   },
+   {
+    "word": "диагноз:",
+    "start": 0.76,
+    "end": 1.091,
+    "matched": false
+   },
+   {
+    "word": "перегрелась",
+    "start": 1.091,
+    "end": 1.61,
+    "matched": false
+   },
+   {
+    "word": "кровь.",
+    "start": 1.69,
+    "end": 2.82,
+    "matched": true
+   },
+   {
+    "word": "И",
+    "start": 2.82,
+    "end": 3.14,
+    "matched": true
+   },
+   {
+    "word": "назначают",
+    "start": 3.14,
+    "end": 3.7,
+    "matched": true
+   },
+   {
+    "word": "лечение —",
+    "start": 3.7,
+    "end": 4.18,
+    "matched": true
+   },
+   {
+    "word": "танцевать",
+    "start": 4.18,
+    "end": 4.84,
+    "matched": true
+   },
+   {
+    "word": "ещё",
+    "start": 4.84,
+    "end": 5.16,
+    "matched": true
+   },
+   {
+    "word": "больше.",
+    "start": 5.16,
+    "end": 5.81,
+    "matched": true
+   }
+  ]
+ },
+ "L8": {
+  "text": "Город строит для танцующих сцену и нанимает музыкантов.",
+  "emotion": "storytelling, ironic",
+  "file": "L8.wav",
+  "duration_s": 3.2,
+  "take": "L8_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Город строит для танцующих сцену и нанимает музыкантов.",
+  "words": [
+   {
+    "word": "Город",
+    "start": 0.05,
+    "end": 0.38,
+    "p": 0.794
+   },
+   {
+    "word": "строит",
+    "start": 0.38,
+    "end": 0.74,
+    "p": 0.994
+   },
+   {
+    "word": "для",
+    "start": 0.74,
+    "end": 0.86,
+    "p": 0.999
+   },
+   {
+    "word": "танцующих",
+    "start": 0.86,
+    "end": 1.48,
+    "p": 0.999
+   },
+   {
+    "word": "сцену",
+    "start": 1.48,
+    "end": 1.88,
+    "p": 0.998
+   },
+   {
+    "word": "и",
+    "start": 1.88,
+    "end": 2.04,
+    "p": 0.962
+   },
+   {
+    "word": "нанимает",
+    "start": 2.04,
+    "end": 2.5,
+    "p": 0.995
+   },
+   {
+    "word": "музыкантов.",
+    "start": 2.5,
+    "end": 3.2,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Город",
+    "start": 0.05,
+    "end": 0.38,
+    "matched": true
+   },
+   {
+    "word": "строит",
+    "start": 0.38,
+    "end": 0.74,
+    "matched": true
+   },
+   {
+    "word": "для",
+    "start": 0.74,
+    "end": 0.86,
+    "matched": true
+   },
+   {
+    "word": "танцующих",
+    "start": 0.86,
+    "end": 1.48,
+    "matched": true
+   },
+   {
+    "word": "сцену",
+    "start": 1.48,
+    "end": 1.88,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 1.88,
+    "end": 2.04,
+    "matched": true
+   },
+   {
+    "word": "нанимает",
+    "start": 2.04,
+    "end": 2.5,
+    "matched": true
+   },
+   {
+    "word": "музыкантов.",
+    "start": 2.5,
+    "end": 3.2,
+    "matched": true
+   }
+  ]
+ },
+ "L9": {
+  "text": "Но становится только хуже. Люди падают без сил прямо на улицах.",
+  "emotion": "dark, serious",
+  "file": "L9.wav",
+  "duration_s": 4.4,
+  "take": "L9_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Но становится только хуже. Люди падают без сил прямо на улицах.",
+  "words": [
+   {
+    "word": "Но",
+    "start": 0.05,
+    "end": 0.18,
+    "p": 0.683
+   },
+   {
+    "word": "становится",
+    "start": 0.18,
+    "end": 0.62,
+    "p": 0.996
+   },
+   {
+    "word": "только",
+    "start": 0.62,
+    "end": 1.0,
+    "p": 1.0
+   },
+   {
+    "word": "хуже.",
+    "start": 1.0,
+    "end": 1.57,
+    "p": 0.999
+   },
+   {
+    "word": "Люди",
+    "start": 2.03,
+    "end": 2.44,
+    "p": 1.0
+   },
+   {
+    "word": "падают",
+    "start": 2.44,
+    "end": 2.86,
+    "p": 1.0
+   },
+   {
+    "word": "без",
+    "start": 2.86,
+    "end": 3.1,
+    "p": 0.999
+   },
+   {
+    "word": "сил",
+    "start": 3.1,
+    "end": 3.32,
+    "p": 1.0
+   },
+   {
+    "word": "прямо",
+    "start": 3.32,
+    "end": 3.64,
+    "p": 0.989
+   },
+   {
+    "word": "на",
+    "start": 3.64,
+    "end": 3.82,
+    "p": 0.999
+   },
+   {
+    "word": "улицах.",
+    "start": 3.82,
+    "end": 4.4,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Но",
+    "start": 0.05,
+    "end": 0.18,
+    "matched": true
+   },
+   {
+    "word": "становится",
+    "start": 0.18,
+    "end": 0.62,
+    "matched": true
+   },
+   {
+    "word": "только",
+    "start": 0.62,
+    "end": 1.0,
+    "matched": true
+   },
+   {
+    "word": "хуже.",
+    "start": 1.0,
+    "end": 1.57,
+    "matched": true
+   },
+   {
+    "word": "Люди",
+    "start": 2.03,
+    "end": 2.44,
+    "matched": true
+   },
+   {
+    "word": "падают",
+    "start": 2.44,
+    "end": 2.86,
+    "matched": true
+   },
+   {
+    "word": "без",
+    "start": 2.86,
+    "end": 3.1,
+    "matched": true
+   },
+   {
+    "word": "сил",
+    "start": 3.1,
+    "end": 3.32,
+    "matched": true
+   },
+   {
+    "word": "прямо",
+    "start": 3.32,
+    "end": 3.64,
+    "matched": true
+   },
+   {
+    "word": "на",
+    "start": 3.64,
+    "end": 3.82,
+    "matched": true
+   },
+   {
+    "word": "улицах.",
+    "start": 3.82,
+    "end": 4.4,
+    "matched": true
+   }
+  ]
+ },
+ "L10": {
+  "text": "Тогда танцы запрещают, а танцующих везут в часовню святого Вита — и надевают им красные башмаки с крестами.",
+  "emotion": "storytelling, solemn",
+  "file": "L10.wav",
+  "duration_s": 6.38,
+  "take": "L10_s3",
+  "seed": 3,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "Тогда танцы запрещают, а танцующих везут в часовню Святого Вита и надевают им красные башмаки с крестами.",
+  "words": [
+   {
+    "word": "Тогда",
+    "start": 0.05,
+    "end": 0.28,
+    "p": 0.953
+   },
+   {
+    "word": "танцы",
+    "start": 0.28,
+    "end": 0.7,
+    "p": 0.992
+   },
+   {
+    "word": "запрещают,",
+    "start": 0.7,
+    "end": 1.36,
+    "p": 1.0
+   },
+   {
+    "word": "а",
+    "start": 1.36,
+    "end": 1.58,
+    "p": 0.933
+   },
+   {
+    "word": "танцующих",
+    "start": 1.58,
+    "end": 2.24,
+    "p": 0.999
+   },
+   {
+    "word": "везут",
+    "start": 2.24,
+    "end": 2.56,
+    "p": 0.996
+   },
+   {
+    "word": "в",
+    "start": 2.56,
+    "end": 2.68,
+    "p": 0.996
+   },
+   {
+    "word": "часовню",
+    "start": 2.68,
+    "end": 3.1,
+    "p": 0.747
+   },
+   {
+    "word": "Святого",
+    "start": 3.1,
+    "end": 3.52,
+    "p": 0.573
+   },
+   {
+    "word": "Вита",
+    "start": 3.52,
+    "end": 3.8,
+    "p": 0.982
+   },
+   {
+    "word": "и",
+    "start": 3.8,
+    "end": 4.14,
+    "p": 0.999
+   },
+   {
+    "word": "надевают",
+    "start": 4.14,
+    "end": 4.6,
+    "p": 1.0
+   },
+   {
+    "word": "им",
+    "start": 4.6,
+    "end": 4.72,
+    "p": 1.0
+   },
+   {
+    "word": "красные",
+    "start": 4.72,
+    "end": 5.16,
+    "p": 1.0
+   },
+   {
+    "word": "башмаки",
+    "start": 5.16,
+    "end": 5.6,
+    "p": 0.998
+   },
+   {
+    "word": "с",
+    "start": 5.6,
+    "end": 5.78,
+    "p": 1.0
+   },
+   {
+    "word": "крестами.",
+    "start": 5.78,
+    "end": 6.38,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Тогда",
+    "start": 0.05,
+    "end": 0.28,
+    "matched": true
+   },
+   {
+    "word": "танцы",
+    "start": 0.28,
+    "end": 0.7,
+    "matched": true
+   },
+   {
+    "word": "запрещают,",
+    "start": 0.7,
+    "end": 1.36,
+    "matched": true
+   },
+   {
+    "word": "а",
+    "start": 1.36,
+    "end": 1.58,
+    "matched": true
+   },
+   {
+    "word": "танцующих",
+    "start": 1.58,
+    "end": 2.24,
+    "matched": true
+   },
+   {
+    "word": "везут",
+    "start": 2.24,
+    "end": 2.56,
+    "matched": true
+   },
+   {
+    "word": "в",
+    "start": 2.56,
+    "end": 2.68,
+    "matched": true
+   },
+   {
+    "word": "часовню",
+    "start": 2.68,
+    "end": 3.1,
+    "matched": true
+   },
+   {
+    "word": "святого",
+    "start": 3.1,
+    "end": 3.52,
+    "matched": true
+   },
+   {
+    "word": "Вита —",
+    "start": 3.52,
+    "end": 3.8,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 3.8,
+    "end": 4.14,
+    "matched": true
+   },
+   {
+    "word": "надевают",
+    "start": 4.14,
+    "end": 4.6,
+    "matched": true
+   },
+   {
+    "word": "им",
+    "start": 4.6,
+    "end": 4.72,
+    "matched": true
+   },
+   {
+    "word": "красные",
+    "start": 4.72,
+    "end": 5.16,
+    "matched": true
+   },
+   {
+    "word": "башмаки",
+    "start": 5.16,
+    "end": 5.6,
+    "matched": true
+   },
+   {
+    "word": "с",
+    "start": 5.6,
+    "end": 5.78,
+    "matched": true
+   },
+   {
+    "word": "крестами.",
+    "start": 5.78,
+    "end": 6.38,
+    "matched": true
+   }
+  ]
+ },
+ "L11": {
+  "text": "К сентябрю всё прекращается — так же внезапно, как началось.",
+  "emotion": "quiet, eerie",
+  "file": "L11.wav",
+  "duration_s": 3.2,
+  "take": "L11_s1",
+  "seed": 1,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "К сентябрю все прекращается так же внезапно, как началось.",
+  "words": [
+   {
+    "word": "К",
+    "start": 0.02,
+    "end": 0.08,
+    "p": 0.968
+   },
+   {
+    "word": "сентябрю",
+    "start": 0.08,
+    "end": 0.56,
+    "p": 0.997
+   },
+   {
+    "word": "все",
+    "start": 0.56,
+    "end": 0.78,
+    "p": 0.598
+   },
+   {
+    "word": "прекращается",
+    "start": 0.78,
+    "end": 1.52,
+    "p": 0.999
+   },
+   {
+    "word": "так",
+    "start": 1.52,
+    "end": 1.76,
+    "p": 0.981
+   },
+   {
+    "word": "же",
+    "start": 1.76,
+    "end": 1.88,
+    "p": 1.0
+   },
+   {
+    "word": "внезапно,",
+    "start": 1.88,
+    "end": 2.46,
+    "p": 0.999
+   },
+   {
+    "word": "как",
+    "start": 2.46,
+    "end": 2.66,
+    "p": 0.998
+   },
+   {
+    "word": "началось.",
+    "start": 2.66,
+    "end": 3.2,
+    "p": 1.0
+   }
+  ],
+  "script_words": [
+   {
+    "word": "К",
+    "start": 0.02,
+    "end": 0.08,
+    "matched": true
+   },
+   {
+    "word": "сентябрю",
+    "start": 0.08,
+    "end": 0.56,
+    "matched": true
+   },
+   {
+    "word": "всё",
+    "start": 0.56,
+    "end": 0.78,
+    "matched": true
+   },
+   {
+    "word": "прекращается —",
+    "start": 0.78,
+    "end": 1.52,
+    "matched": true
+   },
+   {
+    "word": "так",
+    "start": 1.52,
+    "end": 1.76,
+    "matched": true
+   },
+   {
+    "word": "же",
+    "start": 1.76,
+    "end": 1.88,
+    "matched": true
+   },
+   {
+    "word": "внезапно,",
+    "start": 1.88,
+    "end": 2.46,
+    "matched": true
+   },
+   {
+    "word": "как",
+    "start": 2.46,
+    "end": 2.66,
+    "matched": true
+   },
+   {
+    "word": "началось.",
+    "start": 2.66,
+    "end": 3.2,
+    "matched": true
+   }
+  ]
+ },
+ "L12": {
+  "text": "Отравление спорыньёй? Массовая истерия от голода и страха? Учёные спорят до сих пор.",
+  "emotion": "thoughtful, questioning",
+  "file": "L12.wav",
+  "duration_s": 5.98,
+  "take": "L12_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.037,
+  "cer_take": 0.0,
+  "whisper": "Отравление с пареньей, массовая истерия от голода и страха ученые спорят до сих пор.",
+  "words": [
+   {
+    "word": "Отравление",
+    "start": 0.05,
+    "end": 0.62,
+    "p": 0.888
+   },
+   {
+    "word": "с",
+    "start": 0.62,
+    "end": 0.8,
+    "p": 0.544
+   },
+   {
+    "word": "пареньей,",
+    "start": 0.8,
+    "end": 1.3,
+    "p": 0.436
+   },
+   {
+    "word": "массовая",
+    "start": 1.55,
+    "end": 2.24,
+    "p": 0.965
+   },
+   {
+    "word": "истерия",
+    "start": 2.24,
+    "end": 2.72,
+    "p": 0.955
+   },
+   {
+    "word": "от",
+    "start": 2.72,
+    "end": 2.9,
+    "p": 0.994
+   },
+   {
+    "word": "голода",
+    "start": 2.9,
+    "end": 3.28,
+    "p": 0.996
+   },
+   {
+    "word": "и",
+    "start": 3.28,
+    "end": 3.44,
+    "p": 0.985
+   },
+   {
+    "word": "страха",
+    "start": 3.44,
+    "end": 3.98,
+    "p": 0.998
+   },
+   {
+    "word": "ученые",
+    "start": 4.14,
+    "end": 4.86,
+    "p": 0.312
+   },
+   {
+    "word": "спорят",
+    "start": 4.86,
+    "end": 5.32,
+    "p": 0.997
+   },
+   {
+    "word": "до",
+    "start": 5.32,
+    "end": 5.48,
+    "p": 0.999
+   },
+   {
+    "word": "сих",
+    "start": 5.48,
+    "end": 5.68,
+    "p": 1.0
+   },
+   {
+    "word": "пор.",
+    "start": 5.68,
+    "end": 5.98,
+    "p": 0.999
+   }
+  ],
+  "script_words": [
+   {
+    "word": "Отравление",
+    "start": 0.05,
+    "end": 0.62,
+    "matched": true
+   },
+   {
+    "word": "спорыньёй?",
+    "start": 0.62,
+    "end": 1.3,
+    "matched": false
+   },
+   {
+    "word": "Массовая",
+    "start": 1.55,
+    "end": 2.24,
+    "matched": true
+   },
+   {
+    "word": "истерия",
+    "start": 2.24,
+    "end": 2.72,
+    "matched": true
+   },
+   {
+    "word": "от",
+    "start": 2.72,
+    "end": 2.9,
+    "matched": true
+   },
+   {
+    "word": "голода",
+    "start": 2.9,
+    "end": 3.28,
+    "matched": true
+   },
+   {
+    "word": "и",
+    "start": 3.28,
+    "end": 3.44,
+    "matched": true
+   },
+   {
+    "word": "страха?",
+    "start": 3.44,
+    "end": 3.98,
+    "matched": true
+   },
+   {
+    "word": "Учёные",
+    "start": 4.14,
+    "end": 4.86,
+    "matched": true
+   },
+   {
+    "word": "спорят",
+    "start": 4.86,
+    "end": 5.32,
+    "matched": true
+   },
+   {
+    "word": "до",
+    "start": 5.32,
+    "end": 5.48,
+    "matched": true
+   },
+   {
+    "word": "сих",
+    "start": 5.48,
+    "end": 5.68,
+    "matched": true
+   },
+   {
+    "word": "пор.",
+    "start": 5.68,
+    "end": 5.98,
+    "matched": true
+   }
+  ]
+ },
+ "L13": {
+  "text": "А ты как думаешь, что заставило их танцевать?",
+  "emotion": "friendly, engaging, curious question",
+  "file": "L13.wav",
+  "duration_s": 2.82,
+  "take": "L13_s2",
+  "seed": 2,
+  "cfg": null,
+  "tts_input": "Qwen3-TTS 1.7B Base, ICL clone of ref/v5.wav",
+  "cer": 0.0,
+  "cer_take": 0.0,
+  "whisper": "«А ты как думаешь, что заставило их танцевать?»",
+  "words": [
+   {
+    "word": "А",
+    "start": 0.03,
+    "end": 0.12,
+    "p": 0.999
+   },
+   {
+    "word": "ты",
+    "start": 0.12,
+    "end": 0.28,
+    "p": 1.0
+   },
+   {
+    "word": "как",
+    "start": 0.28,
+    "end": 0.48,
+    "p": 0.997
+   },
+   {
+    "word": "думаешь,",
+    "start": 0.48,
+    "end": 0.92,
+    "p": 1.0
+   },
+   {
+    "word": "что",
+    "start": 0.92,
+    "end": 1.46,
+    "p": 0.986
+   },
+   {
+    "word": "заставило",
+    "start": 1.46,
+    "end": 2.06,
+    "p": 0.959
+   },
+   {
+    "word": "их",
+    "start": 2.06,
+    "end": 2.2,
+    "p": 0.998
+   },
+   {
+    "word": "танцевать?»",
+    "start": 2.2,
+    "end": 2.82,
+    "p": 0.998
+   }
+  ],
+  "script_words": [
+   {
+    "word": "А",
+    "start": 0.03,
+    "end": 0.12,
+    "matched": true
+   },
+   {
+    "word": "ты",
+    "start": 0.12,
+    "end": 0.28,
+    "matched": true
+   },
+   {
+    "word": "как",
+    "start": 0.28,
+    "end": 0.48,
+    "matched": true
+   },
+   {
+    "word": "думаешь,",
+    "start": 0.48,
+    "end": 0.92,
+    "matched": true
+   },
+   {
+    "word": "что",
+    "start": 0.92,
+    "end": 1.46,
+    "matched": true
+   },
+   {
+    "word": "заставило",
+    "start": 1.46,
+    "end": 2.06,
+    "matched": true
+   },
+   {
+    "word": "их",
+    "start": 2.06,
+    "end": 2.2,
+    "matched": true
+   },
+   {
+    "word": "танцевать?",
+    "start": 2.2,
+    "end": 2.82,
+    "matched": true
+   }
+  ]
+ }
+}

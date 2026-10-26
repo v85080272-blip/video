@@ -1,0 +1,62 @@
+# Голос v2: живой рассказчик на Qwen3-TTS
+
+vla послушал первую версию ролика и сказал, что голос «полностью роботизированный» и хочется как в его
+примерах. Голос VoxCPM2 из `../voice/` заменён на Qwen3-TTS (Alibaba Qwen, модели Apache-2.0, русский в списке
+языков) через C++/GGML-порт [qwentts.cpp](https://github.com/ServeurpersoCom/qwentts.cpp) (MIT), на процессоре,
+без PyPI.
+
+## Как это устроено
+
+1. **Кастинг голосом-описанием** (модель VoiceDesign): `run_variants.sh` читает `variants.json` (описание голоса
+   на английском + seed) и озвучивает `sample.txt` (начало ролика). Каждый seed даёт новый голос, поэтому сначала
+   выбираем голос, потом клонируем его.
+2. **Проверка без прослушивания** (`tools/score.py`): нейросеть UTMOS22 (ONNX, MIT,
+   `TigreGotico/utmos-onnx`) оценивает естественность от 1 до 5, плюс темп, паузы и движение высоты тона.
+   Старый голос VoxCPM2 получил 3,0, новые 3,8–3,9. Whisper проверяет, что все слова на месте.
+3. **Страница для выбора** (`tools/make_page.py`): короткие паузы ужаты до 0,4 с (`tools/tighten.py`),
+   громкость выровнена, MP3 вшиты в одну HTML-страницу с волной и плеерами.
+4. **Клон выбранного голоса** (модель Base, режим ICL): `qwen-codec --talker` один раз кодирует образец в
+   `ref/v5.spk` + `ref/v5.rvq`, сервер `tts-server` регистрирует голос, `tools/gen_lines.py` озвучивает все 13 фраз
+   сценария по 3 дубля. Клон держит тембр и манеру образца, вместе с вдохами между фразами.
+5. **Выбор дублей** (`tools/score_takes.py`): CER по Whisper (цифры учитываются), UTMOS, темп, сходство тембра с
+   образцом, высота тона, подъём тона в конце вопроса. Дальше как раньше: `export.py` и `manifest.py` из
+   `../voice/scripts`, затем `render/assemble.sh` с `VOICE_DIR=<папка с L1–L13.wav>` и `VOICE_SPEED=1.0`
+   (без ускорения atempo, которое тоже добавляет «механики»).
+
+## Итог для Тунгуски
+
+Голос «Энергичный рассказчик» (`variants.json`, `v5_energetic`, seed 21), клон по 3–6 дублей на фразу, выбор в
+`lines_cfg.json` (`chosen`), оценки всех дублей в `takes_scores.json`, тайминги слов в `lines/manifest.json`.
+У выбранных дублей CER 0 и UTMOS 3,9–4,3 (у старого голоса около 3,0). Длинную паузу в L9 ужали до 0,5 с.
+
+```bash
+# export.py лежит в shorts/voxcpm2/tools/ ветки claude/neural-voices-s8ob8u; manifest.py и vt.py в ../voice/scripts/
+python3 <voxcpm2>/tools/export.py lines_cfg.json takes lines -20
+python3 tools/tighten.py lines/L9.wav lines/L9.wav 0.5
+WHISPER_THREADS=4 python3 ../voice/scripts/manifest.py lines_cfg.json takes lines
+VOICE_DIR=$PWD/lines VOICE_SPEED=1.0 WORKERS=4 bash ../render/assemble.sh out.mp4
+```
+
+## Установка в новом облачном треде (окружение «Голоса», открыт Hugging Face)
+
+```bash
+git clone --recurse-submodules https://github.com/ServeurpersoCom/qwentts.cpp.git   # проверено на 01b6127
+cd qwentts.cpp && git apply ../shorts/history-facts/voice2/qwentts-threads.patch      # QT_THREADS=4
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=ON && cmake --build build -j4
+# модели: https://huggingface.co/Serveurperso/Qwen3-TTS-GGUF
+#   qwen-talker-1.7b-voicedesign-Q8_0.gguf, qwen-talker-1.7b-base-Q8_0.gguf, qwen-tokenizer-12hz-Q8_0.gguf
+```
+
+## Скорость (4 ядра, без видеокарты)
+
+- VoiceDesign, 15 с речи: около 75 с (2 потока по умолчанию).
+- Клон: короткая фраза 1–2 минуты, весь сценарий из 13 фраз по 3 дубля около 25 минут (`--max-batch 3`
+  почти не ускоряет на процессоре). Пошаговая генерация быстрее на 2 потоках, а prefill и декодер кодека
+  на 4, поэтому `QT_THREADS=4`.
+- Процесс с моделью 1.7B занимает около 5,6 ГБ памяти.
+
+## Подводные камни
+
+- Модель сама вставляет вдохи между предложениями (по энергии видно шум −28…−37 дБ). При нарезке фраз из
+  образца резать по минимуму энергии, а не по меткам Whisper: на этих местах они ошибаются на 0,3–0,6 с.
+- Ударения автоматически не проверить; спорные слова (Ванава́ра, Кули́к) стоит дать послушать vla.
