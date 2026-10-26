@@ -1,0 +1,96 @@
+{
+ "style": "cinematic film still, photorealistic, Soviet Ukraine 1986, shot on 35mm film, dramatic lighting, deep shadows, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, deformed hands, extra fingers, extra limbs, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "c01_basement",
+   "seeds": [
+    1001,
+    1002
+   ],
+   "prompt": "three Soviet nuclear plant workers in white cotton overalls, white caps and gauze respirators wading knee-deep through dark water in a flooded concrete basement corridor, flashlight beams cutting through steam, pipes along the walls, seen from the front"
+  },
+  {
+   "id": "c02_reactor",
+   "seeds": [
+    1011,
+    1012
+   ],
+   "prompt": "the destroyed fourth reactor building of the Chernobyl nuclear power plant at night in 1986, collapsed roof, smoke rising, faint orange glow inside the ruins, ventilation stack, wide shot"
+  },
+  {
+   "id": "c03_lava",
+   "seeds": [
+    1021,
+    1022
+   ],
+   "prompt": "glowing orange molten lava slowly flowing across a cracked dark concrete floor in a dark room under a reactor, smoke, intense heat, close-up"
+  },
+  {
+   "id": "c04_pool",
+   "seeds": [
+    1031,
+    1032
+   ],
+   "prompt": "a huge dark flooded concrete basement chamber under a nuclear reactor, still black water reflecting a single lamp, thick pipes and valves, ominous"
+  },
+  {
+   "id": "c05_valve",
+   "seeds": [
+    1041,
+    1042
+   ],
+   "prompt": "close-up of gloved hands turning a large rusty valve wheel half under dark water, a flashlight beam from above, water ripples"
+  },
+  {
+   "id": "c06_three",
+   "seeds": [
+    1051,
+    1052
+   ],
+   "prompt": "portrait of three Soviet engineers in 1986 in white cotton overalls and white caps, respirators hanging on their chests, serious tired faces, standing in a dim concrete corridor"
+  },
+  {
+   "id": "c07_drain",
+   "seeds": [
+    1061,
+    1062
+   ],
+   "prompt": "dark water swirling and draining through an open steel hatch in a flooded concrete basement, flashlight beam, motion"
+  },
+  {
+   "id": "c08_newspaper",
+   "seeds": [
+    1071,
+    1072
+   ],
+   "prompt": "an old Soviet newspaper lying on a wooden table under a desk lamp in 1986, black and white photographs on the page, blurred text, dramatic shadows"
+  },
+  {
+   "id": "c09_hospital",
+   "seeds": [
+    1081,
+    1082
+   ],
+   "prompt": "a young Soviet man lying in a white hospital bed in Moscow in 1986, pale but alive, a nurse in a white cap beside him, soft window light"
+  },
+  {
+   "id": "c10_old",
+   "seeds": [
+    1091,
+    1092
+   ],
+   "prompt": "portrait of an elderly Ukrainian man in his sixties with grey hair and a calm proud face, wearing a dark jacket, standing in front of a nuclear power plant, soft evening light"
+  },
+  {
+   "id": "c11_walk",
+   "seeds": [
+    1101,
+    1102
+   ],
+   "prompt": "three men in white overalls walking out of a dark concrete tunnel into bright morning light, seen from behind, silhouettes, hope"
+  }
+ ]
+}
