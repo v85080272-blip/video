@@ -1,11 +1,8 @@
-# Final mix for «Правило №6»: the score, every effect from build/cues.json, a quiet stairwell bed and, in the voiced
-# version, the narrator (build/voice.wav from tools/voice.py).
-# Without a voice the score is the reference: an effect's loudest 400 ms (BS.1770 momentary loudness) is held to FX_CAP LU
-# against the score around it (or, where the score is quiet or silent, against its integrated loudness − 6), and only the
-# hiss (the scare) may jump over it.
-# With the narrator, he is the reference, as in episode 1: the score sits MUSIC_LU under him and dips while he speaks, never
-# closer than MUSIC_UNDER dB to his voice; an effect's loudest 400 ms stays V_CAP LU against him (V_UNDER while he speaks),
-# and only the hit with the hiss goes over him, by at most SCARE_LU.
+# Final mix for «Вулкан проснулся»: the score, every effect from build/cues.json, a quiet volcano bed (rumble, wind, ash)
+# and the narrator (build/voice.wav from tools/voice.py).
+# The narrator is the reference: the score sits MUSIC_LU under him and dips while he speaks, never closer than MUSIC_UNDER
+# dB to his voice; an effect's loudest 400 ms stays V_CAP LU against him (V_UNDER while he speaks), and only the lightning
+# strike on the tower goes over him, by at most SCARE_LU. Without a voice the score is the reference instead.
 # What rings past the end is folded onto the start so the short loops without a seam. Normalised to −14 LUFS under a
 # −2 dBTP ceiling (AAC adds some true peak).
 # usage: python3 tools/mix.py build/cues.json build/music.wav build/mix.wav [build/voice.wav [stems dir]]
@@ -18,22 +15,22 @@ import soundfile as sf
 from scipy import signal
 from scipy.ndimage import maximum_filter1d, minimum_filter1d
 
-from sfx import SR, amb_stairs, pan, hp, peak, room, verb
-from fx import FX
+from sfx import SR, pan, hp, peak, room, verb
+from fx import FX, amb_volcano
 
 TARGET_LUFS, CEIL_DBTP = -14.0, -2.0
 SFX_DB, BED_LU = 0.0, -22.0
 FX_CAP = {'scare': 4.0, 'other': -1.0, 'soft': -5.0}
-SCARE = {'hiss'}
-SOFT = {'purr', 'blink', 'pre_hit', 'eye_shing', 'creak', 'sniff', 'groan', 'lick'}    # textures that should sit inside the score
-TRIM = {'hiss': 8, 'clack': 8, 'grab': 6, 'creak': 10, 'pop_arm': 6, 'thud_small': 6, 'flick': 6, 'purr': 8, 'blink': 6, 'pop_ui': 4,
-        'pop_word': 6, 'drip': 14, 'pre_hit': 4, 'deflate': 6, 'step_run': 8, 'whoosh_short': 4, 'step': 1}
+SCARE = {'thunder_hit'}
+SOFT = {'crackle', 'step', 'cloth', 'paper', 'marker', 'phone', 'lamp', 'crank', 'pour', 'glasses', 'pop_word', 'whoosh_short',
+        'whoosh', 'whoosh_in', 'gust'}                 # textures that should sit inside the score
+TRIM = {}
 # the voiced version
 V_CAP = {'scare': 3.0, 'soft': -6.0, 'other': -1.0}     # an effect's loudest 400 ms against the narrator's integrated loudness
 V_UNDER = {'soft': -12.0, 'other': -7.0}                # …when that loudest moment falls while he speaks
 REST_LU, SCARE_LU = 0.0, 3.0                            # everything but him together, against him: anywhere / at the hit
 MUSIC_LU, MUSIC_UNDER, MUSIC_DUCK, MUSIC_DUCK_MAX = -9.0, 12.0, 6.0, 18.0
-FX_DUCK, BED_V = 2.0, -30.0                            # every effect dips 2 dB while he speaks; the bed under him
+FX_DUCK, BED_V = 2.0, -27.0                            # every effect dips 2 dB while he speaks; the bed under him
 
 
 def at(t):
@@ -169,9 +166,9 @@ def cls_of(name):
     return 'scare' if name in SCARE else 'soft' if name in SOFT else 'other'
 
 
-def stairs_bed(dur, n, level):
-    """the stairwell hum, looped: its end crossfades into its start"""
-    bed = stereo(amb_stairs(np.random.default_rng(7), dur + 3.0))[:, at(1.0):at(1.0) + n + at(1.0)]
+def volcano_bed(dur, n, level):
+    """the far rumble, wind and ash, looped: its end crossfades into its start"""
+    bed = stereo(amb_volcano(np.random.default_rng(7), dur + 3.0))[:, at(1.0):at(1.0) + n + at(1.0)]
     xf = at(1.0)
     ramp = np.sin(np.linspace(0, np.pi / 2, xf)) ** 2
     loop = bed[:, :n].copy()
@@ -210,7 +207,7 @@ def voiced(D, music, voice_path, out, stems=None):
     m = min(len(vl), len(ml), len(a_ms))
     need = np.maximum(MUSIC_DUCK * a_ms[:m], np.where(a_ms[:m] > 0.5, np.clip(ml[:m] - (vl[:m] - MUSIC_UNDER), 0, MUSIC_DUCK_MAX), 0))
     music = music * 10 ** (-per_sample(smooth(need, 0.02, 0.3), n) / 20)
-    bed = stairs_bed(dur, n, ref + BED_V)
+    bed = volcano_bed(dur, n, ref + BED_V)
 
     fx, levels = np.zeros((2, n + at(4.0))), []
     duck = np.concatenate([act, np.zeros(at(4.0))])
@@ -232,7 +229,7 @@ def voiced(D, music, voice_path, out, stems=None):
     fx = fold(fx, n) * 10 ** (-FX_DUCK * act / 20)
 
     # several effects at their caps and the score add up: where they all together (400 ms loudness) would stand over him,
-    # the score, the effects and the bed dip together; only around the hiss may they reach SCARE_LU over him
+    # the score, the effects and the bed dip together; only around the strike may they reach SCARE_LU over him
     rest = music + fx + bed
     cap = np.full(n, ref + REST_LU)
     for c in D['cues']:
@@ -291,7 +288,7 @@ def main():
         levels.append(dict(t=round(c['t'], 3), name=c['name'], gain=round(float(g), 1), fx=round(float(min(top, cap)), 1),
                            vs_score=round(float(min(top, cap) - ref), 1), score_here=round(here, 1)))
 
-    finish(music + fold(fx, n) + stairs_bed(dur, n, ref + BED_LU), out, dict(music_lufs=round(float(ref), 1)), levels)
+    finish(music + fold(fx, n) + volcano_bed(dur, n, ref + BED_LU), out, dict(music_lufs=round(float(ref), 1)), levels)
     for l in levels:
         print(f"  {l['t']:7.3f} {l['name']:13s} fx {l['fx']:6.1f} ({l['vs_score']:+5.1f} vs score)   score here {l['score_here']:6.1f}")
 

@@ -99,7 +99,7 @@ export function drawMap(t, m) {
           ell(x, y, 6, 6, '#2e2b36');
         }
       });
-      if (ash > 0.3) text('ПЕПЕЛ', MV[0] + 40, 440, 58 * sp(t, m.ashT ?? 0, 2.6, 8), '#fff3d6', { fam: FONTS.cond });
+      if (ash > 0.3) text('ПЕПЕЛ', MV[0] - 70, -60, 58 * sp(t, m.ashT ?? 0, 2.6, 8), '#fff3d6', { fam: FONTS.cond });
     }
     // the wind arrow
     const wd = clamp(m.wind ?? 0);
@@ -152,6 +152,16 @@ function head(p, a, c) {
   poly(pts, c);
 }
 
+// a dashed arrow growing from a to b (k 0…1), with an ink shadow, as on the map
+export function arrow(a, b, k, c = '#3e9a4a', w = 18) {
+  if (k <= 0.01) return;
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  const e = ease.out(clamp(k)), p = [lerp(a[0], b[0], e), lerp(a[1], b[1], e)], ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+  const sh = q => [q[0] + 5, q[1] + 7];
+  dashed(sh(a), sh(p), INK, w); dashed(a, p, c, w);
+  head(sh(p), ang, INK); head(p, ang, c);
+}
+
 // —— the magnifier: a round lens over a flake of ash, showing what it is: sharp splinters of glass ——
 export function magnifier(t, cx, cy, R, k, from = null) {
   if (k <= 0.01) return;
@@ -199,11 +209,11 @@ export function endCard(t, t0, out = 0) {
   const k = sp(t, t0, 2.4, 7) * (1 - out), kb = sp(t, t0 + 0.15, 2.6, 6) * (1 + 0.08 * bump(((t - t0 - 0.9) % 1.2) / 0.25)) * (1 - out);
   g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
   if (k > 0.01) {
-    const hw = measure('КАК ВЫЖИТЬ', 44, FONTS.cond) / 2 + 26;
-    g.save(); g.translate(540, 300); g.scale(k, k); fill(polyPath([[-hw + 6, -30 + 8], [hw + 6, -30 + 8], [hw + 6, 30 + 8], [-hw + 6, 30 + 8]]), INK);
-    fill(polyPath([[-hw, -30], [hw, -30], [hw, 30], [-hw, 30]]), '#ffd23f'); g.restore();
-    text('КАК ВЫЖИТЬ', 540, 316 * 1, 44 * k, INK, { fam: FONTS.cond, shadow: false });
+    const hw = measure('КАК ВЫЖИТЬ', 56, FONTS.cond) / 2 + 30;
+    g.save(); g.translate(540, 300); g.scale(k, k); fill(polyPath([[-hw + 6, -38 + 8], [hw + 6, -38 + 8], [hw + 6, 38 + 8], [-hw + 6, 38 + 8]]), INK);
+    fill(polyPath([[-hw, -38], [hw, -38], [hw, 38], [-hw, 38]]), '#ffd23f'); g.restore();
+    text('КАК ВЫЖИТЬ', 540, 320, 56 * k, INK, { fam: FONTS.cond, shadow: false });
   }
-  pill('ПОДПИСЫВАЙСЯ', 540, 440, 58, { k: kb });
+  pill('ПОДПИСЫВАЙСЯ', 540, 470, 80, { k: kb });
   g.restore();
 }

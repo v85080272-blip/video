@@ -6,7 +6,7 @@ import { lerp, clamp, ease, spring, bump, hash, noise, TAU, mix } from './lib.js
 import { g, W, H, ell, limb, rect } from './flat.js';
 import { view, toScreen, scaleOf } from './camera.js';
 import * as Wd from './world.js';
-import { drawHunter, framesOf, binoculars, phone, flask, HUN } from './hunter.js';
+import { drawHunter, framesOf, binoculars, phone, flask, cloth, HUN } from './hunter.js';
 import { text, groupWords, subtitles, INK } from './type.js';
 import * as O from './overlay.js';
 
@@ -26,7 +26,7 @@ const A = {
   L4: at('L4', 12.26), L4w1: wd('L4', 1, 12.87), L4w2: wd('L4', 2, 13.51), L4w3: wd('L4', 3, 13.67), L4w4: wd('L4', 4, 14.03),
   L4w6: wd('L4', 6, 15.11), L4w8: wd('L4', 8, 15.6), L4w10: wd('L4', 10, 16.49), L4w13: wd('L4', 13, 17.15), L4e: end('L4', 18.05),
   L5: at('L5', 18.45), L5w1: wd('L5', 1, 18.98), L5w4: wd('L5', 4, 19.74), L5w5: wd('L5', 5, 20.2), L5w9: wd('L5', 9, 21.3),
-  L5w14: wd('L5', 14, 23.42), L5e: end('L5', 24.97),
+  L5w14: wd('L5', 14, 23.42), L5w15: wd('L5', 15, 23.8), L5e: end('L5', 24.97),
   L6: at('L6', 25.47), L6w1: wd('L6', 1, 26.03), L6w5: wd('L6', 5, 27.09), L6w6: wd('L6', 6, 27.79), L6w11: wd('L6', 11, 29.29),
   L6w12: wd('L6', 12, 29.85), L6e: end('L6', 31.03),
   L7: at('L7', 31.43), L7w3: wd('L7', 3, 32.55), L7w7: wd('L7', 7, 33.71), L7w9: wd('L7', 9, 34.29), L7e: end('L7', 35.1),
@@ -49,16 +49,16 @@ const T = {
   c8: A.L7 - 0.04,                               // «Пятое»: the UAZ and the hut
   win: A.L7w9 - 0.1,                             // in close on the window
 };
-T.lahar0 = T.down + 0.5;                        // its head comes in on the right…
-T.boatHit = T.lahar0 + 1.15;
+T.lahar0 = T.down + 0.3;                        // its head comes in on the right…
+T.boatHit = T.lahar0 + (-1250 - (Wd.BOAT.x + 40)) / 950;
 export const CUTS = [T.cover, T.c1, T.c2, T.c3, T.c4, T.c5, T.c6, T.c7, T.c8];
-export const MARKS = { ...T, A };
+export const MARKS = { ...T, A };                // the score follows these (filled in below, once the moments are known)
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const S = 0.5, LEG = 114;                        // the hunter's scale; hip height over the soles when standing
 
 // —— the mudflow's head: x over time ——
-const laharX = t => (t < T.lahar0 ? null : 1400 - 2300 * (t - T.lahar0) + 160 * Math.min(1, (t - T.lahar0)) * 0);
+const laharX = t => (t < T.lahar0 ? null : -1250 - 950 * (t - T.lahar0));
 
 // —— walking and running: plants for each foot, the hip gliding over them ——
 const PL = { near: [], far: [] };
@@ -212,7 +212,7 @@ export function hunterAt(t) {
       const p = lick > 0 ? [lerp(rest[0], mouth[0] + 16 * S, lick), lerp(rest[1], mouth[1], lick)] : [lerp(rest[0], up[0], raise), lerp(rest[1], up[1], raise)];
       o.hands = { near: { p, shape: 'point', ang: raise > 0.3 ? -Math.PI / 2 : undefined } };
       o.mouth = 0.25 * lick; o.look = raise > 0.2 ? [0.3, -1] : [0.6, 0];
-      o.scarfWave = Math.sin(t * 7) * 0.8;
+      o.scarfWave = 0.9 + Math.sin(t * 9) * 0.6;
     }
     // at the fork: a step toward the river, the cross, a step back; then he watches the flow
     if (t >= T.c6 + 0.3) {
@@ -245,21 +245,27 @@ export function hunterAt(t) {
     const rest = F.T.p([-30, -60]);
     let near = { p: [lerp(rest[0], palm[0], pOut), lerp(rest[1], palm[1], pOut)], shape: pOut > 0.5 ? 'open' : 'fist', ang: pOut > 0.5 ? Math.PI - 0.3 : undefined };
     if (pOut > 0.3) o.look = [-0.6, 0.8];
-    // the flask from the belt, tilted over the scarf
-    const fl0 = A.L6w6 - 0.05, fl1 = A.L6w11 - 0.35;
-    const flU = seg(fl0, fl0 + 0.3, t) * (1 - seg(fl1, fl1 + 0.25, t));
-    const neck = F.T.p([-44, -226]);
-    const over = [neck[0] - 50 * S, neck[1] - 70 * S];
-    if (flU > 0) { near = { p: [lerp(rest[0], over[0], flU), lerp(rest[1], over[1], flU)], shape: 'grip' }; o.look = [-0.3, 0.9]; }
-    o.prop = flU > 0 ? { kind: 'flask', p: null, tilt: seg(fl0 + 0.3, fl0 + 0.55, t) * (1 - seg(fl1 - 0.1, fl1 + 0.1, t)) } : null;
-    // the scarf goes up over nose and mouth, tied at the back
-    const tie0 = fl1 + 0.1, tie1 = A.L6w12 - 0.05;
+    // the scarf off the neck into the far hand, held out in front; the flask from the belt pours water on it
+    const fl0 = A.L6w6 - 0.05, fl1 = A.L6w11 - 0.35, tie0 = fl1 + 0.1, tie1 = A.L6w12 - 0.05;
+    const neck = F.T.p([-44, -226]), clothP = [sh[0] - 150 * S, sh[1] + 30 * S];
+    const offU = seg(fl0 - 0.15, fl0 + 0.15, t);
+    if (t >= fl0 - 0.15 && t < tie0 + 0.15) {
+      o.hands = { far: { p: [lerp(neck[0], clothP[0], offU), lerp(neck[1], clothP[1], offU)], shape: 'grip' } };
+      o.scarf = null;
+      o.cloth = { wet: seg(fl0 + 0.5, fl1, t), wave: Math.sin(t * 8) * 0.6 };
+    }
+    const flU = seg(fl0 + 0.05, fl0 + 0.35, t) * (1 - seg(fl1, fl1 + 0.2, t));
+    const over = [clothP[0] + 34 * S, clothP[1] - 96 * S];
+    if (flU > 0) { near = { p: [lerp(rest[0], over[0], flU), lerp(rest[1], over[1], flU)], shape: 'grip' }; o.look = [-0.6, 0.7]; }
+    o.prop = flU > 0 ? { kind: 'flask', p: null, tilt: seg(fl0 + 0.35, fl0 + 0.55, t) * (1 - seg(fl1 - 0.1, fl1 + 0.1, t)) } : null;
+    // the wet scarf goes up over nose and mouth, tied at the back
     const tieU = seg(tie0, tie0 + 0.25, t) * (1 - seg(tie1 - 0.2, tie1, t));
     if (t >= tie0) {
       const back = F.H.p([70, -10]), face = F.H.p([-40, 10]);
       near = { p: [lerp(rest[0], face[0], tieU), lerp(rest[1], face[1], tieU)], shape: 'grip' };
-      o.hands = { far: { p: [lerp(rest[0], back[0], tieU), lerp(rest[1], back[1], tieU)], shape: 'grip' } };
-      if (t > tie0 + 0.15) o.scarf = 'mask';
+      o.hands = { far: { p: [lerp(clothP[0], back[0], tieU), lerp(clothP[1], back[1], tieU)], shape: 'grip' } };
+      if (t > tie0 + 0.15) { o.scarf = 'mask'; o.cloth = null; }
+      o.scarfWet = true;
     }
     // the glasses come down off the hat
     const gl0 = A.L6w12 + 0.1;
@@ -271,7 +277,7 @@ export function hunterAt(t) {
       near = { p: [lerp(rest[0], tp[0], reach), lerp(rest[1], tp[1], reach)], shape: 'grip' };
       if (glU > 0.85) o.glasses = 0.75 + 0.25 * seg(gl0 + 0.28, gl0 + 0.4, t);
       else if (t > gl0 - 0.05) o.prop = { kind: 'glasses', p: [tp[0] - 6, tp[1] - 10 * S] };
-      o.scarf = 'mask';
+      o.scarf = 'mask'; o.scarfWet = true;
     }
     if (t > gl0 + 0.65) { o.brow = -0.5; o.look = [-0.8, 0]; near = { p: [sh[0] - 70 * S, sh[1] - 40 * S], shape: 'thumb', ang: -Math.PI / 2 }; o.hands = null; }
     o.hands = { ...(o.hands ?? {}), near };
@@ -323,10 +329,10 @@ shot(T.c2, [[T.c2, 150, -880, 1.45], [TURN_T, 165, -900, 1.55], [LADDER_T0, -40,
 shot(T.c3, [[T.c3, 150, -600, 0.6, 0.75, 430], [T.c4, 110, -610, 0.6, 0.77, 450]]);
 shot(T.c4, [[T.c4, -180, -570, 0.5], [T.strike, -230, -560, 0.53], [T.strike + 0.6, -300, -540, 0.56], [T.c5, -380, -500, 0.6]]);
 shot(T.c5, [[T.c5, -900, -230, 1.3], [T.mapIn, -915, -240, 1.4], [T.mapIn + 0.6, -1000, -200, 1.1], [T.mapOut, -1520, -110, 1.0], [T.c6, -1660, -80, 1.0]]);
-shot(T.c6, [[T.c6, -1680, -100, 1.1], [A.L5w1, -1800, -110, 1.2], [T.down, -1820, -100, 1.18], [T.down + 0.6, -2250, 520, 0.68],
-  [T.up - 0.2, -2350, 540, 0.66], [T.up + 0.55, -1950, -120, 0.9], [A.L5e, -2350, -140, 0.95], [T.c7, -2420, -150, 0.95]]);
+shot(T.c6, [[T.c6, -1680, -100, 1.1], [A.L5w1, -1800, -110, 1.2], [T.down, -1820, -100, 1.18], [T.down + 0.55, -2060, 560, 1.1],
+  [T.up - 0.15, -2160, 580, 1.12], [T.up + 0.55, -1950, -120, 0.9], [A.L5e, -2350, -140, 0.95], [T.c7, -2420, -150, 0.95]]);
 shot(T.c7, [[T.c7, -2860, -240, 1.6], [A.L6w5, -2880, -250, 1.7], [A.L6w6 + 0.3, -2900, -260, 1.9], [A.L6w12, -2905, -290, 2.1], [T.c8, -2905, -290, 2.15]]);
-shot(T.c8, [[T.c8, -3820, -420, 0.62], [A.L7w7, -4060, -400, 0.64], [T.win, -4120, -380, 0.7], [T.win + 0.7, -4090, -330, 1.9], [A.L8w5, -4085, -330, 2.0],
+shot(T.c8, [[T.c8, -3980, -330, 0.86], [A.L7w3, -4080, -340, 0.9], [A.L7w7, -4300, -350, 0.92], [T.win, -4180, -340, 0.95], [T.win + 0.7, -4030, -450, 1.9], [A.L8w5, -4025, -455, 2.0],
   [A.L8e, -3900, -560, 0.75, 0.9, 120], [DUR, -3880, -600, 0.62, 0.8, 260]]);
 export function camAt(t) {
   let sh = SHOTS[0];
@@ -371,10 +377,12 @@ function drawProp(hn, A2) {
 function hunterDraw(t, hn) {
   const o = { ...hn.o };
   if (o.prop?.kind === 'binoc' || o.prop?.kind === 'phone') o.faceProp = A2 => drawProp(hn, A2);
+  if (o.cloth) o.propFar = hf => cloth(hf.p([14, 0]), S, o.cloth.wet, o.cloth.wave);
   if (o.prop?.kind === 'flask') o.propNear = hf => {
-    const tilt = o.prop.tilt, c = hf.p([22, 0]);
-    flask(c[0], c[1] - 8, 0.8, -0.2 - 2.0 * tilt);
-    if (tilt > 0.6) for (let i = 0; i < 6; i++) { const ph = (t * 4 + i / 6) % 1; ell(c[0] - 26 - 8 * ph, c[1] - 10 + 60 * ph, 4, 6, '#9fd3ff', 0, 1 - ph); }
+    const tilt = o.prop.tilt, c = hf.p([22, 0]), ang = -0.2 - 2.0 * tilt;
+    flask(c[0], c[1] - 8, 0.8, ang);
+    const m = [c[0] + 40 * Math.sin(ang), c[1] - 8 - 40 * Math.cos(ang)];   // the flask's mouth
+    if (tilt > 0.6) for (let i = 0; i < 8; i++) { const ph = (t * 4 + i / 8) % 1; ell(m[0] - 4 * ph, m[1] + 64 * ph * ph + 10 * ph, 4, 7, '#9fd3ff', 0, 1 - ph * 0.6); }
   };
   return drawHunter(o);
 }
@@ -451,6 +459,7 @@ export function frame(t) {
   dust(t, LAND, X0, 0, 7, 90);
   if (hn.mode === 'ground' && t > T.c8 && t < SLAM_T + 0.6) dust(t, SLAM_T, Wd.UAZ.x - 120, Wd.UAZ.y, 5, 120);
   Wd.drawAsh(t, cam, ashFall(t), F.FG, { n: 150, size: 8, seed: 11 });
+  windStreaks(t, seg(A.L4w3 - 0.35, A.L4w3 + 0.05, t) * (1 - 0.5 * seg(T.mapOut, T.mapOut + 0.4, t)) * (1 - seg(T.c6 - 0.2, T.c6, t)));
   // —— overlays ——
   if (t >= T.c2 && t < T.c3) {
     if (PHONE_UP) redX(cam, PHONE_UP, 70, A.L3w2 + 0.02, t, A.L3w3 - 0.05);
@@ -460,17 +469,52 @@ export function frame(t) {
     O.crosshair(x, y, 150, k, 1 - seg(T.strike - 0.05, T.strike + 0.05, t));
   }
   if (t >= T.c6 && t < T.c7) redX(cam, [Wd.FORK.sign[0] - 100, Wd.FORK.sign[1] - 205], 74, A.L5w4 - 0.02, t, T.down + 0.2);
+  if (t >= T.up && t < T.c7) {   // «выше по склону»: away from the river, up the path
+    const out = 1 - seg(A.L5e - 0.2, A.L5e + 0.1, t);
+    O.arrow(toScreen(cam, [-1760, -60]), toScreen(cam, [-2260, -330]), seg(A.L5w15 - 0.1, A.L5w15 + 0.35, t) * out);
+  }
   if (t >= T.c7 && t < T.c8) {
     const pk = sp(t, A.L6w5 - 0.45, 2.2, 7) * (1 - seg(A.L6w6 - 0.2, A.L6w6 + 0.05, t, ease.in));
     const F0 = framesOf(hn.o), palm = toScreen(cam, F0.T.p([-14, -192]).map((v, i) => v + (i ? 70 * S + 10 : -120 * S - 20)));
-    O.magnifier(t, 700, 760, 230, pk, palm);
-    if (pk > 0.3) text('СТЕКЛО', 700, 1100, 74 * clamp(sp(t, A.L6w5, 2.4, 7)), '#9fd3ff', { fam: 'Oswald' });
+    O.magnifier(t, 790, 620, 210, pk, palm);
+    if (pk > 0.3) text('СТЕКЛО', 790, 900, 74 * clamp(sp(t, A.L6w5, 2.4, 7)), '#9fd3ff', { fam: 'Oswald' });
+  }
+  if (t >= T.c8 && t < T.win + 0.3) {          // both are shelter: the car and the hut get a tick
+    const out = 1 - seg(T.win, T.win + 0.25, t);
+    tick(...toScreen(cam, [Wd.UAZ.x - 60, Wd.UAZ.y - 520]), sp(t, A.L7w3 + 0.1, 2.6, 8) * out);
+    tick(...toScreen(cam, [Wd.HUT.x, Wd.HUT.y - 560]), sp(t, A.L7w7 + 0.1, 2.6, 8) * out);
   }
   O.drawMap(t, mapState(t));
   stepHeaders(t);
   O.endCard(t, A.L8 - 0.05, 0);
   subtitles(t, SUBS);
   if (flash > 0.3 && t >= T.strike) { g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = (flash - 0.3) * 0.8; g.fillStyle = '#f3e9ff'; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
+}
+// a green tick stamped on screen at (x, y)
+function tick(x, y, k) {
+  if (k <= 0.01) return;
+  g.save(); g.setTransform(1, 0, 0, 1, x, y); const z = lerp(1.6, 1, Math.min(1, k)) * Math.min(1, k * 4); g.scale(z, z); g.rotate(-0.06);
+  ell(6, 8, 74, 74, INK); ell(0, 0, 74, 74, '#fff3d6');
+  for (const [c, d] of [[INK, 6], ['#3e9a4a', 0]]) limb([[-34 + d, 2 + d], [-8 + d, 30 + d], [38 + d, -28 + d]], 22, c, false);
+  g.restore();
+}
+// the wind made visible: thin tapering streaks blowing to the right, the way the cloud drifts
+function windStreaks(t, k) {
+  if (k <= 0.01) return;
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.lineCap = 'round';
+  for (let i = 0; i < 11; i++) {
+    const per = 0.8 + 0.5 * hash(i + 31), ph = ((t + per * hash(i + 32)) / per) % 1;
+    const y0 = 380 + 1200 * hash(i + 33), x = -400 + (W + 800) * ph, len = 320 + 260 * hash(i + 34), w = 7 + 4 * hash(i + 35);
+    const a = k * 0.85 * Math.sin(Math.PI * ph);
+    g.strokeStyle = `rgba(255,246,230,${a.toFixed(3)})`;
+    let prev = null;
+    for (let j = 0; j <= 14; j++) {
+      const u = j / 14, pt = [x - len * u, y0 + 16 * Math.sin(u * 4.5 - t * 7 + i)];
+      if (prev) { g.lineWidth = w * (1 - u * 0.85); g.beginPath(); g.moveTo(prev[0], prev[1]); g.lineTo(pt[0], pt[1]); g.stroke(); }
+      prev = pt;
+    }
+  }
 }
 function insideCab(t, hn, dw) {
   const o = { ...hn.o };
@@ -551,16 +595,49 @@ export function motion(t, h = 1 / 240) {
   return m * (0.5 / (2 * h * 60));
 }
 
-// sound cues for the mix (seconds, name, level dB, pan −1…1)
+// sound cues for the mix (seconds, name, level dB, pan −1…1); the mixer holds each under the narrator
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  add(T.te, 'boom', 0, 0.3);
-  add(T.strike, 'thunder_hit', 2, 0);
-  for (const b of BOLTS) add(b.t, b.to ? 'thunder_far' : 'crackle', b.to ? -6 : -12, 0.3);
-  for (const f of ['near', 'far']) for (const p of PL[f]) add(p.t, 'step', -14, 0);
-  add(LAND, 'thud', -6, 0);
-  add(T.lahar0, 'lahar', -2, 0.5, { dur: T.up - T.lahar0 + 0.6 });
-  add(SLAM_T, 'slam', -4, 0);
+  add(T.te - 0.02, 'eruption', 0, 0.3);
+  for (const b of BOLTS) add(b.t, b.to ? 'thunder_far' : 'crackle', b.to ? -4 : -10, 0.3);
+  add(T.c1 - 0.05, 'whoosh_short', -8, 0);                               // out of the binoculars
+  add(A.L3w2 - 0.25, 'phone', -6, 0.2);
+  add(A.L3w2 + 0.02, 'stamp', -2, 0.2);
+  add(TURN_T, 'cloth', -8, 0);
+  add(LADDER_T0, 'ladder', -4, 0, { dur: LAND - LADDER_T0 });
+  add(LAND, 'thud', -4, 0);
+  for (const f of ['near', 'far']) for (const p of PL[f]) add(p.t, 'step', -10, f === 'near' ? 0.05 : -0.05);
+  add(A.L3w15 - 0.1, 'lock', -6, 0);
+  add(T.strike - 0.01, 'thunder_hit', 2, 0);
+  add(T.c5 - 0.1, 'gust', -4, -0.3, { sec: 3.2 });
+  add(T.mapIn, 'paper', -6, 0);
+  add(A.L4w3 - 0.05, 'marker', -10, 0.2, { dur: 0.4 });
+  add(A.L4w10 - 0.05, 'marker', -10, 0, { dur: 0.35 });
+  add(A.L4w10 + 0.35, 'stamp', -4, 0);
+  add(A.L4w13 - 0.1, 'marker', -10, -0.2, { dur: 0.4 });
+  add(T.mapOut - 0.25, 'ding', -6, -0.2);
+  add(T.mapOut, 'paper', -8, 0);
+  add(A.L5w4 - 0.02, 'stamp', -2, -0.2);
+  add(T.down, 'whoosh', -10, 0);
+  add(T.lahar0, 'lahar', 0, 0.4, { dur: T.up - T.lahar0 + 0.8 });
+  add(T.boatHit, 'crunch', -4, -0.2);
+  add(A.L5w15 - 0.1, 'marker', -10, -0.2, { dur: 0.35 });
+  add(A.L6w5 - 0.45, 'whoosh_in', -12, 0.2);
+  add(A.L6w5 - 0.05, 'glass', -6, 0.2);
+  const fl0 = A.L6w6 - 0.05, fl1 = A.L6w11 - 0.35, tie0 = fl1 + 0.1, gl0 = A.L6w12 + 0.1;
+  add(fl0 - 0.15, 'cloth', -8, -0.1);
+  add(fl0 + 0.4, 'pour', -8, -0.1, { dur: fl1 - fl0 - 0.35 });
+  add(tie0, 'cloth', -8, 0.1);
+  add(gl0 + 0.3, 'glasses', -6, 0);
+  add(A.L7w3 + 0.1, 'ding', -8, 0.2);
+  add(DOOR_T, 'door', -6, -0.2);
+  add(A.L7w7 - 0.1, 'lamp', -10, -0.4);
+  add(A.L7w7 + 0.1, 'ding', -8, -0.3);
+  add(SLAM_T, 'slam', -2, -0.1);
+  add(T.win + 0.25, 'crank', -8, 0, { dur: A.L7e - T.win - 0.2 });
+  for (const t0 of [A.L3, A.L4, A.L5, A.L6, A.L7]) add(t0 + 0.04, 'pop_word', -8, 0);
+  add(A.L8 + 0.1, 'pop_word', -6, 0);
   return c.sort((a, b) => a.t - b.t);
 }
+Object.assign(MARKS, { turn: TURN_T, ladder: LADDER_T0, land: LAND, door: DOOR_T, slam: SLAM_T });

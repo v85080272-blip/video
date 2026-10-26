@@ -2,7 +2,7 @@
 // far ridges, forested hills, and the main slope: the hunting tower on a hilltop, the ridge path, the fork down to the
 // river, the river valley where the mudflow runs, the forest road with the UAZ «буханка» and a log hut.
 // World units are pixels at zoom 1. Layers: VOLC 0.04, FAR 0.15, MID 0.4, MAIN 1, FG 1.4 (camera.js).
-import { g, W, H, poly, rect, rrect, ell, fill, limb, polyPath, smoothPath, sample, inside, tube } from './flat.js';
+import { g, W, H, poly, rect, rrect, ell, fill, limb, polyPath, smoothPath, sample, inside, tube, rrPath } from './flat.js';
 import { hash, lerp, clamp, noise, mix, TAU, ease, shade, rgba } from './lib.js';
 import { scaleOf } from './camera.js';
 import { text, FONTS } from './type.js';
@@ -346,7 +346,7 @@ export function drawSign(o = {}) {
   g.restore();
   return [x - 100, y - 205];
 }
-export const TREES = [[-560, 560, 0.9], [-980, 300, 1.0], [-1450, -40, 1.1, true], [-2050, 420, 0.9], [-2700, 640, 0.85], [-2950, -100, 1.15, true],
+export const TREES = [[-560, 560, 0.9], [-980, 300, 1.0], [-1450, -40, 1.1, true], [-2330, 300, 0.9], [-2700, 640, 0.85], [-2950, -100, 1.15, true],
   [-3350, -190, 1.0, true], [-5000, -230, 1.1, true], [600, 400, 0.9], [980, 620, 0.9], [-1250, 700, 0.8], [-3150, 520, 0.85], [-4300, -200, 0.95, true]];
 export function drawTrees(t, ash = 0, wind = 0) {
   for (const [x, dy, k, above] of TREES) {
@@ -390,6 +390,11 @@ export function drawLahar(t, xf, o = {}) {
     rock(x, y, r, -(xf / r) * 0.7 + i);
     ell(x + r * 0.3, y + r * 0.7, r * 1.1, r * 0.45, P.mud);
   }
+  for (let i = 0; i < 12; i++) {                                     // rocks rolling along in the body
+    const r = 22 + 22 * hash(i + 60), x = xf + 560 + i * 390 + 120 * hash(i + 61), y = surf(x) + 22 + 14 * Math.sin(t * 6 + i * 1.3);
+    rock(x, y, r, -(xf / r) * 0.5 + i * 2);
+    ell(x + r * 0.2, y + r * 0.75, r * 1.2, r * 0.4, P.mud);
+  }
   for (let i = 0; i < 6; i++) {
     const x = xf + 420 + i * 520 + 90 * hash(i + 30), y = surf(x) + 14, a = 0.35 * Math.sin(t * 2.5 + i * 2) + (hash(i + 31) - 0.5) * 1.2;
     g.save(); g.translate(x, y); g.rotate(a);
@@ -426,6 +431,7 @@ function rock(x, y, r, a) {
 export function drawUAZ(t, o = {}) {
   const { x, y, len } = UAZ, h = 330, x0 = x - len / 2, yb = y - 70 + (o.bounce ?? 0), ash = o.ash ?? 0;
   const body = greyOf(P.uaz, ash * 0.35), sh = greyOf(P.uazSh, ash * 0.35);
+  rrect(x0 + 30, yb - 30, len - 60, y - yb + 40, 20, shade(greyOf(P.grassSh, ash * 0.55), -0.3));   // the shadow under the car
   for (const wx of [x0 + 120, x0 + len - 120]) { ell(wx, y - 50, 62, 62, P.tire); ell(wx, y - 50, 28, 28, P.hub); }
   const pts = [[x0 + 8, yb - 40], [x0 + 20, yb - h + 80], [x0 + 70, yb - h], [x0 + len - 30, yb - h], [x0 + len, yb - h + 30], [x0 + len, yb - 20], [x0 + len - 20, yb], [x0 + 20, yb]];
   const bp = smoothPath(pts);
@@ -442,7 +448,7 @@ export function drawUAZ(t, o = {}) {
   for (let i = 0; i < 2; i++) win(x0 + 300 + i * 150, yb - h + 50, 120, 110);
   rrect(x0 + 300 + 2, yb - h + 54, 30, 100, 10, P.glassHi, 0.6);
   ell(x0 + 24, yb - 90, 20, 22, '#fff1c2'); rect(x0 - 6, yb - 30, 60, 22, '#2a2a33');
-  if (o.inside) { g.save(); g.clip(polyPath([[dw.x, dw.y], [dw.x + dw.w, dw.y], [dw.x + dw.w, dw.y + dw.h + 400], [dw.x, dw.y + dw.h + 400]])); o.inside(dw); g.restore(); }
+  if (o.inside) { g.save(); g.clip(rrPath(dw.x, dw.y, dw.w, dw.h, 14)); o.inside(dw); g.restore(); }
   const up = clamp(o.win ?? 1, 0, 1);
   rrect(dw.x + 4, dw.y + 4 + (1 - up) * (dw.h - 8), dw.w - 8, (dw.h - 8) * up, 10, '#9fb8d6', 0.4);
   if (up > 0.02) limb([[dw.x + 14, dw.y + 4 + (1 - up) * (dw.h - 8) + 16], [dw.x + 40, dw.y + 4 + (1 - up) * (dw.h - 8) + 8]], 6, '#e6f0ff', false);

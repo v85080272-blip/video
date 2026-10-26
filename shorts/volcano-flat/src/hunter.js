@@ -8,7 +8,7 @@ export const HUN = {
   skin: '#f2c19b', skinSh: '#d99e78', nose: '#e8a07e', beard: '#6a4127', beardSh: '#55331f', jacket: '#f2782f', jacketSh: '#c95c1f',
   collar: '#3a2f46', pants: '#56653d', pantsSh: '#435030', boot: '#24232f', bootHi: '#3a3948', hat: '#7a5236', hatSh: '#5f3f29',
   fur: '#d2ae84', furSh: '#b48f66', eye: '#fff7ea', pupil: '#17162f', brow: '#4a2d1c', mouth: '#3a1a24', tongue: '#d9536a',
-  pack: '#3f5a4a', packSh: '#2f4639', strap: '#2a3a31', scarf: '#d9433b', scarfSh: '#ad3029', lens: '#ffd23f', lensSh: '#e0a91f',
+  pack: '#3f5a4a', packSh: '#2f4639', strap: '#2a3a31', scarf: '#d9433b', scarfSh: '#ad3029', scarfWet: '#b8342e', scarfWetSh: '#8c2621', lens: '#ffd23f', lensSh: '#e0a91f',
   frameDark: '#24232f', glove: '#3a3948', sleeve: '#ff9150',
 };
 export const THIGH = 128, SHIN = 124, UPPER = 100, FORE = 96;
@@ -153,7 +153,7 @@ export function drawHunter(o) {
     limb([T.p([-30, -214]), T.p([-44 + 6 * wave, -150]), T.p([-40 + 10 * wave, -110])], 20 * s, HUN.scarfSh);
   } else if (o.scarf === 'mask') {
     const band = H.pts([[-80, -8], [-70, -22], [-10, -18], [50, -24], [60, 14], [20, 30], [-30, 44], [-74, 34]]);
-    fill(smoothPath(band), HUN.scarf);
+    fill(smoothPath(band), o.scarfWet ? HUN.scarfWet : HUN.scarf);
     inside(smoothPath(band), () => { limb(H.pts([[-76, 14], [56, 4]]), 6 * hs, HUN.scarfSh, false); });
     const k = H.p([58, -4]);
     limb([k, H.p([96 + 6 * wave, -14 + 10 * wave]), H.p([128 + 10 * wave, 0 + 14 * Math.sin(wave * 3)])], 14 * hs, HUN.scarfSh);
@@ -211,6 +211,18 @@ export function phone(x, y, s, ang = 0, glow = 1, pic = false) {
   }
   ell(14 * s, -30 * s, 4 * s, 4 * s, '#ff4d4d');
   g.restore();
+}
+// the scarf off the neck, hanging from the hand at p; wet 0…1 darkens it from the top down where the water lands
+export function cloth(p, s, wet = 0, wave = 0) {
+  const w = 70 * s, L = 150 * s, sw = 10 * s * wave;
+  const pts = [[p[0] - 8 * s, p[1] - 6 * s], [p[0] + 10 * s, p[1] - 4 * s], [p[0] + w / 2 + sw * 0.3, p[1] + L * 0.5], [p[0] + w / 2 + sw, p[1] + L],
+    [p[0] - w / 2 + sw, p[1] + L + 6 * s], [p[0] - w / 2 + sw * 0.3, p[1] + L * 0.5]];
+  const path = smoothPath(pts);
+  fill(path, HUN.scarf);
+  inside(path, () => {
+    limb([[p[0] + 4 * s, p[1]], [p[0] + w * 0.25 + sw, p[1] + L]], 12 * s, HUN.scarfSh, false);
+    if (wet > 0) ell(p[0], p[1] + 10 * s, w * 0.75, (16 + 120 * wet) * s, HUN.scarfWetSh);
+  });
 }
 export function flask(x, y, s, ang = 0) {
   g.save(); g.translate(x, y); g.rotate(ang);
