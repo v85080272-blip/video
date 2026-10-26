@@ -52,6 +52,12 @@ export function drawArmTo(S, T, s, { bend = 1, shade = false, hand = 'fist', han
 //    face expression: brow (-1 frown … 1 raised), pop (eyes 0…1), lid (0…1), blink (0…1), look [x, y], mouth (0…1 open),
 //    hatJump (px, the hat pops up), flaps (0 down … 1 up), scarf ('neck' | 'mask' | null), scarfWave, glasses (0…1),
 //    pack (backpack on), propNear / propFar(handFrame, arm) callbacks to draw what the hands hold.
+// the body and head frames for o, without drawing: to aim the hands at the eyes or the mouth
+export function framesOf(o) {
+  const s = o.s ?? 1, fx = o.face === 1 ? -1 : 1, lean = o.lean ?? 0.05;
+  const T = frame(o.hip[0], o.hip[1], fx * -lean, s, fx);
+  return { T, H: T.sub(-14, -300, -(o.headTilt ?? 0.04), 1.25), fx, s };
+}
 export function drawHunter(o) {
   const s = o.s ?? 1, fx = o.face === 1 ? -1 : 1, lean = o.lean ?? 0.05, hs = s * 1.25;
   const T = frame(o.hip[0], o.hip[1], fx * -lean, s, fx);
@@ -140,15 +146,6 @@ export function drawHunter(o) {
   const brow = o.brow ?? 0;
   const by = -44 - 8 * Math.max(0, brow) - 5 * pop;
   limb(H.pts([[-52, by + 6 * Math.min(0, brow) * -1 + 2], [-18, by - 6 * brow * 0.6 - (brow < 0 ? -8 * brow : 0)]]), 9 * hs, HUN.brow, false);
-  // glasses
-  const gl = clamp(o.glasses ?? 0, 0, 1);
-  if (gl > 0.01) {
-    const gy = -22 - (1 - gl) * 60;
-    limb(H.pts([[-30, gy - 2], [40, gy - 8]]), 5 * hs, HUN.frameDark, false);
-    const lc = H.p([-38, gy]); ell(lc[0], lc[1], 24 * hs, 17 * hs, HUN.frameDark, H.a(0));
-    ell(lc[0], lc[1], 20 * hs, 13 * hs, HUN.lens, H.a(0));
-    const sh = H.p([-30, gy - 4]); ell(sh[0], sh[1], 6 * hs, 4 * hs, '#fff7ea', H.a(-0.4));
-  }
   // scarf: around the neck, or tied over nose and mouth with tails at the back of the head
   const wave = o.scarfWave ?? 0;
   if (o.scarf === 'neck') {
@@ -174,6 +171,15 @@ export function drawHunter(o) {
   const flapPts = FLAP.map(([x, y]) => { const a = -2.4 * flaps; const c = Math.cos(a), sn = Math.sin(a), px = x - 40, py = y + 40; return [40 + px * c - py * sn, -40 + px * sn + py * c]; });
   if (!o.noFlap) { const fp = smoothPath(HT.pts(flapPts)); fill(fp, HUN.fur); inside(fp, () => { const b = HT.p([70, 0]); ell(b[0], b[1], 12 * hs, 40 * hs, HUN.furSh, HT.a(0)); }); }
   A.hatTop = HT.p([0, -120]);
+  // glasses
+  const gl = clamp(o.glasses ?? 0, 0, 1);
+  if (o.glasses != null) {
+    const gy = -22 - (1 - gl) * 62;
+    limb(H.pts([[-30, gy - 2], [40, gy - 8]]), 5 * hs, HUN.frameDark, false);
+    const lc = H.p([-38, gy]); ell(lc[0], lc[1], 24 * hs, 17 * hs, HUN.frameDark, H.a(0));
+    ell(lc[0], lc[1], 20 * hs, 13 * hs, HUN.lens, H.a(0));
+    const sh = H.p([-30, gy - 4]); ell(sh[0], sh[1], 6 * hs, 4 * hs, '#fff7ea', H.a(-0.4));
+  }
 
   if (o.faceProp) o.faceProp(A);
   // near arm last, in front of everything
@@ -194,10 +200,15 @@ export function binoculars(x, y, s, fx = -1, ang = 0) {
   rrect(-20 * s, -6 * s, 30 * s, 12 * s, 4 * s, '#4a4a66');
   g.restore();
 }
-export function phone(x, y, s, ang = 0, glow = 1) {
+export function phone(x, y, s, ang = 0, glow = 1, pic = false) {
   g.save(); g.translate(x, y); g.rotate(ang);
   rrect(-24 * s, -44 * s, 48 * s, 88 * s, 9 * s, HUN.frameDark);
   rrect(-19 * s, -37 * s, 38 * s, 70 * s, 5 * s, '#7fd0ff', glow);
+  if (pic && glow > 0.2) {                       // what he is filming: a tiny volcano and its cloud
+    fill(polyPath([[-16 * s, 26 * s], [-3 * s, 6 * s], [5 * s, 6 * s], [17 * s, 26 * s]]), '#4b4f74');
+    ell(1 * s, -6 * s, 11 * s, 10 * s, '#7a7582'); ell(-5 * s, -16 * s, 9 * s, 8 * s, '#7a7582'); ell(8 * s, -20 * s, 8 * s, 7 * s, '#7a7582');
+    ell(1 * s, 6 * s, 4 * s, 2 * s, '#ff6a2a');
+  }
   ell(14 * s, -30 * s, 4 * s, 4 * s, '#ff4d4d');
   g.restore();
 }
