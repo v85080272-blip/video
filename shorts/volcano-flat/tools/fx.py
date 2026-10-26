@@ -59,7 +59,7 @@ def thunder_far(rng, sec=3.0, **_):
 
 def thunder_hit(rng, **_):
     """the bolt hits the tower right above him: a tearing crack, a blast and the thunder rolling off: the one scare"""
-    sec = 3.4
+    sec = 4.2
     t = tt(sec)
     tear = np.zeros(n_(sec))
     s = 0.0
@@ -70,8 +70,8 @@ def thunder_hit(rng, **_):
     crack = hp(white(rng, sec), 300) * env(sec, 0.0005, 0.03)
     sub = np.sin(sweep(sec, 90, 30)) * np.exp(-t / 0.6)
     body = lp(colored(rng, sec, -6), 400) * np.minimum(1, t / 0.01) * np.exp(-t / 0.7)
-    roll = lp(colored(rng, sec, -6), 220) * np.clip((t - 0.3) / 0.3, 0, 1) * np.exp(-np.maximum(0, t - 0.6) / 1.0) * (1 + 0.5 * np.sin(TAU * 1.9 * t))
-    y = 1.2 * tear + 0.9 * crack + sub + 0.8 * body + 0.7 * roll
+    roll = lp(colored(rng, sec, -6), 220) * np.clip((t - 0.3) / 0.3, 0, 1) * np.exp(-np.maximum(0, t - 0.6) / 1.6) * (1 + 0.5 * np.sin(TAU * 1.9 * t))
+    y = 1.2 * lp(tear, 9000) + 0.9 * lp(crack, 10000) + sub + 0.8 * body + 1.0 * roll   # no energy near Nyquist: AAC overshoots on it
     return fade(norm(verb(y, room(rng, 2.2, damp=3000, width=0.9), 0.35), 0.98), 0.0005, 0.3)
 
 
