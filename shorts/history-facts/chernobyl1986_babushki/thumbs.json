@@ -1,0 +1,32 @@
+[
+ {
+  "id": "b1_vernulis",
+  "img": "/home/user/work/babushki/shots/b10_portrait_s4092.png",
+  "cam": {"zoom": 1.0, "pany": 0.03},
+  "grade": {"exposure": 0.04, "contrast": 1.14, "sat": 0.95, "warm": 0.3},
+  "glow": {"x": 0.5, "y": 0.3, "r": 0.6, "strength": 0.2, "color": [1.0, 0.85, 0.6]},
+  "bloom": 0.2,
+  "vignette": 0.5,
+  "band": {"y": 1520, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №13", "y": 260},
+  "lines": [
+   {"text": "ВЕРНУЛИСЬ", "y": 1420, "size": 190, "color": "white"},
+   {"text": "В ЗОНУ РАДИАЦИИ", "y": 1630, "size": 125, "box": "yellow"}
+  ]
+ },
+ {
+  "id": "b2_babushki_zony",
+  "img": "/home/user/work/babushki/shots/b01_gate_s4001.png",
+  "cam": {"zoom": 1.04, "pany": -0.02},
+  "grade": {"exposure": 0.03, "contrast": 1.14, "sat": 0.95, "warm": 0.3},
+  "glow": {"x": 0.3, "y": 0.2, "r": 0.6, "strength": 0.25, "color": [1.0, 0.85, 0.55]},
+  "bloom": 0.25,
+  "vignette": 0.5,
+  "band": {"y": 1520, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №13", "y": 260},
+  "lines": [
+   {"text": "БАБУШКИ", "y": 1420, "size": 200, "color": "white"},
+   {"text": "ЗОНЫ ОТЧУЖДЕНИЯ", "y": 1630, "size": 120, "box": "red"}
+  ]
+ }
+]

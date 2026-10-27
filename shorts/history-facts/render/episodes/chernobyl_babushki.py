@@ -41,25 +41,25 @@ COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №13', year='1986', lines=['ВЕ
 COVER_B = ['БАБУШКИ', 'ЗОНЫ ОТЧУЖДЕНИЯ']
 # the narrator says the plaque's words (L10, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №13', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
-# stills from vla's PC (shots_pc.json, Juggernaut XL), chosen by seed; where a shot comes twice, the second seed gives
+# stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 27.10), chosen by seed; where a shot comes twice, the second seed gives
 # the second appearance a new picture
 GATE = 'b01_gate_s4001'              # an old woman at the gate of her house
 GATE2 = 'b01_gate_s4002'             # the same, for «здесь мой дом»
-SIGN = 'b02_sign_s4011'              # the radiation sign at the forest's edge
+SIGN = 'b02_sign_s4012'              # the radiation sign at the forest's edge
 VILLAGE = 'b03_village_s4021'        # the empty village, grass on the road
 VILLAGE2 = 'b03_village_s4022'       # the village again, for «соседей, которые уехали»
-WALK = 'b04_forest_walk_s4031'       # an old woman walking home through the pines
+WALK = 'b04_forest_walk_s4031'       # an old woman walking home through the pines, a bundle in her arms
 WALK2 = 'b04_forest_walk_s4032'      # the same, for «возвращались снова»
-CHECK = 'b05_checkpoint_s4041'       # a militiaman at the barrier stopping her
+CHECK = 'b05_checkpoint_s4042'       # a militiaman at the barrier stopping her
 GARDEN = 'b06_garden_s4051'          # digging potatoes by the house
 GARDEN2 = 'b06_garden_s4052'         # the same yard, for the plaque
-WELL = 'b07_well_s4061'              # the bucket coming up the well
-MUSHROOMS = 'b08_mushrooms_s4071'    # old hands with a basket of mushrooms
+WELL = 'b07_well_s4062'              # the bucket coming up the well
+MUSHROOMS = 'b08_mushrooms_s4072'    # old hands with a basket of mushrooms
 KITCHEN = 'b09_kitchen_s4081'        # two old women at tea under the icons
 KITCHEN2 = 'b09_kitchen_s4082'       # the same, for «в основном бабушки»
 FACE = 'b10_portrait_s4091'          # a very old woman's face, smiling
 FACE2 = 'b10_portrait_s4092'         # the same, for «прожили дольше»
-WOLF = 'b11_wolf_s4101'              # a wolf in the empty village street
+WOLF = 'b11_wolf_s4102'              # a wolf in the empty village street
 FROG = 'b12_frog_s4111'              # a dark, almost black tree frog
 SFX_DIRS = ['/home/user/work/sfx/babushki', '/home/user/work/sfx/veshchi', '/home/user/work/sfx/chernobyl',
             '/home/user/work/sfx/rescue', '/home/user/work/sfx/olga', '/home/user/work/sfx']
