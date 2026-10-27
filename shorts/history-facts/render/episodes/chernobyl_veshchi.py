@@ -11,7 +11,7 @@ the ids below are picked by seed once the frames are in.
 import numpy as np
 
 DISPLAY = {
-    'L1': 'ЖИТЕЛЯМ ПРИПЯТИ СКАЗАЛИ ВЗЯТЬ ВЕЩИ НА ТРИ ДНЯ. ДОМОЙ ОНИ БОЛЬШЕ НЕ ВЕРНУЛИСЬ.',
+    'L1': 'ЦЕЛОМУ ГОРОДУ СКАЗАЛИ ВЗЯТЬ ВЕЩИ НА ТРИ ДНЯ. ДОМОЙ ОНИ БОЛЬШЕ НЕ ВЕРНУЛИСЬ.',
     'L2': '27{двадцать седьмое} АПРЕЛЯ. ПО РАДИО ОБЪЯВЛЯЮТ ЭВАКУАЦИЮ.',
     'L3': 'БРАТЬ ТОЛЬКО ДОКУМЕНТЫ, ДЕНЬГИ И НЕМНОГО ЕДЫ: ЭТО НЕНАДОЛГО, ВСЕГО НА ТРИ ДНЯ.',
     'L4': 'К ПОДЪЕЗДАМ ПОДХОДЯТ БОЛЬШЕ ТЫСЯЧИ АВТОБУСОВ.',
@@ -22,7 +22,7 @@ DISPLAY = {
     'L9': 'А ПОТОМ В МЁРТВУЮ ЗОНУ ТАЙКОМ НАЧАЛИ ВОЗВРАЩАТЬСЯ СТАРИКИ. ЗАЧЕМ?',
     'L10': 'ПОДПИШИСЬ, ЧТОБЫ НЕ ПРОПУСКАТЬ ДРУГИЕ КРУТЫЕ ИСТОРИИ.',
 }
-HILITE = {'ТРИ', 'ДНЯ.', 'ВЕРНУЛИСЬ.', '27', 'ЭВАКУАЦИЮ.', 'ДОКУМЕНТЫ,', 'ДЕНЬГИ', 'НЕНАДОЛГО,', 'ДНЯ.',
+HILITE = {'ГОРОДУ', 'ТРИ', 'ДНЯ.', 'ВЕРНУЛИСЬ.', '27', 'ЭВАКУАЦИЮ.', 'ДОКУМЕНТЫ,', 'ДЕНЬГИ', 'НЕНАДОЛГО,', 'ДНЯ.',
           'ТЫСЯЧИ', 'АВТОБУСОВ.', '50', 'ЧАСА.', 'НЕЛЬЗЯ,', 'БЕГУТ', 'ИГРУШКИ,', 'ЦВЕТЫ', 'ПАНИКИ', 'НАЛЕГКЕ.',
           'МЁРТВУЮ', 'ТАЙКОМ', 'СТАРИКИ.', 'ЗАЧЕМ?'}
 
@@ -44,16 +44,20 @@ ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №12', over_last=0.0, lines=['
 # stills from vla's PC (shots_pc.json, Juggernaut XL), chosen by seed; where a shot comes twice, the second seed gives
 # the second appearance a new picture
 RADIO = 'v01_radio_s3001'            # a woman and a boy at the kitchen radio
+RADIO2 = 'v01_radio_s3002'           # the same kitchen, for «27 апреля»
 PACK = 'v02_packing_s3011'           # hands packing a small suitcase
 PACK2 = 'v02_packing_s3012'          # the same, for «документы, деньги и немного еды»
 BUSES = 'v03_buses_s3021'            # a line of buses along the blocks
+BUSES2 = 'v03_buses_s3022'           # the buses again, for «люди уехали налегке»
 COLUMN = 'v04_column_s3031'          # the endless column through the forest, from above
 BOARD = 'v05_boarding_s3041'         # a mother and a girl boarding with one bag
 DOG = 'v06_dog_s3051'                # a dog running after the bus
 CAT = 'v07_cat_s3061'                # a cat alone on a windowsill
 TOYS = 'v08_toys_s3071'              # a child's room left as it was
 TABLE = 'v09_table_s3081'            # the kitchen table with the plates, flowers on the sill
+TABLE2 = 'v09_table_s3082'           # the table set as if they'd be back, for «это ненадолго»
 EMPTY = 'v10_empty_city_s3091'       # the empty streets that evening, laundry on the balconies
+EMPTY2 = 'v10_empty_city_s3092'      # the empty town again, for «мёртвую зону»
 OLD = 'v11_babushka_s3101'           # an old woman walking home down an overgrown road
 WHEEL = 'v12_wheel_now_s3111'        # the Ferris wheel today, rusted
 WHEEL2 = 'v12_wheel_now_s3112'       # the same, for the plaque
@@ -89,12 +93,15 @@ def plan(lines, words):
     p['radio'] = wt('L2', 'ПО')
     p['evac'] = wt('L2', 'ЭВАКУАЦИЮ')
     p['docs'] = wt('L3', 'ДОКУМЕНТЫ')
+    p['this'] = wt('L3', 'ЭТО')
     p['short'] = wt('L3', 'НЕНАДОЛГО')
+    p['all3'] = wt('L3', 'ВСЕГО')
     p['days3'] = wt('L3', 'ТРИ')
     p['thousand'] = wt('L4', 'ТЫСЯЧИ')
     p['buses'] = wt('L4', 'АВТОБУСОВ')
     p['n50'] = wt('L5', '50')
     p['taken'] = wt('L5', 'ВЫВОЗЯТ')
+    p['approx'] = wt('L5', 'ПРИМЕРНО')
     p['hours'] = wt('L5', 'ТРИ')
     p['cats'] = wt('L6', 'КОШЕК')
     p['no'] = wt('L6', 'НЕЛЬЗЯ')
@@ -103,7 +110,9 @@ def plan(lines, words):
     p['dishes'] = wt('L7', 'ПОСУДА')
     p['why'] = wt('L8', 'ПРО')
     p['panic'] = wt('L8', 'ПАНИКИ')
+    p['people'] = wt('L8', 'ЛЮДИ')
     p['zone'] = wt('L9', 'МЁРТВУЮ')
+    p['began'] = wt('L9', 'НАЧАЛИ')
     p['back'] = wt('L9', 'ВОЗВРАЩАТЬСЯ')
     p['what'] = wt('L9', 'ЗАЧЕМ')
     p['sub'] = lines['L10']['start']
@@ -132,14 +141,20 @@ def layout(c):
         fx=dict(dust=15, beat=[hook], punch=[(p['things'], 0.05), (p['days1'], 0.06)], grade=home))
     add(WHEEL, hm, l2, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.0, 0.02), parx=(-6, 6)),
         fx=dict(dust=20, beat=[hook], punch=[(p['never'], 0.08)], grade=now))
-    # L2 the 27th: the radio in the kitchen announcing the evacuation
+    # L2 the 27th in the kitchen, then the radio announcing the evacuation
+    rd = p['radio'] - 0.06
+    add(RADIO2, l2, rd, into='flash', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-6, 6)),
+        fx=dict(dust=10, grade=home))
     l3 = L('L3')['start'] - 0.08
-    add(RADIO, l2, l3, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05), parx=(-6, 6)),
+    add(RADIO, rd, l3, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05), parx=(-6, 6)),
         fx=dict(dust=10, punch=[(p['evac'], 0.06)], grade=home))
-    # L3 documents, money, a little food (the suitcase again), «всего на три дня»
+    # L3 documents, money, a little food (the suitcase again); «это ненадолго, всего на три дня» on the table left set
+    th = p['this'] - 0.06
+    add(PACK2, l3, th, into='fade', cam=dict(zoom=(1.05, 1.15), panx=(-0.02, 0.02)),
+        fx=dict(dust=10, punch=[(p['docs'], 0.04)], grade=home))
     l4 = L('L4')['start'] - 0.08
-    add(PACK2, l3, l4, into='fade', cam=dict(zoom=(1.05, 1.15), panx=(-0.02, 0.02)),
-        fx=dict(dust=10, punch=[(p['docs'], 0.04), (p['short'], 0.05), (p['days3'], 0.06)], grade=home))
+    add(TABLE2, th, l4, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04)),
+        fx=dict(dust=15, punch=[(p['short'], 0.05), (p['days3'], 0.06)], grade=home))
     # L4 over a thousand buses at the doors
     l5 = L('L5')['start'] - 0.08
     add(BUSES, l4, l5, into='flash', cam=dict(zoom=(1.0, 1.1), panx=(0.03, -0.03), parx=(-10, 10)),
@@ -165,21 +180,27 @@ def layout(c):
     l8 = L('L8')['start'] - 0.08
     add(TABLE, ds, l8, into='fade', cam=dict(zoom=(1.05, 1.12), pany=(0.0, 0.02)),
         fx=dict(dust=25, grade=empty))
-    # L8 why «three days»: the empty streets that evening
-    l9 = L('L9')['start'] - 0.08
-    add(EMPTY, l8, l9, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.02, 0.0), parx=(-8, 8)),
+    # L8 why «three days»: the empty streets that evening; «люди уехали налегке» on the buses with their small bags
+    pp = p['people'] - 0.06
+    add(EMPTY, l8, pp, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.02, 0.0), parx=(-8, 8)),
         fx=dict(dust=10, punch=[(p['panic'], 0.05)], grade=empty))
+    l9 = L('L9')['start'] - 0.08
+    add(BUSES2, pp, l9, into='fade', cam=dict(zoom=(1.05, 1.12), panx=(0.02, -0.02)),
+        fx=dict(dust=15, grade=street))
     # L9 and then the old people creeping back into the dead zone: an old woman walking home, «зачем?» a beat
+    bg = p['began'] - 0.06
+    add(EMPTY2, l9, bg, into='flash', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04), parx=(-6, 6)),
+        fx=dict(dust=15, punch=[(p['zone'], 0.05)], grade=dict(empty, sat=0.5)))
     sub = p['sub'] - 0.08
-    add(OLD, l9, sub, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05), parx=(-4, 4)),
-        fx=dict(dust=10, bloom=0.4, punch=[(p['zone'], 0.04), (p['what'], 0.08)], grade=dict(empty, warm=0.6)))
+    add(OLD, bg, sub, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05), parx=(-4, 4)),
+        fx=dict(dust=10, bloom=0.4, punch=[(p['back'], 0.04), (p['what'], 0.08)], grade=dict(empty, warm=0.6)))
     # L10 «подпишись...»: the wheel today takes the plaque, then a white flash loops to the cover
     add(WHEEL2, sub, total, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02), parx=(-4, 4)),
         fx=dict(dust=15, bloom=0.5, flash=[(total - 0.3, 0.35, 2.0, white)], grade=now))
 
     cards = [
-        dict(text='3 ДНЯ', start=p['days3'] + 0.1, end=l4 - 0.05, y=1430, count=True),
-        dict(text='3 ЧАСА', start=p['hours'] + 0.1, end=l6 - 0.05, y=1430, count=True),
+        dict(text='3 ДНЯ', start=p['all3'], end=l4 - 0.05, y=1430, count=True),
+        dict(text='3 ЧАСА', start=p['approx'], end=l6 - 0.05, y=1430, count=True),
     ]
     tags = [
         dict(text='ПРИПЯТЬ · 27 АПРЕЛЯ 1986', start=L('L2')['start'] + 0.05, end=l3 - 0.05),
