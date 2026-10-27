@@ -195,11 +195,17 @@ export function endCard(t, t0, out = 0) {
 // —— «only from bottles»: a kitchen tap with a drop ——
 export function tapInset(t, cx, cy, R, k) {
   roundInset(cx, cy, R, k, null, R => {
-    rect(-R, -R, 2 * R, 2 * R, '#cfe0e8');
-    rect(-R, 60, 2 * R, R, '#9fb6c2');
-    limb([[-140, -60], [10, -60], [40, -40], [40, 0]], 46, '#9aa4b0');
-    rrect(-40, -110, 60, 40, 10, '#7a8490'); rrect(20, -6, 40, 24, 6, '#7a8490');
-    for (let i = 0; i < 3; i++) { const u = (t * 1.4 + i / 3) % 1; ell(40, 30 + 150 * u, 10, 16, '#7fc0e8', 0, 1 - u * 0.6); }
+    rect(-R, -R, 2 * R, 2 * R, '#d6e6ee');
+    for (let i = -3; i <= 3; i++) { rect(i * 70 - 2, -R, 4, 2 * R, '#bccfd9'); rect(-R, i * 70 - 2, 2 * R, 4, '#bccfd9'); }
+    rect(-R, 110, 2 * R, R, '#a9bcc6'); rect(-R, 110, 2 * R, 14, '#8fa5b1');
+    // a chrome tap: the pipe from the wall, the spout bending down, a cross handle on top
+    limb([[-R, -40], [70, -40], [100, -10], [100, 30]], 40, '#7f8a96');
+    limb([[-R, -46], [70, -46], [94, -22]], 16, '#c9d2da');
+    rrect(-10, -100, 36, 50, 8, '#7f8a96'); limb([[-50, -104], [86, -104]], 22, '#5f6a76');
+    ell(8, -104, 18, 18, '#c9d2da');
+    // the running water
+    limb([[100, 48], [100, 112]], 22, '#7fc0e8');
+    for (let i = 0; i < 4; i++) { const u = (t * 1.6 + i / 4) % 1; ell(100 + (i - 1.5) * 18 * u, 112 + 10 * u, 9, 6, '#7fc0e8', 0, 1 - u); }
   });
 }
 // —— the fridge at home: a white door with a handle and a magnet ——

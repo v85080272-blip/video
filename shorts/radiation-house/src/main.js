@@ -297,8 +297,8 @@ function hermite(keys, t) {
 }
 const CAM0 = { x: -235, y: -425, z: 1.36 };
 const FAR_IN = { off: farOff(CAM0, toScreen(CAM0, [Hs.WIN.x - 10, Hs.WIN.y + 85])), s: 0.45 };
-const CAM_OUT = { x: 60, y: -880, z: 0.38 };
-const FAR_OUT = { off: farOff(CAM_OUT, [690, 700]), s: 0.8, boom: { rise: 1000, drift: 2200 } };
+const CAM_OUT = { x: 40, y: -800, z: 0.48 };
+const FAR_OUT = { off: farOff(CAM_OUT, [700, 640]), s: 0.8, boom: { rise: 1000, drift: 2200 } };
 const SHOTS = [];
 function shot(t0, kind, keys) { SHOTS.push({ t0, kind, keys: keys.map(k => [k[0], k[1], k[2], k[3], k[4] ?? 1, k[5] ?? 0]) }); }
 // outside: a key that puts the water line at screen y wy and the far shore `gap` px above it
@@ -310,7 +310,7 @@ function K(t, x, z, wy = 1150, gap = 300) {
 const IK = (t, x, y, z) => [t, x, y, z, 1, 0];
 shot(T.cover, 'in', [IK(T.cover, -230, -430, 1.3), IK(T.boom, -235, -425, 1.36), IK(A.L0e, -240, -410, 1.45), IK(A.L1w3, -150, -380, 1.35),
   IK(A.L1w8, 330, -360, 1.3), IK(T.c2, 380, -350, 1.38)]);
-shot(T.c2, 'out', [IK(T.c2, CAM_OUT.x, CAM_OUT.y, CAM_OUT.z), IK(T.c3, -40, -800, 0.44)]);
+shot(T.c2, 'out', [IK(T.c2, CAM_OUT.x, CAM_OUT.y, CAM_OUT.z), IK(T.c3, -60, -720, 0.55)]);
 shot(T.c3, 'in', [IK(T.c3, Hs.WIN.x + 110, Hs.WIN.y + 60, 1.85), IK(T.cd, Hs.WIN.x + 100, Hs.WIN.y + 60, 1.95)]);
 shot(T.cd, 'in', [IK(T.cd, Hs.DOOR.x - 120, -320, 1.85), IK(T.cs, Hs.DOOR.x - 110, -320, 1.95)]);
 shot(T.cs, 'in', [IK(T.cs, Hs.STOVE.x + 160, -300, 1.75), IK(T.cf, Hs.STOVE.x + 150, -300, 1.85)]);
@@ -438,11 +438,11 @@ function overlays(t, cam, hn) {
   if (t >= T.c5 && t < T.c6) {
     const out = 1 - seg(T.c6 - 0.15, T.c6, t);
     const kt = sp(t, A.L4w3 - 0.1, 2.4, 7) * (1 - seg(A.L4w5 + 0.3, A.L4w5 + 0.6, t, ease.in));
-    O.tapInset(t, 300, 760, 170, kt); O.redX(300, 760, 90, sp(t, A.L4w3 + 0.1, 2.6, 8) * (1 - seg(A.L4w5 + 0.3, A.L4w5 + 0.6, t)));
+    O.tapInset(t, 250, 600, 150, kt); O.redX(250, 600, 80, sp(t, A.L4w3 + 0.1, 2.6, 8) * (1 - seg(A.L4w5 + 0.3, A.L4w5 + 0.6, t)));
     const pb = S2([400, CFLOOR - 200]); O.tick(pb[0], pb[1], sp(t, A.L4w5 + 0.05, 2.6, 8) * out, 56);
     for (const s of Hs.SHELVES) { const p = S2([s.x1 + 10, s.y - 60]); O.tick(p[0], p[1], sp(t, A.L4w10 + (s.y > 300 ? 0.12 : 0), 2.6, 8) * out, 50); }
     const kf = sp(t, A.L4w12 - 0.1, 2.4, 7) * out;
-    O.fridgeInset(t, 300, 760, 170, kf); O.tick(400, 860, sp(t, A.L4w12 + 0.25, 2.6, 8) * out, 56);
+    O.fridgeInset(t, 250, 600, 150, kf); O.tick(340, 690, sp(t, A.L4w12 + 0.25, 2.6, 8) * out, 56);
   }
   // step 4: the cross on the iodine; the tablets only on a signal; they guard only the thyroid
   if (t >= T.c6 && t < T.c7) {
