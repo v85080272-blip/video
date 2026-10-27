@@ -39,26 +39,26 @@ COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №11', year='1986', lines=['НА
 COVER_B = ['КНОПКА', 'ВЗОРВАЛА РЕАКТОР']
 # the narrator says the plaque's words (L9, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №11', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
-# stills from vla's PC (shots_pc.json, Juggernaut XL), chosen by seed; where a shot comes twice, the second seed gives
+# stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 27.10), chosen by seed; where a shot comes twice, the second seed gives
 # the second appearance a new picture
-CONTROL = 'k01_control_s2001'        # the control room at night, operators at the long panels
-HALL = 'k02_hall_s2011'              # the reactor hall, the round lid of steel blocks
-HALL2 = 'k02_hall_s2012'             # the same, for «конструкции реактора»
-GAUGE = 'k03_gauge_s2021'            # a meter's needle fallen to zero
-RODS = 'k04_rods_s2031'              # rods lifted out of the graphite stack
-BUTTON = 'k05_button_s2041'          # a finger on the emergency button
-BUTTON2 = 'k05_button_s2042'         # the button again, for «дело было не в кнопке»
-CORE = 'k06_core_s2051'              # rods sliding down into the glowing core
-CORE2 = 'k06_core_s2052'             # the glow rising, for «разгоняется»
-ALARM = 'k07_alarm_s2061'            # the control room in red light
-BLAST = 'k08_explosion_s2071'        # the fireball through the roof under the stack
-BLAST2 = 'k08_explosion_s2072'       # the second blast, from another angle
-DAWN = 'k09_dawn_s2081'              # the ruined block at dawn, smoke, fire trucks
-OPERATOR = 'k10_operator_s2091'      # a young operator's tense face
-PRIPYAT = 'k11_pripyat_s2101'        # the town on a sunny Saturday morning, children going to school
-PRIPYAT2 = 'k11_pripyat_s2102'       # the same street, for «дети шли в школу»
-WHEEL = 'k12_wheel_s2111'            # the Ferris wheel in the sun
-NIGHT = 'k13_night_plant_s2121'      # the plant at night across the pond: room for the plaque
+CONTROL = 'k01_control_s2002'        # the empty control room at night, the long panels and chairs
+HALL = 'k02_hall_s2012'              # the round reactor hall under the yellow crane
+HALL2 = 'k02_hall_s2011'             # the hall again from above, for «конструкции реактора»
+GAUGE = 'k01_control_s2001'          # a wall of dials (both meter frames had fake lettering)
+RODS = 'k04_rods_s2031'              # the rods hanging in the dark, cold blue
+BUTTON = 'k05_button_s2042'          # the big round emergency button under a red lamp
+BUTTON2 = 'k05_button_s2041'         # red lamps and the red button, for «не в кнопке»
+CORE = 'k06_core_s2051'              # blue light streaking down the core
+CORE2 = 'k06_core_s2052'             # a white-hot glow at the end of the shaft, for «разгоняется»
+ALARM = 'k07_alarm_s2061'            # operators in white crowding the desk under red lights
+BLAST = 'k08_explosion_s2072'        # fire at the foot of the red-and-white stack at night
+BLAST2 = 'k08_explosion_s2071'       # a fireball bursting from the top of a tower
+DAWN = 'k09_dawn_s2081'              # the ruined block at dawn under the striped stacks, fire trucks
+OPERATOR = 'k10_operator_s2091'      # a young operator in a white coat and cap
+PRIPYAT = 'k11_pripyat_s2101'        # a mother with a pram and a child on a sunny path by the blocks
+PRIPYAT2 = 'k11_pripyat_s2102'       # a girl with a red satchel walking to school, the plant on the horizon
+WHEEL = 'k12_wheel_s2111'            # the yellow Ferris wheel in the sun
+NIGHT = 'k13_night_plant_s2122'      # the plant at night across the water: room for the plaque
 SFX_DIRS = ['/home/user/work/sfx/knopka', '/home/user/work/sfx/chernobyl', '/home/user/work/sfx/yamaguchi',
             '/home/user/work/sfx/rescue', '/home/user/work/sfx/olga', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)

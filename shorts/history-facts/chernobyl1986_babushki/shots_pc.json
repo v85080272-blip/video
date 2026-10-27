@@ -1,0 +1,104 @@
+{
+ "style": "cinematic film still, photorealistic, rural Ukrainian Polesie, shot on 35mm film, dramatic lighting, deep shadows, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, deformed hands, extra fingers, extra limbs, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "b01_gate",
+   "seeds": [
+    4001,
+    4002
+   ],
+   "prompt": "an old Ukrainian woman in a flowered headscarf standing at the wooden gate of her village house, overgrown garden, spring, warm evening light, looking at the camera"
+  },
+  {
+   "id": "b02_sign",
+   "seeds": [
+    4011,
+    4012
+   ],
+   "prompt": "a rusty yellow radiation warning sign with only the trefoil symbol on a post at the edge of a birch forest, an abandoned village behind it, overcast"
+  },
+  {
+   "id": "b03_village",
+   "seeds": [
+    4021,
+    4022
+   ],
+   "prompt": "an abandoned Ukrainian village, empty wooden houses with blue window frames, grass growing on the road, no people, quiet morning"
+  },
+  {
+   "id": "b04_forest_walk",
+   "seeds": [
+    4031,
+    4032
+   ],
+   "prompt": "an old woman in a headscarf carrying a cloth bundle, walking alone along a path through a pine forest, morning mist, seen from behind"
+  },
+  {
+   "id": "b05_checkpoint",
+   "seeds": [
+    4041,
+    4042
+   ],
+   "prompt": "a Soviet militia officer at a striped barrier on a forest road stopping an old woman with a bag, 1987, overcast"
+  },
+  {
+   "id": "b06_garden",
+   "seeds": [
+    4051,
+    4052
+   ],
+   "prompt": "an old woman in a headscarf digging potatoes in her garden next to a wooden village house, sunny day, chickens nearby"
+  },
+  {
+   "id": "b07_well",
+   "seeds": [
+    4061,
+    4062
+   ],
+   "prompt": "an old woman pulling a bucket of water from a wooden village well with a crank, morning light"
+  },
+  {
+   "id": "b08_mushrooms",
+   "seeds": [
+    4071,
+    4072
+   ],
+   "prompt": "close-up of wrinkled old hands holding a wicker basket full of forest mushrooms, soft light"
+  },
+  {
+   "id": "b09_kitchen",
+   "seeds": [
+    4081,
+    4082
+   ],
+   "prompt": "two old women drinking tea at a table in a village house kitchen, icons and embroidered towels on the wall, warm window light"
+  },
+  {
+   "id": "b10_portrait",
+   "seeds": [
+    4091,
+    4092
+   ],
+   "prompt": "close portrait of a very old Ukrainian woman with deep wrinkles and a kind smile, headscarf, soft window light"
+  },
+  {
+   "id": "b11_wolf",
+   "seeds": [
+    4101,
+    4102
+   ],
+   "prompt": "a grey wolf standing in the overgrown street of an abandoned village at dusk, looking at the camera"
+  },
+  {
+   "id": "b12_frog",
+   "seeds": [
+    4111,
+    4112
+   ],
+   "prompt": "macro photo of a dark, almost black tree frog sitting on a green leaf, raindrops, shallow depth of field"
+  }
+ ]
+}
