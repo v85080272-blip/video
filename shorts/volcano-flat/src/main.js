@@ -13,12 +13,14 @@ import * as O from './overlay.js';
 const { F } = Wd;
 // —— the narration ——
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
-const SUBS = VOICE ? VOICE.lines.flatMap(l => groupWords(l.words, Array.isArray(l.sub) ? l.sub : null)) : [];
+// the opening question is a title over the binoculars, not a subtitle
+const SUBS = VOICE ? VOICE.lines.filter(l => l.id !== 'L0').flatMap(l => groupWords(l.words, Array.isArray(l.sub) ? l.sub : null)) : [];
 const LN = id => VOICE?.lines.find(l => l.id === id);
 const at = (id, d) => LN(id)?.at ?? d, end = (id, d) => LN(id)?.end ?? d;
 const wd = (id, i, d) => LN(id)?.words[i]?.s ?? d;
 export const DUR = VOICE?.dur ?? 38.7;
 const A = {
+  L0w0: wd('L0', 0, 0.12), L0w2: wd('L0', 2, 0.75), L0e: end('L0', 1.6),
   L1w1: wd('L1', 1, 0.49), L1w2: wd('L1', 2, 1.25), L1w6: wd('L1', 6, 2.35), L1e: end('L1', 2.79),
   L2: at('L2', 3.14), L2w4: wd('L2', 4, 4.4), L2e: end('L2', 5.47),
   L3: at('L3', 5.87), L3w2: wd('L3', 2, 6.63), L3w3: wd('L3', 3, 7.19), L3w6: wd('L3', 6, 8.31), L3w10: wd('L3', 10, 9.41),
@@ -414,7 +416,10 @@ function sparks(t, t0, x, y) {
 export function frame(t) {
   if (t < T.cover) return coverFrame(t);
   if (t < T.c1) {
-    O.binocularView(t, T.te, { kick: Math.exp(-Math.max(0, t - T.te) * 5) * (t > T.te ? 1 : 0), bolts: [] });
+    // before the blast the glasses search the cone and close in; the ground starts to tremble
+    const kick = t > T.te ? Math.exp(-(t - T.te) * 5) : 0.3 * seg(T.te - 0.9, T.te, t, ease.in);
+    O.binocularView(t, T.te, { kick, bolts: [], zoom: lerp(1.9, 2.4, seg(T.cover, T.te, t)) });
+    questionTitle(t);
     subtitles(t, SUBS);
     return;
   }
@@ -549,6 +554,24 @@ function stepHeaders(t) {
   O.stepHeader(t, 5, 'В УКРЫТИЕ', A.L7 + 0.02, A.L7e - 0.05);
 }
 
+// «Как выжить при взрыве вулкана?»: the question as a title over the binoculars, word by word; the blast jolts it
+function questionTitle(t) {
+  const k1 = sp(t, A.L0w0 - 0.05, 2.6, 7), k2 = sp(t, A.L0w2 - 0.05, 2.4, 7);
+  const j = t > T.te ? 22 * Math.exp(-(t - T.te) * 6) : 0, jx = j * noise(t * 40, 7), jy = j * noise(t * 37, 8);
+  if (k1 > 0.01) {
+    g.save(); g.setTransform(1, 0, 0, 1, 540 + jx, 330 + jy); g.scale(k1, k1); g.rotate(-0.03);
+    text('КАК ВЫЖИТЬ', 0, 0, 130, '#fff3d6');
+    g.restore();
+  }
+  if (k2 > 0.01) {
+    const w = 960, h = 116;
+    g.save(); g.setTransform(1, 0, 0, 1, 540 + jx * 1.2, 470 + jy * 1.2); g.rotate(-0.03); g.scale(k2, k2);
+    rect(-w / 2 + 10, -h / 2 + 12, w, h, INK); rect(-w / 2, -h / 2, w, h, '#ffd23f');
+    text('ПРИ ВЗРЫВЕ ВУЛКАНА?', 0, 30, 78, INK, { fam: 'Oswald', shadow: false });
+    g.restore();
+  }
+}
+
 // —— the cover: his face against the eruption, two words and the series tag ——
 function coverFrame(t) {
   const te = -9;
@@ -599,6 +622,9 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
+  add(A.L0w0 - 0.03, 'pop_word', -8, 0);                                 // the question pops in, word by word
+  add(A.L0w2 - 0.03, 'pop_word', -8, 0);
+  if (T.te > 1.3) add(T.te - 1.0, 'rumble', -12, 0.2, { sec: 1.4 });  // the ground trembles before it blows
   add(T.te - 0.02, 'eruption', 0, 0.3);
   for (const b of BOLTS) add(b.t, b.to ? 'thunder_far' : 'crackle', b.to ? -4 : -10, 0.3);
   add(T.c1 - 0.05, 'whoosh_short', -8, 0);                               // out of the binoculars

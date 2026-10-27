@@ -31,6 +31,12 @@ def score(M, dur):
     # A · the cover and the first half second: a thin high shimmer, the mountain holding its breath
     a = S['A'] = Sec(dur, stop=te, over=0.01)
     a.wet.add(0.0, trem(rng, [86, 87], te + 0.1, grow=(0.05, 0.7), bright=3200), -22, 0.2)
+    # «Как выжить при взрыве вулкана?»: two soft low knocks under the question, a riser into the blast
+    for t in (A.get('L0w0', 0.12), A.get('L0w2', 0.75)):
+        a.dry.add(t, timp(rng, 38, 0.4), -10, 0.0)
+        a.dry.add(t, pizz(rng, 50, 0.5), -8, -0.1)
+    if te > 1.4:
+        a.dry.add(te - 1.3, riser(rng, 1.3), -11, 0.0)
 
     # B · the blast and «Вулкан проснулся… Опасно другое»: a dark stab, a drone that grows, a heartbeat
     b = S['B'] = Sec(dur, gain=((te, 0.0), (te + 1.0, -2.0)))

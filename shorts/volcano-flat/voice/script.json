@@ -2,9 +2,14 @@
  "note": "Narration for «Вулкан проснулся». Facts: USGS (lahars run down valleys: move up a hillside off the valley floor; ash is tiny jagged rock and glass), CDC and Ready.gov (avoid areas downwind and river valleys downstream, damp cloth over nose and mouth, goggles, seek shelter, car windows shut), volcanic lightning strikes tens of km from the vent (Taal 2020: most within 20–30 km; Katla 1755: deaths about 30 km away). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line, sub = subtitle group sizes.",
  "lines": [
   {
+   "id": "L0",
+   "text": "Как выжить при взрыве вулкана?",
+   "at": 0.12
+  },
+  {
    "id": "L1",
    "text": "Вулкан проснулся, а ты на охотничьей вышке.",
-   "at": 0.12
+   "after": 0.3
   },
   {
    "id": "L2",
