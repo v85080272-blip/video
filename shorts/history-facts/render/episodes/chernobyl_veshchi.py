@@ -41,7 +41,7 @@ COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №12', year='1986', lines=['НА
 COVER_B = ['ВЕЩИ НА 3 ДНЯ', 'НЕ ВЕРНУЛСЯ НИКТО']
 # the narrator says the plaque's words (L10, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №12', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
-# stills from vla's PC (shots_pc.json, Juggernaut XL), chosen by seed; where a shot comes twice, the second seed gives
+# stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 27.10), chosen by seed; where a shot comes twice, the second seed gives
 # the second appearance a new picture
 RADIO = 'v01_radio_s3001'            # a woman and a boy at the kitchen radio
 RADIO2 = 'v01_radio_s3002'           # the same kitchen, for «27 апреля»
@@ -50,9 +50,9 @@ PACK2 = 'v02_packing_s3012'          # the same, for «документы, де�
 BUSES = 'v03_buses_s3021'            # a line of buses along the blocks
 BUSES2 = 'v03_buses_s3022'           # the buses again, for «люди уехали налегке»
 COLUMN = 'v04_column_s3031'          # the endless column through the forest, from above
-BOARD = 'v05_boarding_s3041'         # a mother and a girl boarding with one bag
-DOG = 'v06_dog_s3051'                # a dog running after the bus
-CAT = 'v07_cat_s3061'                # a cat alone on a windowsill
+BOARD = 'v05_boarding_s3042'         # a mother and a girl boarding with one bag
+DOG = 'v06_dog_s3052'                # a dog running after the bus
+CAT = 'v07_cat_s3062'                # a cat alone on a windowsill
 TOYS = 'v08_toys_s3071'              # a child's room left as it was
 TABLE = 'v09_table_s3081'            # the kitchen table with the plates, flowers on the sill
 TABLE2 = 'v09_table_s3082'           # the table set as if they'd be back, for «это ненадолго»

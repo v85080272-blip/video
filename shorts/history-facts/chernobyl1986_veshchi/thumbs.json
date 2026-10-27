@@ -1,0 +1,32 @@
+[
+ {
+  "id": "v1_na_tri_dnya",
+  "img": "/home/user/work/veshchi/shots/v02_packing_s3012.png",
+  "cam": {"zoom": 1.04, "pany": 0.02},
+  "grade": {"exposure": 0.04, "contrast": 1.14, "sat": 0.95, "warm": 0.25},
+  "glow": {"x": 0.75, "y": 0.75, "r": 0.6, "strength": 0.25, "color": [1.0, 0.85, 0.6]},
+  "bloom": 0.25,
+  "vignette": 0.5,
+  "band": {"y": 640, "h": 620, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №12", "y": 260},
+  "lines": [
+   {"text": "НА ТРИ ДНЯ", "y": 560, "size": 180, "color": "white"},
+   {"text": "НАВСЕГДА", "y": 780, "size": 170, "box": "red"}
+  ]
+ },
+ {
+  "id": "v2_ne_vernulsya",
+  "img": "/home/user/work/veshchi/shots/v12_wheel_now_s3111.png",
+  "cam": {"zoom": 1.02, "pany": -0.02},
+  "grade": {"exposure": 0.02, "contrast": 1.16, "sat": 0.9, "warm": 0.1},
+  "glow": {"x": 0.55, "y": 0.4, "r": 0.6, "strength": 0.2, "color": [1.0, 0.9, 0.5]},
+  "bloom": 0.2,
+  "vignette": 0.5,
+  "band": {"y": 1520, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №12", "y": 300},
+  "lines": [
+   {"text": "ВЕЩИ НА 3 ДНЯ", "y": 1420, "size": 150, "color": "white"},
+   {"text": "НЕ ВЕРНУЛСЯ НИКТО", "y": 1630, "size": 115, "box": "yellow"}
+  ]
+ }
+]
