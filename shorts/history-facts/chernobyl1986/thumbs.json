@@ -1,0 +1,32 @@
+[
+ {
+  "id": "c1_smertniki",
+  "img": "/home/user/work/chernobyl/shots/c06_three_s1051.png",
+  "cam": {"zoom": 1.0, "pany": 0.0},
+  "grade": {"exposure": 0.03, "contrast": 1.16, "sat": 0.85, "warm": 0.05},
+  "glow": {"x": 0.5, "y": 0.12, "r": 0.7, "strength": 0.35, "color": [0.85, 0.95, 1.0]},
+  "bloom": 0.25,
+  "vignette": 0.5,
+  "band": {"y": 1500, "h": 560, "strength": 0.6},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №10", "y": 300},
+  "lines": [
+   {"text": "СМЕРТНИКИ", "y": 1400, "size": 210, "color": "white"},
+   {"text": "ВЕРНУЛИСЬ", "y": 1610, "size": 160, "box": "yellow"}
+  ]
+ },
+ {
+  "id": "c2_pod_reaktor",
+  "img": "/home/user/work/chernobyl/shots/c01_basement_s1001.png",
+  "cam": {"zoom": 1.05, "pany": -0.02},
+  "grade": {"exposure": 0.04, "contrast": 1.18, "sat": 0.9, "warm": -0.05},
+  "glow": {"x": 0.42, "y": 0.18, "r": 0.5, "strength": 0.4, "color": [0.8, 0.95, 1.0]},
+  "bloom": 0.3,
+  "vignette": 0.5,
+  "band": {"y": 1500, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №10", "y": 300},
+  "lines": [
+   {"text": "ПОД РЕАКТОР", "y": 1400, "size": 180, "color": "white"},
+   {"text": "БЕЗ ВОЗВРАТА?", "y": 1610, "size": 150, "box": "red"}
+  ]
+ }
+]

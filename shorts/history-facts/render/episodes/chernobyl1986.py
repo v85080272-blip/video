@@ -36,23 +36,31 @@ GAP_MAX = 0.3                      # «Историк» reads it in 43.6 s: with
 LEAD_IN = 0.15
 TAIL = 0.6                         # the plaque holds a moment after «истории», then a white flash loops to the cover
 LOOP = True
-# the preview cover (thumb.py, chernobyl1986/thumbs.json) goes in the first frames once it is made
-COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №10', year='1986', lines=['ОНИ', 'ВЕРНУЛИСЬ'])
-COVER_B = ['ЧЕРНОБЫЛЬСКИЕ', 'СМЕРТНИКИ']
+COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №10', year='1986', lines=['СМЕРТНИКИ', 'ВЕРНУЛИСЬ'],
+             # the preview cover (thumb.py, chernobyl1986/thumbs.json) in the first frames, so YouTube's frame picker
+             # can take it; the other variant «Под реактор без возврата?» sits next to it in covers/
+             img='/mnt/project-files/history-facts/chernobyl1986/covers/smertniki_vernulis.jpg')
+COVER_B = ['ПОД РЕАКТОР', 'БЕЗ ВОЗВРАТА?']
 # the narrator says the plaque's words (L11, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №10', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
-# stills from vla's PC (shots_pc.json), chosen by seed when the frames arrive
-BASEMENT = 'c01_basement_s1001'      # the three knee-deep in the dark water, flashlights
-REACTOR = 'c02_reactor_s1011'        # the ruined unit 4 at night
-LAVA = 'c03_lava_s1021'
-POOL = 'c04_pool_s1031'              # the flooded chamber, nobody in it
-VALVE = 'c05_valve_s1041'            # gloved hands on the wheel
-THREE = 'c06_three_s1051'            # the three of them, portrait
-DRAIN = 'c07_drain_s1061'
-PAPER = 'c08_newspaper_s1071'
-HOSPITAL = 'c09_hospital_s1081'
-OLD = 'c10_old_s1091'                # Ananenko decades later in front of a plant
-WALK = 'c11_walk_s1101'              # three silhouettes walking out into the light: room for the plaque
+# stills from vla's PC (shots_pc.json, Juggernaut XL, drawn the night of 26.10), chosen by seed; where a shot comes
+# twice, the second seed gives the second appearance a new picture
+BASEMENT = 'c01_basement_s1001'      # the three in hooded suits wading down a flooded corridor
+BASEMENT2 = 'c01_basement_s1002'     # two of them close, knee-deep, for «по колено в радиоактивной воде»
+REACTOR = 'c02_reactor_s1011'        # the ruined unit under its stack at night, smoke lit orange
+REACTOR2 = 'c02_reactor_s1012'       # the same from the side, for the imagined second blast
+LAVA = 'c03_lava_s1021'              # molten fuel boiling through a cracked floor, smoke
+LAVA2 = 'c03_lava_s1022'             # a pit of lava in the floor, closer
+POOL = 'c04_pool_s1032'              # the flooded basement under a lamp, pipes, black water
+POOL2 = 'c04_pool_s1031'             # the flooded chamber with a tank, for «затопленном подвале»
+VALVE = 'c05_valve_s1041'            # gloved hands on a spoked wheel, from above
+VALVE2 = 'c05_valve_s1042'           # gloved hands on the rusty gear under water
+THREE = 'c06_three_s1051'            # three men in white overalls, caps and respirators (s1052 has two)
+DRAIN = 'c07_drain_s1062'            # dark water stirring under a lamp (s1061 looks like water pouring in)
+PAPER = 'c08_newspaper_s1071'        # piles of papers under a lamp (s1072 has a fake Latin headline)
+HOSPITAL = 'c09_hospital_s1082'      # a young man alive in a hospital bed, shirt on
+OLD = 'c10_old_s1091'                # an old man at dusk in front of a plant
+WALK = 'c11_walk_s1102'              # two of them walking down a tunnel to the light: room for the plaque
 SFX_DIRS = ['/home/user/work/sfx/chernobyl', '/home/user/work/sfx/yamaguchi', '/home/user/work/sfx/rescue',
             '/home/user/work/sfx/olga', '/home/user/work/sfx']
 DUCK = (-12.0, -10.0)
@@ -143,15 +151,15 @@ def layout(c):
         fx=dict(dust=15, fog=0.25, grade=dark))
     # L3 «если эта лава дойдёт до воды»: closer on the lava; «будет новый взрыв»: an orange flash on the block, a shake
     bl = p['blast'] - 0.06
-    add(LAVA, l3, bl, cam=dict(zoom=(1.2, 1.32), pany=(0.0, 0.02)),
+    add(LAVA2, l3, bl, into='fade', cam=dict(zoom=(1.05, 1.18), pany=(0.0, 0.02), parx=(-6, 6)),
         fx=dict(embers=60, bloom=1.0, light=glow, punch=[(p['lava'], 0.05)], grade=dict(lava, exposure=0.06)))
     l4 = L('L4')['start'] - 0.08
-    add(REACTOR, bl, l4, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-10, 10)),
+    add(REACTOR2, bl, l4, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-10, 10)),
         fx=dict(dust=60, ash=40, embers=30, bloom=0.9, shake=[(p['blast'], 1.0, 24)], smear=[(p['blast'], 0.3, 40)],
                 flash=[(p['blast'], 0.5, 0.9, orange)], punch=[(p['blast'], 0.1)], grade=night))
     # L4 the only way is to drain them: the flooded chamber, then «задвижки» on the valve wheel
     val = p['valves'] - 0.06
-    add(POOL, l4, val, into='fade', cam=dict(zoom=(1.08, 1.16), pany=(0.02, 0.03)),
+    add(POOL2, l4, val, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-6, 6)),
         fx=dict(dust=15, fog=0.3, punch=[(p['drain'], 0.05)], grade=dark))
     l5 = L('L5')['start'] - 0.08
     add(VALVE, val, l5, into='whip', cam=dict(zoom=(1.05, 1.15), parx=(-4, 4)),
@@ -163,10 +171,10 @@ def layout(c):
                 grade=dict(dark, exposure=0.0, sat=0.7)))
     # L6 in the dark, knee-deep: the three wading, then the hands on the wheel again
     fnd = p['found'] - 0.06
-    add(BASEMENT, l6, fnd, into='fade', cam=dict(zoom=(1.1, 1.2), panx=(-0.02, 0.02), dolly=(0.0, 0.06)),
+    add(BASEMENT2, l6, fnd, into='fade', cam=dict(zoom=(1.1, 1.2), panx=(-0.02, 0.02), dolly=(0.0, 0.06)),
         fx=dict(dust=40, fog=0.2, beat=[_beat(p['dark'], fnd, zoom=0.02)], grade=dark))
     l7 = L('L7')['start'] - 0.08
-    add(VALVE, fnd, l7, cam=dict(zoom=(1.2, 1.3), roll=(0.0, 2.0)),
+    add(VALVE2, fnd, l7, into='whip', cam=dict(zoom=(1.05, 1.15), roll=(0.0, 2.0)),
         fx=dict(dust=20, punch=[(p['found'], 0.06)], grade=dark))
     # L7 «и слышат, как уходит вода»: the water swirling away through the hatch, held in the pause after it
     l8 = L('L8')['start'] - 0.08
@@ -193,14 +201,15 @@ def layout(c):
         fx=dict(dust=20, bloom=0.7, flash=[(total - 0.3, 0.35, 2.0, white)], grade=now))
 
     cards = [
-        dict(text='19 ЛЕТ', start=p['y19'] + 0.1, end=an - 0.05, y=950, count=True),
-        dict(text='30 ЛЕТ', start=p['y30'] + 0.1, end=sub - 0.05, y=950, count=True),
+        # under the captions: at y 950 the card sat on his chin
+        dict(text='19 ЛЕТ', start=p['y19'] + 0.1, end=an - 0.05, y=1430, count=True),
+        dict(text='30 ЛЕТ', start=p['y30'] + 0.1, end=sub - 0.05, y=1430, count=True),
     ]
     tags = [
         dict(text='ЧАЭС · 4-Й БЛОК · МАЙ 1986', start=L('L2')['start'] + 0.05, end=l3 - 0.05),
         dict(text='ИНЖЕНЕРЫ И НАЧАЛЬНИК СМЕНЫ', start=p['three'] + 0.1, end=l6 - 0.05),
     ]
-    cover = dict(start=0.0, end=wt('L1', 'ЧЕРНОБЫЛЯ') - 0.2)
+    cover = dict(start=0.0, end=wt('L1', 'РЕАКТОР') - 0.2)     # the ruined block gets a beat of its own
     hook_text = dict(lines=['L1'], y=1330, size=84)
     return dict(cards=cards, tags=tags, cover=cover, hook_text=hook_text, no_caps=['L11'])
 
