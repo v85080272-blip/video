@@ -1,0 +1,99 @@
+{
+ "note": "Narration for «Блэкаут, ты на 20-м этаже». Facts: water reaches upper floors through electric booster pumps; when the power fails the pressure drops and the upper floors lose water first (Ukrainian Ministry of Energy «why there is no water when power is out», NYC DEP on the 2003 blackout, Kyivvodokanal: supply above the 9th floor is not guaranteed in long outages); fill the bathtub for flushing and other non-drinking uses, keep drinking water in clean containers or bottles (Honolulu BWS, Red Cross); a closed refrigerator keeps food cold about 4 hours, a full freezer about 48 hours (USDA, FoodSafety.gov); use flashlights, not candles, which cause fires (Red Cross, NFPA); save the phone battery. at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Если во всём городе погас свет, а ты на двадцатом этаже, не беги вниз.",
+   "at": 0.12,
+   "sub": [
+    4,
+    2,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Все бегут на лестницу узнать, что случилось. А в это время из труб уходит вода.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Наверх её качают насосы. Без света они встают, и верхние этажи первыми остаются без воды.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: набери ванну, а питьевую воду налей в кастрюли и бутылки.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: не открывай холодильник. Закрытым он держит холод часа четыре, полная морозилка — два дня.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    4,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: никаких свечей, от них пожары. Свети фонариком, а телефон переведи в режим экономии.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    3,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "На третий день у соседей сухие краны, а ты смываешь унитаз водой из ванны.",
+   "after": 0.45,
+   "sub": [
+    3,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А на каком этаже живёшь ты?",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    2
+   ]
+  }
+ ],
+ "tail": 0.35
+}
