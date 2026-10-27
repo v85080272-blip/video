@@ -488,11 +488,14 @@ function fitText(str, x, y, size, maxW, color, o = {}) { const w = measure(str, 
 function coverFrame(t) {
   const tb = T.boom + 0.9;                       // what the explosion looks like a moment after the flash
   const cam = { x: -250, y: -540, z: 1.6, lens: 1, ty: 0, dx: 0, dy: 0, r: 0 };
-  farland(T.boom + 0.3, cam, { off: farOff(cam, toScreen(cam, [Hs.WIN.x + 20, Hs.WIN.y + 110])), s: 0.5, boom: { k: 1.15, rise: 700, drift: 700 } });
+  farland(T.boom + 1.5, cam, { off: farOff(cam, toScreen(cam, [Hs.WIN.x + 20, Hs.WIN.y + 150])), s: 0.5, boom: { k: 1.05, rise: 900, drift: 250, heat: 0.55 } });
   view(cam, 1); Hs.drawRoomBack(tb); Hs.drawWindow(tb, { open: 1 }); Hs.drawTable(tb);
-  g.setTransform(1, 0, 0, 1, 0, 0); rect(0, 0, W, H, 'rgba(255,190,110,0.16)');
+  // the flash spills into the room from the window
+  const wc = toScreen(cam, [Hs.WIN.x, Hs.WIN.y]), glow = g.createRadialGradient(wc[0], wc[1], 60, wc[0], wc[1], 900);
+  glow.addColorStop(0, 'rgba(255,200,110,0.3)'); glow.addColorStop(0.5, 'rgba(255,160,70,0.16)'); glow.addColorStop(1, 'rgba(255,150,60,0.05)');
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = glow; g.fillRect(0, 0, W, H);
   const o = base(t, { s: 1.9, face: -1, pop: 1, brow: 1, mouth: 0.75, look: [-0.9, -0.2], hatJump: 30, blink: 0, lean: -0.15, headTilt: -0.1 });
-  o.hip = [730, 2150]; o.feet = { near: [700, 2700], far: [760, 2700] };
+  o.hip = [800, 2170]; o.feet = { near: [770, 2700], far: [830, 2700] };
   const F0 = framesOf(o), sh = F0.T.p([-14, -192]);
   o.hands = { near: { p: [sh[0] - 150, sh[1] - 80], shape: 'open' }, far: { p: [sh[0] + 60, sh[1] - 120], shape: 'open' } };
   drawHunter(o);

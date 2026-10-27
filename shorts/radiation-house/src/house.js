@@ -287,7 +287,7 @@ export function blanket(x, y, k = 1) {
 export function drawBoom(t, t0, x, y, k = 1, o = {}) {
   if (t < t0) return;
   const u = t - t0, rise = o.rise ?? 1500, drift = o.drift ?? 1400;
-  const fr = (60 + 220 * (1 - Math.exp(-u * 4))) * k, heat = Math.exp(-u * 1.6), grow = Math.min(1, u * 0.35);
+  const fr = (60 + 220 * (1 - Math.exp(-u * 4))) * k, heat = o.heat ?? Math.exp(-u * 1.6), grow = Math.min(1, u * 0.35);
   // the plume: one cloud of puffs up a column that bends with the wind and spreads into a cap; drawn in three passes
   // (shadows, bodies, lit tops) so the puffs merge into one shape; low down it glows from the fire for a while
   const n = 24;
@@ -295,9 +295,9 @@ export function drawBoom(t, t0, x, y, k = 1, o = {}) {
     const v = i / (n - 1), h = grow * v;
     if (h <= 0.01) continue;
     const cy = y - fr * 0.5 - h * rise * k, cx = x - Math.pow(h, 1.6) * drift * k + 40 * Math.sin(u * 1.2 + i * 1.3) * k * v;
-    let r = (70 + 120 * v + 30 * Math.sin(u * 2 + i * 1.7)) * k;
+    let r = (70 + 120 * v + 30 * Math.sin(u * 2 + i * 1.7)) * k * clamp(u / 0.9);
     if (v > 0.78) r *= 1 + (v - 0.78) * 3.5 * grow;
-    const ox = (hash(i + 400) - 0.5) * r * 0.9, glow = Math.exp(-u * 0.5) * (1 - v) * 0.8;
+    const ox = (hash(i + 400) - 0.5) * r * 0.9, glow = (o.heat ?? Math.exp(-u * 0.5)) * (1 - v) * 0.8;
     if (pass === 0) ell(cx + ox + 14 * k, cy + 16 * k, r, r * 0.78, '#2e2a35', 0, 0.95);
     else if (pass === 1) ell(cx + ox, cy, r, r * 0.78, mix('#4c4754', '#b85a36', glow), 0, 1);
     else ell(cx + ox - r * 0.22, cy - r * 0.24, r * 0.56, r * 0.42, mix('#6c6774', '#ffa65a', glow), 0, 0.9);
