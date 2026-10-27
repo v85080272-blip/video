@@ -235,8 +235,7 @@ export function initHud() {
 export function finish(t, vig = 1) {
   scr();
   if (vig > 0) { g.save(); g.globalAlpha = vig; g.drawImage(VIG, 0, 0); g.restore(); }
-  const f = Math.round(t * 60), ox = -Math.floor(hash(f * 3.1) * 256), oy = -Math.floor(hash(f * 7.7) * 256);
-  for (let y = oy; y < H; y += 256) for (let x = ox; x < W; x += 256) g.drawImage(GRAIN, x, y);
+  // no film grain: changing every frame it made the file 30 times bigger and the platforms' compression wipes it out anyway
 }
 
 // —— the series parts: red cross, green tick, the step badge and stamp, the end card ——
