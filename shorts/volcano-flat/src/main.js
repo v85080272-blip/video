@@ -306,6 +306,8 @@ export function hunterAt(t) {
 const TURN_T = A.L3w3 + 0.05, LADDER_T0 = TURN_T + 0.32;
 let PHONE_UP = null;
 const DOOR_T = A.L7w3 - 0.06, JUMP_T = DOOR_T + 0.3, IN_T = JUMP_T + 0.32, SLAM_T = IN_T + 0.14;
+// state switches inside a shot (into the cab): like at a cut, the shutter stays on one side, so no frame mixes both states
+export const SNAPS = [IN_T];
 
 // —— camera: smooth keys (non-uniform Catmull-Rom), one list per shot ——
 function hermite(keys, t) {
@@ -602,7 +604,7 @@ function coverFrame(t) {
 export function motion(t, h = 1 / 240) {
   if (t < T.c1) return t > T.te && t < T.te + 0.6 ? 8 : 0;
   let t0 = t - h, t1 = t + h;
-  for (const c of CUTS) { if (t >= c && t0 < c) { t0 = c; t1 = c + 2 * h; } else if (t < c && t1 >= c) { t1 = c - 1e-6; t0 = t1 - 2 * h; } }
+  for (const c of [...CUTS, ...SNAPS]) { if (t >= c && t0 < c) { t0 = c; t1 = c + 2 * h; } else if (t < c && t1 >= c) { t1 = c - 1e-6; t0 = t1 - 2 * h; } }
   const pts = tt => {
     const cam = camAt(tt), hn = hunterAt(tt), o = hn.o;
     const w = hn.mode === 'uaz' ? [[Wd.UAZ.x - 200, Wd.UAZ.y - 300]] : [o.hip, o.feet.near, o.feet.far, [o.hip[0], o.hip[1] - 200 * S]];
@@ -614,7 +616,8 @@ export function motion(t, h = 1 / 240) {
   };
   const a = pts(t0), b = pts(t1), on = ([x, y]) => x > -200 && x < W + 200 && y > -200 && y < H + 200;
   let m = 0;
-  for (let i = 0; i < a.length; i++) if (on(a[i]) || on(b[i])) m = Math.max(m, Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]));
+  // the hero can switch mode (into the UAZ) or the mudflow can appear between t0 and t1: compare what both have
+  for (let i = 0; i < Math.min(a.length, b.length); i++) if (on(a[i]) || on(b[i])) m = Math.max(m, Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]));
   return m * (0.5 / (2 * h * 60));
 }
 
