@@ -1,0 +1,112 @@
+{
+ "style": "cinematic film still, photorealistic, Soviet Ukraine 1986, shot on 35mm film, dramatic lighting, deep shadows, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, deformed hands, extra fingers, extra limbs, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "k01_control",
+   "seeds": [
+    2001,
+    2002
+   ],
+   "prompt": "the control room of a Soviet nuclear power plant at night in 1986, long curved grey control panels covered with round dials, switches and small lamps, three operators in white coats and white caps at the panel, dim fluorescent light, wide shot"
+  },
+  {
+   "id": "k02_hall",
+   "seeds": [
+    2011,
+    2012
+   ],
+   "prompt": "the reactor hall of a Soviet RBMK nuclear power plant, a huge round floor made of square steel blocks arranged in a circle, a big yellow crane above, dim industrial light, wide shot from above"
+  },
+  {
+   "id": "k03_gauge",
+   "seeds": [
+    2021,
+    2022
+   ],
+   "prompt": "close-up of an old Soviet analog meter on a grey control panel, the black needle fallen to the left end of the scale, dim light, shallow depth of field"
+  },
+  {
+   "id": "k04_rods",
+   "seeds": [
+    2031,
+    2032
+   ],
+   "prompt": "inside a nuclear reactor, dozens of long steel rods slowly lifted up out of round channels in a black graphite stack, cold blue light from below, dramatic low angle"
+  },
+  {
+   "id": "k05_button",
+   "seeds": [
+    2041,
+    2042
+   ],
+   "prompt": "extreme close-up of a man's finger pressing a large round emergency button on a grey Soviet control panel at night, small warning lamps around it, tense dramatic light"
+  },
+  {
+   "id": "k06_core",
+   "seeds": [
+    2051,
+    2052
+   ],
+   "prompt": "inside a nuclear reactor core, long rods sliding down into glowing channels, intense blue-white glow rising from below, sparks, steam, dramatic"
+  },
+  {
+   "id": "k07_alarm",
+   "seeds": [
+    2061,
+    2062
+   ],
+   "prompt": "a Soviet nuclear plant control room flooded with red emergency light, operators in white coats and white caps turning around in shock, dust falling from the ceiling"
+  },
+  {
+   "id": "k08_explosion",
+   "seeds": [
+    2071,
+    2072
+   ],
+   "prompt": "a huge explosion at the Chernobyl nuclear power plant at night in 1986, a fireball bursting through the roof of the reactor building, burning debris flying into the dark sky, the tall red and white striped ventilation stack beside it, wide shot"
+  },
+  {
+   "id": "k09_dawn",
+   "seeds": [
+    2081,
+    2082
+   ],
+   "prompt": "the destroyed fourth reactor building of the Chernobyl nuclear power plant at dawn in 1986, grey smoke rising, collapsed walls, small red fire trucks in the foreground, cold morning light, wide shot"
+  },
+  {
+   "id": "k10_operator",
+   "seeds": [
+    2091,
+    2092
+   ],
+   "prompt": "portrait of a young Soviet nuclear plant operator in a white coat and white cap at night, tense face lit from below by panel lamps, looking at the control panel, sweat on the forehead"
+  },
+  {
+   "id": "k11_pripyat",
+   "seeds": [
+    2101,
+    2102
+   ],
+   "prompt": "the Soviet town of Pripyat on a sunny spring Saturday morning in 1986, white apartment blocks, children in school uniform with backpacks walking to school, a mother with a pram, trees in blossom, a nuclear plant far away on the horizon"
+  },
+  {
+   "id": "k12_wheel",
+   "seeds": [
+    2111,
+    2112
+   ],
+   "prompt": "the yellow Ferris wheel in the Pripyat amusement park on a sunny spring day in 1986, new and clean, blue sky, people walking nearby"
+  },
+  {
+   "id": "k13_night_plant",
+   "seeds": [
+    2121,
+    2122
+   ],
+   "prompt": "the Chernobyl nuclear power plant at night seen from far across a calm cooling pond, a faint orange glow and smoke over one building, lights reflecting in the water, wide shot"
+  }
+ ]
+}
