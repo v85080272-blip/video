@@ -141,13 +141,10 @@ def check_stress(x, text, meter=None, silero=None):
 
 
 def stressed(word, vi):
-    """'истерия', 2 -> 'истерИя' (the stressed vowel in capitals, as the report shows it)."""
-    if isinstance(vi, (list, tuple, set)):
-        for v in sorted(vi, reverse=True):
-            word = stressed(word, v)
-        return word
+    """'истерия', 2 -> 'истерИя' (the stressed vowel in capitals, as the report shows it). ё is always stressed,
+    so a ё the stress has left reads е: 'озёра', 0 -> 'Озера'."""
     pos = vowel_positions(word)
-    if vi is None or vi >= len(pos):
+    at = {pos[v] for v in (vi if isinstance(vi, (list, tuple, set)) else [vi]) if v is not None and v < len(pos)}
+    if not at:
         return word
-    i = pos[vi]
-    return word[:i] + word[i].upper() + word[i + 1:]
+    return ''.join(c.upper() if k in at else {'ё': 'е', 'Ё': 'Е'}.get(c, c) for k, c in enumerate(word))

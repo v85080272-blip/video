@@ -21,7 +21,8 @@ S = SileroStress()
 out = S('Учёные нашли замок на двери замка. Массовая истерия.')
 check('stress dictionary', 'зам+ок' in out and 'истер+ия' in out and 'з+амка' in out, out)
 
-from check import script_words
+from check import script_words, stressed
+check('stress display drops a ё the stress has left', stressed('озёра', 0) == 'Озера' and stressed('озёра', 1) == 'озЁра')
 txt = 'Посреди +озера стоит +Ольга.'
 W = {w['norm']: w for w in script_words(txt, S)}
 check('stress mark before the first letter', W['озера']['stress'] == 0 and W['озера']['source'] == 'author'
