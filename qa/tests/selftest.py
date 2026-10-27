@@ -21,6 +21,13 @@ S = SileroStress()
 out = S('Учёные нашли замок на двери замка. Массовая истерия.')
 check('stress dictionary', 'зам+ок' in out and 'истер+ия' in out and 'з+амка' in out, out)
 
+from check import script_words
+txt = 'Посреди +озера стоит +Ольга.'
+W = {w['norm']: w for w in script_words(txt, S)}
+check('stress mark before the first letter', W['озера']['stress'] == 0 and W['озера']['source'] == 'author'
+      and txt[W['озера']['start']] == 'о' and txt[W['ольга']['start']] == 'О' and W['ольга']['name'],
+      str({k: (w['start'], w['stress'], w['name']) for k, w in W.items()}))
+
 from meter import Meter
 M = Meter()
 lp, H = M.forward(np.zeros(16000, np.float32))

@@ -77,6 +77,8 @@ def tts_text(text, W, plus):
         a = w['start']
         if a < pos or w['norm'] == '*':
             continue
+        if a > pos and text[a - 1] == '+':                  # the writer's mark before the first letter («+озера»)
+            a -= 1
         b, k = a, 0
         while b < len(text) and k < len(w['text']):        # the span may hold the writer's own '+'
             k += text[b] != '+'
