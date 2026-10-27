@@ -16,7 +16,7 @@
 
 ## Голос
 
-Текст — `voice/script.json`. Голос — рассказчик «Зомби в панельке» (свой синтетический голос, Qwen3-TTS Base, `voice/takes.sh`, по дублю на зерно). Чужие голоса не клонируются. `../zombie-panelka/tools/cut_voice.py` режет дубль на фразы по словам Whisper. Ударения проверяет общая проверка (`qa/pick_take.py`), лучший дубль каждой фразы ставит `tools/voice.py` в `build/voice.wav` и `build/words.json`.
+Текст — `voice/script.json`. Голос — рассказчик «Зомби в панельке» (свой синтетический голос, Qwen3-TTS Base, `voice/takes.sh`, по дублю на зерно). Чужие голоса не клонируются. `../zombie-panelka/tools/cut_voice.py` режет дубль на фразы по словам Whisper. Ударения проверяет общая проверка (`qa/pick_take.py`), лучший дубль каждой фразы ставит `tools/voice.py` в `build/voice.wav` и `build/words.json`. В ролике (27.10): L0 и L1 из дубля s4, L2 s8, L3 s3, L4 s1, L5 s6, L6 s3, L7 s7, L8 s2 (`/home/user/work/radlake/c_s<N>`); у остальных дублей были «дозимЕтр», «первОе», «вёслАх», «снИми».
 
 ## Звук
 
