@@ -47,14 +47,16 @@ GATE = 'b01_gate_s4001'              # an old woman at the gate of her house
 GATE2 = 'b01_gate_s4002'             # the same, for «здесь мой дом»
 SIGN = 'b02_sign_s4011'              # the radiation sign at the forest's edge
 VILLAGE = 'b03_village_s4021'        # the empty village, grass on the road
-VILLAGE2 = 'b03_village_s4022'       # the village again, for the plaque
+VILLAGE2 = 'b03_village_s4022'       # the village again, for «соседей, которые уехали»
 WALK = 'b04_forest_walk_s4031'       # an old woman walking home through the pines
 WALK2 = 'b04_forest_walk_s4032'      # the same, for «возвращались снова»
 CHECK = 'b05_checkpoint_s4041'       # a militiaman at the barrier stopping her
 GARDEN = 'b06_garden_s4051'          # digging potatoes by the house
+GARDEN2 = 'b06_garden_s4052'         # the same yard, for the plaque
 WELL = 'b07_well_s4061'              # the bucket coming up the well
 MUSHROOMS = 'b08_mushrooms_s4071'    # old hands with a basket of mushrooms
 KITCHEN = 'b09_kitchen_s4081'        # two old women at tea under the icons
+KITCHEN2 = 'b09_kitchen_s4082'       # the same, for «в основном бабушки»
 FACE = 'b10_portrait_s4091'          # a very old woman's face, smiling
 FACE2 = 'b10_portrait_s4092'         # the same, for «прожили дольше»
 WOLF = 'b11_wolf_s4101'              # a wolf in the empty village street
@@ -100,6 +102,7 @@ def plan(lines, words):
     p['why'] = wt('L7', 'ПОЧЕМУ')
     p['home'] = wt('L7', 'ЗДЕСЬ')
     p['longer'] = wt('L8', 'ДОЛЬШЕ')
+    p['neighbours'] = wt('L8', 'СОСЕДЕЙ')
     p['animals'] = wt('L9', 'ЖИВОТНЫМИ')
     p['true'] = wt('L9', 'ПРАВДА')
     p['mutants'] = wt('L9', 'МУТАНТЫ')
@@ -133,8 +136,11 @@ def layout(c):
         fx=dict(dust=15, fog=0.15, punch=[(p['evicted'], 0.05)], grade=zone))
     # L3 more than a thousand, mostly grannies, crept back home through the forest
     l4 = L('L4')['start'] - 0.08
-    add(WALK, l3, l4, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-6, 6)),
-        fx=dict(dust=20, fog=0.2, punch=[(p['thousand'], 0.04), (p['grannies'], 0.05)], grade=home))
+    sc = p['secretly'] - 0.06
+    add(KITCHEN2, l3, sc, into='flash', cam=dict(zoom=(1.02, 1.1), panx=(-0.02, 0.02)),
+        fx=dict(dust=12, punch=[(p['thousand'], 0.04), (p['grannies'], 0.05)], grade=home))
+    add(WALK, sc, l4, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.06), parx=(-6, 6)),
+        fx=dict(dust=20, fog=0.2, grade=home))
     # L4 turned out at the barrier, back again through the pines
     ag = p['again'] - 0.06
     add(CHECK, l4, ag, into='flash', cam=dict(zoom=(1.0, 1.08), panx=(0.02, -0.02)),
@@ -163,10 +169,13 @@ def layout(c):
     l8 = L('L8')['start'] - 0.08
     add(GATE2, hm, l8, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02)),
         fx=dict(dust=10, grade=home))
-    # L8 «говорят, многие прожили дольше»: the face again, closer
+    # L8 «говорят, многие прожили дольше»: the face again, closer; «соседей, которые уехали» on the empty village
     l9 = L('L9')['start'] - 0.08
-    add(FACE2, l8, l9, into='fade', cam=dict(zoom=(1.05, 1.12), dolly=(0.0, 0.04)),
+    nb = p['neighbours'] - 0.06
+    add(FACE2, l8, nb, into='fade', cam=dict(zoom=(1.05, 1.12), dolly=(0.0, 0.04)),
         fx=dict(dust=8, punch=[(p['longer'], 0.05)], grade=dict(home, warm=0.5)))
+    add(VILLAGE2, nb, l9, into='fade', cam=dict(zoom=(1.02, 1.1), panx=(0.02, -0.02), parx=(-4, 4)),
+        fx=dict(dust=15, fog=0.15, grade=zone))
     # L9 the animals: the wolf in the empty street, then «мутанты?» on the black frog
     tr = p['true'] - 0.06
     add(WOLF, l9, tr, into='flash', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05), parx=(-6, 6)),
@@ -174,9 +183,9 @@ def layout(c):
     sub = p['sub'] - 0.08
     add(FROG, tr, sub, into='whip', cam=dict(zoom=(1.05, 1.18), dolly=(0.0, 0.05)),
         fx=dict(dust=8, punch=[(p['mutants'], 0.1)], grade=dict(dusk, sat=0.9)))
-    # L10 «подпишись...»: the empty village takes the plaque, then a white flash loops to the cover
-    add(VILLAGE2, sub, total, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02), parx=(-4, 4)),
-        fx=dict(dust=15, fog=0.15, flash=[(total - 0.3, 0.35, 2.0, white)], grade=zone))
+    # L10 «подпишись...»: her warm yard takes the plaque, then a white flash loops to the cover
+    add(GARDEN2, sub, total, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02), parx=(-4, 4)),
+        fx=dict(dust=12, flash=[(total - 0.3, 0.35, 2.0, white)], grade=home))
 
     cards = []
     tags = [
