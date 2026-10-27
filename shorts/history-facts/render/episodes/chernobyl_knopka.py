@@ -18,7 +18,7 @@ DISPLAY = {
     'L5': 'СТЕРЖНИ ИДУТ ВНИЗ, НО НА КОНЦАХ У НИХ ГРАФИТ, И РЕАКТОР НЕ ГАСНЕТ, А РАЗГОНЯЕТСЯ.',
     'L6': 'ДВА ВЗРЫВА СРЫВАЮТ С НЕГО МНОГОТОННУЮ КРЫШКУ.',
     'L7': 'ДЕЛО БЫЛО НЕ В КНОПКЕ, А В ОПАСНОЙ КОНСТРУКЦИИ РЕАКТОРА И НАРУШЕНИЯХ НА ИСПЫТАНИИ.',
-    'L8': 'А ПРИПЯТЬ ПРОСЫПАЛАСЬ, ДЕТИ ШЛИ В ШКОЛУ, И БОЛЬШЕ СУТОК ЛЮДЯМ НИЧЕГО НЕ ОБЪЯВЯТ.',
+    'L8': 'А ПРИПЯТЬ ПРОСЫПАЛАСЬ, ДЕТИ ШЛИ В ШКОЛУ, И БОЛЬШЕ СУТОК ЛЮДЯМ НИЧЕГО НЕ СКАЖУТ.',
     'L9': 'ПОДПИШИСЬ, ЧТОБЫ НЕ ПРОПУСКАТЬ ДРУГИЕ КРУТЫЕ ИСТОРИИ.',
 }
 HILITE = {'ВЗОРВАЛСЯ', 'СЕКУНД', 'КНОПКИ.', '26', 'ИСПЫТАНИЕ.', 'НУЛЯ.', 'ВСЕ', 'СТЕРЖНИ,', 'НЕЛЬЗЯ.', '1:23',
@@ -79,13 +79,6 @@ def _wt(words, lines, lid, prefix, nth=0):
     return lines[lid]['start']
 
 
-def _we(words, lines, lid, prefix):
-    for w, a, b in words[lid]:
-        if w.startswith(prefix):
-            return b
-    return lines[lid]['end']
-
-
 def plan(lines, words):
     """Music sections and sync points shared by the picture (camera beats) and the mix."""
     wt = lambda *a, **k: _wt(words, lines, *a, **k)
@@ -96,6 +89,7 @@ def plan(lines, words):
     p['press1'] = wt('L1', 'НАЖАТИЯ')
     p['button1'] = wt('L1', 'КНОПКИ')
     p['night'] = (lines['L2']['start'] - 0.1, lines['L4']['end'] + 0.2)   # the test: the clock, the hum, the rods
+    p['unit4'] = wt('L2', 'НА')
     p['test'] = wt('L2', 'ИСПЫТАНИЕ')
     p['zero'] = wt('L3', 'НУЛЯ')
     p['pull'] = wt('L3', 'ВЫНИМАЮТ')
@@ -106,11 +100,11 @@ def plan(lines, words):
     p['button'] = wt('L4', 'КНОПКУ')
     p['down'] = wt('L5', 'ВНИЗ')
     p['graphite'] = wt('L5', 'ГРАФИТ')
+    p['reactor'] = wt('L5', 'РЕАКТОР')
     p['speed'] = wt('L5', 'РАЗГОНЯЕТСЯ')
-    p['speed_end'] = _we(words, lines, 'L5', 'РАЗГОНЯЕТСЯ')
     p['two'] = wt('L6', 'ДВА')
     p['blast1'] = wt('L6', 'ВЗРЫВА')
-    p['blast2'] = wt('L6', 'СРЫВАЮТ')
+    p['blast2'] = wt('L6', 'МНОГОТОННУЮ')           # the second blast a beat later, on the lid
     p['lid'] = wt('L6', 'КРЫШКУ')
     p['notbtn'] = wt('L7', 'КНОПКЕ')
     p['design'] = wt('L7', 'КОНСТРУКЦИИ')
@@ -154,8 +148,8 @@ def layout(c):
     add(BUTTON, pr, l2, into='whip', cam=dict(zoom=(1.05, 1.16), dolly=(0.0, 0.06)),
         fx=dict(dust=15, beat=[hook], punch=[(p['button1'], 0.08)], flash=[(p['button1'], 0.25, 0.4, white)],
                 grade=room))
-    # L2 the night test: the control room, then the reactor hall on «испытание»
-    ts = p['test'] - 0.06
+    # L2 the night test: the control room, then the reactor hall on «на четвёртом блоке идёт испытание»
+    ts = p['unit4'] - 0.06
     add(CONTROL, l2, ts, into='flash', cam=dict(zoom=(1.0, 1.1), panx=(-0.02, 0.02), parx=(-8, 8)),
         fx=dict(dust=15, beat=[_beat(p['night'], ts)], grade=room))
     l3 = L('L3')['start'] - 0.08
@@ -177,14 +171,18 @@ def layout(c):
         fx=dict(dust=10, punch=[(p['press'], 0.1), (p['button'], 0.05)], flash=[(p['press'], 0.2, 0.35, white)],
                 grade=room))
     # L5 the rods go down into the core, the graphite tips push it up: the glow rises, then the room goes red
+    rx = p['reactor'] - 0.15
+    add(CORE, l5, rx, into='flash', cam=dict(zoom=(1.0, 1.12), pany=(-0.02, 0.02), parx=(-8, 8)),
+        fx=dict(dust=20, bloom=0.7, light=glow, punch=[(p['down'], 0.05), (p['graphite'], 0.06)], grade=core))
     sp = p['speed'] - 0.06
-    add(CORE, l5, sp, into='flash', cam=dict(zoom=(1.0, 1.12), pany=(-0.02, 0.02), parx=(-8, 8)),
-        fx=dict(dust=20, bloom=0.8, light=glow, punch=[(p['down'], 0.05), (p['graphite'], 0.06)], grade=core))
+    add(CORE2, rx, sp, into='fade', cam=dict(zoom=(1.05, 1.2), dolly=(0.0, 0.06)),
+        fx=dict(dust=30, embers=20, bloom=1.0, light=dict(glow, flicker=0.4), shake=[(p['speed'], 0.3, 10)],
+                grade=dict(core, exposure=0.06)))
     l6 = L('L6')['start'] - 0.08
     add(ALARM, sp, l6, into='flash', cam=dict(zoom=(1.05, 1.18), roll=(0.0, 1.5)),
         fx=dict(dust=40, bloom=0.6, shake=[(p['speed'], 0.4, 14)], punch=[(p['speed'], 0.08)],
                 flash=[(p['speed'], 0.25, 0.5, (1.0, 0.25, 0.15))], grade=red))
-    # L6 two blasts: the fireball, then from another side on «срывают», held on the lid
+    # L6 two blasts: the fireball on «взрыва», then from another side on «многотонную крышку»
     b2 = p['blast2'] - 0.06
     add(BLAST, l6, b2, into='flash', cam=dict(zoom=(1.0, 1.1), pany=(0.0, -0.02), parx=(-10, 10)),
         fx=dict(dust=60, ash=40, embers=40, bloom=0.9, light=fglow, shake=[(p['blast1'], 1.0, 24)],
@@ -277,7 +275,7 @@ def mix_cues(m, tl, a):
     put_hit(m, 'button_press', p['press'] - 0.05, -4.0)
     put_hit(m, 'impact_soft', p['press'], -7.0)
     put_hit(m, 'rods_drive', p['down'] - 0.1, -9.0)
-    put_hit(m, 'surge', p['speed_end'] + 0.25, -8.0)        # climbs under «...не гаснет, а разгоняется», cut at the peak
+    put_hit(m, 'surge', p['blast1'] - 0.02, -8.0)           # climbs under «...не гаснет, а разгоняется», cut by the blast
     loop('beds', 'klaxon', p['speed'], p['blast1'] + 0.8, -18.0, fin=0.05, fout=0.4)
     # --- the two blasts, the fire, the glass; the Geiger counter from here on
     put_hit(m, 'boom_big', p['blast1'], -4.0)
@@ -293,7 +291,7 @@ def mix_cues(m, tl, a):
     put_hit(m, 'impact_soft', p['notbtn'], -8.0)
     put_hit(m, 'sub_drop', p['design'], -8.0)
     put_hit(m, 'impact_soft', p['rules'], -10.0)
-    # --- Pripyat waking up: birds and the sad piano, the Geiger counter creeping back under «ничего не объявят»
+    # --- Pripyat waking up: birds and the sad piano, the Geiger counter creeping back under «ничего не скажут»
     loop('beds', 'ambience_morning_taiga', L['L8']['start'] - 0.1, p['sub'] + 0.4, -14.0, fin=0.4, fout=0.5)
     loop('beds', 'piano_sad', L['L8']['start'], total, -10.0, fin=0.4, fout=0.03)
     loop('beds', 'geiger', p['day'], p['sub'] + 0.6, -20.0, fin=0.8, fout=0.6)
