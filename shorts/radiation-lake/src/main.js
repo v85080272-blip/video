@@ -450,7 +450,7 @@ function overlays(t, cam, hn, b) {
   if (t >= A.L2w2 - 0.05 && t < T.greenOff + 0.2) O.redX(540, 1100, 150, sp(t, A.L2w2 + 0.05, 2.6, 8) * (1 - seg(T.greenOff - 0.05, T.greenOff + 0.15, t)));
   scr();
   if (t >= A.L2w2 && t < T.greenOff) text('КАК В КИНО', 540, 700, 110 * clamp(sp(t, A.L2w4 - 0.05, 2.4, 7)), '#6dff57', { rot: -0.05 });
-  if (t >= A.L2w7 && t < T.c3) text('НЕ ВИДНО', 540, 760, 100 * clamp(sp(t, A.L2w9 - 0.05, 2.4, 7)) * (1 - seg(T.c3 - 0.2, T.c3, t)), '#fff3d6', { rot: -0.04 });
+  if (t >= A.L2w7 && t < T.c3) text('НЕ ВИДНО', 540, 650, 100 * clamp(sp(t, A.L2w9 - 0.05, 2.4, 7)) * (1 - seg(T.c3 - 0.2, T.c3, t)), '#fff3d6', { rot: -0.04 });
   // step 1: the cross on the jump, then swimming would be worse
   if (t >= T.c3 && t < T.c4) {
     const F0 = framesOf(hn.o), body = S2(F0.T.p([0, -150]));
@@ -481,10 +481,10 @@ function overlays(t, cam, hn, b) {
   }
   // step 5: ticks for soap and shampoo, a cross for the conditioner, and why
   if (t >= T.c7 && t < T.c8 + 0.3) {
-    const sh = [Wd.SHOWER.x + Wd.SHOWER.w / 2 + 10, Wd.SHOWER.y - Wd.SHOWER.h + 210];
+    const sh = [Wd.SHOWER.x + Wd.SHOWER.w / 2 + 10, Wd.SHOWER.y - 230];      // the shelf, as drawShowerFront puts it
     const out = 1 - seg(T.c8 - 0.1, T.c8 + 0.2, t);
     O.tick(...S2([sh[0] + SH.soap, sh[1] - 100]), sp(t, A.L7w3, 2.6, 8) * out, 50);
-    O.tick(...S2([sh[0] + SH.sham, sh[1] - 200]), sp(t, A.L7w5, 2.6, 8) * out, 50);
+    O.tick(...S2([sh[0] + SH.sham, sh[1] - 185]), sp(t, A.L7w5, 2.6, 8) * out, 50);
     O.redX(...S2([sh[0] + SH.cond, sh[1] - 60]), 70, sp(t, A.L7w8 + 0.05, 2.6, 8) * (1 - seg(A.L7w8 + 0.45, A.L7w8 + 0.6, t)));
     scr();
     if (t > A.L7w8) { const k = clamp(sp(t, A.L7w8 - 0.05, 2.4, 7)) * out; text('КОНДИЦИОНЕР', 540, 1160, 92 * k, '#ff7a4d', { rot: -0.03 }); }
