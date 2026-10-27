@@ -1,0 +1,32 @@
+[
+ {
+  "id": "k1_nazhali_stop",
+  "img": "/home/user/work/knopka/shots/k08_explosion_s2071.png",
+  "cam": {"zoom": 1.0, "pany": 0.0},
+  "grade": {"exposure": 0.03, "contrast": 1.16, "sat": 0.95, "warm": 0.3},
+  "glow": {"x": 0.5, "y": 0.35, "r": 0.7, "strength": 0.4, "color": [1.0, 0.7, 0.35]},
+  "bloom": 0.35,
+  "vignette": 0.5,
+  "band": {"y": 1500, "h": 560, "strength": 0.6},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №11", "y": 300},
+  "lines": [
+   {"text": "НАЖАЛИ СТОП", "y": 1400, "size": 170, "color": "white"},
+   {"text": "И ОН ВЗОРВАЛСЯ", "y": 1610, "size": 140, "box": "red"}
+  ]
+ },
+ {
+  "id": "k2_knopka",
+  "img": "/home/user/work/knopka/shots/k05_button_s2041.png",
+  "cam": {"zoom": 1.05, "pany": -0.02},
+  "grade": {"exposure": 0.04, "contrast": 1.18, "sat": 0.9, "warm": 0.1},
+  "glow": {"x": 0.5, "y": 0.4, "r": 0.5, "strength": 0.4, "color": [1.0, 0.4, 0.3]},
+  "bloom": 0.3,
+  "vignette": 0.5,
+  "band": {"y": 1500, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №11", "y": 300},
+  "lines": [
+   {"text": "КНОПКА", "y": 1400, "size": 210, "color": "white"},
+   {"text": "ВЗОРВАЛА РЕАКТОР", "y": 1610, "size": 120, "box": "yellow"}
+  ]
+ }
+]
