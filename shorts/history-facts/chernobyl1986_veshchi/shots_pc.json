@@ -1,0 +1,104 @@
+{
+ "style": "cinematic film still, photorealistic, Soviet Ukraine 1986, shot on 35mm film, dramatic lighting, deep shadows, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, deformed hands, extra fingers, extra limbs, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "v01_radio",
+   "seeds": [
+    3001,
+    3002
+   ],
+   "prompt": "a worried woman in a 1980s Soviet apartment kitchen listening to an old wall radio speaker, a little boy beside her, daylight from the window, net curtains"
+  },
+  {
+   "id": "v02_packing",
+   "seeds": [
+    3011,
+    3012
+   ],
+   "prompt": "hands packing a small brown suitcase on a bed in a 1980s Soviet apartment, passports, a few clothes, a child's toy, soft daylight, close-up"
+  },
+  {
+   "id": "v03_buses",
+   "seeds": [
+    3021,
+    3022
+   ],
+   "prompt": "a long line of yellow and white Soviet buses parked along a street of white apartment blocks in Pripyat, spring 1986, people with small bags boarding, a soldier in uniform, wide shot"
+  },
+  {
+   "id": "v04_column",
+   "seeds": [
+    3031,
+    3032
+   ],
+   "prompt": "an endless column of buses on a road through a pine forest, seen from high above, spring 1986, sunny day"
+  },
+  {
+   "id": "v05_boarding",
+   "seeds": [
+    3041,
+    3042
+   ],
+   "prompt": "a mother holding a little girl's hand boarding a Soviet bus with one small bag, a militia officer at the door, worried faces, spring 1986"
+  },
+  {
+   "id": "v06_dog",
+   "seeds": [
+    3051,
+    3052
+   ],
+   "prompt": "a dog running after a departing bus on an empty street of a Soviet town, dust in the air, spring day, low angle"
+  },
+  {
+   "id": "v07_cat",
+   "seeds": [
+    3061,
+    3062
+   ],
+   "prompt": "a cat sitting alone on the windowsill of an empty Soviet apartment, looking out at the empty street, curtains, afternoon light"
+  },
+  {
+   "id": "v08_toys",
+   "seeds": [
+    3071,
+    3072
+   ],
+   "prompt": "an abandoned child's room in a Soviet apartment in 1986, a teddy bear and toys on a neatly made bed, sunlight through the window, dust"
+  },
+  {
+   "id": "v09_table",
+   "seeds": [
+    3081,
+    3082
+   ],
+   "prompt": "a kitchen table in an abandoned Soviet apartment, plates with food left, a tea cup, a vase with flowers on the windowsill, afternoon light"
+  },
+  {
+   "id": "v10_empty_city",
+   "seeds": [
+    3091,
+    3092
+   ],
+   "prompt": "the empty streets of Pripyat in the evening of April 27 1986, no people, white apartment blocks, laundry still hanging on balconies, golden light"
+  },
+  {
+   "id": "v11_babushka",
+   "seeds": [
+    3101,
+    3102
+   ],
+   "prompt": "an old Ukrainian woman in a headscarf walking along an overgrown village road toward her wooden house, pine forest around, sunset"
+  },
+  {
+   "id": "v12_wheel_now",
+   "seeds": [
+    3111,
+    3112
+   ],
+   "prompt": "the yellow Ferris wheel of Pripyat today, rusted and silent, birch trees growing around it, grey sky, wide shot"
+  }
+ ]
+}
