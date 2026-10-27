@@ -259,7 +259,7 @@ export function hunterAt(t) {
 const rowPhase = t => { if (t < T.row0) return 0; const u = t - T.row0; return TAU * (u * 1.6 + 0.3 * u * u); };
 // Stroke times (blade enters the water), shared by the oar sound and the score
 const STROKES = [];
-for (let k = 0; k <= Math.floor(rowPhase(T.row1) / TAU); k++) STROKES.push(T.row0 + (Math.sqrt(2.56 + 1.2 * (k + 0.1)) - 1.6) / 0.6);
+for (let k = 0; k <= Math.floor(rowPhase(T.row1) / TAU); k++) { const ts = T.row0 + (Math.sqrt(2.56 + 1.2 * (k + 0.1)) - 1.6) / 0.6; if (ts < T.row1 - 0.05) STROKES.push(ts); }
 MARKS.strokes = STROKES;
 const BAG = { x: Wd.GATE.x + 150 };
 
@@ -416,10 +416,8 @@ export function frame(t) {
   if (green > 0.01) O.filmFrame(t, green);
 }
 function oarSplashes(t, b) {
-  const ph = rowPhase(t), n = Math.floor(ph / TAU);
-  for (let k = Math.max(0, n - 1); k <= n; k++) {
-    const t0 = T.row0 + (k * TAU + Math.PI * 0.2) / TAU / 1.6;
-    if (t < t0) continue;
+  for (const t0 of STROKES) {
+    if (t < t0 || t > t0 + 1.6) continue;
     Wd.splash(t, t0, b.x + 330, 0, 0.6); Wd.ripples(t, t0, b.x + 340, 6, 2, 0.7);
   }
 }
