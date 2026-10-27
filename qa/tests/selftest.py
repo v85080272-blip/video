@@ -27,6 +27,9 @@ W = {w['norm']: w for w in script_words(txt, S)}
 check('stress mark before the first letter', W['озера']['stress'] == 0 and W['озера']['source'] == 'author'
       and txt[W['озера']['start']] == 'о' and txt[W['ольга']['start']] == 'О' and W['ольга']['name'],
       str({k: (w['start'], w['stress'], w['name']) for k, w in W.items()}))
+from textcheck import analyze_text
+tts = analyze_text('Что делать, если ты оказался посреди радиоактивного озера?', S, engine='qwen3')['tts_text']
+check('voice text leaves an unsure homograph as written', 'озера?' in tts, tts)
 
 from meter import Meter
 M = Meter()

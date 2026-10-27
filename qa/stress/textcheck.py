@@ -14,6 +14,7 @@ ENGINES = {
     'silero': dict(plus=True, note='Silero TTS понимает «+» перед ударной гласной.'),
     'any': dict(plus=False, note=''),
 }
+HOMO_ASK = 0.85     # a homograph guess less sure than this is the writer's to check, not the voice text's to fix
 
 
 def analyze_text(text, silero, engine='any', freq=None):
@@ -39,7 +40,7 @@ def analyze_text(text, silero, engine='any', freq=None):
                 v = w.get('variants') or []
                 pv = w.get('p')
                 alt = ' или '.join(stressed(x.replace('+', ''), _vi(x)) for x in v)
-                if pv is not None and max(pv) < 0.85:      # phrase rules and sure guesses are not worth a line
+                if _unsure(w):                             # phrase rules and sure guesses are not worth a line
                     reasons.append(f'омограф ({alt}): по смыслу выбрано {stressed(norm, w["stress"])}, '
                                    f'уверенность {max(pv):.0%}, проверьте')
             elif w['source'] == 'trap':
@@ -63,6 +64,10 @@ def analyze_text(text, silero, engine='any', freq=None):
     risky = [dict(r, reasons=[x for x in r['reasons'] if x != 'trap']) for r in risky if r['reasons'] != ['trap']]
     return dict(words=W, risky=risky, traps=traps, engine=engine, note=ENGINES.get(engine, ENGINES['any'])['note'],
                 tts_text=tts_text(text, W, ENGINES.get(engine, ENGINES['any'])['plus']))
+
+
+def _unsure(w):
+    return w['source'] == 'homograph' and isinstance(w.get('p'), list) and max(w['p']) < HOMO_ASK
 
 
 def _vi(variant):
@@ -89,7 +94,8 @@ def tts_text(text, W, plus):
             out.append(word)
             pos = b
             continue
-        if w['norm'] != '*' and w['stress'] is not None:
+        # a homograph the writer is asked to check stays as written («озера»): its ё or '+' would be a guess
+        if w['norm'] != '*' and w['stress'] is not None and not _unsure(w):
             norm = w['norm']
             # keep the writer's case, take ё from the dictionary form
             word = ''.join(n.upper() if o.isupper() else n for o, n in zip(word, norm)) if len(norm) == len(word) else word
