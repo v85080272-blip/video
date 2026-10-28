@@ -16,16 +16,16 @@ DISPLAY = {
     'L2': 'ЛЮДИ УШЛИ, И ЗА СОРОК ЛЕТ ЗОНА СТАЛА ДИКИМ ЛЕСОМ.',
     'L3': 'ТАМ ЖИВУТ ВОЛКИ, ОЛЕНИ, КАБАНЫ И ДАЖЕ ДИКИЕ ЛОШАДИ.',
     'L4': 'А ОГРОМНЫЙ СОМ У СТАНЦИИ НЕ МУТАНТ: ЕГО ПРОСТО НИКТО НЕ ЛОВИТ.',
-    'L5': 'ЗАТО У ЛАСТОЧЕК ТАМ ЧАЩЕ БЫВАЮТ БЕЛЫЕ ПЯТНА НА ПЕРЬЯХ И БОЛЬШЕ МУТАЦИЙ.',
+    'L5': 'ЗАТО У ЛАСТОЧЕК ТАМ БОЛЬШЕ МУТАЦИЙ И БЕЛЫХ ПЯТЕН НА ПЕРЬЯХ.',
     'L6': 'А ДРЕВЕСНЫЕ ЛЯГУШКИ В ЗОНЕ СТАЛИ ПОЧТИ ЧЁРНЫМИ.',
-    'L7': 'ТЁМНЫЙ ПИГМЕНТ ЗАЩИЩАЕТ ОТ РАДИАЦИИ, И ПОСЛЕ АВАРИИ ЧАЩЕ ВЫЖИВАЛИ ТЁМНЫЕ ЛЯГУШКИ.',
-    'L8': 'ТАК ЧТО МУТАНТЫ ТАМ ЕСТЬ, НО ЭТО НЕ МОНСТРЫ, А ЖИВОТНЫЕ, КОТОРЫЕ ПРИСПОСОБИЛИСЬ.',
+    'L7': 'ТЁМНЫЙ ЦВЕТ ЗАЩИЩАЕТ ОТ РАДИАЦИИ, И ПОСЛЕ АВАРИИ ЧАЩЕ ВЫЖИВАЛИ ТЁМНЫЕ.',
+    'L8': 'ТАК ЧТО ЭТО НЕ МОНСТРЫ, А ЖИВОТНЫЕ, КОТОРЫЕ ПРИСПОСОБИЛИСЬ.',
     'L9': 'А ПОД РЕАКТОРОМ ДО СИХ ПОР ЛЕЖИТ ЗАСТЫВШАЯ ЛАВА. ЕЁ ПРОЗВАЛИ СЛОНОВЬЕЙ НОГОЙ.',
     'L10': 'ПОДПИШИСЬ, ЧТОБЫ НЕ ПРОПУСКАТЬ ДРУГИЕ КРУТЫЕ ИСТОРИИ.',
 }
 HILITE = {'ДВУХГОЛОВЫХ', 'МОНСТРОВ', 'НЕТ.', 'ИЗМЕНИЛСЯ.', 'СОРОК', 'ДИКИМ', 'ЛЕСОМ.', 'ВОЛКИ,', 'ОЛЕНИ,', 'КАБАНЫ',
-          'ЛОШАДИ.', 'СОМ', 'МУТАНТ:', 'ЛОВИТ.', 'ЛАСТОЧЕК', 'БЕЛЫЕ', 'ПЯТНА', 'МУТАЦИЙ.', 'ЛЯГУШКИ',
-          'ЧЁРНЫМИ.', 'ПИГМЕНТ', 'ЗАЩИЩАЕТ', 'ВЫЖИВАЛИ', 'ТЁМНЫЕ', 'МУТАНТЫ', 'МОНСТРЫ,', 'ПРИСПОСОБИЛИСЬ.',
+          'ЛОШАДИ.', 'СОМ', 'МУТАНТ:', 'ЛОВИТ.', 'ЛАСТОЧЕК', 'МУТАЦИЙ', 'БЕЛЫХ', 'ПЯТЕН', 'ЛЯГУШКИ',
+          'ЧЁРНЫМИ.', 'ЦВЕТ', 'ЗАЩИЩАЕТ', 'ВЫЖИВАЛИ', 'ТЁМНЫЕ.', 'МОНСТРЫ,', 'ПРИСПОСОБИЛИСЬ.',
           'ЛАВА.', 'СЛОНОВЬЕЙ', 'НОГОЙ.'}
 
 # gap (s) after each line before the next one starts (voice5/tools/gaps_used.py keeps the narrator's own pauses where
@@ -103,15 +103,15 @@ def plan(lines, words):
     p['notmut'] = wt('L4', 'МУТАНТЫ')
     p['them'] = wt('L4', 'ЕГО')
     p['swallows'] = wt('L5', 'ЛАСТОЧЕК')
-    p['spots'] = wt('L5', 'БЕЛЫЕ')
+    p['spots'] = wt('L5', 'БЕЛЫХ')
     p['mutations'] = wt('L5', 'МУТАЦИЙ')
     p['frogs'] = wt('L6', 'ЛЯГУШКИ')
     p['became'] = wt('L6', 'СТАЛИ')
     p['black'] = wt('L6', 'ЧЁРНЫМИ')
-    p['pigment'] = wt('L7', 'ПИГМЕНТ')
+    p['pigment'] = wt('L7', 'ЦВЕТ')
     p['after'] = wt('L7', 'ПОСЛЕ')
     p['survived'] = wt('L7', 'ВЫЖИВАЛИ')
-    p['mutants'] = wt('L8', 'МУТАНТЫ')
+    p['monsters'] = wt('L8', 'МОНСТРЫ')
     p['animals'] = wt('L8', 'ЖИВОТНЫЕ')
     p['adapted'] = wt('L8', 'ПРИСПОСОБИЛИСЬ')
     p['lava'] = wt('L9', 'ЗАСТЫВШАЯ')
@@ -162,13 +162,13 @@ def layout(c):
         fx=dict(dust=8, punch=[(p['catfish'], 0.05)], grade=wild))
     add(CATFISH2, th, l5, into='fade', cam=dict(zoom=(1.05, 1.12), panx=(-0.02, 0.02)),
         fx=dict(dust=8, grade=wild))
-    # L5 the swallows: white spots, more mutations
+    # L5 the swallows: more mutations, white spots
     sp = p['spots'] - 0.06
     l6 = L('L6')['start'] - 0.08
     add(SWALLOW, l5, sp, into='flash', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04)),
-        fx=dict(dust=8, punch=[(p['swallows'], 0.04)], grade=wild))
+        fx=dict(dust=8, punch=[(p['swallows'], 0.04), (p['mutations'], 0.05)], grade=wild))
     add(SWALLOW2, sp, l6, into='fade', cam=dict(zoom=(1.05, 1.15), dolly=(0.0, 0.05)),
-        fx=dict(dust=8, punch=[(p['mutations'], 0.05)], grade=dict(wild, sat=0.8)))
+        fx=dict(dust=8, punch=[(p['spots'], 0.04)], grade=dict(wild, sat=0.8)))
     # L6 the tree frogs: a green one as they are elsewhere, then almost black on «стали почти чёрными»
     bc = p['became'] - 0.06
     l7 = L('L7')['start'] - 0.08
@@ -183,11 +183,11 @@ def layout(c):
         fx=dict(dust=10, punch=[(p['pigment'], 0.04)], grade=night))
     add(FROG3, af, l8, into='fade', cam=dict(zoom=(1.02, 1.12), panx=(0.02, -0.02)),
         fx=dict(dust=6, punch=[(p['survived'], 0.05)], grade=night))
-    # L8 so mutants, yes, but not monsters: the boars, then the horses for «животные, которые приспособились»
+    # L8 so not monsters: the boars, then the horses for «животные, которые приспособились»
     an = p['animals'] - 0.06
     l9 = L('L9')['start'] - 0.08
     add(BOARS, l8, an, into='flash', cam=dict(zoom=(1.0, 1.08), panx=(-0.02, 0.02), parx=(-6, 6)),
-        fx=dict(dust=12, punch=[(p['mutants'], 0.05)], grade=wild))
+        fx=dict(dust=12, punch=[(p['monsters'], 0.05)], grade=wild))
     add(HORSES2, an, l9, into='fade', cam=dict(zoom=(1.02, 1.1), dolly=(0.0, 0.04), parx=(-6, 6)),
         fx=dict(dust=15, bloom=0.3, punch=[(p['adapted'], 0.04)], grade=dict(wild, warm=0.45)))
     # L9 the tease: the arch over the reactor, the lava under it in the flashlight, «слоновьей ногой»
@@ -243,7 +243,7 @@ def mix_cues(m, tl, a):
     put_hit(m, 'drum_big', p['but'], -7.0)
     put_hit(m, 'frog_call', p['changed'] - 0.1, -14.0)
     # cuts get a soft whoosh, except where a hit already marks them
-    loud = [p['none'], p['but'], p['forest'], p['catfish'], p['black'], p['mutants'], p['lava'], p['foot'], p['sub']]
+    loud = [p['none'], p['but'], p['forest'], p['catfish'], p['black'], p['monsters'], p['lava'], p['foot'], p['sub']]
     for sh in tl['shots'][1:]:
         c = sh['start']
         if c < h1 or any(abs(c - x) < 0.4 for x in loud):
@@ -265,10 +265,10 @@ def mix_cues(m, tl, a):
     put_hit(m, 'sub_drop', p['black'], -8.0)
     put_hit(m, 'drum_big', p['black'], -7.0)
     loop('beds', 'geiger', p['pigment'] - 0.2, p['after'] + 0.3, -18.0, fin=0.2, fout=0.3)
-    # --- the answer: the warm pad and birds back, a drum on «мутанты», a lift on «приспособились»
+    # --- the answer: the warm pad and birds back, a drum on «монстры»
     loop('beds', 'piano_sad', L['L8']['start'] - 0.1, L['L9']['start'], -10.0, fin=0.3, fout=0.4)
     loop('beds', 'ambience_morning_taiga', L['L8']['start'] - 0.1, L['L9']['start'], -16.0, fin=0.3, fout=0.4)
-    put_hit(m, 'drum_big', p['mutants'], -7.0)
+    put_hit(m, 'drum_big', p['monsters'], -7.0)
     put_hit(m, 'hooves', p['animals'] - 0.5, -16.0)
     # --- the tease: the basement hum and the counter, the flashlight clicks on, a hit on «слоновьей ногой»
     loop('beds', 'drone_bed_tension', L['L9']['start'] - 0.1, p['sub'], -9.0, fin=0.2, fout=0.2)
