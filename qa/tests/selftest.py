@@ -87,4 +87,8 @@ heard = lambda *ws: [(w, i * 0.3, i * 0.3 + 0.2, 0.9) for i, w in enumerate(ws)]
 ops = compare(said, heard('до', '90', '%', 'пыли.')), compare(said, heard('до', '90', 'пыли.'))
 check('speech: «90 %» is «девяноста процентов»', not ops[0] and [o['script'] for o in ops[1]] == ['процентов'],
       str(ops))
+said = 'кто бы ни стучал'.split()
+ops = compare(said, heard('кто', 'бы', 'не', 'стучал.')), compare(said, heard('кто', 'бы', 'стучал.'))
+check('speech: unstressed «ни» heard as «не» is no finding', not ops[0] and [o['script'] for o in ops[1]] == ['ни'],
+      str(ops))
 sys.exit(0 if ok else 1)
