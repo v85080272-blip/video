@@ -21,6 +21,17 @@ S = SileroStress()
 out = S('Учёные нашли замок на двери замка. Массовая истерия.')
 check('stress dictionary', 'зам+ок' in out and 'истер+ия' in out and 'з+амка' in out, out)
 
+from check import script_words, stressed
+check('stress display drops a ё the stress has left', stressed('озёра', 0) == 'Озера' and stressed('озёра', 1) == 'озЁра')
+txt = 'Посреди +озера стоит +Ольга.'
+W = {w['norm']: w for w in script_words(txt, S)}
+check('stress mark before the first letter', W['озера']['stress'] == 0 and W['озера']['source'] == 'author'
+      and txt[W['озера']['start']] == 'о' and txt[W['ольга']['start']] == 'О' and W['ольга']['name'],
+      str({k: (w['start'], w['stress'], w['name']) for k, w in W.items()}))
+from textcheck import analyze_text
+tts = analyze_text('Что делать, если ты оказался посреди радиоактивного озера?', S, engine='qwen3')['tts_text']
+check('voice text leaves an unsure homograph as written', 'озера?' in tts, tts)
+
 from meter import Meter
 M = Meter()
 lp, H = M.forward(np.zeros(16000, np.float32))
@@ -69,4 +80,15 @@ check('mix: effect louder than the voice', len(loud) == 1 and loud[0]['level'] =
       and 5.6 < loud[0]['t'] < 6.2, str(loud))
 check('mix: voice over music measured', Mx.get('voice_over_bed_db') is not None and Mx['voice_over_bed_db'] > 10,
       str(Mx.get('voice_over_bed_db')))
+
+from asr import compare
+said = 'до девяноста процентов пыли'.split()
+heard = lambda *ws: [(w, i * 0.3, i * 0.3 + 0.2, 0.9) for i, w in enumerate(ws)]
+ops = compare(said, heard('до', '90', '%', 'пыли.')), compare(said, heard('до', '90', 'пыли.'))
+check('speech: «90 %» is «девяноста процентов»', not ops[0] and [o['script'] for o in ops[1]] == ['процентов'],
+      str(ops))
+said = 'кто бы ни стучал'.split()
+ops = compare(said, heard('кто', 'бы', 'не', 'стучал.')), compare(said, heard('кто', 'бы', 'стучал.'))
+check('speech: unstressed «ни» heard as «не» is no finding', not ops[0] and [o['script'] for o in ops[1]] == ['ни'],
+      str(ops))
 sys.exit(0 if ok else 1)

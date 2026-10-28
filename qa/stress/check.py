@@ -55,11 +55,12 @@ def script_words(text, silero):
             out.append(dict(text=tok, norm=WILD, stress=None, source='wild', ok=set(), final=final, start=pos))
             continue
         # a capital letter inside a sentence: a name, where the dictionary itself may be wrong
-        name = tok[0].isupper() and not _sentence_start(text[:pos])
+        name = tok.lstrip('+')[:1].isupper() and not _sentence_start(text[:pos])
         parts = tok.split('-')
         off = pos
         for k, part in enumerate(parts):
-            w = cover.get(off)
+            at0 = off + len(part) - len(part.lstrip('+'))     # «+озера»: the word starts at its first letter
+            w = cover.get(at0)
             norm = part.replace('+', '').lower()
             st, variants = None, None
             if '+' in part:                         # the author's own mark wins
@@ -86,8 +87,8 @@ def script_words(text, silero):
                 ok |= {_stress_of(v) for v in variants or [] if '+' in v}
             out.append(dict(text=part.replace('+', ''), norm=norm, stress=st, source=src, ok=ok,
                             p=w and w.get('p'), alt=w and w.get('alt'), variants=variants, name=name,
-                            cap=part[:1].isupper(),
-                            final=final and k == len(parts) - 1, start=off))
+                            cap=part.lstrip('+')[:1].isupper(),
+                            final=final and k == len(parts) - 1, start=at0))
             off += len(part) + 1
     return out
 
@@ -140,13 +141,10 @@ def check_stress(x, text, meter=None, silero=None):
 
 
 def stressed(word, vi):
-    """'истерия', 2 -> 'истерИя' (the stressed vowel in capitals, as the report shows it)."""
-    if isinstance(vi, (list, tuple, set)):
-        for v in sorted(vi, reverse=True):
-            word = stressed(word, v)
-        return word
+    """'истерия', 2 -> 'истерИя' (the stressed vowel in capitals, as the report shows it). ё is always stressed,
+    so a ё the stress has left reads е: 'озёра', 0 -> 'Озера'."""
     pos = vowel_positions(word)
-    if vi is None or vi >= len(pos):
+    at = {pos[v] for v in (vi if isinstance(vi, (list, tuple, set)) else [vi]) if v is not None and v < len(pos)}
+    if not at:
         return word
-    i = pos[vi]
-    return word[:i] + word[i].upper() + word[i + 1:]
+    return ''.join(c.upper() if k in at else {'ё': 'е', 'Ё': 'Е'}.get(c, c) for k, c in enumerate(word))

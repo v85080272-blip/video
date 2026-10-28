@@ -69,19 +69,21 @@ def transcribe(x16, model_dir=MODEL, threads=None):
 
 
 def _groups(tokens):
-    """Collapse runs of number words into one token; returns [(normalized, [indices])]."""
+    """Collapse runs of number words into one token; returns [(normalized, [indices])]. «%» and every form of
+    «процент» are one token too: Whisper writes «девяноста процентов» as «90 %». Unstressed «ни» and «не» sound
+    the same, so Whisper picks one by grammar («кто бы не стучал»): they are one token."""
     out = []
     for i, t in enumerate(tokens):
         n = norm(t)
-        if not n:
-            continue
-        if is_num(n):
+        if n and is_num(n):
             if out and out[-1][0] == '#':
                 out[-1][1].append(i)
-                continue
-            out.append(('#', [i]))
-        else:
-            out.append((n, [i]))
+            else:
+                out.append(('#', [i]))
+        elif n:
+            out.append(('%' if n.startswith('процент') else 'не' if n == 'ни' else n, [i]))
+        if '%' in t:
+            out.append(('%', [i]))
     return out
 
 
