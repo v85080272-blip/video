@@ -1,0 +1,92 @@
+{
+ "note": "Narration for «Мёртвые восстали, а ты пилот». Facts: the Airbus cockpit door locking system: the LOCK position inhibits the buzzer, the keypad and the emergency access code for a preset 5–20 min, re-selecting LOCK restarts it (Airbus manual quoted by AirlineRatings 2015; FlyByWire A380 docs); the door is intrusion- and ballistic-resistant since 2003 (ICAO Annex 6); opening an armed door deploys and inflates the evacuation slide by itself; the A320 is among the types whose door sill is more than 2.0 m above the ground (ISO 16004:2005); a pilot who sees the runway obstructed goes around. at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line, sub = subtitle word groups.",
+ "tail": 0.3,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Если мёртвые восстали, а ты пилот в небе, запри кабину, кто бы ни стучал.",
+   "at": 0.12,
+   "sub": [
+    3,
+    5,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Дверь кабины бронированная. Переведи замок в «закрыто», и её не откроет даже код экипажа.",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Шаг первый: не лети в большой аэропорт. Где было много людей, теперь много мертвецов.",
+   "after": 0.3,
+   "sub": [
+    2,
+    5,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Ищи маленький аэродром в глуши, подальше от городов.",
+   "after": 0.3,
+   "sub": [
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Шаг второй: пройди низко над полосой. Если на ней толпа, уходи на второй круг.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Шаг третий: сел — не открывай двери. Надувной трап раскроется сам и станет для них лестницей.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А порог двери выше двух метров, им не достать. Жди, пока они уйдут.",
+   "after": 0.3,
+   "sub": [
+    3,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты бы открыл, если бы стучала стюардесса?",
+   "after": 0.3,
+   "sub": [
+    1,
+    4,
+    4,
+    4
+   ]
+  }
+ ]
+}
