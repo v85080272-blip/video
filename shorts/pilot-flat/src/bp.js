@@ -15,7 +15,7 @@ import { zombie, shamble } from './zoms.js';
 const hatch = (x, y, w, h, step, c, P) => { g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); for (let k = -h; k < w; k += step) gline([[x + k, y + h], [x + k + h, y]], 2, c, P); g.restore(); };
 
 // —— the door ——  st: { bolts 0…1, sw 0…1 (0.5 НОРМ → 1 ЗАКР), keys n typed, deny 0…1 }
-export const DOORBP = { x: -300, y: -1180, w: 600, h: 1100, sw: [0, 240], pad: [-640, -820] };
+export const DOORBP = { x: -300, y: -1180, w: 600, h: 1100, sw: [-640, -560], pad: [-640, -1000] };
 export function door(t, P, st) {
   const { x, y, w, h } = DOORBP;
   // the frame and the door leaf
@@ -34,8 +34,9 @@ export function door(t, P, st) {
     grect(bx, by - 18, 120, 36, 4, b > 0.5 ? P.ok : P.warm, P);
     if (b > 0.95) ell(bx + 130, by, 10, 10, P.ok);
   }
-  // the lock switch, big, under the door
+  // the lock switch, big, under the keypad
   const [sx, sy] = DOORBP.sw;
+  g.save(); g.globalAlpha *= st.swA ?? 1;
   grect(sx - 220, sy - 110, 440, 220, 4, P.line, P);
   gline([[sx - 150, sy + 20], [sx + 150, sy + 20]], 4, P.faint, P);
   const pos = clamp(st.sw ?? 0.5), kx = sx + lerp(-150, 150, pos);
@@ -46,6 +47,7 @@ export function door(t, P, st) {
   }
   gline([[sx, sy + 20], [kx, sy - 60]], 12, '#ffffff', P);
   ell(kx, sy - 64, 18, 18, '#ffffff');
+  g.restore();
   // the crew keypad, outside on the cabin side: keys light up as the code goes in, then ОТКАЗ
   const [px, py] = DOORBP.pad, n = st.keys ?? 0, deny = clamp(st.deny ?? 0);
   grect(px - 130, py - 200, 260, 400, 4, deny > 0.5 ? P.danger : P.line, P);

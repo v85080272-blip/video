@@ -97,7 +97,7 @@ shot(T.cover, [[T.cover, 0, 40, 0.95], [T.rise, 0, 50, 0.98], [T.up, 0, 30, 0.97
 // the cockpit: wide on the knock, in on the lock switch, then the door camera
 shot(T.cab, [[T.cab, -90, -430, 1.0], [T.flip - 0.1, -60, -420, 1.05], [T.mon, 60, -440, 1.12], [T.mon + 0.05, Cb.MON.x + 75, Cb.MON.y + 120, 2.6], [T.bpd, Cb.MON.x + 75, Cb.MON.y + 110, 2.85]]);
 // the door blueprint: the door, down to the switch, across to the keypad
-shot(T.bpd, [[T.bpd, -100, -620, 0.62], [T.sw - 0.3, 0, -450, 0.85], [T.sw + 0.2, 0, -220, 0.95], [T.code, -200, -480, 0.85], [T.code + 0.5, -420, -720, 0.95], [T.map, -430, -730, 1.0]]);
+shot(T.bpd, [[T.bpd, -100, -660, 0.62], [T.sw - 0.3, -215, -630, 0.8], [T.sw + 0.2, -215, -630, 0.83], [T.code, -300, -740, 0.86], [T.code + 0.5, -420, -830, 0.95], [T.map, -430, -835, 1.0]]);
 // the map: over the city, then up to the airfield
 shot(T.map, [[T.map, 200, 600, 0.36], [T.people, 150, 150, 0.42], [T.dead + 0.4, 220, 20, 0.5], [T.bend, 260, 0, 0.48], [T.bend + 1.2, 900, -900, 0.36], [T.low, 1200, -1300, 0.4]]);
 // the runway: the low pass and the go-around
@@ -322,9 +322,9 @@ function parkFrame(t, cam) {
   peek(t, pl.cockpit);
   view(cam, 1);
   PARKZ.forEach(([x0, look], i) => {
-    const leave = seg(T.wait + 0.2 + i * 0.12, T.wait + 2.6 + i * 0.12, t, u => u), dir = i % 2 ? 1 : -1;
-    const x = x0 + dir * 1400 * leave;
-    const o = leave > 0.01 ? { ...shamble(x, 120 + 30 * (i % 3), 0.3, dir, t * 1.1 + i * 0.3) } : { ...shamble(x0, 120 + 30 * (i % 3), 0.3, i % 2 ? -1 : 1, 0.25 + 0.05 * Math.sin(t * 2 + i)) };
+    const leave = seg(T.wait + 0.1 + i * 0.08, T.wait + 1.4 + i * 0.08, t, u => u), dir = i % 2 ? 1 : -1;
+    const x = x0 + dir * 800 * leave;
+    const o = leave > 0.01 ? { ...shamble(x, 120 + 30 * (i % 3), 0.3, dir, t * 2.2 + i * 0.3) } : { ...shamble(x0, 120 + 30 * (i % 3), 0.3, i % 2 ? -1 : 1, 0.25 + 0.05 * Math.sin(t * 2 + i)) };
     zombie({ ...o, look: leave > 0.1 ? [-0.5, 0] : [0, -1], jaw: 0.4 + 0.3 * Math.sin(t * 4 + i), arms: leave > 0.1 ? undefined : reachUp(t, i), pop: 0.3 }, look);
   });
   if (t < T.wait + 0.3) heightRuler(t, cam);
@@ -355,7 +355,7 @@ const P = Sc.palette('night');
 function bpdFrame(t, cam) {
   Sc.backdrop(P, cam); view(cam, 1);
   const n = t < T.code + 0.2 ? 0 : Math.min(4, Math.floor((t - T.code - 0.2) / 0.22) + 1);
-  Bp.door(t, P, { bolts: seg(T.sw + 0.1, T.sw + 0.3, t, ease.out), sw: lerp(0.5, 1, seg(T.sw, T.sw + 0.15, t)), keys: n, deny: seg(T.deny, T.deny + 0.1, t) });
+  Bp.door(t, P, { bolts: seg(T.sw + 0.1, T.sw + 0.3, t, ease.out), sw: lerp(0.5, 1, seg(T.sw, T.sw + 0.15, t)), swA: 1 - seg(T.code, T.code + 0.3, t), keys: n, deny: seg(T.deny, T.deny + 0.1, t) });
 }
 const mapPlane = t => {
   const u = clamp((t - T.map) / (T.bend - T.map)), p0 = [-300, 1500], p1 = [-120, 950];
