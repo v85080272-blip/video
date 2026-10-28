@@ -1,7 +1,7 @@
 [
  {
   "id": "n1_noga",
-  "img": "/home/user/work/noga/shots/n01_foot_s6001.png",
+  "img": "/home/user/work/noga/shots/n01b_foot_s6202.png",
   "cam": {"zoom": 1.06, "pany": 0.04},
   "grade": {"exposure": 0.02, "contrast": 1.18, "sat": 0.85, "warm": 0.1},
   "glow": {"x": 0.75, "y": 0.62, "r": 0.45, "strength": 0.25, "color": [1.0, 0.7, 0.35]},

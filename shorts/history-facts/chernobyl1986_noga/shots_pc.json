@@ -101,5 +101,21 @@
    ],
    "prompt": "Soviet soldiers in improvised lead aprons, gas masks and helmets running across a destroyed rooftop with shovels, throwing black debris over the edge, a tall red and white striped chimney behind, 1986, grainy"
   }
- ]
+ ],
+ "redo": {
+  "note": "the n01 prompt drew a pile of rubble; this redraw is the hero frame",
+  "negative": "cartoon, anime, illustration, elephant, animal, trunk, tusks, rubble pile, gravel, rocks, coal, text, letters, watermark",
+  "shots": [
+   {
+    "id": "n01b_foot",
+    "seeds": [
+     6201,
+     6202,
+     6203,
+     6204
+    ],
+    "prompt": "a tall bulging column of black glossy solidified lava with heavy wrinkled drooping folds like melted candle wax and old elephant skin, as wide as a man is tall, frozen where it flowed down onto the floor of a dark concrete corridor under a reactor, a single flashlight beam glinting on its glassy surface, dust in the air"
+   }
+  ]
+ }
 }

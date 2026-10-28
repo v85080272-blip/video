@@ -42,12 +42,11 @@ COVER_B = ['5 МИНУТ РЯДОМ', 'СМЕРТЕЛЬНО']
 # the narrator says the plaque's words (L9, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №15', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
 # stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 28.10), chosen by seed; where a shot comes twice, the
-# second seed gives the second appearance a new picture. LAVA, REACTOR, SHELTER and FOOT_OLD come from №10, №11 and
-# №14 (copied into this episode's shots)
-FOOT = 'n01_foot_s6001'              # the black wrinkled mass in the corridor, a flashlight beam (hook)
-FOOT2 = 'n01_foot_s6002'             # the same, for «слоновьей ногой»
-FOOT3 = 'n01_foot_s6003'             # the same under a cold lamp, for «сейчас она слабее»
-FOOT_OLD = 'm11_elephant_foot_s5101'  # №14's tease frame, under the plaque
+# second seed gives the second appearance a new picture; the foot is the n01b redraw (the first prompt drew a pile of
+# rubble). LAVA, REACTOR and SHELTER come from №10, №11 and №14 (copied into this episode's shots)
+FOOT = 'n01b_foot_s6202'             # the wrinkled glossy black column flaring at its foot in the corridor (hook, plaque)
+FOOT2 = 'n01b_foot_s6201'            # the same up close, for «слоновьей ногой»
+FOOT3 = 'n01b_foot_s6203'            # the same by the windows, for «сейчас она слабее»
 FOLDS = 'n02_foot_close_s6011'       # the folds up close, for «из-за складок»
 FOLDS2 = 'n02_foot_close_s6012'      # the same, for «почему она такая опасная?»
 DOSE = 'n03_dosimeter_s6021'         # a dosimeter's needle at the stop, for «доза смертельная»
@@ -196,8 +195,8 @@ def layout(c):
         fx=dict(dust=25, fog=0.15, grade=day))
     add(MEN2, bi, sub, into='flash', cam=dict(zoom=(1.05, 1.15), dolly=(0.0, 0.05)),
         fx=dict(dust=25, fog=0.15, punch=[(p['bio'], 0.1)], grade=day))
-    # L9 «подпишись...»: №14's foot takes the plaque, then a white flash loops to the cover
-    add(FOOT_OLD, sub, total, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02), parx=(-4, 4)),
+    # L9 «подпишись...»: the hook's foot takes the plaque, then a white flash loops to the cover
+    add(FOOT, sub, total, into='fade', cam=dict(zoom=(1.02, 1.1), pany=(0.0, 0.02), parx=(-4, 4)),
         fx=dict(dust=20, flash=[(total - 0.3, 0.35, 2.0, white)], grade=dark))
 
     cards = []
