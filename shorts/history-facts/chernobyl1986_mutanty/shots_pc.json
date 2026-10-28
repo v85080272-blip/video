@@ -1,0 +1,104 @@
+{
+ "style": "cinematic film still, photorealistic, Chernobyl exclusion zone, wildlife documentary, shot on 35mm film, dramatic natural lighting, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, monster, deformed animal, extra heads, extra legs, extra limbs, deformed hands, extra fingers, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "m01_wolves",
+   "seeds": [
+    5001,
+    5002
+   ],
+   "prompt": "a pack of grey wolves walking out of fog in front of an abandoned Soviet apartment block overgrown with trees, dawn, eyes glowing faintly"
+  },
+  {
+   "id": "m02_overgrown_city",
+   "seeds": [
+    5011,
+    5012
+   ],
+   "prompt": "aerial view of an abandoned Soviet city completely overgrown by a dense green forest, trees growing between empty apartment blocks, summer"
+  },
+  {
+   "id": "m03_elk",
+   "seeds": [
+    5021,
+    5022
+   ],
+   "prompt": "a large elk with antlers walking along an overgrown street of an abandoned village, wooden houses, morning mist"
+  },
+  {
+   "id": "m04_boars",
+   "seeds": [
+    5031,
+    5032
+   ],
+   "prompt": "a family of wild boars rooting in the grass in front of an abandoned kindergarten building, soft evening light"
+  },
+  {
+   "id": "m05_horses",
+   "seeds": [
+    5041,
+    5042
+   ],
+   "prompt": "a herd of stocky dun Przewalski's wild horses grazing in a meadow, an abandoned building and pine forest behind, golden hour"
+  },
+  {
+   "id": "m06_catfish",
+   "seeds": [
+    5051,
+    5052
+   ],
+   "prompt": "a huge wels catfish swimming at the surface of a murky green canal under a concrete bridge, seen from above, its long whiskers visible"
+  },
+  {
+   "id": "m07_swallow",
+   "seeds": [
+    5061,
+    5062
+   ],
+   "prompt": "close-up of a barn swallow sitting on a rusty wire, a few pure white spots on its dark blue feathers, blurred abandoned building behind"
+  },
+  {
+   "id": "m08_frog_black",
+   "seeds": [
+    5071,
+    5072
+   ],
+   "prompt": "macro photo of an almost black tree frog sitting on a green leaf, raindrops, shallow depth of field"
+  },
+  {
+   "id": "m09_frog_green",
+   "seeds": [
+    5081,
+    5082
+   ],
+   "prompt": "macro photo of a bright green tree frog sitting on a branch, soft sunlight, shallow depth of field"
+  },
+  {
+   "id": "m10_scientist",
+   "seeds": [
+    5091,
+    5092
+   ],
+   "prompt": "a scientist in a white protective suit and respirator kneeling in tall grass at night, holding a small dark frog in her gloved hand, a headlamp light"
+  },
+  {
+   "id": "m11_elephant_foot",
+   "seeds": [
+    5101,
+    5102
+   ],
+   "prompt": "a dark lumpy mass of solidified black lava in a cramped concrete basement corridor, lit only by a flashlight beam, dust in the air, eerie"
+  },
+  {
+   "id": "m12_shelter",
+   "seeds": [
+    5111,
+    5112
+   ],
+   "prompt": "the huge steel arch of the new safe confinement over the Chernobyl reactor at dusk, an empty field in front, dramatic sky"
+  }
+ ]
+}
