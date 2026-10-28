@@ -1,0 +1,32 @@
+[
+ {
+  "id": "m1_mutanty",
+  "img": "/home/user/work/mutanty/shots/m01_wolves_s5002.png",
+  "cam": {"zoom": 1.06, "pany": 0.04},
+  "grade": {"exposure": 0.0, "contrast": 1.18, "sat": 0.8, "warm": -0.05},
+  "glow": {"x": 0.5, "y": 0.62, "r": 0.5, "strength": 0.2, "color": [0.8, 0.95, 1.0]},
+  "bloom": 0.2,
+  "vignette": 0.55,
+  "band": {"y": 640, "h": 620, "strength": 0.68},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №14", "y": 260},
+  "lines": [
+   {"text": "МУТАНТЫ", "y": 560, "size": 200, "color": "white"},
+   {"text": "ЧЕРНОБЫЛЯ", "y": 780, "size": 160, "box": "yellow"}
+  ]
+ },
+ {
+  "id": "m2_lyagushki",
+  "img": "/home/user/work/mutanty/shots/m08_frog_black_s5072.png",
+  "cam": {"zoom": 1.02, "pany": 0.0},
+  "grade": {"exposure": 0.03, "contrast": 1.15, "sat": 0.95, "warm": 0.0},
+  "glow": {"x": 0.5, "y": 0.35, "r": 0.5, "strength": 0.2, "color": [0.8, 1.0, 0.85]},
+  "bloom": 0.2,
+  "vignette": 0.5,
+  "band": {"y": 1520, "h": 560, "strength": 0.62},
+  "tag": {"text": "ТАЙНЫ ИСТОРИИ · №14", "y": 260},
+  "lines": [
+   {"text": "ЛЯГУШКИ", "y": 1420, "size": 200, "color": "white"},
+   {"text": "СТАЛИ ЧЁРНЫМИ", "y": 1630, "size": 135, "box": "red"}
+  ]
+ }
+]

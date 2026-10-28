@@ -43,14 +43,14 @@ COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №14', year='1986', lines=['МУ
 COVER_B = ['ЛЯГУШКИ', 'СТАЛИ ЧЁРНЫМИ']
 # the narrator says the plaque's words (L10, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №14', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
-# stills from vla's PC (shots_pc.json, Juggernaut XL), chosen by seed; where a shot comes twice, the second seed gives
+# stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 28.10), chosen by seed; where a shot comes twice, the second seed gives
 # the second appearance a new picture. FROG3 is №13's frog (same prompt), copied into this episode's shots
-WOLVES = 'm01_wolves_s5001'          # wolves coming out of the fog by an overgrown block, eyes glinting
-WOLVES2 = 'm01_wolves_s5002'         # the same, for «волки»
+WOLVES = 'm01_wolves_s5002'          # wolves coming out of the fog by an overgrown block, one looking at us
+WOLVES2 = 'm01_wolves_s5001'         # three wolves in the fog, for «волки»
 CITY = 'm02_overgrown_city_s5011'    # the city swallowed by forest, from above
 CITY2 = 'm02_overgrown_city_s5012'   # the same, for the plaque
-ELK = 'm03_elk_s5021'                # an elk in an overgrown village street, for «олени»
-BOARS = 'm04_boars_s5031'            # wild boars by the abandoned kindergarten
+ELK = 'm03_elk_s5021'                # a stag in an overgrown village street (the «elk» prompt drew a red deer), for «олени»
+BOARS = 'm04_boars_s5032'            # wild boars by the abandoned kindergarten
 HORSES = 'm05_horses_s5041'          # Przewalski's horses grazing by an empty building
 HORSES2 = 'm05_horses_s5042'         # the same, for «животные, которые приспособились»
 CATFISH = 'm06_catfish_s5051'        # a huge catfish at the surface of the canal
@@ -61,7 +61,7 @@ FROG = 'm08_frog_black_s5071'        # the almost black tree frog
 FROG2 = 'm08_frog_black_s5072'       # the same, for the hook's «кое-кто изменился»
 FROG3 = 'b12_frog_s4112'             # №13's black frog, for «выживали тёмные лягушки»
 GREEN = 'm09_frog_green_s5081'       # a bright green tree frog, as frogs are outside the zone
-SCIENTIST = 'm10_scientist_s5091'    # a scientist in a white suit with a dark frog at night
+SCIENTIST = 'm10_scientist_s5092'    # a scientist in a white suit and gas mask looking at something in her gloves at night
 SHELTER = 'm12_shelter_s5111'        # the steel arch over the reactor at dusk
 LAVA = 'm11_elephant_foot_s5101'     # the frozen black lava in the basement, a flashlight beam
 LAVA2 = 'm11_elephant_foot_s5102'    # the same, for «слоновьей ногой»
