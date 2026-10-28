@@ -2,7 +2,7 @@
 
 vla 28.10 turned the PC on for the chain's last story, which №13's ending asks for: are there mutants in the zone?
 No two-headed monsters, but forty years without people made it a wild forest (wolves, elk, wild horses); the giant
-catfish are just never caught; barn swallows there carry more white spots and more mutations (Ellegren et al. 1997);
+catfish is just never caught; barn swallows there carry more white spots and more mutations (Ellegren et al. 1997);
 tree frogs turned almost black, because the dark pigment shields from radiation and the dark ones survived the
 accident better (Burraco & Orizaola 2022), so they are animals that adapted, not monsters. The tease into the next
 story: the frozen lava under the reactor, «the elephant's foot» (sources in chernobyl1986_mutanty/factcheck.md).
@@ -14,8 +14,8 @@ import numpy as np
 DISPLAY = {
     'L1': 'ДВУХГОЛОВЫХ МОНСТРОВ В ЧЕРНОБЫЛЕ НЕТ. НО КОЕ-КТО ТАМ ПРАВДА ИЗМЕНИЛСЯ.',
     'L2': 'ЛЮДИ УШЛИ, И ЗА СОРОК ЛЕТ ЗОНА СТАЛА ДИКИМ ЛЕСОМ.',
-    'L3': 'ТАМ ЖИВУТ ВОЛКИ, ЛОСИ, КАБАНЫ И ДАЖЕ ДИКИЕ ЛОШАДИ.',
-    'L4': 'А ОГРОМНЫЕ СОМЫ У СТАНЦИИ НЕ МУТАНТЫ: ИХ ПРОСТО НИКТО НЕ ЛОВИТ.',
+    'L3': 'ТАМ ЖИВУТ ВОЛКИ, ОЛЕНИ, КАБАНЫ И ДАЖЕ ДИКИЕ ЛОШАДИ.',
+    'L4': 'А ОГРОМНЫЙ СОМ У СТАНЦИИ НЕ МУТАНТ: ЕГО ПРОСТО НИКТО НЕ ЛОВИТ.',
     'L5': 'ЗАТО У ЛАСТОЧЕК ТАМ ЧАЩЕ БЫВАЮТ БЕЛЫЕ ПЯТНА НА ПЕРЬЯХ И БОЛЬШЕ МУТАЦИЙ.',
     'L6': 'А ДРЕВЕСНЫЕ ЛЯГУШКИ В ЗОНЕ СТАЛИ ПОЧТИ ЧЁРНЫМИ.',
     'L7': 'ТЁМНЫЙ ПИГМЕНТ ЗАЩИЩАЕТ ОТ РАДИАЦИИ, И ПОСЛЕ АВАРИИ ЧАЩЕ ВЫЖИВАЛИ ТЁМНЫЕ ЛЯГУШКИ.',
@@ -23,8 +23,8 @@ DISPLAY = {
     'L9': 'А ПОД РЕАКТОРОМ ДО СИХ ПОР ЛЕЖИТ ЗАСТЫВШАЯ ЛАВА. ЕЁ ПРОЗВАЛИ СЛОНОВЬЕЙ НОГОЙ.',
     'L10': 'ПОДПИШИСЬ, ЧТОБЫ НЕ ПРОПУСКАТЬ ДРУГИЕ КРУТЫЕ ИСТОРИИ.',
 }
-HILITE = {'ДВУХГОЛОВЫХ', 'МОНСТРОВ', 'НЕТ.', 'ИЗМЕНИЛСЯ.', 'СОРОК', 'ДИКИМ', 'ЛЕСОМ.', 'ВОЛКИ,', 'ЛОСИ,', 'КАБАНЫ',
-          'ЛОШАДИ.', 'СОМЫ', 'МУТАНТЫ:', 'ЛОВИТ.', 'ЛАСТОЧЕК', 'БЕЛЫЕ', 'ПЯТНА', 'МУТАЦИЙ.', 'ЛЯГУШКИ',
+HILITE = {'ДВУХГОЛОВЫХ', 'МОНСТРОВ', 'НЕТ.', 'ИЗМЕНИЛСЯ.', 'СОРОК', 'ДИКИМ', 'ЛЕСОМ.', 'ВОЛКИ,', 'ОЛЕНИ,', 'КАБАНЫ',
+          'ЛОШАДИ.', 'СОМ', 'МУТАНТ:', 'ЛОВИТ.', 'ЛАСТОЧЕК', 'БЕЛЫЕ', 'ПЯТНА', 'МУТАЦИЙ.', 'ЛЯГУШКИ',
           'ЧЁРНЫМИ.', 'ПИГМЕНТ', 'ЗАЩИЩАЕТ', 'ВЫЖИВАЛИ', 'ТЁМНЫЕ', 'МУТАНТЫ', 'МОНСТРЫ,', 'ПРИСПОСОБИЛИСЬ.',
           'ЛАВА.', 'СЛОНОВЬЕЙ', 'НОГОЙ.'}
 
@@ -49,12 +49,12 @@ WOLVES = 'm01_wolves_s5001'          # wolves coming out of the fog by an overgr
 WOLVES2 = 'm01_wolves_s5002'         # the same, for «волки»
 CITY = 'm02_overgrown_city_s5011'    # the city swallowed by forest, from above
 CITY2 = 'm02_overgrown_city_s5012'   # the same, for the plaque
-ELK = 'm03_elk_s5021'                # an elk in an overgrown village street
+ELK = 'm03_elk_s5021'                # an elk in an overgrown village street, for «олени»
 BOARS = 'm04_boars_s5031'            # wild boars by the abandoned kindergarten
 HORSES = 'm05_horses_s5041'          # Przewalski's horses grazing by an empty building
 HORSES2 = 'm05_horses_s5042'         # the same, for «животные, которые приспособились»
 CATFISH = 'm06_catfish_s5051'        # a huge catfish at the surface of the canal
-CATFISH2 = 'm06_catfish_s5052'       # the same, for «их просто никто не ловит»
+CATFISH2 = 'm06_catfish_s5052'       # the same, for «его просто никто не ловит»
 SWALLOW = 'm07_swallow_s5061'        # a barn swallow on a wire
 SWALLOW2 = 'm07_swallow_s5062'       # the same, for «белые пятна»
 FROG = 'm08_frog_black_s5071'        # the almost black tree frog
@@ -97,11 +97,11 @@ def plan(lines, words):
     p['forty'] = wt('L2', 'СОРОК')
     p['forest'] = wt('L2', 'ДИКИМ')
     p['wolves'] = wt('L3', 'ВОЛКИ')
-    p['elk'] = wt('L3', 'ЛОСИ')
+    p['elk'] = wt('L3', 'ОЛЕНИ')
     p['even'] = wt('L3', 'ДАЖЕ')
-    p['catfish'] = wt('L4', 'СОМЫ')
+    p['catfish'] = wt('L4', 'СОМ')
     p['notmut'] = wt('L4', 'МУТАНТЫ')
-    p['them'] = wt('L4', 'ИХ')
+    p['them'] = wt('L4', 'ЕГО')
     p['swallows'] = wt('L5', 'ЛАСТОЧЕК')
     p['spots'] = wt('L5', 'БЕЛЫЕ')
     p['mutations'] = wt('L5', 'МУТАЦИЙ')
@@ -145,7 +145,7 @@ def layout(c):
     l3 = L('L3')['start'] - 0.08
     add(CITY, l2, l3, into='fade', cam=dict(zoom=(1.0, 1.1), pany=(0.02, -0.02), parx=(-8, 8)),
         fx=dict(dust=10, punch=[(p['forest'], 0.05)], grade=wild))
-    # L3 wolves, elk, boars and even wild horses
+    # L3 wolves, deer, boars and even wild horses
     ek = p['elk'] - 0.06
     ev = p['even'] - 0.06
     l4 = L('L4')['start'] - 0.08
@@ -155,7 +155,7 @@ def layout(c):
         fx=dict(dust=12, fog=0.15, grade=wild))
     add(HORSES, ev, l4, into='flash', cam=dict(zoom=(1.0, 1.1), panx=(0.03, -0.03), parx=(-8, 8)),
         fx=dict(dust=15, bloom=0.25, grade=wild))
-    # L4 the giant catfish: not mutants, just never caught
+    # L4 the giant catfish: not a mutant, just never caught
     th = p['them'] - 0.06
     l5 = L('L5')['start'] - 0.08
     add(CATFISH, l4, th, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05)),
