@@ -368,7 +368,7 @@ function extFrame(t, cam) {
     Se.seabed(t, cam, BW);
   } else {
     // on the bottom: half sunk in silt, a few bubbles leaking from the vents; the ship far up on the surface
-    if (t > T.up) { view(cam, 1); const hp = Se.drawShip(t, 250, BW, 1, 520); hydrophone(t, hp); Se.surface(t, cam, BW); }
+    if (t > T.up) { view(cam, 1); const hp = Se.drawShip(t, 250, BW, 1, 380); hydrophone(t, hp); Se.surface(t, cam, BW); }
     view(cam, 1);
     Se.drawSub(t, { ...BED, lights: 0, spin: 1.3 });
     Se.seabed(t, cam, BW);
@@ -595,7 +595,7 @@ function overlays(t, cam) {
     const head = hipY(t) - 330, m = Math.max(0, Math.round(50 * clamp((head - SW.surf) / (0 - SW.surf))));
     Hd.timeStamp(t, T.swim + 0.05, T.surf + 0.2, `ГЛУБИНА ${String(m).padStart(2, ' ')} м`);
     Hd.plaque(t, T.exhale, T.lungs + 0.05, 720, 560, { icon: 'lungs', title: 'ВЫДЫХАЙ', sub: 'всё время', color: OK });
-    Hd.plaque(t, T.lungs + 0.05, T.surf - 0.1, 720, 560, { icon: 'lungs', title: 'НЕ ДЕРЖИ ВДОХ', sub: 'порвёт лёгкие', color: DANGER });
+    Hd.plaque(t, T.lungs + 0.05, T.surf - 0.55, 720, 560, { icon: 'lungs', title: 'НЕ ДЕРЖИ ВДОХ', sub: 'порвёт лёгкие', color: DANGER });
   }
   // L7: subscribe, then the question
   Hd.endCard(t, A.L7 - 0.05, seg(T.ask - 0.15, T.ask + 0.05, t), 300);
@@ -617,7 +617,7 @@ function coverFrame(t) {
   view(cam, 1);
   Hu.shell(t); Hu.console_(t, { power: 0 }); Hu.panel(t, { wheel: 0.3 });
   const o = stand(base(t, { s: 0.92, face: 1, pop: 0.85, brow: 0.9, mouth: 0.55, look: [0.7, -0.2], blink: 0, lean: -0.05 }), -880, 80);
-  const sh = shoulder(o); o.hands = { near: { p: [sh[0] + 110, sh[1] - 90], shape: 'open' }, far: { p: [sh[0] + 70, sh[1] - 60], shape: 'open' } };
+  const sh = shoulder(o); o.hands = { near: { p: [sh[0] + 175, sh[1] - 30], shape: 'open' }, far: { p: [sh[0] + 150, sh[1] - 120], shape: 'open' } };
   const dl = drawDog({ x: -600, y: 30, s: 0.95, face: 1, sit: 1, torch: true, look: 0.1, t: 0, ears: 0.9 });
   hunterDraw(t, o);
   const lights = Hu.LAMPS.map(x => ({ p: [x, Hu.CEIL + 186], r: 700, k: 0.6, tint: '#ff3b2a', ta: 0.45 }));
