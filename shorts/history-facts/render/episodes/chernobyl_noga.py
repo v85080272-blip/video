@@ -166,8 +166,8 @@ def layout(c):
     add(DRILL, l5, sh, into='flash', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04)),
         fx=dict(dust=25, punch=[(p['drill'], 0.05)], shake=[(p['drill'], 1.0, 4)], grade=dark))
     add(SHOOTER, sh, l6, into='flash', cam=dict(zoom=(1.05, 1.15), dolly=(0.0, 0.05)),
-        fx=dict(dust=25, punch=[(p['rifle'] + 0.35, 0.12)], flash=[(p['rifle'] + 0.35, 0.12, 0.6, white)],
-                shake=[(p['rifle'] + 0.35, 0.5, 12)],
+        fx=dict(dust=25, punch=[(p['rifle'] + 0.65, 0.12)], flash=[(p['rifle'] + 0.65, 0.12, 0.6, white)],
+                shake=[(p['rifle'] + 0.65, 0.5, 12)],
                 grade=dark))
     # L6 why it's dangerous: the foot again, then the chip with the fuel glowing inside
     ins = p['inside'] - 0.06
@@ -239,7 +239,7 @@ def mix_cues(m, tl, a):
     put_hit(m, 'drum_big', p['deadly'], -6.0)
     put_hit(m, 'sub_drop', p['deadly'], -8.0)
     # cuts get a soft whoosh, except where a hit already marks them
-    loud = [p['deadly'], p['blown'], p['lava'], p['foot'], p['shoot'], p['rifle'] + 0.35, p['fuel'], p['arch'],
+    loud = [p['deadly'], p['blown'], p['lava'], p['foot'], p['shoot'], p['rifle'] + 0.65, p['fuel'], p['arch'],
             p['robots'], p['bio'], p['sub']]
     for sh in tl['shots'][1:]:
         c = sh['start']
@@ -254,10 +254,10 @@ def mix_cues(m, tl, a):
     # --- the name: a big hit on «слоновьей ногой»
     put_hit(m, 'drum_big', p['foot'], -5.0)
     put_hit(m, 'sub_drop', p['foot'], -7.0)
-    # --- the drill grinds and gives up, the rifle shot rings down the corridor after «винтовки»
+    # --- the drill grinds and gives up, the rifle shot rings down the corridor right after «винтовки»
     loop('beds', 'pulse_dark', L['L5']['start'] - 0.1, L['L7']['start'], -11.0, fin=0.2, fout=0.3)
     put_hit(m, 'drill_grind', L['L5']['start'] - 0.3, -14.0)
-    put_hit(m, 'rifle_shot', p['rifle'] + 0.35, -7.0)
+    put_hit(m, 'rifle_shot', p['rifle'] + 0.65, -7.0)
     # --- why: the counter again and a drop on «ядерное топливо»
     loop('beds', 'geiger', p['inside'] - 0.3, L['L7']['start'] + 0.3, -17.0, fin=0.2, fout=0.3)
     put_hit(m, 'sub_drop', p['fuel'], -8.0)
