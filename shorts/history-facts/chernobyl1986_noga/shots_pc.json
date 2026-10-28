@@ -1,0 +1,105 @@
+{
+ "style": "cinematic film still, photorealistic, Chernobyl nuclear disaster, shot on 35mm film, dramatic low-key lighting, highly detailed, film grain",
+ "negative": "cartoon, anime, illustration, elephant, animal, trunk, tusks, deformed hands, extra fingers, extra limbs, text, letters, watermark",
+ "width": 768,
+ "height": 1344,
+ "shots": [
+  {
+   "id": "n01_foot",
+   "seeds": [
+    6001,
+    6002,
+    6003
+   ],
+   "prompt": "a huge mound of solidified black and dark brown glassy lava with thick wrinkled folds, shaped like a giant elephant's foot, sitting on the floor of a dark ruined concrete corridor under a nuclear reactor, a single flashlight beam, dust floating in the air, rusty pipes on the walls"
+  },
+  {
+   "id": "n02_foot_close",
+   "seeds": [
+    6011,
+    6012
+   ],
+   "prompt": "extreme close-up of black glassy solidified lava with deep wrinkles and cracks like old elephant skin, a flashlight beam grazing the surface, dust particles in the light"
+  },
+  {
+   "id": "n03_dosimeter",
+   "seeds": [
+    6021,
+    6022
+   ],
+   "prompt": "close-up of a gloved hand holding an old Soviet radiation dosimeter with an analog needle gauge pushed to the maximum, in a dark concrete corridor, flashlight light, 1986"
+  },
+  {
+   "id": "n04_corridor",
+   "seeds": [
+    6031,
+    6032
+   ],
+   "prompt": "two Soviet liquidators in white protective suits, white caps and gauze respirators walking with flashlights down a dark damaged concrete corridor full of pipes, 1986, seen from behind"
+  },
+  {
+   "id": "n05_flow",
+   "seeds": [
+    6041,
+    6042
+   ],
+   "prompt": "molten glowing orange lava pouring down through a broken steel pipe and over concrete steps into a dark basement, sparks and smoke"
+  },
+  {
+   "id": "n06_drill",
+   "seeds": [
+    6051,
+    6052
+   ],
+   "prompt": "a small remote-controlled cart with a long steel drill pressed against a black glassy lava mass in a dark concrete corridor, sparks flying, flashlight beams"
+  },
+  {
+   "id": "n07_marksman",
+   "seeds": [
+    6061,
+    6062
+   ],
+   "prompt": "a Soviet soldier in a gauze respirator and helmet aiming a rifle down a dark concrete corridor, a flashlight beam ahead, 1986, tense moment"
+  },
+  {
+   "id": "n08_sample",
+   "seeds": [
+    6071,
+    6072
+   ],
+   "prompt": "macro photo of a broken piece of black glassy lava with tiny glowing yellow-green specks inside, lying on a steel laboratory tray, gloved fingers holding tweezers, dark background"
+  },
+  {
+   "id": "n09_today",
+   "seeds": [
+    6081,
+    6082
+   ],
+   "prompt": "a black wrinkled lava mound in a dark concrete room covered with grey dust and cracks, a modern radiation probe on a long metal pole reaching toward it, cold blue light"
+  },
+  {
+   "id": "n10_arch_inside",
+   "seeds": [
+    6091,
+    6092
+   ],
+   "prompt": "inside a gigantic silver steel arch hangar, its curved ribbed roof high above, covering an old damaged grey concrete reactor building, huge yellow overhead cranes, tiny workers below, cold light"
+  },
+  {
+   "id": "n11_robot",
+   "seeds": [
+    6101,
+    6102
+   ],
+   "prompt": "a small Soviet six-wheeled robot rover broken down on a destroyed flat roof covered with black graphite blocks and debris, smoke, 1986"
+  },
+  {
+   "id": "n12_biorobots",
+   "seeds": [
+    6111,
+    6112
+   ],
+   "prompt": "Soviet soldiers in improvised lead aprons, gas masks and helmets running across a destroyed rooftop with shovels, throwing black debris over the edge, a tall red and white striped chimney behind, 1986, grainy"
+  }
+ ]
+}
