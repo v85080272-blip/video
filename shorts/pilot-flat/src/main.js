@@ -32,7 +32,7 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok;
-const HOT = { ВОССТАЛИ: DANGER, ЗАПРИ: GOLD, БРОНИРОВАННАЯ: GOLD, ЗАКРЫТО: OK, ЭКИПАЖА: DANGER, АЭРОПОРТ: DANGER, МЕРТВЕЦОВ: DANGER, АЭРОДРОМ: OK, ГЛУШИ: OK,
+const HOT = { ВОССТАЛИ: DANGER, ЗАПРИ: GOLD, БРОНИРОВАННАЯ: GOLD, СЕЙФ: GOLD, ЗАКРЫТО: OK, ЭКИПАЖА: DANGER, АЭРОПОРТ: DANGER, МЕРТВЕЦОВ: DANGER, АЭРОДРОМ: OK, ГЛУШИ: OK,
   НИЗКО: GOLD, ТОЛПА: DANGER, КРУГ: GOLD, ОТКРЫВАЙ: DANGER, САМ: DANGER, ЛЕСТНИЦЕЙ: DANGER, МЕТРОВ: OK, ДОСТАТЬ: OK, УЙДУТ: OK, ПОДПИСЫВАЙСЯ: GOLD, СТЮАРДЕССА: GOLD };
 
 // —— the shots ——
@@ -44,9 +44,9 @@ const T = {
   flip: A.L0w9 - 0.05,               // «кабину»: his hand flips the lock
   mon: A.L0w10 - 0.08,               // «кто бы ни стучал»: the door camera
   bpd: A.L1 - 0.06,                  // the door as a blueprint
-  sw: A.L1w6 - 0.1,                  // «закрыто»: the switch to ЗАКР, the bolts
-  code: A.L1w7 - 0.05,               // «и её не откроет даже код экипажа»: the keypad
-  deny: A.L1w13 - 0.05,              // «экипажа»: ОТКАЗ
+  sw: A.L1w8 - 0.1,                  // «закрыто»: the switch to ЗАКР, the bolts
+  code: A.L1w9 - 0.05,               // «и её не откроет даже код экипажа»: the keypad
+  deny: A.L1w15 - 0.05,              // «экипажа»: ОТКАЗ
   map: A.L2 - 0.06,                  // step 1: the map
   people: A.L2w7 - 0.05,             // «Где было много людей»
   dead: A.L2w11 - 0.05,              // «теперь много мертвецов»
@@ -415,7 +415,7 @@ function overlays(t, cam) {
   }
   // L1: the door
   if (sc === 'bpd') {
-    Hd.plaque(t, A.L1w1, T.sw - 0.2, 540, 360, { icon: 'door', title: 'БРОНИРОВАННАЯ', sub: 'не выбить', color: GOLD });
+    Hd.plaque(t, A.L1w1, T.sw - 0.2, 540, 360, { icon: 'door', title: 'БРОНИРОВАННАЯ', sub: 'как сейф', color: GOLD });
     Hd.plaque(t, T.sw + 0.2, T.code + 0.3, 540, 360, { icon: 'lock', title: 'ЗАКР', sub: 'засовы в раме', color: OK });
     Hd.plaque(t, T.deny + 0.05, T.map, 540, 360, { icon: 'x', title: 'КОД НЕ ОТКРОЕТ', sub: '5–20 минут', color: DANGER });
   }
