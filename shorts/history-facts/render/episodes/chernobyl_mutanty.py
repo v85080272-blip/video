@@ -235,7 +235,7 @@ def mix_cues(m, tl, a):
 
     # --- hook: wolves and the counter in the fog, a hit on «нет», the frog's croak on «изменился»
     h0, h1 = p['hook']
-    loop('beds', 'drone_bed_tension', h0, p['but'] + 0.3, -10.0, fin=0.0, fout=0.3)
+    loop('beds', 'drone_bed_tension', h0, L['L2']['start'] + 0.3, -10.0, fin=0.0, fout=0.4)
     loop('beds', 'geiger', h0, p['but'], -17.0, fin=0.0, fout=0.2)
     put_hit(m, 'boom_hook', 0.02, -10.0)
     put_hit(m, 'wolf_howl', 0.05, -15.0)
@@ -251,7 +251,7 @@ def mix_cues(m, tl, a):
         put_hit(m, 'whoosh_short', c - 0.02, -14.0)
     # --- the wild zone: morning forest and birds under L2-L5, the hopeful pad, a drum on «диким лесом»
     loop('beds', 'ambience_morning_taiga', L['L2']['start'] - 0.2, L['L6']['start'], -14.0, fin=0.4, fout=0.4)
-    loop('beds', 'pad_hope', L['L2']['start'], L['L6']['start'], -11.0, fin=0.4, fout=0.4)
+    loop('beds', 'pad_hope', L['L1']['end'] - 0.2, L['L6']['start'], -11.0, fin=0.4, fout=0.4)
     put_hit(m, 'drum_big', p['forest'], -8.0)
     put_hit(m, 'wolf_howl', p['wolves'] - 0.3, -17.0)
     put_hit(m, 'hooves', p['even'] - 0.4, -13.0)
