@@ -1,6 +1,6 @@
 {
  "note": "Narration for «Подлодка: отказала вся электроника». Facts: without power the scrubbers stop and CO2 builds up; in a disabled submarine oxygen comes from chlorate candles and CO2 is removed by opening the lithium hydroxide canisters and spreading the pellets on the floor (US Navy SBIR N211-034; DTIC ADA389253); an emergency main ballast tank blow drives high-pressure air into the ballast tanks and the boat surfaces, and emergency blow valves have a manual override (SAB Bremen emergency blow systems); survivors of a disabled submarine bang the hull on the hour and half hour for three minutes while searchers go quiet (Cdr Frank Owen, RAN); on a free ascent the escaper breathes out all the way up, an escape suit's hood lets you breathe normally (RAN Semaphore 2008/7; SEIE rated to about 180 m). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line, sub = subtitle word groups.",
- "tail": 0.35,
+ "tail": 0.3,
  "lines": [
   {
    "id": "L0",
@@ -16,7 +16,7 @@
   {
    "id": "L1",
    "text": "Машины, которые чистят воздух, встали, и с каждым часом в нём всё больше углекислого газа.",
-   "after": 0.35,
+   "after": 0.3,
    "sub": [
     4,
     1,
@@ -28,7 +28,7 @@
   {
    "id": "L2",
    "text": "Первое: продуй балласт. Сжатый воздух выдавит воду из цистерн, и лодка всплывёт. Клапан открывают вручную.",
-   "after": 0.4,
+   "after": 0.35,
    "sub": [
     1,
     2,
@@ -41,7 +41,7 @@
   {
    "id": "L3",
    "text": "Второе: если лодка не всплыла, береги воздух. Ложись и не двигайся.",
-   "after": 0.45,
+   "after": 0.35,
    "sub": [
     1,
     4,
@@ -63,7 +63,7 @@
   {
    "id": "L5",
    "text": "Третье: каждые полчаса по три минуты стучи по корпусу. В это время спасатели замолкают и слушают.",
-   "after": 0.4,
+   "after": 0.35,
    "sub": [
     1,
     2,
@@ -76,7 +76,7 @@
   {
    "id": "L6",
    "text": "А если глубина небольшая, выходи через спасательный люк. Всплывая без аппарата, всё время выдыхай, иначе воздух порвёт лёгкие.",
-   "after": 0.4,
+   "after": 0.35,
    "sub": [
     4,
     4,
@@ -88,7 +88,7 @@
   {
    "id": "L7",
    "text": "Подписывайся, чтобы знать, что делать. А ты бы рискнул выйти через люк?",
-   "after": 0.45,
+   "after": 0.35,
    "sub": [
     1,
     4,

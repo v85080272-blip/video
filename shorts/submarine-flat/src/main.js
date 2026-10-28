@@ -368,7 +368,7 @@ function extFrame(t, cam) {
     Se.seabed(t, cam, BW);
   } else {
     // on the bottom: half sunk in silt, a few bubbles leaking from the vents; the ship far up on the surface
-    if (t > T.up) { view(cam, 1); const hp = Se.drawShip(t, 250, BW, 1, 380); hydrophone(t, hp); Se.surface(t, cam, BW); }
+    if (t > T.up) { view(cam, 1); const hp = Se.drawShip(t, 250, BW, 1, 330); hydrophone(t, hp); Se.surface(t, cam, BW); }
     view(cam, 1);
     Se.drawSub(t, { ...BED, lights: 0, spin: 1.3 });
     Se.seabed(t, cam, BW);
@@ -587,7 +587,7 @@ function overlays(t, cam) {
   }
   if (sc === 'ext' && t >= T.up) {
     Hd.plaque(t, A.L5w12 - 0.1, T.c6 + 0.2, 560, 560, { icon: 'ear', title: 'СПАСАТЕЛИ', sub: 'молчат и слушают', color: OK, to: S2(HP) });
-    if (t < T.c6 + 0.2) { const p = S2([HP[0] + 160, HP[1]]); Hd.tick(p[0], p[1], sp(t, A.L5w15, 2.6, 8) * (1 - seg(T.c6, T.c6 + 0.2, t)), 52); }
+    if (t < T.c6 + 0.2) { const p = S2([HP[0] + 150, HP[1] - 120]); Hd.tick(p[0], p[1], sp(t, A.L5w15, 2.6, 8) * (1 - seg(T.c6, T.c6 + 0.2, t)), 52); }
     Hd.plaque(t, A.L6w3 - 0.1, T.hatch, 640, 560, { icon: 'ruler', title: 'НЕГЛУБОКО', sub: '50 м до верха', color: GOLD });
   }
   // L6: the swim
