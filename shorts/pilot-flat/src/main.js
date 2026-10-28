@@ -117,9 +117,9 @@ shot(T.land, [[T.land, landX(T.land) + 400, -260, 0.48], [T.td, tdX + 500, -220,
 const DOORW = [Sk.PLANE.door1[0] * Sk.PLANE.sx, Sk.PLANE.sill];
 shot(T.bpp, [[T.bpp, 600, -500, 0.62], [T.slide, 900, -380, 0.8], [T.park, 960, -360, 0.86]]);
 // the parked plane, close on the front door; the dead under it
-shot(T.park, [[T.park, DOORW[0] + 60, -420, 1.25], [T.wait, DOORW[0] + 90, -430, 1.18], [T.end, DOORW[0] + 120, -480, 1.05]]);
+shot(T.park, [[T.park, DOORW[0] + 60, -64, 0.96], [T.wait, DOORW[0] + 90, -66, 0.93], [T.end, DOORW[0] + 120, -70, 0.9]]);
 // the end: the cockpit, him and Пурга, the door and its camera
-shot(T.end, [[T.end, -40, -440, 1.0], [T.ask, -60, -450, 1.04], [DUR, -80, -460, 1.08]]);
+shot(T.end, [[T.end, -40, -150, 1.0], [T.ask, -60, -160, 1.04], [DUR, -80, -170, 1.08]]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
@@ -441,8 +441,8 @@ function overlays(t, cam) {
   if (sc === 'bpp') Hd.plaque(t, T.slide + 0.1, T.park, 540, 560, { icon: 'slide', title: 'ТРАП', sub: 'раскроется сам', color: DANGER, to: S2([900, -200]) });
   // L6: the sill and the wait
   if (sc === 'park') {
-    Hd.plaque(t, A.L6w6 - 0.05, T.wait, 540, 560, { icon: 'ruler', title: 'ИМ НЕ ДОСТАТЬ', sub: 'порог выше 2 м', color: OK });
-    Hd.timeStamp(t, T.wait + 0.05, T.end, 'ДЕНЬ 2 — 06:10', { y: 520 });
+    Hd.plaque(t, A.L6w6 - 0.05, T.wait, 540, 360, { icon: 'ruler', title: 'ИМ НЕ ДОСТАТЬ', sub: 'порог выше 2 м', color: OK });
+    Hd.timeStamp(t, T.wait + 0.05, T.end, 'ДЕНЬ 2 — 06:10', { y: 340 });
   }
   // L7: subscribe, then the question
   Hd.endCard(t, A.L7 - 0.05, seg(T.ask - 0.15, T.ask + 0.05, t), 300);
