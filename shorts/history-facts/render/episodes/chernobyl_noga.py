@@ -38,7 +38,7 @@ COVER = dict(tag='ТАЙНЫ ИСТОРИИ · №15', year='1986', lines=['СЛ
              # the preview cover (thumb.py, chernobyl1986_noga/thumbs.json) in the first frames, so YouTube's frame
              # picker can take it; the other variant sits next to it in covers/
              img='/mnt/project-files/history-facts/chernobyl1986_noga/covers/noga.jpg')
-COVER_B = ['УБИВАЕТ', 'ЗА 5 МИНУТ']
+COVER_B = ['5 МИНУТ РЯДОМ', 'СМЕРТЕЛЬНО']
 # the narrator says the plaque's words (L9, no bottom captions), so it comes up with «подпишись»
 ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №15', over_last=0.0, lines=['ЧТОБЫ НЕ ПРОПУСКАТЬ', 'ДРУГИЕ КРУТЫЕ ИСТОРИИ'])
 # stills from vla's PC (shots_pc.json, Juggernaut XL, drawn 28.10), chosen by seed; where a shot comes twice, the
@@ -46,21 +46,21 @@ ENDCARD = dict(tag='ТАЙНЫ ИСТОРИИ · №15', over_last=0.0, lines=['
 # №14 (copied into this episode's shots)
 FOOT = 'n01_foot_s6001'              # the black wrinkled mass in the corridor, a flashlight beam (hook)
 FOOT2 = 'n01_foot_s6002'             # the same, for «слоновьей ногой»
-FOOT3 = 'n01_foot_s6003'             # the same, for «почему она такая опасная?»
+FOOT3 = 'n01_foot_s6003'             # the same under a cold lamp, for «сейчас она слабее»
 FOOT_OLD = 'm11_elephant_foot_s5101'  # №14's tease frame, under the plaque
 FOLDS = 'n02_foot_close_s6011'       # the folds up close, for «из-за складок»
+FOLDS2 = 'n02_foot_close_s6012'      # the same, for «почему она такая опасная?»
 DOSE = 'n03_dosimeter_s6021'         # a dosimeter's needle at the stop, for «доза смертельная»
 CORRIDOR = 'n04_corridor_s6031'      # two liquidators with flashlights in the corridor, for «её нашли»
 REACTOR = 'k09_dawn_s2081'           # №11's destroyed fourth block at dawn, for «под взорванным реактором»
 LAVA = 'c03_lava_s1021'              # №10's glowing lava on the floor under the reactor, for «это лава»
 FLOW = 'n05_flow_s6041'              # lava pouring down a pipe and steps, for «потекло вниз»
 DRILL = 'n06_drill_s6051'            # the drill cart against the black mass, sparks
-SHOOTER = 'n07_marksman_s6061'       # a soldier in a respirator aiming down the corridor
-SAMPLE = 'n08_sample_s6071'          # a black glassy chip with glowing specks in tweezers, for «ядерное топливо»
-TODAY = 'n09_today_s6081'            # the mass today under dust, a probe on a pole, for «сейчас она слабее»
-ARCH = 'n10_arch_inside_s6091'       # inside the giant arch, for «поэтому над реактором»
+SHOOTER = 'n07_marksman_s6062'       # a soldier in a respirator with a rifle coming down the corridor
+SAMPLE = 'n08_sample_s6071'          # a glowing yellow chip in a gloved hand over a tray, for «ядерное топливо»
+ARCH = 'n10_arch_inside_s6091'       # inside a giant arched hangar, for «поэтому над реактором»
 SHELTER = 'm12b_shelter_s5211'       # №14's cover over the reactor with the red-and-white stack, for «огромную арку»
-ROBOT = 'n11_robot_s6101'            # a broken rover on the roof among graphite, for «ломались даже роботы»
+ROBOT = 'n11_robot_s6101'            # a tracked robot stuck on the roof among graphite and smoke, for «ломались даже роботы»
 MEN = 'n12_biorobots_s6111'          # men in lead aprons and gas masks running with shovels, for «послали людей»
 MEN2 = 'n12_biorobots_s6112'         # the same, for «биороботами»
 SFX_DIRS = ['/home/user/work/sfx/noga', '/home/user/work/sfx/mutanty', '/home/user/work/sfx/chernobyl',
@@ -169,18 +169,18 @@ def layout(c):
         fx=dict(dust=25, punch=[(p['rifle'] + 0.65, 0.12)], flash=[(p['rifle'] + 0.65, 0.12, 0.6, white)],
                 shake=[(p['rifle'] + 0.65, 0.5, 12)],
                 grade=dark))
-    # L6 why it's dangerous: the foot again, then the chip with the fuel glowing inside
+    # L6 why it's dangerous: the folds again, then the chip with the fuel glowing inside
     ins = p['inside'] - 0.06
     l7 = L('L7')['start'] - 0.08
-    add(FOOT3, l6, ins, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05)),
+    add(FOLDS2, l6, ins, into='fade', cam=dict(zoom=(1.0, 1.1), dolly=(0.0, 0.05)),
         fx=dict(dust=30, punch=[(p['why'], 0.04)], grade=dark))
     add(SAMPLE, ins, l7, into='flash', cam=dict(zoom=(1.05, 1.18), dolly=(0.0, 0.06)),
         fx=dict(dust=10, bloom=0.3, punch=[(p['fuel'], 0.07)], grade=dict(dark, sat=0.9)))
-    # L7 weaker now but still off limits, so the arch: the mass under dust, the arch from inside, the arch outside
+    # L7 weaker now but still off limits, so the arch: the mass under a cold lamp, the arch from inside, then outside
     so = p['so'] - 0.06
     ar = p['arch'] - 0.06
     l8 = L('L8')['start'] - 0.08
-    add(TODAY, l7, so, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04)),
+    add(FOOT3, l7, so, into='fade', cam=dict(zoom=(1.0, 1.08), dolly=(0.0, 0.04)),
         fx=dict(dust=25, punch=[(p['never'], 0.05)], grade=dict(dark, warm=-0.2)))
     add(ARCH, so, ar, into='flash', cam=dict(zoom=(1.0, 1.08), pany=(0.02, -0.02)),
         fx=dict(dust=12, grade=day))
