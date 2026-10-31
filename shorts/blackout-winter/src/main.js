@@ -620,7 +620,7 @@ export function cues() {
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0.3, 'city', -20, 0, { dur: T.c1 - 0.3 });
   add(A.L0w2, 'blip', -10, 0.3);
-  add(T.cold, 'ticks_up', -16, 0.3, { dur: 1.2 });
+  add(T.cold, 'ticks_up', -18, 0.3, { dur: Math.min(1.2, A.L0e - T.cold - 0.05) });
   add(T.c1, 'amb_flat', -20, 0, { dur: T.c2 - T.c1 });
   add(T.knob - 0.05, 'click', -10, 0.2);
   add(T.no, 'stamp', -5, 0.1);
