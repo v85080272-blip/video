@@ -23,7 +23,7 @@ import { text, measure, FONTS, INK } from './type.js';
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
-const FB = { L0: [0.12, 4.78, 12], L1: [5.18, 12.38, 18], L2: [12.78, 16.41, 10], L3: [16.86, 20.82, 11], L4: [21.22, 27.45, 18], L5: [27.86, 32.94, 13], L6: [33.38, 38.41, 15], L7: [38.87, 42.34, 11] };
+const FB = { L0: [0.12, 4.78, 12], L1: [5.18, 12.38, 18], L2: [12.78, 16.41, 10], L3: [16.86, 20.82, 11], L4: [21.22, 27.45, 19], L5: [27.86, 32.94, 13], L6: [33.38, 38.41, 15], L7: [38.87, 42.34, 11] };
 export const DUR = VOICE?.dur ?? 42.69;
 const A = {};
 for (const id of Object.keys(FB)) {
@@ -34,7 +34,7 @@ for (const id of Object.keys(FB)) {
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm, ICE = '#8fd3ff';
 const HOT = { СВЕТ: GOLD, ДОМОЙ: GOLD, ДВАДЦАТЫЙ: GOLD, ВСЁ: DANGER, СПЕШИ: DANGER, ПОГАСНЕТ: DANGER, ПРОВЕРКИ: GOLD,
-  ОДНОЙ: GOLD, МИНУТ: GOLD, ПОНЕМНОГУ: GOLD, ЛОПНУТЬ: DANGER, ПЕРЕКРОЙ: DANGER, ОТТАЯЛО: ICE, ВЫБРОСЬ: DANGER,
+  ОДНОЙ: GOLD, МИНУТ: GOLD, ПОНЕМНОГУ: GOLD, ТЕЧИ: DANGER, ЛОПНУТЬ: DANGER, ПЕРЕКРОЙ: DANGER, ОТТАЯЛО: ICE, ВЫБРОСЬ: DANGER,
   ВЫБРАСЫВАЙ: DANGER, ДВАДЦАТЬ: GOLD, РАСТАЯЛ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
@@ -48,8 +48,8 @@ const T = {
   c2: A.L2 - 0.06,                   // «начни с проверки»: the checklist
   c3: A.L3 - 0.06,                   // step 1: one at a time
   c4: A.L4 - 0.06,                   // step 2: the water, the pipe
-  crack: A.L4w11 - 0.06,             // «могли лопнуть»: the drip from the crack
-  shut: A.L4w15 - 0.06,              // «сразу перекрой кран»
+  crack: A.L4w12 - 0.06,             // «мог лопнуть»: the drip from the crack
+  shut: A.L4w16 - 0.06,              // «сразу перекрой кран»
   c5: A.L5 - 0.06,                   // step 3: the thawed food into the bin
   c6: A.L6 - 0.06,                   // the evening: +20
   tub: A.L6w5 - 0.06,                // «Лёд в ванне растаял»

@@ -18,7 +18,7 @@ import { text, measure, FONTS, INK } from './type.js';
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
-const FB = { L0: [0.12, 5.67, 14], L1: [6.08, 11.58, 17], L2: [11.98, 15.24, 12], L3: [15.7, 21.4, 15], L4: [21.8, 27.0, 10], L5: [27.39, 33.37, 13], L6: [33.81, 38.7, 15], L7: [39.15, 43.24, 13] };
+const FB = { L0: [0.12, 5.67, 15], L1: [6.08, 11.58, 17], L2: [11.98, 15.24, 12], L3: [15.7, 21.4, 15], L4: [21.8, 27.0, 10], L5: [27.39, 33.37, 13], L6: [33.81, 38.7, 15], L7: [39.15, 43.24, 13] };
 export const DUR = VOICE?.dur ?? 43.59;
 const A = {};
 for (const id of Object.keys(FB)) {
@@ -28,14 +28,14 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm, ICE = '#8fd3ff';
-const HOT = { ПОВТОРИТЬСЯ: DANGER, ЗАРАНЕЕ: GOLD, ТЕМНОТЕ: DANGER, ФОНАРИК: GOLD, ТРИ: GOLD, ОДНОМ: GOLD, ВОДА: ICE,
+const HOT = { ОТКЛЮЧИТЬ: DANGER, ЗАРАНЕЕ: GOLD, ТЕМНОТЕ: DANGER, ФОНАРИК: GOLD, ТРИ: GOLD, ОДНОМ: GOLD, ВОДА: ICE,
   ЧЕТЫРЁХ: GOLD, ЛИТРОВ: GOLD, РАДИО: GOLD, ПАУЭРБАНК: GOLD, АПТЕЧКА: GOLD, ЛЕКАРСТВА: GOLD, НАЛИЧНЫХ: GOLD,
   БАНКОМАТЫ: DANGER, МИСКУ: WARM, ПОВОДОК: WARM, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
 const T = {
   cover: 0.3,                        // the poster
-  flick: A.L0w8 - 0.06,              // «может повториться»: the lamp flickers once
+  flick: A.L0w9 - 0.06,              // «могут отключить снова»: the lamp flickers once
   c1: A.L1 - 0.06,                   // «Многие думают…»: the dark, the search
   dark: A.L1w7 - 0.06,               // «А потом в темноте»
   c2: A.L2 - 0.06,                   // «Собери запас…»: the shelf, the crate
@@ -225,7 +225,7 @@ function flatFrame(t, cam) {
 function overlays(t, cam) {
   const S2 = p => toScreen(cam, p);
   Hd.timeStamp(t, T.cover + 0.15, T.c1 - 0.1, 'ДЕНЬ 6 — 12:00');
-  if (t < T.c1) Hd.plaque(t, A.L0w10 - 0.08, T.c1 - 0.02, 540, 560, { icon: 'calendar', title: 'ГОТОВЬСЯ ЗАРАНЕЕ', sub: 'а не в темноте', color: GOLD });
+  if (t < T.c1) Hd.plaque(t, A.L0w11 - 0.08, T.c1 - 0.02, 540, 560, { icon: 'calendar', title: 'ГОТОВЬСЯ ЗАРАНЕЕ', sub: 'а не в темноте', color: GOLD });
   if (t >= T.c1 && t < T.c2) {
     { const p = S2([-120, -420]); Hd.redX(p[0], p[1], 70, sp(t, A.L1w12 - 0.05, 2.6, 8)); }
     Hd.plaque(t, A.L1w14 - 0.08, T.c2 - 0.02, 540, 560, { icon: 'bottle', title: 'ПОСЛЕДНЯЯ БУТЫЛКА', sub: 'и где фонарик?', color: DANGER });
@@ -307,7 +307,7 @@ export function cues() {
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0.3, 'city_day', -24, 0, { dur: T.dark - 0.3 });
   add(T.flick, 'spark', -10, 0.2);
-  add(A.L0w10 - 0.08, 'blip', -10, 0);
+  add(A.L0w11 - 0.08, 'blip', -10, 0);
   add(T.dark, 'power_down', -10, 0);
   add(T.dark, 'ribbon', -8, 0);
   add(A.L1w12 - 0.05, 'stamp', -8, -0.2);
