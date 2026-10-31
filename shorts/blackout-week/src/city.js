@@ -82,7 +82,11 @@ export function drawCity(t, cam, o) {
     const off = t0 + 0.75 + (f / T.floors) * 0.6 + 0.12 * hash(seed + 3) + (ours ? 0.25 : 0);
     let c = day ? '#7f95a3' : C.dark;
     if (!day && (litAt(seed, off, t) || (ours && t < off))) c = WARM[seed % 4];
+    // part 2: a neighbour's window flickering orange, a grill or a gas burner lit inside (o.fires: [[col, floor], …])
+    const fire = !day && !ours && (o.fires ?? []).some(([k2, f2]) => k2 === k && f2 === f);
+    if (fire) c = mix('#ff6a2a', '#ffc04d', 0.5 + 0.5 * noise(t * 7 + seed, 3));
     rect(x, y, T.ww, T.wh, c);
+    if (fire) { ell(cx, cy + T.wh * 0.3, T.ww * 0.7, T.wh * 0.5, rgba('#ff7a2a', 0.25 + 0.15 * noise(t * 5 + seed, 4))); }
     if (!day && t > off && !ours && hash(seed * 3.1) < 0.06) ell(cx + 10 * hash(seed), cy + 8, 7, 7, rgba('#9fd0ff', 0.7 + 0.3 * noise(t * 3 + seed, 1)));
     if (day) { rect(x, y, T.ww, 8, '#9db0bc'); rect(x + T.ww / 2 - 2, y, 4, T.wh, C.frame); }
     else rect(x + T.ww / 2 - 2, y, 4, T.wh, rgba(C.frame, 0.6));

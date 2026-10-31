@@ -1,11 +1,10 @@
-# Score for «Блэкаут, ты на 20-м этаже», synthesised with numpy (48 kHz stereo, no samples, no third-party music). D minor,
-# a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json. Dusk over the city (a soft
-# pad, a celesta twinkling like windows) dies with the lights: a low thud and nothing. The blueprint runs on a tight
-# pizzicato ostinato with a ticking pulse; a stab when the grid dies; a xylophone walks down as the water leaves the top
-# floors. Step one is lighter, with a plink for each bottle that fills and a bell when the tap coughs out; step two has a
-# stab on the fridge's cross and a cold celesta for the card; step three tenses for the fire and warms into B♭ when the
-# torch comes on. On day 3 the music almost drops away (one soft high pad): the twist lands in near silence. The end is
-# warm (F, then A7), and A7 leads back into the D minor the short starts in.
+# Score for «Неделя без света» (блэкаут, ч.2), synthesised with numpy (48 kHz stereo, no samples, no third-party music).
+# D minor like part 1, a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json.
+# A week in the dark: a low pad and a slow celesta over the city. The blueprint runs on the pizzicato ostinato of part 1,
+# with a brass stab on each wave of fires and a dissonant swell under the gas. Step one stabs on the burner's cross and
+# lightens for the food; step two stabs on the bin; step three ticks while the call fails and resolves on the delivered
+# message. Day 7: near silence in the dark, then a bright F major chord the moment the lamp comes on, a sour hit for the
+# neighbour's TV; the end is warm (F, then A7) and A7 leads back into the D minor the short starts in.
 # usage: python3 tools/music.py build/cues.json build/music.wav
 import json
 import sys
@@ -25,73 +24,76 @@ def grid(t0, t1, step):
 
 def score(M, dur):
     A = M['A']
-    rng = np.random.default_rng(13)
+    rng = np.random.default_rng(17)
     S = {}
-    out, c1, c2, dead, pull, c3, ck, c4, x4, c5, fire, torch, ph, c6, pour, c7 = (M[k] for k in (
-        'out', 'c1', 'c2', 'dead', 'pull', 'c3', 'ck', 'c4', 'x4', 'c5', 'fire', 'torch', 'ph', 'c6', 'pour', 'c7'))
+    c1, f1, f2, c2, co, c3, off, food, c4, c5, ph, chat, c6, on, nb, burn, c7 = (M[k] for k in (
+        'c1', 'f1', 'f2', 'c2', 'co', 'c3', 'off', 'food', 'c4', 'c5', 'ph', 'chat', 'c6', 'on', 'nb', 'burn', 'c7'))
     end0 = A['L7']
 
-    # A · dusk over the city: a soft Dm9 pad, celesta notes like windows lighting up; the blackout cuts it with a low thud
-    a = S['A'] = Sec(dur, stop=out + 0.05, dead=True, over=0.02)
-    a.wet.add(0.0, saws(rng, [38, 45, 52, 57, 64], out + 0.3, attack=0.5, release=0.2, bright=900), -18, 0.0)
-    for i, (dt, m) in enumerate([(0.2, 81), (0.55, 84), (0.9, 88), (1.25, 86)]):
-        if dt < out - 0.1:
-            a.dry.add(dt, celesta(rng, m, 0.35), -14, 0.35 if i % 2 else -0.35)
-    b0 = S['B0'] = Sec(dur, stop=c1, over=0.03)
-    b0.dry.add(out, timp(rng, 33, 1.0), -4, 0.0)
-    b0.dry.add(out, brass(rng, [26, 33, 38], 0.5, bright=700), -9, 0.0)
-    b0.wet.add(out + 0.4, saws(rng, [26, 38], c1 - out, attack=0.6, release=0.3, bright=380), -16, 0.0)
-    b0.dry.add(A['L0w11'] - 0.04, brass(rng, [50, 51], 0.25, bright=1500), -8, 0.0)
+    # A · a week in the dark: a low Dm pad, a slow celesta, a thud on «не темнота»
+    a = S['A'] = Sec(dur, stop=c1 + 0.05, over=0.03)
+    a.wet.add(0.0, saws(rng, [26, 38, 45, 50], c1 + 0.3, attack=0.8, release=0.3, bright=500), -17, 0.0)
+    for i, (dt, m) in enumerate([(0.4, 74), (1.6, 77), (2.8, 81), (4.0, 76)]):
+        if dt < c1 - 0.3:
+            a.dry.add(dt, celesta(rng, m, 0.5), -15, 0.3 if i % 2 else -0.3)
+    a.dry.add(A['L0w13'] - 0.04, timp(rng, 33, 0.9), -6, 0.0)
+    a.dry.add(A['L0w13'] - 0.04, brass(rng, [26, 33, 38], 0.45, bright=700), -10, 0.0)
 
-    # B · the blueprint: an ostinato and a ticking pulse; a stab when the grid dies; the water walks down a xylophone
+    # B · the blueprint: the ostinato of part 1; a stab on each wave of fires; a dissonant swell under the gas
     pat = [38, 50, 38, 50, 41, 53, 40, 52]
     b = S['B'] = Sec(dur, stop=c3, over=0.03, gain=((c1, -2.0), (c3, -2.0)))
     for i, t in enumerate(grid(c1, c3, BEAT / 2)):
         b.dry.add(t, pizz(rng, pat[i % 8], 0.6), -6, -0.1)
-    b.wet.add(c1, saws(rng, [26, 38, 45], c3 - c1, attack=0.5, release=0.3, bright=450), -17, 0.0)
-    for t in grid(c1, dead, BEAT):
+    for t in grid(c1, co, BEAT):
         b.dry.add(t, timp(rng, 38, 0.3), -14, 0.0)
-    b.dry.add(dead, brass(rng, [38, 44, 50], 0.5, bright=1800), -5, 0.0)
-    b.dry.add(dead, timp(rng, 38, 0.9), -4, 0.0)
-    for i in range(3):
-        b.dry.add(dead + 0.25 * i, glock(rng, [86, 81, 74][i], 0.4, 0.8), -14, -0.3 + 0.3 * i)
-    for i, m in enumerate([88, 86, 84, 81, 79, 77, 76, 74]):
-        b.dry.add(pull + 0.3 + i * (c3 - pull - 0.7) / 8, xylo(rng, m, 0.5), -11, 0.25 - i * 0.06)
+    for t0 in (f1, f2):
+        b.dry.add(t0, brass(rng, [38, 44, 50], 0.4, bright=1600), -7, 0.0)
+        b.dry.add(t0, timp(rng, 38, 0.7), -6, 0.0)
+    b.wet.add(co, trem(rng, [62, 63, 68], c3 - co, grow=(0.2, 0.9), bright=2200), -18, 0.0)
+    b.wet.add(co, saws(rng, [26, 32, 38], c3 - co, attack=1.0, release=0.3, bright=380), -16, 0.0)
     b.dry.add(c3 - 0.8, riser(rng, 0.8), -15, 0.0)
 
-    # C · step one, «набери воду»: a lighter ostinato; plinks as the bottles fill; a bell when the tap coughs out
+    # C · step one: a stab on the burner's cross; lighter for the food, a plink for each, a bell
     c = S['C'] = Sec(dur, gain=((c3, -2.0), (c4, -2.0)))
     for i, t in enumerate(grid(c3, c4, BEAT / 2)):
-        c.dry.add(t, pizz(rng, [38, 50, 45, 50][i % 4], 0.55), -6, -0.1)
-    for i, t in enumerate([A['L3w8'] - 0.05, A['L3w8'] + 0.1, A['L3w10'] - 0.05, A['L3w10'] + 0.07, A['L3w10'] + 0.19]):
-        c.dry.add(t, glock(rng, [81, 84, 86, 88, 93][i], 0.4, 1.0), -14, 0.2)
+        c.dry.add(t, pizz(rng, [38, 50, 45, 50][i % 4] if t < food else [41, 53, 48, 53][i % 4], 0.55), -6, -0.1)
+    c.dry.add(off, brass(rng, [50, 51], 0.3, bright=1400), -7, 0.0)
+    c.dry.add(off, timp(rng, 38, 0.6), -8, 0.0)
+    for i, t in enumerate([A['L3w11'], A['L3w12'], A['L3w13']]):
+        c.dry.add(t - 0.05, glock(rng, [81, 84, 88][i], 0.4, 1.0), -14, 0.2)
     c.dry.add(A['L3e'] + 0.05, glock(rng, 93, 0.55, 1.6), -11, 0.1)
 
-    # D · step two, the fridge: a stab on the cross; a cold celesta for the card
+    # D · step two, the bin: a stab on «в мусор», a cold celesta for the card
     d = S['D'] = Sec(dur, gain=((c4, -2.0), (c5, -3.0)))
     for i, t in enumerate(grid(c4, c5, BEAT / 2)):
         d.dry.add(t, pizz(rng, [38, 50, 46, 50][i % 4], 0.55), -6, -0.1)
-    d.dry.add(x4, brass(rng, [50, 51], 0.3, bright=1400), -7, 0.0)
-    d.dry.add(x4, timp(rng, 38, 0.6), -8, 0.0)
+    d.dry.add(A['L4w7'], brass(rng, [50, 51], 0.3, bright=1400), -7, 0.0)
+    d.dry.add(A['L4w7'], timp(rng, 38, 0.6), -8, 0.0)
     for i, m in enumerate([86, 89, 93, 98]):
-        d.dry.add(A['L4w4'] + 0.05 + i * 0.12, celesta(rng, m, 0.4), -13, 0.3 - 0.2 * i)
+        d.dry.add(A['L4w8'] + 0.05 + i * 0.12, celesta(rng, m, 0.4), -13, 0.3 - 0.2 * i)
 
-    # E · step three, the candle: tense; a hit for the fire; B♭ warmth when the torch comes on; a bell on the switch
+    # E · step three: a ticking pulse while the call fails, a sour stab on «Не звони», B♭ warmth when the message goes
     e = S['E'] = Sec(dur, gain=((c5, -2.0), (c6, -4.0)))
-    for i, t in enumerate(grid(c5, fire, BEAT / 2)):
+    for i, t in enumerate(grid(c5, chat, BEAT / 2)):
         e.dry.add(t, pizz(rng, [38, 44, 38, 45][i % 4], 0.55), -6, -0.1)
-    e.dry.add(fire, brass(rng, [38, 44, 50], 0.5, bright=2000), -5, 0.0)
-    e.dry.add(fire, timp(rng, 38, 0.8), -5, 0.0)
-    e.wet.add(fire + 0.1, trem(rng, [74, 75], torch - fire, grow=(0.4, 0.9), bright=2600), -18, 0.1)
-    e.wet.add(torch, saws(rng, [46, 53, 58, 62], c6 - torch, attack=0.3, release=0.5, bright=1100), -15, 0.0)
-    for i, t in enumerate(grid(torch, c6, BEAT / 2)):
+    for t in grid(ph, chat, BEAT / 2):
+        e.dry.add(t, glock(rng, 98, 0.15, 0.5), -20, 0.3)
+    e.dry.add(A['L5w3'], brass(rng, [38, 44], 0.35, bright=1500), -8, 0.0)
+    e.wet.add(chat, saws(rng, [46, 53, 58, 62], c6 - chat, attack=0.3, release=0.5, bright=1100), -15, 0.0)
+    for i, t in enumerate(grid(chat, c6, BEAT / 2)):
         e.dry.add(t, pizz(rng, [46, 58, 53, 58][i % 4], 0.5), -8, -0.1)
-    e.dry.add(A['L5w12'] - 0.05, glock(rng, 89, 0.5, 1.2), -12, 0.2)
+    e.dry.add(A['L5w10'], glock(rng, 89, 0.5, 1.4), -11, 0.2)
 
-    # F · day 3: the music almost drops; one soft high pad, a bell when the toilet flushes
-    f = S['F'] = Sec(dur, gain=((c6, -6.0), (end0, -6.0)))
-    f.wet.add(c6 + 0.1, saws(rng, [69, 74], end0 - c6, attack=0.8, release=0.5, bright=1500), -24, 0.0)
-    f.dry.add(pour + 0.75, glock(rng, 86, 0.45, 1.6), -14, 0.1)
+    # F · day 7: near silence in the dark; F major blooms with the lamp; a sour hit for the neighbour's TV
+    f = S['F'] = Sec(dur, gain=((c6, -5.0), (end0, -5.0)))
+    f.wet.add(c6 + 0.1, saws(rng, [62, 69], on - c6, attack=0.5, release=0.2, bright=1200), -24, 0.0)
+    f.wet.add(on, saws(rng, [41, 53, 57, 60, 65], end0 - on, attack=0.15, release=0.5, bright=1600), -13, 0.0)
+    f.dry.add(on, crash(rng, 0.6, 1.5), -18, 0.0)
+    for i, m in enumerate([77, 81, 84, 89]):
+        f.dry.add(on + 0.05 + i * 0.1, celesta(rng, m, 0.5), -12, -0.3 + 0.2 * i)
+    f.dry.add(A['L6w10'] - 0.05, glock(rng, 89, 0.45, 1.4), -13, 0.2)
+    f.dry.add(burn, brass(rng, [44, 50, 51], 0.4, bright=1800), -7, 0.0)
+    f.dry.add(burn, timp(rng, 38, 0.6), -8, 0.0)
 
     # I · «Подписывайся…»: warm F with a celesta tune, then A7sus4 → A7 for the loop back into D minor
     end = S['I'] = Sec(dur, gain=((end0, -3.0), (dur, -6.0)))

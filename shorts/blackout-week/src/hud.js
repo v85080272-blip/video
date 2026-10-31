@@ -58,6 +58,12 @@ export function icon(kind, r, c) {
     case 'x': L([[-r * 0.7, -r * 0.7], [r * 0.7, r * 0.7]], r * 0.26); L([[-r * 0.7, r * 0.7], [r * 0.7, -r * 0.7]], r * 0.26); break;
     case 'check': L([[-r * 0.7, 0], [-r * 0.2, r * 0.5], [r * 0.75, -r * 0.55]], r * 0.26); break;
     case 'house': P([[-r, -r * 0.05], [0, -r], [r, -r * 0.05]]); rect(-r * 0.7, -r * 0.05, r * 1.4, r, c); break;
+    // part 2: a cloud of gas, a TV, a plug, a tin can, a calendar page
+    case 'cloud': for (const [x, y, s] of [[-0.45, 0.15, 0.42], [0.05, -0.2, 0.55], [0.5, 0.15, 0.4], [0, 0.3, 0.45]]) ell(x * r, y * r, s * r, s * r, c); break;
+    case 'tv': g.lineWidth = r * 0.16; g.strokeStyle = col(c); g.stroke(rrPath(-r, -r * 0.7, r * 2, r * 1.3, r * 0.14)); L([[-r * 0.35, r * 0.95], [r * 0.35, r * 0.95]]); L([[0, r * 0.6], [0, r * 0.95]]); break;
+    case 'plug': rrect(-r * 0.5, -r * 0.35, r, r * 0.9, r * 0.2, c); L([[-r * 0.22, -r * 0.35], [-r * 0.22, -r * 0.85]], r * 0.16); L([[r * 0.22, -r * 0.35], [r * 0.22, -r * 0.85]], r * 0.16); L([[0, r * 0.55], [0, r], [r * 0.6, r]], r * 0.16); break;
+    case 'can': rrect(-r * 0.6, -r * 0.75, r * 1.2, r * 1.5, r * 0.18, c); rect(-r * 0.6, -r * 0.2, r * 1.2, r * 0.4, '#0b0f1a'); break;
+    case 'calendar': g.lineWidth = r * 0.14; g.strokeStyle = col(c); g.stroke(rrPath(-r * 0.8, -r * 0.6, r * 1.6, r * 1.5, r * 0.14)); rect(-r * 0.8, -r * 0.6, r * 1.6, r * 0.4, c); L([[-r * 0.4, -r * 0.85], [-r * 0.4, -r * 0.45]], r * 0.14); L([[r * 0.4, -r * 0.85], [r * 0.4, -r * 0.45]], r * 0.14); break;
     default: ell(0, 0, r * 0.6, r * 0.6, c);
   }
 }

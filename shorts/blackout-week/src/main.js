@@ -1,6 +1,9 @@
-// «Блэкаут, ты на 20-м этаже»: the whole short as pure functions of time t (seconds), so any frame or motion-blur
+// «Неделя без света» (блэкаут, ч.2): the whole short as pure functions of time t (seconds), so any frame or motion-blur
 // sub-frame can be drawn in any order. Scene beats are anchored to the narrator's words (build/words.json from
-// tools/voice.py): another take moves the picture with it (STORYBOARD.md).
+// tools/voice.py, or tools/fake_words.mjs until the voice exists): another take moves the picture with it (STORYBOARD.md).
+// Same flat, hunter, dog, city and blueprint as part 1 (../blackout-flat); new here: the neighbours' grills and the gas
+// on the blueprint, the camping burner, the food without cooking, the fridge cleared out, the text instead of the call,
+// the lights coming back and the neighbour's TV burning from the surge.
 import fs from 'node:fs';
 import { createCanvas } from '@napi-rs/canvas';
 import { lerp, clamp, ease, spring, bump, hash, noise, TAU, mix, rgba } from './lib.js';
@@ -17,9 +20,9 @@ import { text, measure, FONTS, INK } from './type.js';
 // —— the narration: line starts, ends and word starts (A.L2w5 = word 5 of line L2; dashes count as words) ——
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
-// without a voice yet: [start, end, words] of each line, words spread evenly
-const FB = { L0: [0.12, 4.2, 14], L1: [4.55, 9.2, 15], L2: [9.55, 14.7, 15], L3: [15.1, 19.3, 11], L4: [19.7, 25.6, 15], L5: [26.0, 31.6, 14], L6: [32.05, 37.0, 14], L7: [37.45, 41.0, 11] };
-export const DUR = VOICE?.dur ?? 41.4;
+// without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
+const FB = { L0: [0.12, 5.29, 16], L1: [5.7, 10.1, 12], L2: [10.45, 15.02, 15], L3: [15.46, 20.84, 14], L4: [21.24, 26.55, 16], L5: [26.95, 32.76, 14], L6: [33.21, 39.17, 18], L7: [39.62, 43.53, 11] };
+export const DUR = VOICE?.dur ?? 43.9;
 const A = {};
 for (const id of Object.keys(FB)) {
   const ws = LN(id)?.words, n = ws ? ws.length : FB[id][2];
@@ -28,40 +31,39 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ПОГАС: DANGER, ВНИЗ: DANGER, ЛЕСТНИЦУ: DANGER, ВОДА: GOLD, НАСОСЫ: GOLD, ВСТАЮТ: DANGER, ВОДЫ: DANGER, ВАННУ: GOLD, БУТЫЛКИ: GOLD,
-  ХОЛОДИЛЬНИК: DANGER, ЧЕТЫРЕ: GOLD, ДНЯ: GOLD, СВЕЧЕЙ: DANGER, ПОЖАРЫ: DANGER, ФОНАРИКОМ: GOLD, ЭКОНОМИИ: GOLD, СУХИЕ: DANGER, ВАННЫ: GOLD,
-  ПОДПИСЫВАЙСЯ: GOLD, ЖИВЁШЬ: GOLD };
+const HOT = { НЕДЕЛЯ: GOLD, ОПАСНОЕ: DANGER, МАНГАЛЫ: DANGER, ГОРЕЛКИ: DANGER, УГАРНЫЙ: DANGER, ЗАПАХА: DANGER, НЕЛЬЗЯ: DANGER,
+  ОГНЯ: DANGER, КОНСЕРВЫ: GOLD, МУСОР: DANGER, ЧЕТЫРЕ: GOLD, ОПАСНО: DANGER, ЗВОНИ: DANGER, СООБЩЕНИЕ: GOLD, СВЕТ: GOLD,
+  РОЗЕТОК: GOLD, СГОРЕЛ: DANGER, ПОДПИСЫВАЙСЯ: GOLD, ПРОДЕРЖИШЬСЯ: GOLD };
 
 // —— the shots ——
 const T = {
   cover: 0.3,                        // the poster: the first frames
-  out: A.L0w4 - 0.04,                // «погас»: the wave of darkness across the city
-  c1: A.L1 - 0.06,                   // the blueprint: everyone down the stairs
-  riser: A.L1w7 - 0.05,              // «А в это время…»: over to the riser
-  drain: A.L1w11,                    // «из труб уходит вода»: the top of the riser empties
-  c2: A.L2 - 0.06,                   // the pump in the basement
-  dead: A.L2w4 - 0.04,               // «Без света»: the grid dies, the pump stops
-  pull: A.L2w8 - 0.1,                // «и верхние этажи…»: the whole tower drains from the top
-  c3: A.L3 - 0.06,                   // step 1: the bath
-  ck: A.L3w3 - 0.1,                  // «а питьевую воду…»: the kitchen counter
-  c4: A.L4 - 0.06,                   // step 2: the fridge
-  x4: A.L4w3,                        // «холодильник»: the cross on the door
-  c5: A.L5 - 0.06,                   // step 3: the candle
-  fire: A.L5w5 - 0.1,                // «пожары»: the curtain catches
-  torch: A.L5w6 - 0.08,              // «Свети фонариком»: the room in the torch beam
-  ph: A.L5w8 - 0.08,                 // «а телефон…»: the phone
-  c6: A.L6 - 0.06,                   // day 3: the blueprint of the floors, our flat in colour
-  dive: A.L6w7 - 0.15,               // «а ты»: into our bathroom
-  pour: A.L6w10 - 0.2,               // «унитаз»: the bucket into the toilet (once the camera is in)
-  c7: A.L7w5 - 0.08,                 // «А на каком этаже…»: outside by day
+  c1: A.L1 - 0.06,                   // «Соседи несут домой…»: the blueprint, fires light up in the flats
+  f1: A.L1w3 - 0.05,                 // «мангалы»
+  f2: A.L1w5 - 0.05,                 // «газовые горелки»
+  c2: A.L2 - 0.06,                   // «От них угарный газ»: grey gas spreads from every fire, up through the floors
+  co: A.L2w2 - 0.1,
+  c3: A.L3 - 0.06,                   // step 1: the table, the burner is lit
+  off: A.L3w1 - 0.05,                // «никакого огня»: he turns it off, the cross
+  food: A.L3w5 - 0.08,               // «Ешь то, что не надо греть»: a tin, bread, nuts
+  c4: A.L4 - 0.06,                   // step 2: the fridge, a bin bag
+  c5: A.L5 - 0.06,                   // step 3: the phone
+  ph: A.L5w2 - 0.1,                  // «Не звони»: the call screen
+  chat: A.L5w5 - 0.08,               // «а пиши»: the message
+  c6: A.L6 - 0.06,                   // day 7: the flat in the dark, the kettle unplugged in his hand
+  on: A.L6w3 - 0.04,                 // «свет»: the lamp comes on
+  nb: A.L6w11 - 0.1,                 // «а у соседа»: the floors around as a blueprint
+  burn: A.L6w16 - 0.05,              // «сгорел»: the neighbour's TV pops and smokes
+  c7: A.L7w5 - 0.08,                 // «А сколько ты продержишься…»: the city at night, every window lit again
 };
-export const CUTS = [T.cover, T.c1, T.c2, T.c3, T.ck, T.c4, T.c5, T.torch, T.ph, T.c6, T.c7];
-export const SNAPS = [];
+export const CUTS = [T.cover, T.c1, T.c3, T.c4, T.c5, T.c6, T.nb, T.c7];
+export const SNAPS = [T.on];
 export const MARKS = { ...T, A };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const S = 0.6, LEG = 137, DS = 0.7;
-const scene = t => (t < T.cover ? 'cover' : t < T.c1 ? 'city' : t < T.c3 ? 'bp' : t < T.c6 ? 'night' : t < T.c7 ? 'day' : 'cityday');
+const scene = t => (t < T.cover ? 'cover' : t < T.c1 ? 'city' : t < T.c3 ? 'bp' : t < T.nb ? 'night' : t < T.c7 ? 'nb' : 'citylit');
+const lit = t => seg(T.on, T.on + 0.3, t);              // the power back: 0 dark, 1 the lamp on
 
 // —— the camera: per shot, Hermite keys [t, x, y, z] ——
 function hermite(keys, t) {
@@ -81,24 +83,21 @@ function hermite(keys, t) {
 const SHOTS = [];
 const shot = (t0, keys) => SHOTS.push({ t0, keys });
 const [WX, WY] = Cy.winCenter(Cy.WIN20.col, Cy.WIN20.floor);
-const F20 = Sc.floorY(20);
-shot(T.cover, [[T.cover, 0, -1250, 0.4], [T.out, 20, -1420, 0.48], [A.L0w8, WX, -1700, 0.85], [A.L0w11, WX, WY + 6, 1.9], [T.c1, WX, WY, 2.25]]);
-shot(T.c1, [[T.c1, -250, F20 - 80, 1.22], [T.riser, -250, F20 + 60, 1.3], [T.riser + 0.55, -40, F20 + 30, 1.5], [T.c2, -30, F20 + 60, 1.55]]);
-shot(T.c2, [[T.c2, -470, 30, 1.12], [T.dead, -440, 20, 1.2], [T.pull, -430, 10, 1.22], [T.pull + 0.9, -100, -1120, 0.56], [T.c3, -80, -1150, 0.6]]);
-shot(T.c3, [[T.c3, -830, -215, 1.5], [T.ck, -815, -205, 1.6]]);
-shot(T.ck, [[T.ck, 140, -215, 1.55], [T.c4, 150, -205, 1.62]]);
-shot(T.c4, [[T.c4, -70, -215, 1.55], [T.x4 + 0.3, -80, -205, 1.66], [T.c5, -60, -215, 1.55]]);
-shot(T.c5, [[T.c5, 530, -215, 1.55], [T.fire, 560, -220, 1.62], [T.torch, 580, -225, 1.72]]);
-shot(T.torch, [[T.torch, 330, -235, 1.3], [T.ph, 350, -225, 1.36]]);
-shot(T.ph, [[T.ph, 380, -215, 1.6], [T.c6, 395, -210, 1.7]]);
-shot(T.c6, [[T.c6, -180, -270, 0.44], [T.dive, -190, -260, 0.48], [T.dive + 0.9, -640, -215, 1.5], [A.L7, -630, -210, 1.55], [T.c7, -620, -205, 1.6]]);
+const FY = f => Sc.floorY(f);
+shot(T.cover, [[T.cover, 0, -1250, 0.4], [A.L0w2, 20, -1420, 0.5], [A.L0w7, WX, -1700, 0.85], [A.L0w10, WX, WY + 6, 1.9], [T.c1, WX, WY, 2.25]]);
+shot(T.c1, [[T.c1, 0, FY(14), 0.8], [T.f2 + 0.6, 20, FY(15), 0.86], [T.c2, 30, FY(16), 0.9], [A.L2w8, 50, FY(18) - 40, 1.2], [T.c3, 60, FY(19) - 30, 1.3]]);
+shot(T.c3, [[T.c3, 600, -215, 1.5], [T.food, 625, -215, 1.6], [T.c4, 640, -210, 1.64]]);
+shot(T.c4, [[T.c4, -150, -215, 1.5], [A.L4w8, -145, -215, 1.58], [T.c5, -135, -210, 1.62]]);
+shot(T.c5, [[T.c5, 380, -215, 1.5], [T.c6, 395, -210, 1.62]]);
+shot(T.c6, [[T.c6, 110, -235, 1.3], [T.on + 0.5, 120, -230, 1.38], [T.nb, 135, -225, 1.46]]);
+shot(T.nb, [[T.nb, -180, -270, 0.44], [A.L7 - 0.1, -170, -270, 0.47], [A.L7 + 0.8, 120, -215, 1.5], [T.c7, 130, -210, 1.55]]);
 shot(T.c7, [[T.c7, WX, WY, 2.0], [T.c7 + 1.2, 20, -1500, 0.62], [DUR, 0, -1300, 0.5]]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
   const [x, y, z] = hermite(sh.keys, t);
   let dx = 0, dy = 0;
-  for (const t0 of [T.out, T.dead, T.fire, T.x4]) if (t >= t0 && t < t0 + 0.5) { const e = Math.exp(-(t - t0) * 8); dx += 10 * e * noise(t * 40, 1); dy += 10 * e * noise(t * 37, 2); }
+  for (const t0 of [T.off, T.on, T.burn]) if (t >= t0 && t < t0 + 0.5) { const e = Math.exp(-(t - t0) * 8); dx += 9 * e * noise(t * 40, 1); dy += 9 * e * noise(t * 37, 2); }
   return { x, y, z, lens: 1, tx: 0, ty: 0, dx, dy, r: 0 };
 }
 
@@ -107,128 +106,158 @@ const blinkAt = t => { const u = (t + 0.4) % 3.3; return u < 0.14 ? bump(u / 0.1
 const dblink = t => { const u = (t + 1.7) % 2.9; return u < 0.12 ? bump(u / 0.12) : 0; };
 const base = (t, extra = {}) => ({ s: S, face: -1, lean: 0.04, headTilt: 0.04, brow: 0, pop: 0, lid: 0.25, blink: blinkAt(t), look: [-0.5, 0], mouth: 0, jacket: false, boots: false, pack: false, ...extra });
 function stand(o, x, y = 0) { const k = (o.s ?? S) / S; o.hip = [x, y - LEG * k]; o.feet = { near: [x - 12 * k, y], far: [x + 16 * k, y] }; return o; }
-// a few steps from x0 to x1 between t0 and t1 (feet lift in turn, the hip bobs)
-function steps(o, x0, x1, t0, t1, t) {
-  const u = seg(t0, t1, t), x = lerp(x0, x1, u), n = 3, ph = clamp((t - t0) / (t1 - t0)) * n, i = Math.floor(ph), f = ph - i, dir = Math.sign(x1 - x0);
-  stand(o, x);
-  if (t > t0 && t < t1) {
-    const lift = 22 * Math.sin(Math.PI * f), sw = 26 * dir * (f - 0.5);
-    if (i % 2 === 0) o.feet.near = [o.feet.near[0] + sw, -lift]; else o.feet.far = [o.feet.far[0] + sw, -lift];
-    o.hip[1] -= 8 * Math.sin(Math.PI * f);
-  }
-  return o;
-}
 const shoulder = o => framesOf(o).T.p([-14, -192]);
 const talk = (t, a, b) => (t > a && t < b ? 0.3 + 0.25 * Math.abs(Math.sin(t * 13)) : 0);
-// the water: in the bath, in the held bottle, in the pots and bottles on the counter
-const bathLevel = t => (t < A.L3w1 ? 0.12 : t < T.c6 ? 0.12 + 0.76 * seg(A.L3w1, A.L3w3 + 0.6, t, u => u) : t < T.dive ? 0.88 - 0.06 * seg(T.c6 + 0.6, T.dive, t) : 0.82);
-const bathRun = t => (t < A.L3w1 - 0.05 ? 0 : t < T.ck ? 1 : 0);
-const kRun = t => (t < T.ck + 0.1 ? 1 : t < A.L3e - 0.35 ? 1 : t < A.L3e + 0.25 ? 0.25 : 0);
-const potFills = t => [sp(t, A.L3w8 - 0.05, 2, 8), sp(t, A.L3w8 + 0.1, 2, 8), sp(t, A.L3w10 - 0.05, 2, 8), sp(t, A.L3w10 + 0.07, 2, 8), sp(t, A.L3w10 + 0.19, 2, 8)].map(v => clamp(v));
-const heldFill = t => seg(T.ck + 0.15, A.L3w8 - 0.1, t, u => u);
-const fireK = t => (t < T.fire ? 0 : t < T.torch ? seg(T.fire, T.fire + 0.45, t, ease.out) : 0);
-const candleLit = t => (t >= T.c5 && t < T.torch ? 1 : 0);
-const sweep = t => 0.28 * Math.sin((t - T.torch) * 2.6);
+
+// the props of part 2 (world units, floor at y = 0)
+const BURNER = [560, Ap.TABLE.top];                            // the camping burner on the table
+const KNOB = [BURNER[0] + 44, BURNER[1] - 26];
+const FOOD = [{ x: 680, kind: 'tin' }, { x: 748, kind: 'bread' }, { x: 812, kind: 'nuts' }];
+const KETTLE = [230, Ap.COUNTER.top];
+const OUTLET = [318, -404];
+const PLUG = [262, -436];                                      // where his hand holds the plug he pulled out
+const BAG = [-92, -268];                                       // the bin bag's mouth, in his hand by the fridge
+const SHELF = [-246, -452];                                    // where the food comes out of the fridge
+const flameK = t => (t < T.c3 ? 1 : t < T.off + 0.2 ? 1 : 1 - seg(T.off + 0.2, T.off + 0.55, t));
+const foodK = t => FOOD.map((f, i) => clamp(sp(t, [A.L3w11, A.L3w12, A.L3w13][i] - 0.05, 2.6, 8)));
+const TRASH = () => [A.L4w1 - 0.1, A.L4w2 - 0.1, A.L4w4 - 0.1];
 
 export function actorsAt(t) {
   const sc = scene(t);
-  if (sc !== 'night' && sc !== 'day') return { h: null, d: null };
-  // —— step 1, the bath: he turns on the tap, the dog lights it ——
-  if (t < T.ck) {
-    const o = stand(base(t, { lean: 0.3, look: [-0.6, -0.3], brow: -0.3, mouth: 0.1 }), -755);
-    const tw = seg(A.L3w1 - 0.15, A.L3w1 + 0.1, t);
-    o.hands = { near: { p: [Ap.BTAP.x + 4, Ap.BTAP.y - 44], shape: 'grip', ang: -1.6 + 1.2 * tw }, far: { p: [o.hip[0] + 30, o.hip[1] - 20], shape: 'fist' } };
-    if (t > A.L3w2 + 0.2) { o.look = [0.4, 0.2]; o.brow = 0.3; }
-    const d = { x: -480, y: 0, s: DS, face: -1, sit: 1, torch: true, look: 0.45, tilt: 0.05 * Math.sin(t * 2), t, blink: dblink(t), ears: 0.1 };
-    return { h: o, d };
-  }
-  // —— the kitchen counter: a bottle under the tap, the pots and bottles fill ——
+  if (sc !== 'night' && sc !== 'nb') return { h: null, d: null };
+  // —— step 1, the table: his hand on the burner's knob; «никакого огня» he turns it off; then a tin for supper ——
   if (t < T.c4) {
-    const o = stand(base(t, { lean: 0.12, look: [-0.7, 0.2], brow: 0.1 }), 300);
-    o.hands = { near: { p: [206, -292], shape: 'grip' }, far: { p: [190, -270], shape: 'grip' } };
-    o.prop = { kind: 'bottle', p: [196, -272], f: heldFill(t) };
-    if (t > A.L3e - 0.3) { o.look = [-0.4, -0.5]; o.brow = 0.6; o.pop = 0.4 * bump(seg(A.L3e - 0.3, A.L3e + 0.4, t)); }
-    const d = { x: -20, y: 0, s: DS, face: 1, sit: 1, torch: true, look: 0.55, tilt: 0.04 * Math.sin(t * 2.3), t, blink: dblink(t) };
+    const o = stand(base(t, { face: 1, lean: 0.12, look: [0.6, 0.4], brow: 0.2 }), 410);
+    const sh = shoulder(o), back = seg(T.off + 0.25, T.off + 0.6, t);
+    o.hands = { near: { p: [lerp(KNOB[0] - 4, sh[0] + 30, back), lerp(KNOB[1], sh[1] + 80, back)], shape: back < 0.5 ? 'grip' : 'fist', ang: -0.4 - 1.2 * seg(T.off, T.off + 0.25, t) } };
+    if (t > T.off) { o.pop = clamp(sp(t, T.off, 2.4, 7)) * (1 - seg(T.off + 0.6, T.off + 1.1, t)); o.brow = 0.7; o.mouth = 0.15; }
+    if (t > T.food) {
+      const k = clamp(sp(t, T.food, 2.4, 7));
+      o.hands = { near: { p: [sh[0] + 70 * k, sh[1] + 40 - 30 * k], shape: 'grip' }, far: { p: [sh[0] + 50 * k, sh[1] + 60 - 10 * k], shape: 'grip' } };
+      o.prop = { kind: 'tin', p: [sh[0] + 64 * k, sh[1] + 26 - 30 * k], open: seg(A.L3w8, A.L3w10, t) };
+      o.look = [0.7, 0.5]; o.brow = 0.3; o.mouth = 0.2 + 0.2 * Math.abs(Math.sin(t * 6)) * seg(A.L3w12, A.L3e, t);
+    }
+    const d = { x: 290, y: 0, s: DS, face: 1, sit: 1, torch: true, look: 0.42, tilt: 0.04 * Math.sin(t * 2), t, blink: dblink(t), ears: t > T.off ? 0.9 : 0.2 };
     return { h: o, d };
   }
-  // —— step 2, the fridge: his hand goes for the door, the dog begs; the cross; he lets go ——
+  // —— step 2, the fridge: the bin bag in one hand, the meat, the milk and the eggs go in; the dog begs for the meat ——
   if (t < T.c5) {
-    const o = stand(base(t, { lean: 0.16, look: [-0.6, 0], brow: 0.2 }), -95);
-    const reach = seg(A.L4w1 - 0.25, A.L4w2, t) * (1 - seg(T.x4 + 0.15, T.x4 + 0.45, t));
-    const rest = [o.hip[0] - 20, o.hip[1] + 10];
-    o.hands = { near: { p: [lerp(rest[0], -184, reach), lerp(rest[1], -362, reach)], shape: reach > 0.6 ? 'grip' : 'fist' } };
-    if (t > T.x4) { o.pop = clamp(sp(t, T.x4, 2.4, 7)) * (1 - seg(T.x4 + 0.6, T.x4 + 1.2, t)); o.brow = 0.7; o.look = [0.6, 0.3]; o.mouth = 0.15; }
-    if (t > A.L4w5) { o.face = 1; o.look = [0.5, 0.4]; o.brow = -0.2; o.mouth = talk(t, A.L4w5, A.L4w8); o.lean = 0.1; o.headTilt = 0.15; }
-    const begK = 1 - seg(T.x4 + 0.2, T.x4 + 0.6, t);
-    const d = { x: 160, y: 0, s: DS, face: -1, sit: 1, beg: begK, mouth: 0.8 * begK, tongue: 0.9 * begK, ears: 1 - begK, look: 0.2 + 0.4 * begK, wag: begK, wagPh: t * 3, t, blink: dblink(t), brow: begK > 0.5 ? null : -0.5 };
+    const o = stand(base(t, { face: -1, lean: 0.14, look: [-0.6, -0.1], brow: -0.2 }), 20);
+    const reach = Math.max(...TRASH().map(t0 => bump(seg(t0 - 0.35, t0 + 0.15, t, u => u))));
+    o.hands = { near: { p: BAG, shape: 'grip' }, far: { p: [lerp(-150, SHELF[0] + 40, reach), lerp(-380, SHELF[1] + 10, reach)], shape: reach > 0.5 ? 'grip' : 'open' } };
+    o.prop = { kind: 'bag', p: BAG };
+    if (t > A.L4w8) { o.face = 1; o.look = [0.6, 0.3]; o.brow = 0.5; o.mouth = talk(t, A.L4w8, A.L4e - 0.3); o.headTilt = 0.12; }
+    const begK = 1 - seg(A.L4w5, A.L4w7, t);
+    const d = { x: 170, y: 0, s: DS, face: -1, sit: 1, beg: begK, mouth: 0.8 * begK, tongue: 0.9 * begK, ears: 1 - begK, look: 0.25 + 0.35 * begK, wag: begK, wagPh: t * 3, t, blink: dblink(t), brow: begK > 0.5 ? null : -0.6 };
     return { h: o, d, torchOnCounter: true };
   }
-  // —— step 3, the candle by the window; the curtain catches ——
-  if (t < T.torch) {
-    const o = stand(base(t, { face: 1, lean: 0.05, look: [0.6, 0.2], brow: 0.3, mouth: 0.1 }), 420);
-    const sh = shoulder(o);
-    o.hands = { near: { p: [sh[0] + 30, sh[1] + 60], shape: 'fist' }, far: { p: [sh[0] + 10, sh[1] + 70], shape: 'fist' } };
-    if (t > T.fire + 0.1) { const k = clamp(sp(t, T.fire + 0.1, 2.4, 7)); o.pop = k; o.brow = 1; o.mouth = 0.6 * k; o.lean = -0.12 * k; o.hatJump = 26 * bump((t - T.fire - 0.1) / 0.3);
-      o.hands = { near: { p: [sh[0] + 60, sh[1] - 60 * k], shape: 'open' }, far: { p: [sh[0] - 10, sh[1] - 70 * k], shape: 'open' } }; }
-    const d = { x: 290, y: 0, s: DS, face: 1, sit: 1, torch: true, torchOff: true, look: 0.3, ears: 0.6, t, blink: dblink(t) };
-    if (t > T.fire + 0.1) { d.ears = 1; d.look = 0.6; }
-    return { h: o, d };
-  }
-  // —— the room in the torch beam: the dog sweeps it about, he gives a thumbs up ——
-  if (t < T.ph) {
-    const o = stand(base(t, { face: -1, look: [-0.6, 0.3], brow: 0.5, mouth: 0.25 }), 540);
-    const sh = shoulder(o), k = clamp(sp(t, T.torch + 0.25, 2.4, 7));
-    o.hands = { near: { p: [sh[0] - 40 * k, sh[1] - 50 * k + 40], shape: k > 0.5 ? 'thumb' : 'fist', ang: -Math.PI / 2 } };
-    const d = { x: 170, y: 0, s: DS, face: 1, sit: 1, torch: true, look: 0.25, tilt: 0.12 + 0.6 * sweep(t), t, blink: dblink(t), wag: 1, wagPh: t * 2.6 };
-    return { h: o, d };
-  }
-  // —— the phone: he switches on the power saving, the dog lights his hands ——
+  // —— step 3, the phone: the call fails, he types instead; the dog lights his hands ——
   if (t < T.c6) {
     const o = stand(base(t, { face: 1, lean: 0.1, look: [0.6, 0.6], brow: 0.2, headTilt: 0.18 }), 420);
     const sh = shoulder(o);
-    o.hands = { near: { p: [sh[0] + 56, sh[1] + 30], shape: 'grip' }, far: { p: [sh[0] + 44, sh[1] + 44], shape: 'point' } };
-    o.prop = { kind: 'phone', p: [sh[0] + 60, sh[1] + 4] };
+    if (t < T.chat) { o.hands = { near: { p: [sh[0] + 34, sh[1] - 44], shape: 'grip' } }; o.prop = { kind: 'phone', p: [sh[0] + 30, sh[1] - 74], ang: -0.2 }; o.look = [0.5, -0.2]; o.brow = t > A.L5w3 ? 0.7 : 0.2; }
+    else { o.hands = { near: { p: [sh[0] + 56, sh[1] + 30], shape: 'grip' }, far: { p: [sh[0] + 44, sh[1] + 44], shape: 'point' } }; o.prop = { kind: 'phone', p: [sh[0] + 60, sh[1] + 4], ang: 0.3 }; }
     const d = { x: 250, y: 0, s: DS, face: 1, sit: 1, torch: true, look: 0.5, t, blink: dblink(t) };
     return { h: o, d };
   }
-  // —— day 3: he scoops the bath with the bucket, steps to the toilet and pours it in ——
+  // —— day 7: he holds up the kettle's plug, pulled out before; the lamp comes on; the tick ——
   if (t < A.L7) {
-    if (t < T.c6 + 1.1) {
-      const o = stand(base(t, { lean: 0.28, look: [-0.5, 0.5], brow: 0.2 }), -820);
-      const dip = bump(seg(T.c6, T.c6 + 1.0, t, u => u));
-      o.prop = { kind: 'bucket', p: [-905, -330 + 80 * dip], f: 0.4 + 0.6 * seg(T.c6 + 0.3, T.c6 + 0.8, t), tilt: 0.2 * dip };
-      o.hands = { near: { p: o.prop.p, shape: 'grip' } };
-      return { h: o, d: dogDay(t) };
-    }
-    const o = steps(base(t, { face: 1, lean: 0.12, look: [0.6, 0.5], brow: 0.3 }), -820, -700, T.c6 + 1.1, T.dive - 0.05, t);
-    const k = seg(T.pour, T.pour + 0.45, t), sh = shoulder(o), tilt = 1.45 * k;
-    o.prop = { kind: 'bucket', p: [lerp(sh[0] + 40, -545, k), lerp(sh[1] + 70, -238, k)], f: 1 - seg(T.pour + 0.3, T.pour + 1.1, t), tilt, front: k > 0.05 };
-    const bot = [o.prop.p[0] - Math.sin(tilt) * 118, o.prop.p[1] + Math.cos(tilt) * 118];       // he lifts the bucket by its bottom
-    o.hands = { near: { p: o.prop.p, shape: 'grip' }, far: { p: [lerp(sh[0] + 20, bot[0], k), lerp(sh[1] + 90, bot[1], k)], shape: 'grip' } };
-    return { h: o, d: dogDay(t) };
+    const o = stand(base(t, { face: 1, lean: 0.06, look: [0.6, -0.2], brow: 0.3 }), 120);
+    const sh = shoulder(o), show = clamp(sp(t, A.L6w6 - 0.1, 2.4, 7));
+    o.hands = { near: { p: [lerp(PLUG[0], sh[0] + 90, show), lerp(PLUG[1], sh[1] - 40, show)], shape: 'grip' }, far: { p: [sh[0] - 10, sh[1] + 90], shape: 'fist' } };
+    o.prop = { kind: 'plug', p: o.hands.near.p };
+    if (t > T.on) { const k = clamp(sp(t, T.on, 2.4, 7)); o.look = [-0.2, -0.8]; o.brow = 0.6 + 0.3 * k * (1 - seg(T.on + 0.6, T.on + 1.2, t)); o.mouth = 0.4 * k * (1 - seg(T.on + 0.8, T.on + 1.3, t)); }
+    if (t > A.L6w6) { o.look = [0.8, 0.1]; o.brow = 0.5; o.mouth = 0.3; }
+    if (t > T.burn) { o.look = [-0.5, 0]; o.brow = 0.9; o.pop = clamp(sp(t, T.burn, 2.4, 7)) * (1 - seg(T.burn + 0.6, T.burn + 1.1, t)); }
+    const d = { x: -150, y: 0, s: DS, face: 1, sit: 1, torch: t < T.on + 0.4, torchOff: t > T.on, look: t < T.on ? 0.5 : 0.25, t, blink: dblink(t), ears: t > T.on ? 1 : 0.3, wag: t > T.on ? 1 : 0, wagPh: t * 2.6, mouth: t > T.on ? 0.5 : 0, tongue: t > T.on ? 0.6 : 0 };
+    return { h: o, d };
   }
   // —— «Подписывайся»: a thumbs up to us ——
-  const o = stand(base(t, { face: 1, look: [0.8, 0], brow: 0.6, mouth: 0.35, lean: 0.02 }), -700);
+  const o = stand(base(t, { face: 1, look: [0.8, 0], brow: 0.6, mouth: 0.35, lean: 0.02 }), 120);
   const sh = shoulder(o), k = clamp(sp(t, A.L7 + 0.05, 2.4, 7));
   o.hands = { near: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } };
-  const d = { x: -440, y: 0, s: DS, face: -1, sit: 1, look: 0.4, mouth: 0.7, tongue: 0.8, wag: 1, wagPh: t * 3, t, blink: dblink(t) };
+  const d = { x: -150, y: 0, s: DS, face: 1, sit: 1, look: 0.4, mouth: 0.7, tongue: 0.8, wag: 1, wagPh: t * 3, t, blink: dblink(t) };
   return { h: o, d };
 }
-function dogDay(t) { return { x: -380, y: 0, s: DS, face: -1, sit: 1, look: 0.3, mouth: 0.5, tongue: 0.6, wag: 1, wagPh: t * 2.2, t, blink: dblink(t) }; }
 function hunterDraw(t, o) {
   o = { ...o };
   const p = o.prop;
-  if (p?.kind === 'bottle') o.propNear = () => Ap.bottle(p.p[0], p.p[1], p.f, 1);
-  if (p?.kind === 'phone') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); g.rotate(0.3); rrect(-16, -30, 32, 60, 7, '#24232f'); rrect(-12, -25, 24, 48, 4, phoneSaver(t) > 0.5 ? '#6f8fb0' : '#9fd8ff'); g.restore(); };
-  if (p?.kind === 'bucket') o[p.front ? 'propNear' : 'propFar'] = () => Ap.drawBucket(p.p[0], p.p[1], 0.8, p.f, p.tilt);   // tipped, it is held against his belly, in front
+  if (p?.kind === 'phone') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); g.rotate(p.ang ?? 0.3); rrect(-16, -30, 32, 60, 7, '#24232f'); rrect(-12, -25, 24, 48, 4, t < T.chat ? '#c95a5a' : '#9fd8ff'); g.restore(); };
+  if (p?.kind === 'tin') o.propNear = () => tin(p.p[0], p.p[1], 0.9, p.open);
+  if (p?.kind === 'bag') o.propNear = () => binBag(p.p[0], p.p[1], t);
+  if (p?.kind === 'plug') o.propNear = () => plug(p.p[0], p.p[1]);
   return drawHunter(o);
 }
-const phoneSaver = t => seg(A.L5w12 - 0.1, A.L5w12 + 0.15, t);
 
-// —— the night light: darkness over the flat with holes where the torch, the candle, the fire and the window light it ——
+// —— the new props ——
+// the camping burner: a red gas canister, the burner head and its pot stand; lit 0…1 a blue flame with orange tips
+function burner(x, y, lit, t) {
+  rrect(x - 40, y - 74, 80, 74, 14, '#d8452f'); rect(x - 40, y - 52, 80, 22, '#f0e6d2'); rect(x - 28, y - 46, 40, 10, '#d8452f');
+  rrect(x - 30, y - 92, 60, 20, 6, '#6e7584'); rrect(x - 20, y - 104, 40, 14, 4, '#9aa3b2');
+  for (const dx of [-34, 34]) limb([[x + dx * 0.6, y - 100], [x + dx, y - 116]], 6, '#555c6a', false);
+  ell(KNOB[0], KNOB[1], 11, 11, '#2c3140'); rect(KNOB[0] - 2, KNOB[1] - 12, 4, 10, '#9aa3b2');
+  if (lit > 0.01) {
+    const fl = 1 + 0.1 * noise(t * 14, 5);
+    for (let i = -2; i <= 2; i++) {
+      const fx = x + i * 9, fh = (34 + 10 * (2 - Math.abs(i))) * lit * fl;
+      fill(smoothPath([[fx - 6, y - 104], [fx + 2 * noise(t * 9 + i, 2), y - 104 - fh], [fx + 6, y - 104]]), '#5aa0ff', 0.9);
+      fill(smoothPath([[fx - 3, y - 104 - fh * 0.55], [fx + 3 * noise(t * 11 + i, 3), y - 104 - fh * 1.1], [fx + 3, y - 104 - fh * 0.55]]), '#ffb84d', 0.8);
+    }
+    ell(x, y - 104, 40 * lit, 8 * lit, 'rgba(120,180,255,0.5)');
+  }
+}
+// a tin of food: open 0…1 lifts the lid
+function tin(x, y, s = 1, open = 0) {
+  rrect(x - 26 * s, y - 70 * s, 52 * s, 70 * s, 8 * s, '#b9c2cc'); rect(x - 26 * s, y - 52 * s, 52 * s, 30 * s, '#d9433b');
+  rect(x - 16 * s, y - 44 * s, 32 * s, 6 * s, '#fff3d6'); rect(x - 26 * s, y - 70 * s, 52 * s, 6 * s, '#8c96a3');
+  if (open > 0.02) { g.save(); g.translate(x + 26 * s, y - 70 * s); g.rotate(-1.9 * open); ell(-26 * s, 0, 26 * s, 6 * s, '#cfd6de'); g.restore(); ell(x, y - 70 * s, 22 * s, 4 * s, '#8a5a3a'); }
+}
+function bread(x, y) { ell(x, y - 26, 46, 28, '#c98a4a'); ell(x - 6, y - 34, 38, 18, '#d99c5a'); for (let i = -1; i <= 1; i++) limb([[x + i * 18 - 6, y - 44], [x + i * 18 + 6, y - 30]], 4, '#a86a34', false); }
+function nuts(x, y) { fill(polyPath([[x - 34, y - 26], [x + 34, y - 26], [x + 24, y], [x - 24, y]]), '#4f86c6'); for (let i = 0; i < 6; i++) ell(x - 22 + i * 9, y - 30 - 6 * (i % 2), 9, 7, '#a8743e'); }
+// the black bin bag, held at its knot (x, y)
+function binBag(x, y, t) {
+  const sw = 3 * Math.sin(t * 2.4);
+  fill(smoothPath([[x - 18, y], [x + 18, y], [x + 54 + sw, y + 60], [x + 50 + sw, y + 150], [x + sw, y + 170], [x - 50 + sw, y + 150], [x - 54 + sw, y + 60]]), '#2a2d36');
+  limb([[x - 14, y + 30], [x - 30 + sw, y + 140]], 5, '#3b3f4c', false); limb([[x + 18, y + 40], [x + 28 + sw, y + 130]], 5, '#3b3f4c', false);
+  ell(x, y, 22, 12, '#2a2d36'); ell(x - 10, y - 12, 10, 14, '#2a2d36', -0.5); ell(x + 10, y - 12, 10, 14, '#2a2d36', 0.5);
+}
+// the food that goes into the bag: kind 0 meat, 1 milk, 2 eggs
+function trashItem(kind, x, y, a) {
+  g.save(); g.translate(x, y); g.rotate(a);
+  if (kind === 0) { ell(0, 0, 40, 26, '#d9636a'); ell(-6, -4, 30, 18, '#ec8a8a'); ell(22, -2, 10, 8, '#fff3e6'); }
+  else if (kind === 1) { rect(-20, -34, 40, 64, '#f6f3ec'); poly([[-20, -34], [0, -50], [20, -34]], '#dcd7cc'); rect(-20, -6, 40, 14, '#3c7ad6'); }
+  else { ell(-12, 0, 16, 21, '#f3e6cf'); ell(12, 2, 16, 21, '#ead8b8'); }
+  g.restore();
+}
+// the fridge with its top door swung open: dark inside (no power), a few shelves, the smell rising
+function fridgeOpen(t, k) {
+  const { x0, x1, top, split } = Ap.FRIDGE;
+  if (k <= 0.01) return;
+  rrect(x0 + 12, top + 14, x1 - x0 - 24, split - top - 30, 10, '#9fb0b8');
+  for (const y of [top + 140, top + 270]) rect(x0 + 14, y, x1 - x0 - 28, 6, '#c9d6dc');
+  ell(x0 + 70, top + 262, 22, 18, '#e0b84a'); rrect(x0 + 120, top + 92, 40, 48, 6, '#7aa36a');
+  const dx = 110 * k;
+  fill(polyPath([[x1, top + 4], [x1 + dx, top + 30], [x1 + dx, split - 20], [x1, split - 6]]), '#e2e6ea');
+  rect(x1 + dx - 14, top + 120, 10, 140, Ap.COLORS.chrome);
+  for (let i = 0; i < 3; i++) {                                 // the smell: wavy green lines rising
+    const u = ((t * 0.7 + i / 3) % 1), x = x0 + 50 + i * 60;
+    limb([[x, top + 40 - 30 * u], [x + 14, top + 10 - 30 * u], [x - 6, top - 20 - 30 * u], [x + 10, top - 50 - 30 * u]], 6, rgba('#8fcf5a', 0.7 * bump(u) * k));
+  }
+}
+function kettle(x, y) {
+  rrect(x - 44, y - 104, 88, 104, 22, '#d9e2ea'); rect(x - 44, y - 16, 88, 16, '#9aa6b8'); rrect(x - 30, y - 118, 60, 18, 8, '#9aa6b8');
+  limb([[x + 44, y - 84], [x + 66, y - 70], [x + 56, y - 30], [x + 44, y - 24]], 10, '#9aa6b8'); limb([[x - 44, y - 70], [x - 70, y - 92]], 12, '#d9e2ea', false);
+}
+function outlet(x, y, lit) { rrect(x - 30, y - 30, 60, 60, 8, '#f6f3ec'); rrect(x - 30, y - 30, 60, 60, 8, 'rgba(0,0,0,0.06)'); ell(x - 10, y, 5, 7, '#3a3f52'); ell(x + 10, y, 5, 7, '#3a3f52'); if (lit) ell(x, y - 20, 3, 3, '#3ddc84'); }
+function plug(x, y) { rrect(x - 16, y - 20, 32, 40, 8, '#f2efe6'); rect(x - 10, y - 34, 5, 16, '#c8a24a'); rect(x + 5, y - 34, 5, 16, '#c8a24a'); }
+// the cable from the kettle to the plug in his hand
+function cable(from, to) { limb([from, [lerp(from[0], to[0], 0.3), from[1] + 60], [lerp(from[0], to[0], 0.7), to[1] + 90], [to[0], to[1] + 20]], 6, '#e8e4da'); }
+
+// —— the night light: darkness over the flat with holes where the torch, the burner, the lamp and the window light it ——
 let DK = null, dk = null;
 export function init() { DK = createCanvas(W, H); dk = DK.getContext('2d'); Hd.initHud(); }
 function lighting(t, cam, lights, amount = 0.86) {
+  if (amount <= 0.005) return;
   dk.setTransform(1, 0, 0, 1, 0, 0); dk.globalCompositeOperation = 'source-over'; dk.clearRect(0, 0, W, H);
   dk.fillStyle = `rgba(4,7,17,${amount})`; dk.fillRect(0, 0, W, H);
   dk.globalCompositeOperation = 'destination-out';
@@ -236,6 +265,7 @@ function lighting(t, cam, lights, amount = 0.86) {
   const shapes = [];
   for (const L of lights) {
     const [x, y] = toScreen(cam, L.p), r = L.r * z;
+    if (!(r > 1)) continue;                       // a light that has shrunk to nothing (a gradient of radius ≤ 0 throws)
     if (L.cone) {
       const a = L.a, s = L.spread ?? 0.36, gr = dk.createRadialGradient(x, y, 0, x, y, r);
       gr.addColorStop(0, `rgba(0,0,0,${L.k})`); gr.addColorStop(0.65, `rgba(0,0,0,${L.k * 0.85})`); gr.addColorStop(1, 'rgba(0,0,0,0)');
@@ -250,7 +280,6 @@ function lighting(t, cam, lights, amount = 0.86) {
     shapes.push({ x, y, r, L });
   }
   g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(DK, 0, 0);
-  // a warm tint inside the light
   for (const { x, y, r, L } of shapes) {
     if (!L.tint) continue;
     const gr = g.createRadialGradient(x, y, 0, x, y, r);
@@ -266,19 +295,19 @@ export function frame(t) {
   const sc = scene(t);
   if (sc === 'cover') { coverFrame(t); Hd.finish(t); return; }
   const cam = camAt(t);
-  if (sc === 'city' || sc === 'cityday') cityFrame(t, cam, sc === 'cityday');
+  if (sc === 'city' || sc === 'citylit') cityFrame(t, cam, sc === 'citylit');
   else if (sc === 'bp') blueprintFrame(t, cam);
-  else flatFrame(t, cam, sc === 'day');
+  else flatFrame(t, cam, sc);
   overlays(t, cam);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, sc === 'bp' ? 0.6 : 1);
 }
 
-// —— outside: the city, the blackout wave, our window ——
-function cityFrame(t, cam, day) {
-  Cy.drawCity(t, cam, { t0: day ? -1e9 : T.out, day: day ? 1 : 0, home: day ? 0 : 1, inside: (x, y, w, h) => ourWindow(t, x, y, w, h) });
+// —— outside: the city a week into the blackout (a few neighbours' windows flicker with fire), or lit again at the end ——
+const CITY_FIRES = [[1, 19], [4, 21], [0, 16], [5, 14], [2, 11], [3, 17], [1, 8]];
+function cityFrame(t, cam, back) {
+  Cy.drawCity(t, cam, { t0: back ? 1e9 : -1e9, day: 0, home: back ? 0 : 1, fires: back ? [] : CITY_FIRES, inside: (x, y, w, h) => ourWindow(t, x, y, w, h) });
 }
-// in our window after the blackout: the torch beam and two silhouettes, him and the dog
 function ourWindow(t, x, y, w, h) {
   g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip();
   rect(x, y, w, h, '#151a2b');
@@ -292,73 +321,94 @@ function ourWindow(t, x, y, w, h) {
   g.restore();
 }
 
-// —— the blueprint: the stairs, the riser, the pump, the whole tower ——
-const waterLevel = t => (t < T.drain ? 23 : t < T.pull ? lerp(23, 20.4, seg(T.drain, T.c2, t, ease.out)) : lerp(20.4, 9.5, seg(T.pull + 0.2, T.c3 - 0.2, t, ease.inOut)));
-const pumpOn = t => (t < T.dead ? 1 : 1 - seg(T.dead, T.dead + 0.7, t, ease.out));
-const pumpAngle = t => (t < T.dead ? t * 7 : T.dead * 7 + 7 * 0.7 * (1 - Math.exp(-(t - T.dead) * 1.4)) / 1);
+// —— the blueprint: the tower a week on (no water above the 9th floor), fires in the flats, the gas spreading up ——
+const BP_FIRES = [{ f: 19, x: 150, at: 0 }, { f: 21, x: 320, at: 0.22 }, { f: 16, x: 60, at: 0.4 }, { f: 13, x: 260, at: 0.55 }, { f: 17, x: 380, at: 0.7 }, { f: 11, x: 120, at: 0.85 }, { f: 8, x: 300, at: 1.0 }];
+const fireOn = (t, F) => clamp(sp(t, (F.at < 0.5 ? T.f1 : T.f2) + F.at * 0.5, 2.6, 8));
 function blueprintFrame(t, cam) {
   const P = Sc.palette('night');
   Sc.backdrop(P, cam);
   view(cam, 1);
-  const dots = t > A.L1w1 - 0.1 ? Sc.crowd(t, A.L1w1 - 0.1) : [];
-  // you: a warm dot by your door on the 20th floor
-  const you = [Sc.BLD.stair[1] + 70, F20 - 30];
-  dots.push([you[0], you[1] - 6 * Math.abs(Math.sin(t * 3)), WARM, 13]);
-  Sc.tower(t, P, { level: waterLevel(t), flow: t < T.c2 ? 0 : pumpOn(t), spin: pumpAngle(t), power: t < T.c2 ? 1 : pumpOn(t), dots, home: 1, dry: seg(T.pull + 0.3, T.c3 - 0.2, t, u => u), labels: seg(T.c1, T.c1 + 0.8, t), mark: T.dead });
+  const you = [Sc.BLD.stair[1] + 70, FY(20) - 30];
+  Sc.tower(t, P, { level: 9.5, flow: 0, spin: 0, power: 0, dots: [[you[0], you[1] - 6 * Math.abs(Math.sin(t * 3)), WARM, 13]], home: 1, dry: 1, labels: seg(T.c1, T.c1 + 0.8, t), mark: null });
   Hd.label('ТЫ', you[0] + 26, you[1] - 22, 30, WARM, { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
+  // the gas: grey clouds that grow from every fire and creep up through the floors above it
+  const gas = seg(T.co, T.c3 - 0.2, t, u => u);
+  if (gas > 0) for (const F of BP_FIRES) {
+    const y0 = FY(F.f + 1) + Sc.FH * 0.55;
+    for (let i = 0; i < 9; i++) {
+      const u = clamp(gas * 1.6 - i * 0.12), up = u * (110 + 60 * hash(i + F.f)) * (1 + (i % 3)), r = (40 + 50 * u) * (0.7 + 0.5 * hash(i * 3 + F.f));
+      if (u <= 0) continue;
+      ell(F.x - 120 + 240 * hash(i * 7 + F.f) + 20 * Math.sin(t * 1.5 + i), y0 - up, r, r * 0.7, rgba('#b8c2d0', 0.16 * u));
+    }
+  }
+  // the fires: a flame icon glowing in each flat that lit a grill or a burner
+  for (const F of BP_FIRES) {
+    const k = fireOn(t, F);
+    if (k <= 0.01) continue;
+    const y = FY(F.f + 1) + Sc.FH * 0.58, fl = 1 + 0.12 * noise(t * 9 + F.f, 2);
+    ell(F.x, y, 46 * k, 40 * k, rgba('#ff7a2a', 0.22));
+    g.save(); g.translate(F.x, y); g.scale(k * fl, k * fl); Hd.icon('flame', 28, '#ff8a3d'); g.restore();
+  }
 }
 
-// —— the flat at night or by day ——
-function flatFrame(t, cam, day) {
+// —— the flat: at night (the torch, the burner), lit again on day 7, then among the neighbours ——
+function flatFrame(t, cam, sc) {
   const { h, d, torchOnCounter } = actorsAt(t);
-  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = day ? '#e8e1cf' : '#090c16'; g.fillRect(0, 0, W, H);
-  if (day && t < T.dive + 0.9) neighbours(t, cam);
+  const on = lit(t), inNb = sc === 'nb' && t < A.L7 + 0.9;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = inNb ? '#e8e1cf' : '#090c16'; g.fillRect(0, 0, W, H);
+  if (inNb) neighbours(t, cam);
   view(cam, 1);
-  Ap.drawShell(t, { power: false });
-  Ap.drawWindow(t, { day: day ? 1 : 0, fire: fireK(t) });
-  Ap.drawTub(t, { level: bathLevel(t), run: bathRun(t) });
-  Ap.drawToilet(t, { swirl: seg(T.pour + 0.5, T.pour + 0.8, t) * (1 - seg(T.pour + 2.2, T.pour + 3, t)) });
+  Ap.drawShell(t, { power: on > 0.5, lampOn: on > 0.5 });
+  Ap.drawWindow(t, { day: 0 });
+  Ap.drawTub(t, { level: 0.35, run: 0 });
+  Ap.drawToilet(t, {});
   Ap.drawFridge(t);
-  Ap.drawCounter(t, { run: scene(t) === 'night' && t < T.c4 ? kRun(t) : 0, fills: t >= T.ck ? potFills(t) : [0, 0, 0, 0, 0], streamTo: t >= T.ck && t < T.c4 ? -272 - 92 : -300 });
-  Ap.drawTable(t, { lit: candleLit(t), lean: t > A.L5w3 ? 0.8 : 0.1 });
-  if (t >= T.torch && t < T.ph + 0.8 && !day) smoke(t, Ap.CANDLE[0], Ap.CANDLE[1] - 102);
-  Ap.drawBowl(t, 1);
-  if (torchOnCounter) torchProp(60, -306);
+  if (t >= T.c4 && t < T.c5) {
+    fridgeOpen(t, seg(T.c4 - 0.05, T.c4 + 0.3, t));
+    TRASH().forEach((t0, i) => {                                // each item arcs from the shelf into the bag
+      const u = seg(t0, t0 + 0.45, t, u => u);
+      if (u <= 0 || u >= 1) return;
+      const x = lerp(SHELF[0], BAG[0], u), y = lerp(SHELF[1], BAG[1] + 20, u) - 120 * bump(u);
+      trashItem(i, x, y, u * 2.4);
+    });
+  }
+  Ap.drawCounter(t, { fills: [1, 0.6, 0, 0, 0.3] });
+  if (t >= T.c6) { kettle(KETTLE[0], KETTLE[1]); outlet(OUTLET[0], OUTLET[1], on > 0.5); }
+  Ap.drawTable(t, { candle: false });
+  if (t < T.c4) { burner(BURNER[0], BURNER[1], flameK(t), t); const fk = foodK(t); FOOD.forEach((f, i) => { if (fk[i] < 0.01) return; g.save(); g.translate(f.x, BURNER[1]); g.scale(fk[i], fk[i]); f.kind === 'tin' ? tin(0, 0, 1, 1) : f.kind === 'bread' ? bread(0, 0) : nuts(0, 0); g.restore(); }); }
+  else burner(BURNER[0], BURNER[1], 0, t);
+  Ap.drawBowl(t, 0.3);
+  if (torchOnCounter) torchProp(190, -306);
+  if (on > 0.01) { const [lx, ly] = [Ap.LAMP[0], Ap.ROOM.ceil + 112]; ell(lx, ly + 30, 260, 120, rgba('#ffe7a8', 0.18 * on)); }
   let dl = null;
-  if (d) dl = drawDog({ ...d, torch: d.torch && !d.torchOff ? true : d.torch });
+  if (d) dl = drawDog(d);
+  if (h?.prop?.kind === 'plug') cable([KETTLE[0] + 44, KETTLE[1] - 24], h.prop.p);
   if (h) hunterDraw(t, h);
-  if (h?.prop?.kind === 'bucket' && t > T.pour + 0.25 && t < T.pour + 1.2) {             // the pour: water from the lip into the bowl
-    const k = seg(T.pour + 0.25, T.pour + 0.45, t) * (1 - seg(T.pour + 1.0, T.pour + 1.2, t)), lip = Ap.bucketLip(h.prop.p[0], h.prop.p[1], 0.8, h.prop.tilt);
-    const bowl = [Ap.TOILET.x - 10, -176];
-    limb([lip, [lerp(lip[0], bowl[0], 0.4) + 10, lerp(lip[1], bowl[1], 0.4)], bowl], 24 * k, Ap.COLORS.water); limb([lip, [lerp(lip[0], bowl[0], 0.5) + 6, lerp(lip[1], bowl[1], 0.5)]], 7 * k, '#c8ecff');
-  }
-  if (!day) {
+  // the darkness until the power comes back
+  const dark = 0.76 * (1 - on);
+  if (dark > 0.005) {
     const lights = [{ p: [(Ap.WIN.x0 + Ap.WIN.x1) / 2, (Ap.WIN.y0 + Ap.WIN.y1) / 2], r: 480, k: 0.45 }];
-    if (dl?.lens && !d.torchOff) lights.push({ p: dl.lens, a: dl.beamAng, r: 1150, k: 0.97, cone: true, spread: 0.42, tint: '#ffcf7a' });
-    if (torchOnCounter) lights.push({ p: [56, -306], a: Math.PI + 0.06, r: 900, k: 0.95, cone: true, spread: 0.45, tint: '#ffcf7a' });
-    if (candleLit(t)) lights.push({ p: [Ap.CANDLE[0], Ap.CANDLE[1] - 120], r: 420 + 20 * noise(t * 10, 3), k: 0.9, tint: '#ffb84d' });
-    const fk = fireK(t); if (fk > 0) lights.push({ p: [Ap.WIN.x1 + 10, Ap.WIN.y1 - 40], r: 380 + 520 * fk, k: 0.95 * fk, tint: '#ff7a3d' });
-    if (h?.prop?.kind === 'phone') { const sh = shoulder(h); lights.push({ p: [sh[0] + 60, sh[1]], r: 200, k: 0.7, tint: '#9fd8ff' }); }
-    lighting(t, cam, lights, 0.76);
+    if (dl?.lens && d.torch && !d.torchOff) lights.push({ p: dl.lens, a: dl.beamAng, r: 1150, k: 0.97, cone: true, spread: 0.42, tint: '#ffcf7a' });
+    if (torchOnCounter) lights.push({ p: [186, -306], a: Math.PI + 0.08, r: 900, k: 0.95, cone: true, spread: 0.45, tint: '#ffcf7a' });
+    const fk = t < T.c4 ? flameK(t) : 0;
+    if (fk > 0.01) lights.push({ p: [BURNER[0], BURNER[1] - 130], r: (360 + 40 * noise(t * 10, 3)) * fk, k: 0.9 * fk, tint: '#7fb2ff' });
+    if (h?.prop?.kind === 'phone') { const sh = shoulder(h); lights.push({ p: [sh[0] + 50, sh[1]], r: 220, k: 0.7, tint: t < T.chat ? '#ff8a8a' : '#9fd8ff' }); }
+    lighting(t, cam, lights, dark);
   }
-}
-// the candle's smoke after it is put out
-function smoke(t, x, y) {
-  for (let i = 0; i < 5; i++) { const u = ((t - T.torch) * 0.6 + i / 5) % 1; ell(x + 20 * Math.sin(u * 6 + i), y - u * 160, 10 + 14 * u, 10 + 14 * u, 'rgba(200,200,210,0.5)', 0, 1 - u); }
 }
 function torchProp(x, y) {
   limb([[x + 8, y], [x + 80, y]], 22, '#2b3346', false); limb([[x + 12, y - 6], [x + 76, y - 6]], 6, '#55607a', false);
   rrect(x - 8, y - 16, 20, 32, 6, '#2b3346'); ell(x - 6, y, 7, 13, '#ffe7a8');
 }
-// day 3: the floors above, below and to the sides as a blueprint on paper, the neighbours at dry taps
+// day 7: the floors above, below and to the sides as a blueprint on paper, a TV in every flat; next door it burns
+const BURNT = [0, -1];                                        // the flat right above ours, the 21st floor
 function neighbours(t, cam) {
   const P = Sc.palette('paper');
   Sc.backdrop(P, cam);
   view(cam, 1);
   const { x0, x1, ceil, slab } = Ap.ROOM, w = x1 - x0 + 120, h = -ceil + slab + 70;
-  const dry = seg(A.L6w5 - 0.1, A.L6w6, t);
   for (const [i, j] of [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]]) {
-    const ox = i * w, oy = j * h;
+    const ox = i * w, oy = j * h, burnt = i === BURNT[0] && j === BURNT[1];
     g.save(); g.translate(ox, oy);
     Sc.gline([[x0, ceil], [x1, ceil], [x1, 0], [x0, 0]], 4, P.line, P, true);
     Sc.gline([[Ap.PART.x0, ceil], [Ap.PART.x0, Ap.PART.door]], 3, P.faint, P);
@@ -366,19 +416,26 @@ function neighbours(t, cam) {
     const c = Ap.COUNTER; Sc.gline([[c.x0, c.top], [c.x1, c.top], [c.x1, 0], [c.x0, 0]], 3, P.faint, P, true);
     Sc.gline([[Ap.FRIDGE.x0, Ap.FRIDGE.top], [Ap.FRIDGE.x1, Ap.FRIDGE.top], [Ap.FRIDGE.x1, 0], [Ap.FRIDGE.x0, 0]], 3, P.faint, P, true);
     Sc.gline([[Ap.WIN.x0, Ap.WIN.y0], [Ap.WIN.x1, Ap.WIN.y0], [Ap.WIN.x1, Ap.WIN.y1], [Ap.WIN.x0, Ap.WIN.y1]], 3, P.faint, P, true);
-    // the neighbour at the kitchen tap, shaking it; the tap's red cross
-    const nx = 300 + 40 * hash(i * 3 + j), shake = 6 * Math.sin(t * 22 + i);
+    // the TV on its stand, its screen; the neighbour in front of it
+    const tv = [700, -150];
+    Sc.gline([[tv[0] - 150, tv[1]], [tv[0] + 150, tv[1]], [tv[0] + 150, 0], [tv[0] - 150, 0]], 3, P.faint, P, true);
+    const k = burnt ? seg(T.burn, T.burn + 0.15, t) : 0;
+    fill(rrPath(tv[0] - 130, tv[1] - 170, 260, 160, 10), burnt && k > 0 ? mix('#9fd0ff', '#2a2d36', k) : (t > T.on ? 'rgba(59,142,234,0.35)' : 'rgba(44,93,158,0.08)'));
+    Sc.gline([[tv[0] - 130, tv[1] - 170], [tv[0] + 130, tv[1] - 170], [tv[0] + 130, tv[1] - 10], [tv[0] - 130, tv[1] - 10]], 4, P.line, P, true);
     MONO.on = true; MONO.color = '#8fb0d8';
-    const o = stand(base(t, { face: -1, hat: false, lean: 0.1 }), nx);
-    const sh = framesOf(o).T.p([-14, -192]);
-    o.hands = { near: { p: [Ap.KTAP.x + 40 + shake, -330], shape: 'grip' }, far: { p: [sh[0] - 30, sh[1] - 80 - 20 * Math.abs(Math.sin(t * 5 + j))], shape: 'open' } };
+    const o = stand(base(t, { face: 1, hat: false, lean: 0.06, look: [0.6, -0.1] }), 260 + 40 * hash(i * 3 + j));
+    if (burnt && t > T.burn) { const kk = clamp(sp(t, T.burn, 2.4, 7)); o.pop = kk; o.brow = 1; o.lean = -0.15 * kk; o.hatJump = 20 * bump((t - T.burn) / 0.3); const sh = framesOf(o).T.p([-14, -192]); o.hands = { near: { p: [sh[0] + 40, sh[1] - 80 * kk], shape: 'open' }, far: { p: [sh[0] - 20, sh[1] - 90 * kk], shape: 'open' } }; }
     drawHunter(o);
     MONO.on = false;
-    Sc.gline([Ap.KTAP.base, [Ap.KTAP.x, -400], [Ap.KTAP.x + 30, -420], Ap.KTAP.spout], 5, P.line, P);
-    if (dry > 0) { const k = clamp(dry * 2 - Math.abs(i) * 0.3 - (j + 1) * 0.15); g.save(); g.translate(Ap.KTAP.spout[0] + 10, Ap.KTAP.spout[1] + 60); g.scale(k, k); Hd.icon('x', 46, P.danger); g.restore(); }
+    if (burnt && t > T.burn) {                                    // the flash, the sparks, the smoke from the dead set
+      const u = t - T.burn;
+      if (u < 0.25) ell(tv[0], tv[1] - 90, 260 * (1 - u * 3), 200 * (1 - u * 3), rgba('#ffffff', 0.8 * (1 - u * 4)));
+      for (let s = 0; s < 10; s++) { const a = -Math.PI / 2 + (hash(s * 3.7) - 0.5) * 2.4, v = 220 + 200 * hash(s), q = Math.min(u, 0.6); ell(tv[0] + Math.cos(a) * v * q, tv[1] - 170 + Math.sin(a) * v * q + 300 * q * q, 7, 7, '#ffb84d', 0, clamp(1 - u / 0.6)); }
+      for (let s = 0; s < 6; s++) { const q = ((u * 0.5 + s / 6) % 1); ell(tv[0] - 40 + 18 * s + 20 * Math.sin(u * 3 + s), tv[1] - 180 - 220 * q, 26 + 40 * q, 26 + 40 * q, '#5f6470', 0, 0.5 * (1 - q) * clamp(u * 3)); }
+      g.save(); g.translate(tv[0], tv[1] - 90); const kx = clamp(sp(t, T.burn + 0.15, 2.6, 8)); g.scale(kx, kx); Hd.icon('x', 70, P.danger); g.restore();
+    }
     g.restore();
   }
-  // the floor numbers on the slabs
   for (const [j, f] of [[-1, 21], [0, 20], [1, 19]]) Hd.label(`${f} ЭТАЖ`, x1 + 90, j * h - 300, 70, f === 20 ? P.warm : P.line, { fam: FONTS.mono, align: 'left', shadow: false, stroke: false, rot: -Math.PI / 2 });
 }
 
@@ -387,86 +444,95 @@ function overlays(t, cam) {
   const S2 = p => toScreen(cam, p);
   const sc = scene(t);
   // time stamps
-  Hd.timeStamp(t, T.cover + 0.15, T.c3 - 0.1, 'ДЕНЬ 1 — 18:04');
-  Hd.timeStamp(t, T.c5 + 0.05, T.c6 - 0.1, 'НОЧЬ — 23:40');
-  Hd.timeStamp(t, T.c6 + 0.05, T.dive + 0.8, 'ДЕНЬ 3 — 09:12', { color: '#2c5d9e' });
-  // the hook: our floor counted up, the ribbon
+  Hd.timeStamp(t, T.cover + 0.15, T.c3 - 0.1, 'ДЕНЬ 7 — 19:30');
+  Hd.timeStamp(t, T.c3 + 0.05, T.c6 - 0.1, 'ДЕНЬ 7 — 21:10');
+  Hd.timeStamp(t, T.c6 + 0.05, T.nb - 0.05, 'ДЕНЬ 7 — 22:47');
+  // the hook: the days counted up to a week
   if (sc === 'city') {
-    const n = Math.round(lerp(1, 20, seg(A.L0w8, A.L0w10 + 0.1, t, u => u)));
-    Hd.plaque(t, A.L0w8 - 0.05, T.c1 - 0.05, 300, 560, { icon: 'house', title: `ЭТАЖ ${n}`, sub: 'света нет', color: WARM, to: S2([WX - 40, WY - 10]) });
+    const n = Math.round(lerp(1, 7, seg(A.L0, A.L0w2 + 0.1, t, u => u)));
+    Hd.plaque(t, A.L0 - 0.05, T.c1 - 0.05, 300, 560, { icon: 'calendar', title: `ДЕНЬ ${n}`, sub: 'света нет', color: WARM, to: S2([WX - 40, WY - 10]) });
   }
-  Hd.ribbon(t, A.L0w11 - 0.06, A.L1 + 0.1, 'НЕ БЕГИ ВНИЗ', { y: 820 });
-  // the blueprint
+  // the blueprint: the grills, the gas
   if (sc === 'bp') {
-    Hd.plaque(t, A.L1w3 - 0.05, T.riser, 700, 470, { icon: 'stairs', title: 'ЛЕСТНИЦА', sub: 'все бегут вниз', color: DANGER, to: S2(Sc.stairAt(Sc.stairD(18) + 120)) });
-    Sc.gauge(t, T.drain - 0.1, T.c2 - 0.05, 930, 700, 1 - 0.55 * seg(T.drain, T.c2, t, ease.out), 'ВОДА·20');
-    Sc.chain(t, T.c2 + 0.08, T.pull + 0.9, [T.dead, T.dead + 0.25, T.dead + 0.5], 470);
-    Hd.plaque(t, T.pull + 0.6, T.c3 - 0.05, 560, 300, { icon: 'drop', title: '20 ЭТАЖ', sub: 'воды нет', color: DANGER, to: S2([Sc.BLD.x1 - 60, F20 - 55]) });
+    const F = BP_FIRES[0];
+    Hd.plaque(t, T.f1, T.c2 + 0.3, 700, 720, { icon: 'flame', title: 'МАНГАЛ ДОМА', sub: 'и газовая горелка', color: DANGER, to: S2([F.x, FY(F.f + 1) + Sc.FH * 0.58]) });
+    Hd.plaque(t, A.L2w7 - 0.05, T.c3 - 0.05, 540, 330, { icon: 'cloud', title: 'НЕ ВИДНО', sub: 'и не пахнет', color: DANGER });
   }
+  Hd.ribbon(t, A.L2w2 - 0.06, A.L2w6, 'УГАРНЫЙ ГАЗ', { y: 820 });
   // step 1
-  Hd.stepHeader(t, 1, 'НАБЕРИ ВОДУ', A.L3 + 0.02, A.L3e - 0.05);
-  if (t >= T.c3 && t < T.ck) Hd.plaque(t, A.L3w2 - 0.05, T.ck - 0.02, 300, 560, { icon: 'bath', title: 'ВАННА', sub: 'для унитаза', color: GOLD, to: S2([-980, -190]) });
-  if (t >= T.ck && t < T.c4) {
-    Hd.plaque(t, A.L3w8 - 0.1, T.c4 - 0.02, 760, 560, { icon: 'drop', title: 'ПИТЬ', sub: 'кастрюли, бутылки', color: OK, to: S2([270, -400]) });
-    { const p = S2([270, -470]); Hd.tick(p[0], p[1], sp(t, A.L3e + 0.05, 2.6, 8), 52); }
+  Hd.stepHeader(t, 1, 'БЕЗ ОГНЯ', A.L3 + 0.02, A.L3e - 0.05);
+  if (t >= T.c3 && t < T.c4) {
+    const p = S2([BURNER[0], BURNER[1] - 120]); Hd.redX(p[0], p[1], 80, sp(t, T.off, 2.6, 8) * (1 - seg(T.food - 0.1, T.food + 0.15, t)));
+    Hd.plaque(t, A.L3w11 - 0.1, T.c4 - 0.02, 540, 560, { icon: 'can', title: 'ЕДА БЕЗ ОГНЯ', sub: 'консервы, хлеб, орехи', color: OK, to: S2([FOOD[1].x, BURNER[1] - 60]) });
+    { const q = S2([FOOD[2].x, BURNER[1] - 130]); Hd.tick(q[0], q[1], sp(t, A.L3e + 0.05, 2.6, 8), 52); }
   }
   // step 2
-  Hd.stepHeader(t, 2, 'НЕ ОТКРЫВАЙ', A.L4 + 0.02, A.L4e - 0.05);
+  Hd.stepHeader(t, 2, 'В МУСОР', A.L4 + 0.02, A.L4e - 0.05);
   if (t >= T.c4 && t < T.c5) {
-    const p = S2([-250, -420]); Hd.redX(p[0], p[1], 90, sp(t, T.x4, 2.6, 8) * (1 - seg(A.L4w4 - 0.1, A.L4w4 + 0.15, t)));
-    Hd.paperCard(t, A.L4w4 - 0.05, T.c5 - 0.02, 540, 610, [
-      { icon: 'fridge', label: 'Холодильник', note: '≈ 4 часа', value: 0.25, color: '#3b8eea' },
-      { icon: 'snow', label: 'Полная морозилка', note: '≈ 2 дня', value: 1, color: '#2f6fd0' }]);
+    Hd.paperCard(t, A.L4w8 - 0.05, T.c5 - 0.02, 540, 610, [
+      { icon: 'fridge', label: 'Без холода', note: '4 часа', value: 0.08, color: '#d98a1c' },
+      { icon: 'calendar', label: 'Без света', note: '7 дней', value: 1, color: '#d6342f' }]);
   }
   // step 3
-  Hd.stepHeader(t, 3, 'БЕЗ СВЕЧЕЙ', A.L5 + 0.02, A.L5e - 0.05);
-  if (t >= T.c5 && t < T.torch) {
-    const p = S2([Ap.CANDLE[0], Ap.CANDLE[1] - 70]); Hd.redX(p[0], p[1], 80, sp(t, A.L5w2 - 0.05, 2.6, 8) * (1 - seg(T.fire - 0.15, T.fire, t)));
-    Hd.plaque(t, T.fire + 0.1, T.torch, 330, 560, { icon: 'flame', title: 'ПОЖАР', sub: 'от одной свечи', color: DANGER, to: S2([Ap.WIN.x1 + 10, Ap.WIN.y1 - 60]) });
-  }
-  if (t >= T.torch && t < T.ph) { const d = actorsAt(t).d, dl = d && lensOf(d); Hd.plaque(t, T.torch + 0.12, T.ph, 720, 560, { icon: 'torch', title: 'ФОНАРИК', sub: 'без огня', color: OK, to: dl ? S2(dl) : null }); }
+  Hd.stepHeader(t, 3, 'ПИШИ, НЕ ЗВОНИ', A.L5 + 0.02, A.L5e - 0.05);
   if (t >= T.ph && t < T.c6) phoneCard(t, 540, 720);
-  // day 3
-  if (sc === 'day' && t < T.dive + 0.6) {
-    Hd.plaque(t, A.L6w5 - 0.05, T.dive + 0.3, 540, 380, { icon: 'tap', title: 'У СОСЕДЕЙ', sub: 'сухие краны', color: DANGER });
+  // day 7
+  if (sc === 'night' && t >= T.c6) {
+    Hd.plaque(t, A.L6w7 - 0.05, T.nb, 540, 560, { icon: 'plug', title: 'ВИЛКИ ИЗ РОЗЕТОК', sub: 'техника цела', color: OK, to: S2(actorsAt(t).h?.prop?.p ?? PLUG) });
+    const q = S2([OUTLET[0] + 120, OUTLET[1] - 120]); Hd.tick(q[0], q[1], sp(t, A.L6w10 - 0.05, 2.6, 8), 52);
   }
-  if (sc === 'day') Hd.tick(760, 640, sp(t, T.pour + 0.75, 2.6, 8) * (1 - seg(A.L7 - 0.2, A.L7, t)), 60);
-  // the end: subscribe, then «what floor are you on?»
+  if (sc === 'nb' && t < A.L7 + 0.2) {
+    const { x0, x1, ceil, slab } = Ap.ROOM, w = x1 - x0 + 120, h = -ceil + slab + 70;
+    Hd.plaque(t, T.burn - 0.05, A.L7 + 0.1, 330, 300, { icon: 'tv', title: 'У СОСЕДА', sub: 'сгорел телевизор', color: DANGER, to: S2([BURNT[0] * w + 700, BURNT[1] * h - 240]) });
+  }
+  // the end: subscribe, then «how long would you last?»
   Hd.endCard(t, A.L7 - 0.05, 0, 300);
-  if (sc === 'cityday') Hd.plaque(t, A.L7w7 - 0.1, DUR + 1, 540, 720, { icon: 'comment', title: 'А ТВОЙ ЭТАЖ?', sub: 'пиши в комментариях', color: GOLD, size: 52 });
+  if (sc === 'citylit') Hd.plaque(t, A.L7w6 - 0.1, DUR + 1, 540, 720, { icon: 'comment', title: 'СКОЛЬКО ПРОДЕРЖИШЬСЯ?', sub: 'пиши в комментариях', color: GOLD, size: 46 });
 }
-function lensOf(d) {
-  // where the dog's torch lens is, without drawing her (draw into a muted state)
-  const sv = g.globalAlpha; g.globalAlpha = 0; const r = drawDog(d); g.globalAlpha = sv; return r.lens;
-}
-// —— the phone close-up: the battery in red, the power-saving switch flips on ——
+// —— the phone close-up: the call that won't go through, then the message that does ——
 function phoneCard(t, cx, cy) {
   const k = clamp(sp(t, T.ph + 0.08, 2.4, 8)) * (1 - seg(T.c6 - 0.25, T.c6 - 0.02, t));
   if (k <= 0.01) return;
-  const on = phoneSaver(t), w = 360, h = 560;
+  const chat = seg(T.chat, T.chat + 0.25, t), w = 380, h = 600;
   g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(cx, cy); g.rotate(-0.04); g.scale(lerp(0.9, 1, k), lerp(0.9, 1, k)); g.globalAlpha = clamp(k * 2);
   g.save(); g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 40; g.shadowOffsetY = 14; rrect(-w / 2, -h / 2, w, h, 46, '#1b1e29'); g.restore();
-  rrect(-w / 2 + 16, -h / 2 + 16, w - 32, h - 32, 34, mix('#2b4a78', '#141b2c', on * 0.6));
+  rrect(-w / 2 + 16, -h / 2 + 16, w - 32, h - 32, 34, mix('#3a1f2a', '#16233a', chat));
   rrect(-40, -h / 2 + 26, 80, 18, 9, '#0d0f16');
-  // the battery
-  const lv = 0.23, bc = on > 0.5 ? GOLD : DANGER;
-  g.save(); g.translate(0, -110); g.lineWidth = 8; g.strokeStyle = bc; g.stroke(rrPath(-110, -50, 200, 100, 16)); rect(96, -20, 18, 40, bc); rect(-96, -36, 172 * lv, 72, bc); g.restore();
-  Hd.label('23%', 0, 10, 64, '#ffffff', { shadow: false, stroke: false });
-  // the switch row
-  rrect(-w / 2 + 34, 70, w - 68, 110, 24, 'rgba(255,255,255,0.08)');
-  Hd.label('ЭКОНОМИЯ', -w / 2 + 56, 116, 34, '#ffffff', { align: 'left', shadow: false, stroke: false });
-  Hd.label('заряда', -w / 2 + 56, 156, 34, '#c9d6ea', { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
-  const sx = w / 2 - 110;
-  rrect(sx, 100, 80, 46, 23, mix('#4a5064', OK, on)); ell(sx + 23 + 34 * ease.inOut(on), 123, 19, 19, '#ffffff');
-  g.restore();
-  // a finger presses it
-  if (t > A.L5w12 - 0.5 && t < A.L5w12 + 0.4) {
-    const u = seg(A.L5w12 - 0.5, A.L5w12 - 0.1, t) * (1 - seg(A.L5w12 + 0.1, A.L5w12 + 0.4, t));
-    g.setTransform(1, 0, 0, 1, 0, 0); ell(cx + 105 + 80 * (1 - u), cy + 140 + 160 * (1 - u), 34, 40, HUN.skin, -0.4, u);
+  // the bars: one of five, the network is busy
+  for (let i = 0; i < 5; i++) rect(w / 2 - 120 + i * 16, -h / 2 + 64 - 8 - i * 6, 10, 8 + i * 6, i === 0 ? '#ffffff' : 'rgba(255,255,255,0.25)');
+  if (chat < 1) {                                                // the call: a contact, «вызов…», then «сеть перегружена» and the red button
+    g.save(); g.globalAlpha *= 1 - chat;
+    ell(0, -110, 70, 70, '#5a6a86'); ell(0, -128, 28, 28, '#c9d6ea'); ell(0, -80, 46, 26, '#c9d6ea');
+    Hd.label('МАМА', 0, 10, 52, '#ffffff', { shadow: false, stroke: false });
+    const busy = t > A.L5w3;
+    Hd.label(busy ? 'сеть перегружена' : 'вызов…', 0, 64, 30, busy ? '#ff8a8a' : '#c9d6ea', { fam: FONTS.mono, shadow: false, stroke: false });
+    ell(0, 190, 46, 46, '#e53935'); limb([[-22, 196], [-8, 182], [8, 182], [22, 196]], 10, '#ffffff');
+    g.restore();
   }
+  if (chat > 0) {                                                // the message: typed, sent, delivered ✓✓
+    g.save(); g.globalAlpha *= chat;
+    Hd.label('МАМА', 0, -h / 2 + 120, 40, '#ffffff', { shadow: false, stroke: false });
+    rect(-w / 2 + 16, -h / 2 + 150, w - 32, 2, 'rgba(255,255,255,0.15)');
+    const msg = 'Мы живы. Всё хорошо', n = Math.round(msg.length * seg(T.chat + 0.15, A.L5w8, t, u => u)), sent = t > A.L5w9;
+    if (sent) {
+      const bw = 290, by = -40;
+      rrect(w / 2 - 34 - bw, by - 50, bw, 100, 22, '#2f8f4e');
+      Hd.label('Мы живы.', w / 2 - 34 - bw + 22, by - 8, 32, '#ffffff', { align: 'left', shadow: false, stroke: false });
+      Hd.label('Всё хорошо', w / 2 - 34 - bw + 22, by + 30, 32, '#ffffff', { align: 'left', shadow: false, stroke: false });
+      const dv = t > A.L5w10 - 0.05;
+      Hd.label(dv ? '✓✓' : '✓', w / 2 - 50, by + 30, 26, dv ? '#9fe8ff' : '#d6ecff', { fam: FONTS.mono, align: 'right', shadow: false, stroke: false });
+    }
+    rrect(-w / 2 + 34, h / 2 - 120, w - 68, 70, 35, 'rgba(255,255,255,0.1)');
+    Hd.label(sent ? '' : msg.slice(0, n) + ((t * 2) % 1 < 0.5 ? '|' : ''), -w / 2 + 56, h / 2 - 74, 28, '#ffffff', { align: 'left', shadow: false, stroke: false });
+    g.restore();
+  }
+  g.restore();
+  // the cross over the failed call, the tick when the message is delivered
+  Hd.redX(cx, cy + 190, 60, sp(t, A.L5w3, 2.6, 8) * (1 - seg(T.chat - 0.1, T.chat + 0.1, t)));
+  Hd.tick(cx + 150, cy - 220, sp(t, A.L5w10, 2.6, 8), 52);
 }
 
-// —— the poster in the first frames: him and the dog in the torch light, the words on the right ——
+// —— the poster in the first frames: him and the dog in the torch light, the burner on the table, the words on the right ——
 function coverFrame(t) {
   const cam = { x: 360, y: -330, z: 1.55, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
   g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#090c16'; g.fillRect(0, 0, W, H);
@@ -481,11 +547,11 @@ function coverFrame(t) {
   g.save(); g.translate(1020, 230); g.rotate(-0.035);
   const tag = 'КАК ВЫЖИТЬ', tw = measure(tag, 52, FONTS.cond) + 56;
   rect(-tw + 6, -40 + 7, tw, 76, INK); rect(-tw, -40, tw, 76, '#ff4d4d'); text(tag, -tw / 2, 18, 52, '#fff3d6', { fam: FONTS.cond, shadow: false });
-  Hd.label('НЕ БЕГИ', 0, 210, 150, '#ffffff', { align: 'right', strokeW: 12 });
-  g.save(); g.shadowColor = 'rgba(255,59,48,0.8)'; g.shadowBlur = 40; Hd.label('ВНИЗ!', 0, 390, 190, '#ff3b30', { align: 'right', shadow: false, strokeW: 14 }); g.restore();
+  Hd.label('НЕДЕЛЯ', 0, 210, 140, '#ffffff', { align: 'right', strokeW: 12 });
+  g.save(); g.shadowColor = 'rgba(255,59,48,0.8)'; g.shadowBlur = 40; Hd.label('БЕЗ СВЕТА', 0, 370, 120, '#ff3b30', { align: 'right', shadow: false, strokeW: 12 }); g.restore();
   g.rotate(0.06);
-  const pl = 'СВЕТ ПОГАС · 20 ЭТАЖ', pw = measure(pl, 56, FONTS.cond) + 60;
-  rect(-pw + 8, 450 + 8, pw, 92, INK); rect(-pw, 450, pw, 92, '#ffd43b'); text(pl, -pw / 2, 514, 56, '#111111', { fam: FONTS.cond, shadow: false });
+  const pl = 'ЧАСТЬ 2 · 20 ЭТАЖ', pw = measure(pl, 56, FONTS.cond) + 60;
+  rect(-pw + 8, 430 + 8, pw, 92, INK); rect(-pw, 430, pw, 92, '#ffd43b'); text(pl, -pw / 2, 494, 56, '#111111', { fam: FONTS.cond, shadow: false });
   g.restore();
 }
 
@@ -511,55 +577,46 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  add(0.3, 'city', -16, 0, { dur: T.out - 0.3 + 0.4 });
-  add(T.out, 'power_down', -6, 0);
-  add(T.out + 0.05, 'hum_stop', -12, 0);
-  add(A.L0w8, 'ticks_up', -14, 0.1, { dur: A.L0w10 - A.L0w8 + 0.2 });
-  add(A.L0w11 - 0.06, 'ribbon', -8, 0);
+  add(0.3, 'amb_flat', -18, 0, { dur: T.c1 - 0.3 });
+  add(A.L0, 'ticks_up', -14, 0.1, { dur: A.L0w2 - A.L0 + 0.2 });
+  add(A.L0w2, 'blip', -10, 0);
   add(T.c1, 'whoosh', -12, 0);
-  add(A.L1w1 - 0.1, 'crowd_steps', -14, -0.2, { dur: T.riser - A.L1w1 + 0.6 });
-  add(A.L1w3 - 0.05, 'blip', -10, 0.3);
-  add(T.drain, 'drain', -12, 0.1, { dur: T.c2 - T.drain });
-  add(T.c2, 'whoosh_down', -12, 0);
-  add(T.c2, 'pump', -14, -0.1, { dur: T.dead - T.c2 + 0.9, off: T.dead - T.c2 });
-  add(T.c2 + 0.08, 'blip', -12, -0.3); add(T.c2 + 0.17, 'blip', -12, 0); add(T.c2 + 0.26, 'blip', -12, 0.3);
-  add(T.dead, 'spark', -6, -0.3);
-  for (let i = 0; i < 3; i++) add(T.dead + i * 0.25, 'node_off', -10, -0.4 + 0.4 * i);
-  add(T.pull + 0.2, 'drain', -12, 0, { dur: T.c3 - T.pull });
-  add(T.pull + 0.6, 'blip', -10, 0.2);
+  for (let i = 0; i < BP_FIRES.length; i++) add((BP_FIRES[i].at < 0.5 ? T.f1 : T.f2) + BP_FIRES[i].at * 0.5, 'fire_whoosh', -16, -0.4 + 0.12 * i);
+  add(T.f1, 'blip', -10, 0.3);
+  add(T.f1 + 0.1, 'fire', -18, 0, { dur: T.c3 - T.f1 });
+  add(A.L2w2 - 0.06, 'ribbon', -8, 0);
+  add(A.L2w7 - 0.05, 'blip', -10, -0.2);
   add(T.c3, 'amb_flat', -20, 0, { dur: T.c6 - T.c3 });
-  add(A.L3w1 - 0.1, 'tap_squeak', -12, -0.2);
-  add(A.L3w1 - 0.05, 'tap_run', -12, -0.2, { dur: T.ck - A.L3w1 + 0.1 });
-  add(A.L3w2 - 0.05, 'blip', -10, -0.1);
-  add(T.ck, 'tap_run', -12, 0.1, { dur: A.L3e - T.ck - 0.3 });
-  add(A.L3e - 0.35, 'tap_cough', -10, 0.1);
-  add(A.L3w8 - 0.1, 'blip', -10, 0.2);
-  for (let i = 0; i < 5; i++) add([A.L3w8 - 0.05, A.L3w8 + 0.1, A.L3w10 - 0.05, A.L3w10 + 0.07, A.L3w10 + 0.19][i], 'fill_plink', -14, 0.1 + 0.05 * i);
+  add(T.c3, 'candle', -18, 0.2, { dur: T.off - T.c3 + 0.3 });
+  add(T.off, 'stamp', -4, 0.1);
+  add(T.off + 0.2, 'puff', -10, 0.2);
+  add(T.food, 'click', -10, 0.1);
+  for (const t0 of [A.L3w11, A.L3w12, A.L3w13]) add(t0 - 0.05, 'fill_plink', -12, 0.2);
+  add(A.L3w11 - 0.1, 'blip', -10, 0);
   add(A.L3e + 0.05, 'ding', -10, 0.1);
-  add(T.x4, 'stamp', -4, -0.2);
+  add(T.c4, 'tap_squeak', -14, -0.2);
   add(A.L4w1 - 0.2, 'whine', -14, 0.2, { dur: 0.9 });
-  add(A.L4w4 - 0.05, 'paper', -10, 0);
-  add(T.c5 + 0.1, 'candle', -18, 0.2, { dur: T.fire - T.c5 });
-  add(A.L5w2 - 0.05, 'stamp', -4, 0.1);
-  add(T.fire, 'fire_whoosh', -6, 0.3);
-  add(T.fire + 0.1, 'fire', -14, 0.3, { dur: T.torch - T.fire });
-  add(T.fire + 0.1, 'blip', -10, -0.2);
-  add(T.torch - 0.05, 'puff', -10, 0.3);
-  add(T.torch + 0.02, 'click', -8, -0.1);
-  add(T.torch + 0.12, 'blip', -10, 0.2);
+  for (const t0 of TRASH()) add(t0 + 0.4, 'paper', -12, -0.1, { dur: 0.3 });
+  add(A.L4w8 - 0.05, 'paper', -10, 0);
   add(T.ph + 0.08, 'whoosh_in', -12, 0);
-  add(A.L5w12 - 0.05, 'toggle', -8, 0);
-  add(T.c6, 'morning', -18, 0, { dur: A.L7 - T.c6 });
-  add(A.L6w5 - 0.05, 'squeak_dry', -12, -0.3);
-  add(A.L6w5 + 0.15, 'squeak_dry', -14, 0.3);
-  add(T.dive, 'whoosh_in', -12, 0);
-  add(T.pour + 0.25, 'pour', -10, 0, { dur: 0.9 });
-  add(T.pour + 0.6, 'flush', -12, 0);
-  add(T.pour + 0.75, 'ding', -10, 0.1);
+  add(A.L5w3, 'stamp', -6, 0);
+  add(T.chat, 'toggle', -10, 0);
+  add(A.L5w9, 'blip', -8, 0.1);
+  add(A.L5w10, 'ding', -10, 0.1);
+  add(T.c6, 'amb_flat', -20, 0, { dur: T.on - T.c6 });
+  add(T.on - 0.03, 'click', -6, 0);
+  add(T.on, 'city', -20, 0, { dur: T.nb - T.on });
+  add(A.L6w7 - 0.05, 'blip', -10, 0.2);
+  add(A.L6w10 - 0.05, 'ding', -10, 0.2);
+  add(T.nb, 'whoosh', -12, 0);
+  add(T.burn, 'spark', -6, 0.3);
+  add(T.burn + 0.15, 'stamp', -8, 0.3);
+  add(T.burn + 0.1, 'puff', -12, 0.3);
   for (const t0 of [A.L3, A.L4, A.L5]) add(t0 + 0.04, 'pop_word', -8, 0);
   add(A.L7 + 0.1, 'pop_word', -6, 0);
+  add(A.L7, 'whoosh_in', -12, 0);
   add(T.c7, 'whoosh', -12, 0);
-  add(A.L7w7 - 0.1, 'blip', -8, 0);
-  add(T.c7, 'city_day', -18, 0, { dur: DUR - T.c7 });
+  add(A.L7w6 - 0.1, 'blip', -8, 0);
+  add(T.c7, 'city', -18, 0, { dur: DUR - T.c7 });
   return c.sort((a, b) => a.t - b.t);
 }

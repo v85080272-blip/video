@@ -1,0 +1,102 @@
+{
+ "note": "Narration for «Зима, батареи остыли» (Как выжить, блэкаут ч.4). Facts: don't heat the home with a gas oven, burning devices indoors cause carbon monoxide poisoning (CDC, «Avoiding Carbon Monoxide Poisoning»); close off unused rooms to consolidate and retain heat; wear several layers of loose-fitting, lightweight, warm clothing rather than one heavy layer; wear a hat and a scarf to help prevent loss of body heat; if the outage is long, go to a friend's or relative's home or a public facility with heat; signs of hypothermia: uncontrollable shivering, exhaustion, confusion or fumbling hands, memory loss, slurred speech, drowsiness, get medical attention immediately (FEMA, «Keep Warm During a Winter Power Outage and Avoid Hypothermia»). at/after/tail/sub as in part 1.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Блэкаут зимой. Света нет, и на второй день в квартире остыли батареи.",
+   "at": 0.12,
+   "sub": [
+    2,
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Хочется зажечь газовую плиту и греться у неё. Нельзя: это тот же угарный газ, что в прошлой серии.",
+   "after": 0.4,
+   "sub": [
+    4,
+    4,
+    1,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Тепло уходит из всей квартиры сразу. Поэтому греть нужно не квартиру, а себя.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: соберитесь в одной комнате, а двери в остальные закройте.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: несколько тонких слоёв одежды теплее одного толстого. И обязательно шапка и шарф.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    3,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: если дрожь не проходит, путаются мысли и клонит в сон, это переохлаждение. Срочно в тепло и к врачу.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    2,
+    2,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Ночью вы с Пургой спали под одним одеялом. А вода в ванне, которую ты набрал в первый день, к утру покрылась льдом.",
+   "after": 0.45,
+   "sub": [
+    4,
+    4,
+    4,
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А какая самая холодная зима была у тебя?",
+   "after": 0.45,
+   "sub": [
+    3,
+    2,
+    4,
+    4
+   ]
+  }
+ ],
+ "tail": 0.35
+}
