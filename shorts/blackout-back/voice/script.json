@@ -1,0 +1,100 @@
+{
+ "note": "Narration for «Свет дали» (Как выжить, блэкаут ч.7): the fifth day, the power is back as the radio said in part 6, home to the 20th floor. Facts: when power is restored, don't switch everything on at once, turn appliances on one at a time and wait a few minutes in between (King County Public Health «Power outages»: wait at least 15 minutes before turning on the rest; Cal OES «What to do after a power outage»: one at a time, essential devices first); after a freeze open the water slowly and check the pipes for leaks, a frozen pipe may have cracked; if a pipe has burst, shut off the main water valve at once (American Red Cross, frozen pipes); food that has thawed without power: when in doubt, throw it out (USDA, FoodSafety.gov). at/after/tail/sub as in part 1; tts = what the voice reads (a lowercase «пурга» gives «пургА», part 4).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Пятый день. Радио не обмануло: свет дали. Пора домой, на двадцатый этаж.",
+   "at": 0.12,
+   "sub": [
+    2,
+    3,
+    2,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Хочется сразу включить всё: обогреватель, чайник, стиральную машину. Не спеши: сеть может не выдержать, и свет опять погаснет.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    2,
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Квартира несколько дней стояла без тепла, поэтому начни с проверки.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: включай технику по одной и подожди несколько минут между ними.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: открывай воду понемногу и смотри на трубы: в мороз они могли лопнуть. Течёт — сразу перекрой кран.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    3,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: всё, что оттаяло в морозилке за эти дни, выбрось. Сомневаешься — выбрасывай.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Вечером дома снова плюс двадцать. Лёд в ванне растаял, а Пурга уснула прямо у батареи.",
+   "after": 0.45,
+   "tts": "Вечером дома снова плюс двадцать. Лёд в ванне растаял, а пурга уснула прямо у батареи.",
+   "sub": [
+    4,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А что ты включил бы первым?",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    2,
+    4,
+    2
+   ]
+  }
+ ],
+ "tail": 0.35
+}
