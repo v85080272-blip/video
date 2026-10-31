@@ -48,4 +48,6 @@ node render.mjs video out/pic.mp4 4
 ffmpeg -i out/pic.mp4 -i build/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -ar 48000 -shortest -movflags +faststart out/tretiy-den-v-holode.mp4
 ```
 
-Статус: сценарий, картинка и музыка готовы, идёт озвучка.
+Статус: озвучено и собрано 31.10, `qa/check_clip.py` без ошибок (−14,2 LUFS, пик −1,9 dBTP, 51,3 с, 82 слова).
+
+В ролике: L0 s6, L1 s4, L2 s4, L3 s4, L4 s1, L5 s4, L6 s3, L7 s1 (дубли в `/home/user/work/blackout-cold/c_s<N>`). У отброшенных: «ванной» вместо «ванны», «первОе», «фонарИк», «пУрга» (в трёх дублях несмотря на строчную), «пОдписывайся».
