@@ -33,4 +33,4 @@
    `node ../blackout-week/tools/fake_words.mjs voice/script.json build/words.json`.
 3. Сборка, сведение −14 LUFS, проверка `qa/check_clip.py` — как в `../blackout-week/README.md`.
 
-Статус: сценарий готов, картинки ещё нет.
+Статус: картинка (`src/main.js`) и музыка (`tools/music.py`) готовы, идёт озвучка (`voice/takes.sh`, дубли в `/home/user/work/blackout-winter`).
