@@ -1,0 +1,51 @@
+{
+ "note": "Narration for «Вулкан проснулся». Facts: USGS (lahars run down valleys: move up a hillside off the valley floor; ash is tiny jagged rock and glass), CDC and Ready.gov (avoid areas downwind and river valleys downstream, damp cloth over nose and mouth, goggles, seek shelter, car windows shut), volcanic lightning strikes tens of km from the vent (Taal 2020: most within 20–30 km; Katla 1755: deaths about 30 km away). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line, sub = subtitle group sizes.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Как выжить при взрыве вулкана?",
+   "at": 0.12
+  },
+  {
+   "id": "L1",
+   "text": "Вулкан проснулся, а ты на охотничьей вышке.",
+   "after": 0.3
+  },
+  {
+   "id": "L2",
+   "text": "Лава сюда не дойдёт. Опасно другое.",
+   "after": 0.35
+  },
+  {
+   "id": "L3",
+   "text": "Первое: не снимай, слезай с вышки. В туче пепла бьют молнии, и на вышке ты лёгкая цель.",
+   "after": 0.4
+  },
+  {
+   "id": "L4",
+   "text": "Второе: смотри, куда ветер несёт тучу. Там будет падать пепел. Уходи в сторону, поперёк ветра.",
+   "after": 0.9
+  },
+  {
+   "id": "L5",
+   "text": "Третье: не спускайся к реке. По ней с вулкана мчится поток грязи с камнями. Держись выше по склону.",
+   "after": 0.4
+  },
+  {
+   "id": "L6",
+   "text": "Четвёртое: пепел — это мелкое стекло. Закрой нос и рот мокрой тканью, а глаза очками.",
+   "after": 0.5
+  },
+  {
+   "id": "L7",
+   "text": "Пятое: спрячься в машину или в охотничью избушку и закрой все окна.",
+   "after": 0.4
+  },
+  {
+   "id": "L8",
+   "text": "Подписывайся, и в следующий раз ты будешь знать, что делать.",
+   "after": 0.45
+  }
+ ],
+ "tail": 0.35
+}

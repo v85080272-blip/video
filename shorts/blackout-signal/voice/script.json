@@ -1,0 +1,101 @@
+{
+ "note": "Narration for «Пропала связь» (Как выжить, блэкаут ч.5). Facts (Ready.gov «Get Tech Ready»; FEMA): keep a battery-powered or hand-cranked radio (with spare batteries) for news when phone and internet service is disrupted; a family contact list should include at least one out-of-town contact who may be better able to reach family members in an emergency; if you lose power you can charge your phone in your car, with ventilation: never run a car in a garage or other enclosed space, it can lead to carbon monoxide poisoning (FEMA). at/after/tail/sub as in part 1.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Десятый день без света. Вышки сели, интернета нет, телефон пишет: «нет сети».",
+   "at": 0.12,
+   "sub": [
+    4,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Ты не знаешь, что происходит в городе и где родные. И начинаешь верить любым слухам у подъезда.",
+   "after": 0.4,
+   "sub": [
+    3,
+    4,
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "А новости никуда не делись: их по-прежнему передают по радио.",
+   "after": 0.4,
+   "sub": [
+    4,
+    1,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: найди радио на батарейках или с ручкой. Слушай официальные сообщения, а не соседей.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: договоритесь заранее об одном человеке в другом городе. Все звонят ему, а он передаёт остальным.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: телефон можно зарядить в машине, но только на улице. В гараже работающий мотор отравит угарным газом.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    1,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Вечером по радио сказали, где раздают воду. А сосед всё ещё ждал, когда загрузится лента новостей.",
+   "after": 0.45,
+   "sub": [
+    4,
+    3,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А у тебя дома есть радио?",
+   "after": 0.45,
+   "sub": [
+    3,
+    2,
+    4,
+    2
+   ]
+  }
+ ],
+ "tail": 0.35
+}
