@@ -517,10 +517,11 @@ function phoneCard(t, cx, cy) {
   if (chat < 1) {                                                // the settings: «Экономия заряда» switched on
     g.save(); g.globalAlpha *= 1 - chat;
     g.save(); g.translate(0, -90); Hd.icon('battery', 70, bc); g.restore();
-    Hd.label('Экономия заряда', -w / 2 + 50, 70, 30, '#ffffff', { align: 'left', shadow: false, stroke: false });
+    Hd.label('Экономия', -w / 2 + 50, 56, 30, '#ffffff', { align: 'left', shadow: false, stroke: false });
+    Hd.label('заряда', -w / 2 + 50, 92, 30, '#ffffff', { align: 'left', shadow: false, stroke: false });
     const kx = saving;
     rrect(w / 2 - 130, 40, 84, 46, 23, mix('#4a5160', '#3ddc84', kx)); ell(w / 2 - 107 + 38 * kx, 63, 19, 19, '#ffffff');
-    Hd.label('яркость ниже, фон выключен', -w / 2 + 50, 140, 22, '#9aa8bc', { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
+    Hd.label('яркость ниже, фон выкл.', -w / 2 + 50, 150, 22, '#9aa8bc', { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
     g.restore();
   }
   if (chat > 0) {                                                // the message: typed, sent, delivered ✓✓
@@ -593,7 +594,7 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  add(0.3, 'amb_house', -20, 0, { dur: T.out - 0.3 });
+  add(0.3, 'amb_flat', -20, 0, { dur: T.out - 0.3 });
   add(A.L0, 'ticks_up', -14, 0.1, { dur: T.floor - A.L0 + 0.2 });
   add(T.floor, 'blip', -10, 0);
   add(T.out - 0.05, 'power_down', -8, 0);
@@ -623,7 +624,7 @@ export function cues() {
   add(A.L5w11 - 0.08, 'blip', -10, 0);
   add(T.c6, 'whoosh', -12, 0);
   add(T.open - 0.1, 'squeak_dry', -10, 0);
-  add(T.open + 0.1, 'amb_house', -20, 0, { dur: A.L7 - T.open });
+  add(T.open + 0.1, 'city', -22, 0, { dur: A.L7 - T.open });
   add(A.L6w6 - 0.05, 'ding', -10, -0.2);
   add(T.dog, 'whoosh', -14, 0);
   add(A.L6w12 - 0.1, 'paper', -10, -0.2, { dur: 0.5 });
