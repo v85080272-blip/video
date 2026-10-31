@@ -1,10 +1,9 @@
-# Score for «Третий день в холоде» (блэкаут, ч.5), synthesised with numpy (48 kHz stereo, no samples, no third-party music).
-# D minor like parts 1–4, a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json.
-# The frozen morning: the cold pad and glockenspiel snow of part 4, a low hit at +8. The thermal body: the ostinato,
-# a stab on «Не надо», a false warm swell on «кажется тёплым» that sours as the heat leaves. The plan: a march-like
-# pizzicato as the route draws, a bell on «по плану». Step one: a plink for the food; step two: a ticking radio pulse;
-# step three: a plink for each thing in the bag and a stab on the gas tap. The descent: low pizzicato steps faster and
-# faster; the warm hall: F major with celesta, a comic xylophone for the dog's porridge; the end leads back into D minor.
+# Score for «Заранее» (блэкаут, ч.8, финал сезона), synthesised with numpy (48 kHz stereo, no samples, no third-party music).
+# D minor like parts 1–7, a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json.
+# The calm flat: warm F; the lamp flickers and a low unease creeps in. The dark: a hit and the ostinato as he gropes for
+# the torch. Packing the crate: a bright, rising glock for each thing that goes in, over a steady pizzicato march that
+# lifts a step at each of the three groups. The dog with her bowl: a comic xylophone; the end is warm (F, then A7) and
+# A7 leads back into the D minor of part 1 — the season loops.
 # usage: python3 tools/music.py build/cues.json build/music.wav
 import json
 import sys
@@ -24,79 +23,43 @@ def grid(t0, t1, step):
 
 def score(M, dur):
     A = M['A']
-    rng = np.random.default_rng(37)
+    rng = np.random.default_rng(47)
     S = {}
-    eight, c1, no, seems, loss, c2, route, c3, ice, c4, c5, shut, c6, hall, c7 = (M[k] for k in (
-        'eight', 'c1', 'no', 'seems', 'loss', 'c2', 'route', 'c3', 'ice', 'c4', 'c5', 'shut', 'c6', 'hall', 'c7'))
+    flick, c1, dark, c2, c3, c4, c5, atm, c6, dog, c7 = (M[k] for k in ('flick', 'c1', 'dark', 'c2', 'c3', 'c4', 'c5', 'atm', 'c6', 'dog', 'c7'))
     ITEMS = M['ITEMS']
     end0 = A['L7']
 
-    # A · the frozen morning: a cold high pad, glockenspiel snow, a low hit at +8
-    a = S['A'] = Sec(dur, stop=c1 + 0.05, over=0.03)
-    a.wet.add(0.0, saws(rng, [50, 57, 62, 65], c1 + 0.3, attack=0.8, release=0.3, bright=1400), -19, 0.0)
-    for i, t in enumerate(grid(0.3, c1 - 0.2, 0.45)):
-        a.dry.add(t, glock(rng, [86, 89, 93, 91, 88, 84][i % 6], 0.3, 0.8), -19, 0.4 * np.sin(i * 1.7))
-    a.dry.add(eight, timp(rng, 33, 0.9), -7, 0.0)
+    # A · the calm flat in warm F; the flicker brings a low unease
+    a = S['A'] = Sec(dur, stop=dark + 0.05, over=0.03)
+    a.wet.add(0.0, saws(rng, [41, 48, 53, 57], flick + 0.2, attack=0.6, release=0.2, bright=1200), -16, 0.0)
+    for i, m in enumerate([77, 81, 84, 81]):
+        if 0.3 + i * 0.5 < flick:
+            a.dry.add(0.3 + i * 0.5, celesta(rng, m, 0.5), -13, 0.2 - 0.1 * i)
+    a.wet.add(flick, saws(rng, [38, 44, 50], dark - flick + 0.2, attack=0.4, release=0.2, bright=500), -17, 0.0)
 
-    # B · the thermal body: the ostinato, a stab on «Не надо», a false warm swell that sours as the heat leaves
+    # B · the dark: a hit and the ostinato while he gropes for the torch
     pat = [38, 50, 38, 50, 41, 53, 40, 52]
-    b = S['B'] = Sec(dur, stop=c2, over=0.03, gain=((c1, -2.0), (c2, -2.0)))
-    for i, t in enumerate(grid(c1, c2, BEAT / 2)):
+    b = S['B'] = Sec(dur, stop=c2, over=0.03, gain=((dark, -2.0), (c2, -2.0)))
+    b.dry.add(dark, timp(rng, 33, 0.9), -5, 0.0)
+    b.dry.add(dark, brass(rng, [26, 33, 38], 0.5, bright=600), -9, 0.0)
+    for i, t in enumerate(grid(dark, c2, BEAT / 2)):
         b.dry.add(t, pizz(rng, pat[i % 8], 0.6), -7, -0.1)
-    b.dry.add(no, brass(rng, [38, 44, 50], 0.4, bright=1600), -6, 0.0)
-    b.dry.add(no, timp(rng, 38, 0.7), -6, 0.0)
-    b.wet.add(seems, saws(rng, [53, 57, 60], loss - seems + 0.2, attack=0.3, release=0.2, bright=1500), -15, 0.0)
-    b.wet.add(loss, trem(rng, [62, 63, 68], c2 - loss, grow=(0.3, 0.9), bright=2000), -18, 0.0)
-    for i, m in enumerate([86, 82, 79, 75, 70]):
-        b.dry.add(loss + 0.1 + i * 0.12, xylo(rng, m, 0.3), -14, 0.2 - 0.1 * i)
 
-    # C · the plan: a march-like pizzicato while the route draws, a bell on «по плану»
-    c = S['C'] = Sec(dur, gain=((c2, -2.0), (c3, -2.0)))
-    for i, t in enumerate(grid(c2, c3, BEAT / 2)):
-        c.dry.add(t, pizz(rng, [38, 45, 50, 45][i % 4], 0.5), -7, -0.1)
-    for t in grid(route, c3, BEAT):
-        c.dry.add(t, timp(rng, 38, 0.3), -14, 0.0)
-    c.dry.add(A['L2w13'] - 0.08, glock(rng, 89, 0.5, 1.4), -10, 0.0)
-
-    # D · step one: lighter, a plink for the food, a cold glint for the ice
-    d = S['D'] = Sec(dur, gain=((c3, -2.0), (c4, -2.0)))
-    for i, t in enumerate(grid(c3, c4, BEAT / 2)):
-        d.dry.add(t, pizz(rng, [41, 53, 48, 53][i % 4], 0.55), -7, -0.1)
-    d.dry.add(A['L3w5'] - 0.08, glock(rng, 84, 0.4, 1.0), -12, 0.2)
-    d.dry.add(ice + 0.3, celesta(rng, 93, 0.4), -13, -0.2)
-
-    # E · step two: a ticking radio pulse
-    e = S['E'] = Sec(dur, gain=((c4, -2.0), (c5, -2.0)))
-    for i, t in enumerate(grid(c4, c5, BEAT / 2)):
-        e.dry.add(t, pizz(rng, [38, 50, 45, 50][i % 4], 0.55), -7, -0.1)
-    for t in grid(A['L4w8'], c5, BEAT / 2):
-        e.dry.add(t, glock(rng, 98, 0.15, 0.5), -20, 0.3)
-
-    # F · step three: a rising plink for each thing in the bag, a stab on the gas tap, warmth for the message
-    f = S['F'] = Sec(dur, gain=((c5, -2.0), (c6, -2.0)))
-    for i, t in enumerate(grid(c5, c6, BEAT / 2)):
-        f.dry.add(t, pizz(rng, [38, 50, 45, 50][i % 4], 0.55), -7, -0.1)
+    # C · packing: a march that lifts a step at each group, a rising glock for each thing in the crate
+    c = S['C'] = Sec(dur, gain=((c2, -2.0), (c6, -2.0)))
+    for i, t in enumerate(grid(c2, c6, BEAT / 2)):
+        up = 0 if t < c3 else 2 if t < c4 else 4 if t < c5 else 5
+        c.dry.add(t, pizz(rng, [41, 53, 48, 53][i % 4] + up, 0.5), -7, -0.1)
     for i, t0 in enumerate(ITEMS):
-        f.dry.add(t0 + 0.4, glock(rng, [79, 81, 84, 88][i], 0.4, 1.0), -12, 0.2)
-    f.dry.add(shut, brass(rng, [50, 51], 0.3, bright=1400), -8, 0.0)
-    f.wet.add(A['L5w14'], saws(rng, [46, 53, 58, 62], c6 - A['L5w14'], attack=0.3, release=0.4, bright=1100), -15, 0.0)
+        c.dry.add(t0 + 0.4, glock(rng, [77, 79, 81, 84, 86, 88, 89, 91, 93, 96][i], 0.35, 0.9), -12, 0.25)
+    c.wet.add(c3, saws(rng, [41, 48, 53], c6 - c3, attack=0.6, release=0.3, bright=900), -19, 0.0)
+    c.dry.add(atm, brass(rng, [50, 51], 0.3, bright=1400), -9, 0.0)
 
-    # G · the descent: low steps, faster and faster
-    g2 = S['G'] = Sec(dur, stop=hall, over=0.03, gain=((c6, -2.0), (hall, -2.0)))
-    n = int((hall - c6) / 0.18)
-    for i in range(n):
-        t = c6 + (hall - c6) * (i / n) ** 0.8
-        g2.dry.add(t, pizz(rng, [38, 41, 45, 50][i % 4] - (i // 8) % 2 * 2, 0.4), -9, -0.2 + 0.4 * (i % 2))
-    g2.dry.add(hall - 0.6, riser(rng, 0.6), -15, 0.0)
-
-    # H · the warm hall: F major with celesta; a comic xylophone run for the dog's porridge
-    h = S['H'] = Sec(dur, gain=((hall, -4.0), (end0, -4.0)))
-    h.wet.add(hall, saws(rng, [41, 53, 57, 60, 65], end0 - hall, attack=0.2, release=0.5, bright=1600), -13, 0.0)
-    h.dry.add(hall, crash(rng, 0.6, 1.5), -18, 0.0)
-    for i, m in enumerate([77, 81, 84, 89]):
-        h.dry.add(hall + 0.05 + i * 0.1, celesta(rng, m, 0.5), -12, -0.3 + 0.2 * i)
+    # D · the dog with her bowl: a comic xylophone, a warm chord
+    d = S['D'] = Sec(dur, gain=((c6, -3.0), (end0, -3.0)))
+    d.wet.add(c6, saws(rng, [41, 53, 57, 60, 65], end0 - c6, attack=0.3, release=0.5, bright=1500), -14, 0.0)
     for i, m in enumerate([72, 76, 79, 84, 79, 84, 88]):
-        h.dry.add(A['L6w15'] - 0.05 + i * 0.09, xylo(rng, m, 0.25), -11, 0.25)
+        d.dry.add(dog + i * 0.09, xylo(rng, m, 0.25), -11, -0.25)
 
     # I · «Подписывайся…»: warm F with a celesta tune, then A7sus4 → A7 for the loop back into D minor
     end = S['I'] = Sec(dur, gain=((end0, -3.0), (dur, -6.0)))
