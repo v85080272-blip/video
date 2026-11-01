@@ -1,0 +1,99 @@
+{
+ "note": "Narration for «Звонок в дверь» (Как выжить, «Квартира под защитой» ч.2). Facts: Police advice on doorstep callers: check the caller's identity with the door on the chain; call the company yourself on a number from a bill or the directory, never the one the caller gives or the one on the ID card; genuine callers will wait or make an appointment; distraction burglary: one talks at the door while another searches the home (Avon and Somerset Police «Not sure? Don't open the door», PSNI, Wandsworth Council). Emergency number in Russia: 112. at/after/tail/sub as in the blackout season; tts = what the voice reads (a lowercase «пурга» gives «пургА»).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Звонок в дверь. В глазок видно мужчину в форме: «Проверка газа, откройте!».",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    2,
+    2,
+    1
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Он требует открыть сразу и показывает удостоверение. Так нередко начинаются кражи: пока один отвлекает, другой ищет деньги.",
+   "after": 0.4,
+   "sub": [
+    4,
+    3,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Но настоящий мастер подождёт, пока ты всё проверишь.",
+   "after": 0.4,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: не открывай сразу. Смотри в глазок или говори через цепочку.",
+   "after": 0.45,
+   "sub": [
+    1,
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: позвони в службу сам, по номеру из квитанции, а не по тому, что даёт гость.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: сомневаешься — не открывай. Попроси прийти в другой день, а если настаивают, звони сто двенадцать.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Пока ты звонил в газовую службу, мужчина в форме исчез. А Пурга ещё час рычала на дверь.",
+   "after": 0.45,
+   "tts": "Пока ты звонил в газовую службу, мужчина в форме исчез. А пурга ещё час рычала на дверь.",
+   "sub": [
+    4,
+    2,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты открываешь дверь незнакомцам?",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    2,
+    4,
+    1
+   ]
+  }
+ ],
+ "tail": 0.35
+}

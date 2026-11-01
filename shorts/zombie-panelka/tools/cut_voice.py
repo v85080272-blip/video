@@ -19,6 +19,22 @@ def norm(w):
     return re.sub(r'[^0-9a-zа-я]', '', w.lower().replace('ё', 'е'))
 
 
+_U = 'ноль один два три четыре пять шесть семь восемь девять'.split()
+_T = 'десять одиннадцать двенадцать тринадцать четырнадцать пятнадцать шестнадцать семнадцать восемнадцать девятнадцать'.split()
+_D = ['', ''] + 'двадцать тридцать сорок пятьдесят шестьдесят семьдесят восемьдесят девяносто'.split()
+_H = [''] + 'сто двести триста четыреста пятьсот шестьсот семьсот восемьсот девятьсот'.split()
+
+
+def spell(w):                                             # Whisper writes numbers in digits («112»), the script in words
+    def say(n):
+        if n >= 1000:
+            return (say(n // 1000) + ' тысяч ' + say(n % 1000)) if n % 1000 else say(n // 1000) + ' тысяч'
+        h, r = _H[n // 100], n % 100
+        r = _U[r] if r < 10 else _T[r - 10] if r < 20 else _D[r // 10] + ('' if r % 10 == 0 else ' ' + _U[r % 10])
+        return (h + ' ' + r).strip() if (n % 100 or not h) else h
+    return re.sub(r'\d{1,6}', lambda m: say(int(m.group())), w)
+
+
 def load(path, sr):
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-af', 'highpass=f=60', '-ac', '1', '-ar', str(sr),
                           '-f', 'f32le', '-'], capture_output=True, check=True).stdout
@@ -63,7 +79,7 @@ S, s_own, W, w_own = [], [], [], []
 for ti, (_, _, t) in enumerate(toks):
     S += list(t); s_own += [ti] * len(t)
 for j, w in enumerate(words):
-    t = norm(w['word']); W += list(t); w_own += [j] * len(t)
+    t = norm(spell(w['word'])); W += list(t); w_own += [j] * len(t)
 hits = {}
 for a0, b0, size in difflib.SequenceMatcher(a=S, b=W, autojunk=False).get_matching_blocks():
     if size < 2:                                          # a lone letter matches anywhere
@@ -92,6 +108,9 @@ for i in range(len(lines)):                               # nothing matched: fin
     if b - a > 0.2 and len(on):
         first[i], last[i] = a + on[0] / 100, a + (on[-1] + 1) / 100
         print(f'{lines[i]["id"]}: placed by level at {first[i]:.2f}-{last[i]:.2f} s')
+# a line that ends on a number: Whisper's times for digits are short, so let its end run on to the next line's cut
+num_end = {li: any(re.search(r'\d', words[j]['word']) and words[j]['end'] >= last[li] - 0.01 for j in heard[li])
+           for li in range(len(lines)) if li in last}
 missing = [lines[i]['id'] for i in range(len(lines)) if i not in first]
 if missing:
     sys.exit(f'no matched words for {missing}')
@@ -118,7 +137,7 @@ report, out_words, gaps, spans = {}, {}, {}, {}
 PAD = 0.04
 for i, l in enumerate(lines):
     s0 = max(cuts[i], first[i] - PAD)
-    s1 = min(cuts[i + 1], last[i] + PAD + 0.08)
+    s1 = min(cuts[i + 1], last[i] + PAD + (0.6 if num_end.get(i) else 0.08))
     seg = x[int(s0 * SR):int(s1 * SR)]
     a, b = trim(seg)
     a = max(0, a - int(0.03 * SR)); b = min(len(seg), b + int(0.05 * SR))
@@ -140,7 +159,7 @@ for i, l in enumerate(lines):
             d = (b0 - a0) / max(1, n0)
             tw[k] = (a0 + d * pos, a0 + d * (pos + 1))
     out_words[l['id']] = [dict(w=sw[k], s=round(tw[k][0] - t0, 3), e=round(tw[k][1] - t0, 3)) for k in range(len(sw))]
-    hrd = ''.join(norm(w['word']) for w in words if cuts[i] <= (w['start'] + w['end']) / 2 < cuts[i + 1])
+    hrd = ''.join(norm(spell(w['word'])) for w in words if cuts[i] <= (w['start'] + w['end']) / 2 < cuts[i + 1])
     ref = ''.join(norm(w) for w in sw)
     cer = 1 - difflib.SequenceMatcher(a=ref, b=hrd).ratio()
     report[l['id']] = dict(dur=round(len(y) / SR, 2), cer=round(cer, 3), heard=len(heard[i]), of=len(sw))
