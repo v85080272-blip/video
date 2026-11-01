@@ -1,0 +1,46 @@
+{
+ "note": "Narration for «Взрыв на станции, ты дома». Facts: get inside, stay inside, stay tuned (Ready.gov, CDC, EPA RadTown); close windows and doors, turn off fans and ventilation that pull in outside air, close fireplace dampers (Ready.gov, county OEM pages); basement or the middle of the building, away from outer walls, windows and roof: every wall between you and the fallout cuts the dose (CDC, EPA); bottled water is the only water free of contamination until tested, food in sealed containers and the fridge is safe (CDC «Food, drinking water and medicine safety»); iodine prophylaxis only on an official signal, and potassium iodide protects only the thyroid (CDC, Russian civil defence leaflets); stay inside at least 24 hours unless officials say otherwise (EPA, CDC). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если рядом взорвалась атомная станция, а ты дома?",
+   "at": 0.12
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — выйти и снять это на телефон. Не надо: ветер несёт радиоактивную пыль.",
+   "after": 0.35
+  },
+  {
+   "id": "L2",
+   "text": "Первое: закрой окна, двери и заслонку печки, выключи вентиляцию. Так пыль не затянет внутрь.",
+   "after": 0.4
+  },
+  {
+   "id": "L3",
+   "text": "Второе: спустись в погреб или уйди в середину дома, подальше от окон. Каждая стена ослабляет излучение.",
+   "after": 0.4
+  },
+  {
+   "id": "L4",
+   "text": "Третье: пей воду только из бутылок и ешь из закрытых банок и холодильника.",
+   "after": 0.4
+  },
+  {
+   "id": "L5",
+   "text": "Четвёртое: не пей йод из аптечки сам. Таблетки йода пьют, только когда объявят по радио, и они защищают лишь щитовидку.",
+   "after": 0.4
+  },
+  {
+   "id": "L6",
+   "text": "Пятое: включи радио и сиди дома минимум сутки, пока не скажут, что можно выходить.",
+   "after": 0.4
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, и в следующий раз ты будешь знать, что делать.",
+   "after": 0.45
+  }
+ ],
+ "tail": 0.35
+}

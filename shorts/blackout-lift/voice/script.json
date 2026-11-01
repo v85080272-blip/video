@@ -1,0 +1,102 @@
+{
+ "note": "Narration for «Застрял в лифте» (Как выжить, блэкаут ч.3). Facts (Otis, «5 steps to take if your elevator stops»): remain calm and do not attempt to leave the cab without being cleared; use the elevator's emergency button, intercom or phone; keep your distance from the door and do not try to force the doors open; the cab has air circulation openings, the air supply is not limited; wait for qualified assistance (a technician or the fire department). Between floors the gap under the landing opens onto the shaft. at = line start (s), after = pause after the previous line, tail = end after the last line, sub = words per subtitle group (dashes don't count).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты едешь домой на двадцатый этаж, и в лифте гаснет свет. Кабина встала между этажами.",
+   "at": 0.12,
+   "sub": [
+    4,
+    2,
+    4,
+    1,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первое желание — раздвинуть двери и вылезти. Нельзя: между кабиной и этажом открытая шахта.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    1,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Хорошая новость: воздуха хватит. В кабине есть щели для вентиляции, задохнуться в ней нельзя.",
+   "after": 0.4,
+   "sub": [
+    2,
+    2,
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: нажми кнопку вызова диспетчера и скажи, в каком ты подъезде.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: отойди от дверей и не пытайся их открыть. Вытаскивать тебя должны лифтёр или спасатели.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: береги заряд телефона. Напиши родным, где ты, и жди спокойно: ждать могут долго.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    2,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Через час двери открыл лифтёр. Ты цел, а Пурга за это время съела всю курицу из пакета.",
+   "after": 0.45,
+   "sub": [
+    4,
+    1,
+    2,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты бы полез через двери?",
+   "after": 0.45,
+   "sub": [
+    3,
+    2,
+    4,
+    2
+   ]
+  }
+ ],
+ "tail": 0.35
+}

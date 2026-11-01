@@ -1,0 +1,15 @@
+{
+ "note": "Narration for «Радиоактивное озеро». Facts: radioactive water does not glow like in films (the green glow is pop culture from radium-paint phosphor; real Cherenkov light is blue and only in reactor pools); time and distance cut the dose (EPA, CDC); what gets inside the body (water, food) cannot be washed off, and fish from contaminated lakes accumulate caesium-137 in muscle and strontium-90 in bone (Chernobyl zone studies); removing the outer layer of clothing removes up to 90% of radioactive material, bag it; shower with soap and shampoo, no conditioner: it makes radioactive material stick to hair (CDC «Decontamination for yourself and others»). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line.",
+ "lines": [
+  {"id": "L0", "text": "Что делать, если ты оказался посреди радиоактивного озера?", "at": 0.12},
+  {"id": "L1", "text": "Ты рыбачишь, и вдруг затрещал дозиметр.", "after": 0.35},
+  {"id": "L2", "text": "Радиоактивная вода не светится, как в кино. Радиацию не видно.", "after": 0.35},
+  {"id": "L3", "text": "Первое: не прыгай в воду. Вплавь ты медленнее и наглотаешься этой воды.", "after": 0.4},
+  {"id": "L4", "text": "Второе: ничего тут не пей и не ешь, даже рыбу. То, что попало внутрь, уже не смыть.", "after": 0.4},
+  {"id": "L5", "text": "Третье: плыви на вёслах к ближайшему берегу и уходи от воды. Чем быстрее, тем меньше доза.", "after": 0.4},
+  {"id": "L6", "text": "Четвёртое: перед домом сними куртку и обувь. Так уходит до девяноста процентов радиоактивной пыли.", "after": 0.4},
+  {"id": "L7", "text": "Пятое: вымойся с мылом и шампунем, но без кондиционера. Он приклеивает пыль к волосам.", "after": 0.4},
+  {"id": "L8", "text": "Подписывайся, и в следующий раз ты будешь знать, что делать.", "after": 0.45}
+ ],
+ "tail": 0.35
+}

@@ -1,0 +1,54 @@
+{
+ "note": "Narration for «Неделя без света» (Как выжить, блэкаут ч.2). Facts: carbon monoxide is an odorless, colorless gas; never use generators, grills or other gasoline-, propane- or charcoal-burning devices inside the home, don't heat the home with a gas oven (CDC, «Avoiding Carbon Monoxide Poisoning»; FEMA «During a Power Outage»: never burn charcoal for heating or cooking indoors); a refrigerator keeps food safe for up to 4 hours, discard refrigerated perishable food such as meat, poultry, fish, eggs and leftovers after 4 hours without power (USDA / FoodSafety.gov); during an emergency use text messages instead of voice calls, texts are less likely to hit network congestion (FCC/FEMA «Tips for communicating during an emergency»); turn off or disconnect appliances and electronics that were in use when the power went out: power may return with surges or spikes that can damage them (FEMA «During a Power Outage»). at = where the line starts (s), after = the pause after the previous line, tail = the short's end after the last line. sub = words per subtitle group (dashes don't count).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Неделя без света. Ты всё ещё на двадцатом этаже, и самое опасное теперь — не темнота.",
+   "at": 0.12,
+   "sub": [3, 3, 3, 3, 3]
+  },
+  {
+   "id": "L1",
+   "text": "Соседи несут домой мангалы и газовые горелки, чтобы погреться и сварить еду.",
+   "after": 0.4,
+   "sub": [3, 4, 2, 3]
+  },
+  {
+   "id": "L2",
+   "text": "От них угарный газ. У него нет ни цвета, ни запаха, и почувствовать его нельзя.",
+   "after": 0.35,
+   "sub": [4, 5, 2, 4]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: никакого огня в квартире. Ешь то, что не надо греть: консервы, хлеб, орехи.",
+   "after": 0.45,
+   "sub": [1, 4, 6, 3]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: мясо, молоко и яйца — в мусор. Через четыре часа без холода их есть опасно.",
+   "after": 0.4,
+   "sub": [1, 4, 2, 3, 5]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: связь. Не звони, а пиши: когда сеть перегружена, сообщение дойдёт скорее, чем звонок.",
+   "after": 0.4,
+   "sub": [2, 4, 3, 2, 3]
+  },
+  {
+   "id": "L6",
+   "text": "На седьмой день свет дали. Ты заранее выдернул технику из розеток, а у соседа от скачка сгорел телевизор.",
+   "after": 0.45,
+   "sub": [5, 3, 3, 5, 2]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А сколько ты продержишься без света?",
+   "after": 0.45,
+   "sub": [1, 4, 3, 3]
+  }
+ ],
+ "tail": 0.35
+}

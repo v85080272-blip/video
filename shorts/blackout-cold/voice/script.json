@@ -1,0 +1,104 @@
+{
+ "note": "Narration for «Третий день в холоде» (Как выжить, блэкаут ч.5): the morning after part 4, the ice in the tub, +8 in the flat. Facts: eat well-balanced meals to help you stay warmer; do not drink alcohol, it causes your body to lose heat more rapidly (CDC, «Winter Weather: Indoor Safety»; Mississippi State Department of Health, «Winter Weather Preparedness»); if your home cannot be kept warm, go to a warming center in your area, listen to local officials for where they are, and take supplies with you (FEMA, «Keep Warm During a Winter Power Outage and Avoid Hypothermia»). The tub water from part 1 is for flushing, not drinking. at = line start (s), after = pause after the previous line, tail = end after the last line, sub = words per subtitle group (dashes don't count). tts = the text the voice reads when it differs from the subtitles: a lowercase «пурга» makes the voice say «пургА» (with a capital it says «пУрга», part 4).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Третье утро без света. Вода в ванне замёрзла, а в квартире всего плюс восемь.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Сосед зовёт согреться водкой. Не надо: алкоголь только кажется тёплым, а тепло из тела уходит быстрее.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Если холод не уходит, из такой квартиры пора уходить. Но не наугад, а по плану.",
+   "after": 0.4,
+   "sub": [
+    4,
+    3,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: ешь и пей регулярно. Еда помогает телу греться, а лёд из ванны оставь для туалета.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: узнай, где пункт обогрева. Спроси соседей или слушай радио на батарейках.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: возьми документы, лекарства, тёплые вещи и фонарик. Перекрой воду и газ и напиши родным, куда идёшь.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    4,
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Двадцать этажей вниз пешком. Пурга шла первой со своим фонариком, а в пункте обогрева ей первой налили тёплой каши.",
+   "after": 0.45,
+   "tts": "Двадцать этажей вниз пешком. пурга шла первой со своим фонариком, а в пункте обогрева ей первой налили тёплой каши.",
+   "sub": [
+    4,
+    3,
+    3,
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты знаешь, где у тебя ближайший пункт обогрева?",
+   "after": 0.45,
+   "sub": [
+    3,
+    2,
+    3,
+    3,
+    3
+   ]
+  }
+ ],
+ "tail": 0.35
+}

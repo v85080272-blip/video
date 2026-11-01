@@ -1,0 +1,98 @@
+{
+ "note": "Narration for «Заранее» (Как выжить, блэкаут ч.8, the season's end): after part 7 the power is back, and the blackout may come again. Facts (Ready.gov «Build a Kit», as reproduced by state and county agencies, e.g. Virginia Department of Health, Prince William County, Suffolk County OEM): water, one gallon (about 4 litres) per person per day for at least three days; at least a three-day supply of non-perishable food; a flashlight, a battery-powered or hand-crank radio and extra batteries; a first aid kit, prescription medications, copies of important documents, cash; a backup battery for the phone; for pets: food, water and a leash. at/after/tail/sub as in part 1; tts = what the voice reads (a lowercase «пурга» gives «пургА»).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Свет снова есть, но ты уже знаешь: его могут отключить снова. Значит, готовиться надо заранее.",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Многие думают, что у них всё есть. А потом в темноте ищут фонарик и последнюю бутылку воды.",
+   "after": 0.4,
+   "sub": [
+    2,
+    4,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Собери запас минимум на три дня и держи его в одном месте.",
+   "after": 0.4,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: вода, около четырёх литров на человека в день, и еда, которую не надо готовить.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: фонарик, радио на батарейках, запасные батарейки и заряженный пауэрбанк.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: аптечка, лекарства, копии документов и немного наличных: без света банкоматы не работают.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А когда рюкзак был готов, Пурга принесла свою миску и поводок. Её запас тоже нужен.",
+   "after": 0.45,
+   "tts": "А когда рюкзак был готов, пурга принесла свою миску и поводок. Её запас тоже нужен.",
+   "sub": [
+    4,
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А что из этого у тебя уже есть?",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    2,
+    4,
+    4
+   ]
+  }
+ ],
+ "tail": 0.35
+}
