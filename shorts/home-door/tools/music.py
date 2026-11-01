@@ -1,9 +1,9 @@
-# Score for «Заранее» (блэкаут, ч.8, финал сезона), synthesised with numpy (48 kHz stereo, no samples, no third-party music).
-# D minor like parts 1–7, a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json.
-# The calm flat: warm F; the lamp flickers and a low unease creeps in. The dark: a hit and the ostinato as he gropes for
-# the torch. Packing the crate: a bright, rising glock for each thing that goes in, over a steady pizzicato march that
-# lifts a step at each of the three groups. The dog with her bowl: a comic xylophone; the end is warm (F, then A7) and
-# A7 leads back into the D minor of part 1 — the season loops.
+# Score for «Звонок в дверь» («Квартира под защитой», ч.2), synthesised with numpy (48 kHz stereo, no samples).
+# D minor like the series, a beat of 0.6 s (100 BPM), every section starting on the narrator's word from build/cues.json.
+# The bell and the fish-eye: a held, uneasy pad. The landing: a hurried pizzicato (he is rushing you), a sour stab when
+# the partner shows by the lift, relief on «настоящий мастер подождёт». The steps: a steady pizzicato, a click for the
+# chain, a glock for the right number, a stab on the stranger's card, three taps for 112. The empty landing and the
+# growl: a low drone; the end leads back into D minor.
 # usage: python3 tools/music.py build/cues.json build/music.wav
 import json
 import sys
@@ -23,43 +23,41 @@ def grid(t0, t1, step):
 
 def score(M, dur):
     A = M['A']
-    rng = np.random.default_rng(47)
+    rng = np.random.default_rng(59)
     S = {}
-    flick, c1, dark, c2, c3, c4, c5, atm, c6, dog, c7 = (M[k] for k in ('flick', 'c1', 'dark', 'c2', 'c3', 'c4', 'c5', 'atm', 'c6', 'dog', 'c7'))
-    ITEMS = M['ITEMS']
+    ring, peep, c1, two, c2, c3, c4, c5, dial, c6, growl, c7 = (M[k] for k in ('ring', 'peep', 'c1', 'two', 'c2', 'c3', 'c4', 'c5', 'dial', 'c6', 'growl', 'c7'))
     end0 = A['L7']
 
-    # A · the calm flat in warm F; the flicker brings a low unease
-    a = S['A'] = Sec(dur, stop=dark + 0.05, over=0.03)
-    a.wet.add(0.0, saws(rng, [41, 48, 53, 57], flick + 0.2, attack=0.6, release=0.2, bright=1200), -16, 0.0)
-    for i, m in enumerate([77, 81, 84, 81]):
-        if 0.3 + i * 0.5 < flick:
-            a.dry.add(0.3 + i * 0.5, celesta(rng, m, 0.5), -13, 0.2 - 0.1 * i)
-    a.wet.add(flick, saws(rng, [38, 44, 50], dark - flick + 0.2, attack=0.4, release=0.2, bright=500), -17, 0.0)
+    # A · the bell and the fish-eye: a held, uneasy pad
+    a = S['A'] = Sec(dur, stop=c1 + 0.05, over=0.03)
+    a.wet.add(0.0, saws(rng, [38, 44, 50], c1 + 0.3, attack=0.5, release=0.3, bright=700), -17, 0.0)
+    a.wet.add(peep, trem(rng, [62, 63], c1 - peep, grow=(0.2, 0.6), bright=1800), -21, 0.0)
 
-    # B · the dark: a hit and the ostinato while he gropes for the torch
-    pat = [38, 50, 38, 50, 41, 53, 40, 52]
-    b = S['B'] = Sec(dur, stop=c2, over=0.03, gain=((dark, -2.0), (c2, -2.0)))
-    b.dry.add(dark, timp(rng, 33, 0.9), -5, 0.0)
-    b.dry.add(dark, brass(rng, [26, 33, 38], 0.5, bright=600), -9, 0.0)
-    for i, t in enumerate(grid(dark, c2, BEAT / 2)):
-        b.dry.add(t, pizz(rng, pat[i % 8], 0.6), -7, -0.1)
+    # B · the landing: a hurried pizzicato, a sour stab for the partner, relief on «подождёт»
+    b = S['B'] = Sec(dur, stop=c3, over=0.03, gain=((c1, -2.0), (c3, -2.0)))
+    for i, t in enumerate(grid(c1, c2, BEAT / 4)):
+        b.dry.add(t, pizz(rng, [38, 50, 44, 50][i % 4], 0.35), -9, -0.1)
+    b.dry.add(two + 0.5, brass(rng, [38, 44, 50], 0.4, bright=1600), -6, 0.0)
+    b.dry.add(two + 0.5, timp(rng, 38, 0.7), -7, 0.0)
+    b.wet.add(c2, saws(rng, [41, 48, 53, 57], c3 - c2, attack=0.3, release=0.3, bright=1300), -15, 0.0)
+    b.dry.add(c2, glock(rng, 89, 0.5, 1.4), -12, 0.0)
 
-    # C · packing: a march that lifts a step at each group, a rising glock for each thing in the crate
-    c = S['C'] = Sec(dur, gain=((c2, -2.0), (c6, -2.0)))
-    for i, t in enumerate(grid(c2, c6, BEAT / 2)):
-        up = 0 if t < c3 else 2 if t < c4 else 4 if t < c5 else 5
-        c.dry.add(t, pizz(rng, [41, 53, 48, 53][i % 4] + up, 0.5), -7, -0.1)
-    for i, t0 in enumerate(ITEMS):
-        c.dry.add(t0 + 0.4, glock(rng, [77, 79, 81, 84, 86, 88, 89, 91, 93, 96][i], 0.35, 0.9), -12, 0.25)
-    c.wet.add(c3, saws(rng, [41, 48, 53], c6 - c3, attack=0.6, release=0.3, bright=900), -19, 0.0)
-    c.dry.add(atm, brass(rng, [50, 51], 0.3, bright=1400), -9, 0.0)
+    # C · the steps: a steady pizzicato; the chain, the right number, the stranger's card, 112
+    c = S['C'] = Sec(dur, gain=((c3, -2.0), (c6, -2.0)))
+    for i, t in enumerate(grid(c3, c6, BEAT / 2)):
+        c.dry.add(t, pizz(rng, [41, 53, 48, 53][i % 4] + (0 if t < c4 else 2 if t < c5 else 4), 0.5), -7, -0.1)
+    c.dry.add(A['L3w8'], glock(rng, 84, 0.4, 1.0), -12, 0.2)
+    c.dry.add(A['L4w6'], glock(rng, 89, 0.4, 1.0), -12, 0.2)
+    c.dry.add(A['L4w12'], brass(rng, [50, 51], 0.3, bright=1400), -9, 0.0)
+    for i in range(3):
+        c.dry.add(dial + i * 0.18, glock(rng, [86, 86, 89][i], 0.2, 0.5), -12, 0.1)
 
-    # D · the dog with her bowl: a comic xylophone, a warm chord
-    d = S['D'] = Sec(dur, gain=((c6, -3.0), (end0, -3.0)))
-    d.wet.add(c6, saws(rng, [41, 53, 57, 60, 65], end0 - c6, attack=0.3, release=0.5, bright=1500), -14, 0.0)
-    for i, m in enumerate([72, 76, 79, 84, 79, 84, 88]):
-        d.dry.add(dog + i * 0.09, xylo(rng, m, 0.25), -11, -0.25)
+    # D · the empty landing, then the growl: a low drone
+    d = S['D'] = Sec(dur, gain=((c6, -4.0), (end0, -4.0)))
+    d.wet.add(c6, saws(rng, [26, 33, 38], end0 - c6, attack=0.5, release=0.5, bright=400), -16, 0.0)
+    d.dry.add(A['L6w6'], timp(rng, 33, 0.8), -8, 0.0)
+    for i, m in enumerate([62, 61, 62, 58]):
+        d.dry.add(growl + 0.1 + i * 0.4, pizz(rng, m - 24, 0.5), -9, -0.2)
 
     # I · «Подписывайся…»: warm F with a celesta tune, then A7sus4 → A7 for the loop back into D minor
     end = S['I'] = Sec(dur, gain=((end0, -3.0), (dur, -6.0)))

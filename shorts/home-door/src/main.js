@@ -1,15 +1,15 @@
-// «Заранее» (блэкаут, ч.8, финал сезона): the whole short as pure functions of time t (seconds), so any frame or
-// motion-blur sub-frame can be drawn in any order. Scene beats are anchored to the narrator's words (build/words.json from
-// tools/voice.py, or tools/fake_words.mjs until the voice exists): another take moves the picture with it.
-// It goes on from part 7: the power is back, but the lamp flickers once, and the season ends with the kit to keep at home.
-// New here: the search in the dark for a torch that isn't there, the shelf where the kit lives, the crate filling item by
-// item with a checklist beside it, the water sum, the dead cash machine, and the dog bringing her own bowl and leash.
+// «Звонок в дверь» («Квартира под защитой», ч.2): the whole short as pure functions of time t (seconds), so any frame
+// or motion-blur sub-frame can be drawn in any order. Scene beats are anchored to the narrator's words (build/words.json
+// from tools/voice.py, or tools/fake_words.mjs until the voice exists): another take moves the picture with it.
+// The landing and the neighbour from part 1 (landing.js); new here: our hall seen from inside (the door's inner face,
+// the chain, the peephole), the view through the peephole as a fish-eye circle, the «gas man» in uniform with his ID,
+// his partner by the lift, the gas bill with the service's number, the phone dialling 112.
 import fs from 'node:fs';
 import { lerp, clamp, ease, spring, bump, hash, noise, TAU, mix, rgba } from './lib.js';
 import { g, W, H, ell, limb, rect, rrect, poly, fill, smoothPath, polyPath, rrPath, inside, MONO } from './flat.js';
 import { view, toScreen } from './camera.js';
-import * as Ap from './apt.js';
 import * as Hd from './hud.js';
+import * as Ld from './landing.js';
 import { drawHunter, framesOf } from './hunter.js';
 import { drawDog } from './dog.js';
 import { text, measure, FONTS, INK } from './type.js';
@@ -18,8 +18,8 @@ import { text, measure, FONTS, INK } from './type.js';
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
-const FB = { L0: [0.12, 5.67, 15], L1: [6.08, 11.58, 17], L2: [11.98, 15.24, 12], L3: [15.7, 21.4, 15], L4: [21.8, 27.0, 10], L5: [27.39, 33.37, 13], L6: [33.81, 38.7, 15], L7: [39.15, 43.24, 13] };
-export const DUR = VOICE?.dur ?? 43.59;
+const FB = { L0: [0.12, 4.36, 12], L1: [4.75, 11.8, 15], L2: [12.21, 14.93, 8], L3: [15.38, 19.62, 11], L4: [20.02, 25.02, 16], L5: [25.42, 31.43, 16], L6: [31.88, 37.09, 17], L7: [37.55, 41.44, 10] };
+export const DUR = VOICE?.dur ?? 41.79;
 const A = {};
 for (const id of Object.keys(FB)) {
   const ws = LN(id)?.words, n = ws ? ws.length : FB[id][2];
@@ -27,42 +27,36 @@ for (const id of Object.keys(FB)) {
   for (let i = 0; i < Math.max(n, FB[id][2]); i++) A[id + 'w' + i] = ws ? ws[Math.min(i, n - 1)].s : lerp(FB[id][0], FB[id][1], i / FB[id][2]);
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
-const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm, ICE = '#8fd3ff';
-const HOT = { ОТКЛЮЧИТЬ: DANGER, ЗАРАНЕЕ: GOLD, ТЕМНОТЕ: DANGER, ФОНАРИК: GOLD, ТРИ: GOLD, ОДНОМ: GOLD, ВОДА: ICE,
-  ЧЕТЫРЁХ: GOLD, ЛИТРОВ: GOLD, РАДИО: GOLD, ПАУЭРБАНК: GOLD, АПТЕЧКА: GOLD, ЛЕКАРСТВА: GOLD, НАЛИЧНЫХ: GOLD,
-  БАНКОМАТЫ: DANGER, МИСКУ: WARM, ПОВОДОК: WARM, ПОДПИСЫВАЙСЯ: GOLD };
+const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
+const HOT = { ГЛАЗОК: GOLD, ФОРМЕ: DANGER, ТОРОПИТ: DANGER, КРАЖИ: DANGER, ДРУГОЙ: DANGER, ДЕНЬГИ: DANGER, ПОДОЖДЁТ: OK,
+  СРАЗУ: DANGER, ЦЕПОЧКУ: GOLD, САМ: GOLD, КВИТАНЦИИ: GOLD, ГОСТЬ: DANGER, СОМНЕВАЕШЬСЯ: GOLD, ДВЕНАДЦАТЬ: GOLD,
+  ИСЧЕЗ: DANGER, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
 const T = {
-  cover: 0.3,                        // the poster
-  flick: A.L0w9 - 0.06,              // «могут отключить снова»: the lamp flickers once
-  c1: A.L1 - 0.06,                   // «Многие думают…»: the dark, the search
-  dark: A.L1w7 - 0.06,               // «А потом в темноте»
-  c2: A.L2 - 0.06,                   // «Собери запас…»: the shelf, the crate
-  c3: A.L3 - 0.06,                   // step 1: water and food
-  c4: A.L4 - 0.06,                   // step 2: light, radio, power
-  c5: A.L5 - 0.06,                   // step 3: first aid, papers, cash
-  atm: A.L5w8 - 0.06,                // «без света банкоматы не работают»
-  c6: A.L6 - 0.06,                   // the dog brings her bowl and leash
-  dog: A.L6w5 - 0.06,
-  c7: A.L7 - 0.06,                   // «Подписывайся…»
+  cover: 0.3,                        // the poster: the fish-eye
+  ring: 0.45,                        // the bell
+  peep: A.L0w3 - 0.06,               // «В глазок видно…»: the fish-eye
+  c1: A.L1 - 0.06,                   // «Он торопит…»: the landing, his ID; the partner by the lift
+  two: A.L1w9 - 0.06,                // «пока один отвлекает, другой ищет деньги»
+  c2: A.L2 - 0.06,                   // «настоящий мастер подождёт»
+  c3: A.L3 - 0.06,                   // step 1: the chain
+  c4: A.L4 - 0.06,                   // step 2: the bill and the phone
+  c5: A.L5 - 0.06,                   // step 3: not opening; 112
+  dial: A.L5w13 - 0.06,
+  c6: A.L6 - 0.06,                   // the landing empty; the dog growls at the door
+  growl: A.L6w10 - 0.06,
+  c7: A.L7 - 0.06,
 };
-// what goes into the crate, and when: [label, word time, kind]
-const ITEMS = [
-  ['вода', A.L3w1 - 0.06, 'water'], ['еда', A.L3w10 - 0.06, 'tin'],
-  ['фонарик', A.L4w1 - 0.06, 'torch'], ['радио', A.L4w2 - 0.06, 'radio'], ['батарейки', A.L4w6 - 0.06, 'batt'], ['пауэрбанк', A.L4w9 - 0.06, 'bank'],
-  ['аптечка', A.L5w1 - 0.06, 'aid'], ['лекарства', A.L5w2 - 0.06, 'pills'], ['документы', A.L5w4 - 0.06, 'docs'], ['наличные', A.L5w7 - 0.06, 'cash'],
-];
-export const CUTS = [T.cover, T.c1, T.c2, T.c6, T.c7];
-export const SNAPS = [T.dark];
-export const MARKS = { ...T, A, ITEMS: ITEMS.map(i => i[1]) };
+export const CUTS = [T.cover, T.peep, T.c1, T.c2, T.c3, T.c4, T.c6, T.growl, T.c7];
+export const SNAPS = [];
+export const MARKS = { ...T, A };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const S = 0.6, LEG = 137, DS = 0.7;
-const scene = t => (t < T.cover ? 'cover' : 'flat');
-const isDark = t => t >= T.dark && t < T.c2;
+const scene = t => (t < T.cover ? 'cover' : t < T.peep ? 'hall' : t < T.c1 ? 'peep' : t < T.c3 ? 'landing' : t < T.c4 ? 'hall' : t < T.c6 ? 'hall' : t < T.growl ? 'peep' : 'hall');
 
-// —— the camera: per shot, Hermite keys [t, x, y, z] ——
+// —— the camera ——
 function hermite(keys, t) {
   if (t <= keys[0][0]) return keys[0].slice(1);
   const n = keys.length;
@@ -79,207 +73,246 @@ function hermite(keys, t) {
 }
 const SHOTS = [];
 const shot = (t0, keys) => SHOTS.push({ t0, keys });
-const CRATE = [-40, 0];                                       // the crate on the floor, its mouth at y = -170
-shot(T.cover, [[T.cover, 120, -330, 1.2], [T.flick, 120, -340, 1.26], [T.c1, 130, -340, 1.3]]);
-shot(T.c1, [[T.c1, -40, -300, 1.4], [T.c2, -60, -300, 1.48]]);
-shot(T.c2, [[T.c2, -60, -200, 1.25], [T.c3, -60, -160, 1.4], [T.c6, -40, -150, 1.46]]);
-shot(T.c6, [[T.c6, -120, -170, 1.35], [T.c7, -110, -175, 1.42]]);
-shot(T.c7, [[T.c7, -40, -280, 1.25], [DUR, -30, -285, 1.3]]);
+shot(T.cover, [[T.cover, -80, -300, 1.2], [T.peep, -60, -310, 1.3]]);
+shot(T.peep, [[T.peep, 0, -330, 1.0], [T.c1, 0, -330, 1.05]]);
+shot(T.c1, [[T.c1, 60, -320, 1.25], [T.two - 0.2, 80, -320, 1.3], [T.two + 0.5, -420, -320, 1.1], [T.c2, -380, -320, 1.12], [T.c3, 40, -320, 1.25]]);
+shot(T.c3, [[T.c3, -60, -320, 1.45], [T.c4, -50, -320, 1.5]]);
+shot(T.c4, [[T.c4, -60, -310, 1.3], [T.c6, -60, -310, 1.34]]);
+shot(T.c6, [[T.c6, 0, -330, 1.0], [T.growl, 0, -330, 1.05]]);
+shot(T.growl, [[T.growl, -100, -150, 1.8], [T.c7, -110, -150, 1.9]]);
+shot(T.c7, [[T.c7, -60, -300, 1.25], [DUR, -50, -305, 1.3]]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
   const [x, y, z] = hermite(sh.keys, t);
   let dx = 0, dy = 0;
-  for (const [t0, a] of [[T.flick, 5], [T.dark, 7]]) if (t >= t0 && t < t0 + 0.5) { const e = Math.exp(-(t - t0) * 8); dx += a * e * noise(t * 40, 1); dy += a * e * noise(t * 37, 2); }
+  for (const [t0, a] of [[T.ring, 5], [A.L5w3 - 0.05, 6]]) if (t >= t0 && t < t0 + 0.5) { const e = Math.exp(-(t - t0) * 8); dx += a * e * noise(t * 40, 1); dy += a * e * noise(t * 37, 2); }
   return { x, y, z, lens: 1, tx: 0, ty: 0, dx, dy, r: 0 };
 }
 
-// —— the hunter and the dog ——
+// —— the people ——
 const blinkAt = t => { const u = (t + 0.4) % 3.3; return u < 0.14 ? bump(u / 0.14) : 0; };
 const dblink = t => { const u = (t + 1.7) % 2.9; return u < 0.12 ? bump(u / 0.12) : 0; };
+// at home: the striped vest, no hat
 const base = (t, extra = {}) => ({ s: S, face: 1, lean: 0.04, headTilt: 0.04, brow: 0, pop: 0, lid: 0.25, blink: blinkAt(t), look: [0.5, 0], mouth: 0, jacket: false, boots: false, pack: false, hat: false, ...extra });
 function stand(o, x, y = 0) { const k = (o.s ?? S) / S; o.hip = [x, y - LEG * k]; o.feet = { near: [x - 12 * k, y], far: [x + 16 * k, y] }; return o; }
 const shoulder = o => framesOf(o).T.p([-14, -192]);
+// the «gas man»: a dark figure in uniform with a cap; o.id holds his card up; the partner is another dark figure
+function stranger(t, x, face, o = {}) {
+  MONO.on = true; MONO.color = o.color ?? '#2d3a5a';
+  const f = stand({ s: o.s ?? 0.62, face, lean: o.lean ?? 0.06, look: [0.6 * face, 0], hat: true, jacket: true, boots: true, pack: false, blink: 0 }, x);
+  const sh = framesOf(f).T.p([-14, -192]);
+  if (o.id) f.hands = { near: { p: [sh[0] + 110 * face, sh[1] - 40 + 6 * Math.sin(t * 6)], shape: 'grip' } };
+  drawHunter(f);
+  MONO.on = false;
+  if (o.id) { const p = f.hands.near.p; rrect(p[0] - 36, p[1] - 70, 72, 50, 6, '#f6f2e7'); rect(p[0] - 28, p[1] - 62, 20, 26, '#9aa6b8'); rect(p[0] - 2, p[1] - 58, 30, 5, '#5d6570'); rect(p[0] - 2, p[1] - 46, 22, 5, '#5d6570'); }
+  if (o.folder) rrect(sh[0] - 30, sh[1] + 60, 70, 90, 6, '#3c7ad6');
+}
+
+// the hall inside the flat: the door's inner face with the chain, a coat rack; t-dependent: chain on, door ajar on it
+const HALL = { door: { x0: -140, x1: 140, top: -580 } };
+function hallScene(t, o = {}) {
+  const D = HALL.door;
+  rect(-1100, -760, 2200, 760, '#e9dcc0');
+  for (let y = -720; y < 0; y += 80) for (let x = -1080 + ((y / 80) % 2) * 40; x < 1100; x += 80) ell(x, y, 5, 5, '#d8c6a0');
+  rect(-1100, -30, 2200, 30, '#dccba8'); rect(-1100, 0, 2200, 140, '#a9876a');
+  // the coat rack with his jacket and hat
+  rect(-640, -560, 260, 16, '#9d6c43'); for (let i = 0; i < 4; i++) ell(-610 + i * 70, -540, 10, 10, '#7a5434');
+  fill(smoothPath([[-600, -540], [-520, -540], [-500, -300], [-620, -300]]), '#d9762b'); ell(-440, -560, 50, 34, '#a8794a');
+  // the door from inside: light leatherette, the chain, the locks' thumb-turns, the peephole
+  rect(D.x0 - 22, D.top - 22, D.x1 - D.x0 + 44, -D.top + 22, '#3e3a3a');
+  const gap = o.gap ?? 0;
+  if (gap > 0.5) { rect(D.x1 - gap, D.top, gap, -D.top, '#d9d0bc'); }
+  rrect(D.x0, D.top, D.x1 - D.x0 - gap, -D.top, 6, '#c9b08a');
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) rrect(D.x0 + 26 + j * 120, D.top + 30 + i * 136, 100, 116, 10, '#bea47e');
+  ell(0, -430, 12, 12, '#2c2c34'); ell(0, -430, 7, 7, o.peepLit ? '#ffe7a8' : '#4a5064');
+  for (const [lx, ly] of Ld.LOCKS) { rrect(lx - gap - 14, ly - 18, 28, 36, 8, '#c9d0d6'); rect(lx - gap - 2, ly - 14, 4, 28, '#3a3f4a'); }
+  // the chain: its track on the frame, the links to the door
+  rect(D.x1 + 4, -470, 14, 60, '#9aa3ad');
+  const on = o.chain ?? 0;
+  if (on > 0.01) { const end = [lerp(D.x1 + 10, D.x1 - 40 - gap, on), -440]; const from = [D.x1 - 40 - gap, -440]; for (let i = 0; i <= 6; i++) { const u = i / 6, sag = gap > 0.5 ? 0 : 14 * bump(u); ell(lerp(from[0], end[0] + 50 * (1 - on), u), lerp(from[1], end[1], u) + sag, 7, 5, '#c9d0d6'); } }
+  else limb([[D.x1 - 40, -440], [D.x1 - 30, -380], [D.x1 - 20, -330]], 5, '#c9d0d6');
+}
 
 export function actorsAt(t) {
-  // —— the hook and the dark: at the counter, then groping in the dark, the phone's light ——
-  if (t < T.c2) {
-    const o = stand(base(t, { look: [0.6, -0.4], brow: 0.3 }), 120);
-    if (t > T.flick && t < T.c1) { o.look = [0.1, -0.9]; o.brow = 0.8; o.pop = 0.4 * (1 - seg(T.flick + 0.6, T.flick + 1.1, t)); }
-    if (t >= T.c1) {
-      o.face = -1; o.look = [-0.7, 0.5]; o.brow = 0.6; o.lean = 0.16;
-      const sh = shoulder(o), sw = Math.sin(t * 5);
-      o.hands = { near: { p: [sh[0] - 70 + 30 * sw, sh[1] + 40], shape: 'open' }, far: { p: [sh[0] - 30, sh[1] + 70], shape: 'grip' } };
-      if (t > T.dark) o.prop = { kind: 'phone', p: [sh[0] - 30, sh[1] + 50] };
-    }
-    const d = { x: 360, y: 0, s: DS, face: -1, sit: 1, look: 0.3, t, blink: dblink(t), ears: t > T.flick ? 1 : 0.5 };
-    return { h: o, d };
+  const sc = scene(t);
+  if (sc === 'landing') {
+    const lean = t < T.c2 ? 0.12 + 0.04 * Math.sin(t * 5) : 0.04;
+    return { gas: { x: 220, face: -1, id: true, lean, folder: true }, partner: t > T.two ? { x: -560, face: 1 } : null };
   }
-  // —— packing the crate: he drops each thing in; the dog watches ——
+  if (sc !== 'hall') return {};
+  // —— the hook: from the kitchen side to the door, then to the peephole ——
+  if (t < T.peep) {
+    const o = stand(base(t, { look: [0.6, -0.2], brow: 0.5 }), lerp(-420, -200, seg(T.ring, T.peep, t)));
+    return { h: o, d: { x: -560, y: 0, s: DS, face: 1, sit: 1, look: 0.3, t, blink: dblink(t), ears: 1 }, hall: { chain: 0 } };
+  }
+  // —— step 1: the chain on, the door open a crack on it; he talks through the gap ——
+  if (t < T.c4) {
+    const on = seg(A.L3w8 - 0.3, A.L3w9 + 0.1, t), gap = seg(A.L3w9, A.L3w10 + 0.3, t) * 80;
+    const o = stand(base(t, { look: [0.8, -0.1], brow: 0.5, lean: 0.1 }), -170);
+    const sh = shoulder(o);
+    o.hands = { near: { p: t < A.L3w6 ? [0, -430] : [lerp(sh[0] + 60, 120, on), lerp(sh[1] + 60, -440, on)], shape: 'grip' } };
+    if (t < A.L3w6) { o.look = [1, -0.5]; o.headTilt = -0.1; }
+    if (gap > 10) o.mouth = 0.3 + 0.2 * Math.abs(Math.sin(t * 12));
+    return { h: o, d: { x: -560, y: 0, s: DS, face: 1, sit: 1, look: 0.3, t, blink: dblink(t), ears: 0.7 }, hall: { chain: Math.max(on, 0.01 > on ? 0 : on), gap }, peek: gap > 10 };
+  }
+  // —— steps 2–3: on the phone, the bill in his hand; the door shut, the chain on ——
   if (t < T.c6) {
-    const o = stand(base(t, { look: [-0.5, 0.6], brow: 0.2, face: -1, lean: 0.12 }), 160);
-    const sh = shoulder(o), drop = Math.max(0, ...ITEMS.map(([, t0]) => bump(seg(t0 - 0.2, t0 + 0.3, t, u => u))));
-    o.hands = { near: { p: [lerp(sh[0] - 40, CRATE[0] + 80, drop), lerp(sh[1] + 90, -200, drop)], shape: drop > 0.4 ? 'grip' : 'open' } };
-    const d = { x: 380, y: 0, s: DS, face: -1, sit: 1, look: 0.2, t, blink: dblink(t), tilt: 0.1 * Math.sin(t * 0.8) };
-    return { h: o, d };
+    const o = stand(base(t, { look: [0.6, 0.5], brow: 0.4, headTilt: 0.14 }), -260);
+    const sh = shoulder(o);
+    o.hands = { near: { p: [sh[0] + 30, sh[1] - 60], shape: 'grip' }, far: { p: [sh[0] + 90, sh[1] + 50], shape: 'grip' } };
+    o.prop = { kind: 'phone', p: [sh[0] + 28, sh[1] - 90] };
+    if (t > T.c5) { o.look = [0.9, -0.1]; o.mouth = 0.3 + 0.2 * Math.abs(Math.sin(t * 12)) * (t < A.L5w9 + 0.4 ? 1 : 0); }
+    return { h: o, d: { x: -560, y: 0, s: DS, face: 1, sit: 1, look: 0.3, t, blink: dblink(t), ears: 1 }, hall: { chain: 1 }, bill: t < T.c5 };
   }
-  // —— the dog walks in with her bowl and leash; he laughs; the end ——
-  const o = stand(base(t, { look: [-0.6, 0.4], brow: 0.5, face: -1 }), 160);
-  if (t > T.dog) { o.mouth = 0.5; o.brow = 0.7; o.lid = 0.1; }
-  if (t > T.c7) { o.face = 1; o.look = [0.8, 0]; o.mouth = 0.35; const sh = shoulder(o), k = clamp(sp(t, A.L7 + 0.05, 2.4, 7)); o.hands = { near: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } }; }
-  const w = seg(T.c6 + 0.1, T.dog + 0.2, t);
-  const d = { x: lerp(-620, -240, w), y: 0, s: DS, face: 1, sit: w >= 1 ? 1 : 0, walk: w > 0 && w < 1 ? 1 : 0, ph: t * 1.6, look: 0.1, t, blink: dblink(t), wag: 1, wagPh: t * 3.4, carry: t < T.c7 };
-  return { h: o, d };
+  // —— the dog growling at the shut door; then the end ——
+  const o = stand(base(t, { look: [0.6, 0], brow: 0.4, mouth: 0.2 }), -360);
+  if (t > T.c7) { const sh = shoulder(o), k = clamp(sp(t, A.L7 + 0.05, 2.4, 7)); o.hands = { near: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } }; o.mouth = 0.35; o.brow = 0.6; o.look = [0.8, 0]; }
+  const d = { x: -120, y: 0, s: DS, face: 1, sit: 0, look: 0.15, t, blink: dblink(t), ears: 0, mouth: 0.35 + 0.1 * Math.abs(Math.sin(t * 20)), tongue: 0, brow: -0.8, wag: 0 };
+  return { h: o, d, hall: { chain: 1 } };
 }
 function hunterDraw(t, o) {
   o = { ...o };
   const p = o.prop;
-  if (p?.kind === 'phone') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); g.rotate(0.3); rrect(-16, -30, 32, 60, 7, '#24232f'); rrect(-12, -25, 24, 48, 4, '#9fd8ff'); g.restore(); };
+  if (p?.kind === 'phone') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); g.rotate(0.2); rrect(-16, -30, 32, 60, 7, '#24232f'); rrect(-12, -25, 24, 48, 4, '#9fd8ff'); g.restore(); };
   return drawHunter(o);
-}
-
-// —— the props ——
-const STOVE = { x0: 470, x1: 770, top: -226 };
-function stove() {
-  const { x0, x1, top } = STOVE;
-  rrect(x0, top, x1 - x0, -top, 10, '#eef0f2'); rect(x0, top, x1 - x0, 18, '#c9d0d6');
-  rrect(x0 + 30, top + 70, x1 - x0 - 60, -top - 100, 10, '#3a3f4a'); rrect(x0 + 50, top + 90, x1 - x0 - 100, -top - 150, 8, '#252a33');
-  for (let i = 0; i < 4; i++) { const k = [x0 + 60 + i * 56, top + 40]; ell(k[0], k[1], 13, 13, '#2c3140'); }
-  for (const bx of [x0 + 80, x0 + 220]) { ell(bx, top - 4, 46, 8, '#2c3140'); ell(bx, top - 8, 22, 5, '#555c6a'); }
-}
-function radiator() { for (let i = 0; i < 5; i++) rrect(350 + i * 22, -230, 18, 190, 8, '#f2ede4'); rect(350, -210, 112, 10, '#c9c4b8'); rect(350, -70, 112, 10, '#c9c4b8'); }
-// the open crate on the floor with its stencilled label
-function crate() {
-  const [x, y] = CRATE;
-  rect(x - 130, y - 170, 260, 170, '#a8794a'); rect(x - 130, y - 170, 260, 18, '#8a5f36');
-  for (let i = 0; i < 3; i++) rect(x - 130, y - 130 + i * 44, 260, 6, '#8a5f36');
-  rrect(x - 90, y - 110, 180, 56, 6, '#f6f2e7'); text('НА 3 ДНЯ', x, y - 70, 36, '#17162f', { fam: FONTS.cond, shadow: false });
-}
-// one thing, drawn at (0, 0) at scale s
-function thing(kind, s = 1) {
-  g.save(); g.scale(s, s);
-  if (kind === 'water') { for (let i = -1; i <= 1; i++) { rrect(i * 34 - 14, -70, 28, 70, 8, 'rgba(160,215,255,0.9)'); rect(i * 34 - 8, -84, 16, 16, '#3c7ad6'); } }
-  else if (kind === 'tin') { for (let i = -1; i <= 1; i += 2) { rrect(i * 26 - 22, -56, 44, 56, 6, '#b9c2cc'); rect(i * 26 - 22, -42, 44, 24, '#d9433b'); } }
-  else if (kind === 'torch') { limb([[-50, 0], [30, 0]], 30, '#2b3346', false); ell(44, 0, 12, 20, '#ffe7a8'); }
-  else if (kind === 'radio') { rrect(-56, -60, 112, 60, 10, '#c0533a'); rrect(-48, -52, 54, 44, 6, '#3a2a24'); limb([[30, -60], [60, -120]], 4, '#9aa3b2', false); }
-  else if (kind === 'batt') { for (let i = 0; i < 4; i++) { rrect(-46 + i * 24, -60, 18, 60, 4, '#2c3140'); rect(-46 + i * 24, -60, 18, 16, '#ffd23f'); } }
-  else if (kind === 'bank') { rrect(-40, -70, 80, 70, 10, '#3a3f4a'); for (let i = 0; i < 4; i++) ell(-24 + i * 16, -16, 5, 5, '#3ddc84'); }
-  else if (kind === 'aid') { rrect(-56, -60, 112, 60, 10, '#ffffff'); rect(-8, -52, 16, 44, '#e53935'); rect(-22, -38, 44, 16, '#e53935'); }
-  else if (kind === 'pills') { rrect(-26, -64, 52, 64, 8, '#f2a33a'); rect(-26, -50, 52, 20, '#ffffff'); }
-  else if (kind === 'docs') { rrect(-56, -70, 112, 70, 6, '#3c7ad6'); rect(-44, -58, 60, 8, '#ffffff'); rect(-44, -42, 40, 8, '#ffffff'); }
-  else { rrect(-56, -40, 112, 40, 4, '#7fb069'); ell(0, -20, 14, 14, '#5d8a4a'); }
-  g.restore();
 }
 
 // —— frame ——
 export function init() { Hd.initHud(); }
 export function frame(t) {
-  if (scene(t) === 'cover') { coverFrame(t); Hd.finish(t); return; }
+  const sc = scene(t);
+  if (sc === 'cover') { coverFrame(t); Hd.finish(t); return; }
   const cam = camAt(t);
-  flatFrame(t, cam);
+  if (sc === 'peep') peepFrame(t);
+  else if (sc === 'landing') landingFrame(t, cam);
+  else hallFrame(t, cam);
   overlays(t, cam);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, 1);
 }
-
-function flatFrame(t, cam) {
-  const { h, d } = actorsAt(t);
-  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#090c16'; g.fillRect(0, 0, W, H);
+function hallFrame(t, cam) {
+  const a = actorsAt(t);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#20232e'; g.fillRect(0, 0, W, H);
   view(cam, 1);
-  const flick = t > T.flick && t < T.flick + 0.6 ? (noise(t * 30, 4) > 0.2 ? 1 : 0) : 1;
-  Ap.drawShell(t, { power: true, lampOn: flick > 0 && !isDark(t) });
-  Ap.drawWindow(t, { day: 1 });
-  Ap.drawTub(t, { level: 0.8, run: 0 });
-  Ap.drawToilet(t, {});
-  Ap.drawFridge(t);
-  Ap.drawCounter(t, { fills: isDark(t) ? [0, 0, 0, 0, 1] : [1, 1, 1, 0.6, 0.3] });
-  stove(); radiator();
-  if (t >= T.c2) crate();
-  // the things flying from the counter into the crate
-  for (const [, t0, kind] of ITEMS) {
-    const u = seg(t0 - 0.05, t0 + 0.4, t, ease.out);
-    if (u <= 0 || u >= 1) continue;
-    g.save(); g.translate(lerp(200, CRATE[0], u), lerp(-340, -170, u) - 160 * bump(u)); g.rotate(0.6 * (1 - u)); thing(kind, lerp(1, 0.8, u)); g.restore();
+  hallScene(t, a.hall ?? {});
+  if (a.peek) { const gp = a.hall.gap; g.save(); g.beginPath(); g.rect(HALL.door.x1 - gp, HALL.door.top, gp, -HALL.door.top); g.clip(); stranger(t, HALL.door.x1 + 30, -1, { s: 0.6, color: '#2d3a5a' }); g.restore(); }
+  if (a.d) drawDog(a.d);
+  if (a.h) hunterDraw(t, a.h);
+}
+function landingFrame(t, cam) {
+  const a = actorsAt(t);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#20232e'; g.fillRect(0, 0, W, H);
+  view(cam, 1);
+  Ld.drawLanding(t, { liftLit: !!a.partner }); Ld.drawDoor(t, { peepLit: true }); Ld.drawMat(t, {});
+  if (a.partner) stranger(t, a.partner.x, a.partner.face, { color: '#3a3240', s: 0.6 });
+  if (a.gas) stranger(t, a.gas.x, a.gas.face, { id: a.gas.id, lean: a.gas.lean, folder: a.gas.folder });
+}
+// the view through the peephole: the landing in a fish-eye circle, dark round it; the gas man (or nobody, later)
+function peepFrame(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#05060a'; g.fillRect(0, 0, W, H);
+  const cx = 540, cy = 860, r = 470;
+  g.save(); g.beginPath(); g.arc(cx, cy, r, 0, TAU); g.clip();
+  const cam = { x: 120, y: -330, z: 0.95, lens: 1, tx: 0, ty: cy - 960, dx: 0, dy: 0, r: 0 };
+  view(cam, 1);
+  Ld.drawLanding(t, {});
+  if (t < T.c1) {
+    stranger(t, 140, -1, { s: 0.75, id: t > A.L0w9, lean: 0.1, folder: true });
   }
-  // in the crate: the tops of what has gone in
-  if (t >= T.c2) ITEMS.forEach(([, t0, kind], i) => { if (t < t0 + 0.4) return; g.save(); g.beginPath(); g.rect(CRATE[0] - 126, -300, 252, 132); g.clip(); g.translate(CRATE[0] - 100 + (i % 5) * 50, -150 - 10 * (i % 2)); thing(kind, 0.7); g.restore(); });
-  let dl = null;
-  if (d) {
-    dl = drawDog(d);
-    if (d.carry && dl?.nose) {                                 // the bowl in her teeth and the leash trailing
-      const [nx, ny] = dl.nose;
-      fill(polyPath([[nx - 30, ny + 10], [nx + 30, ny + 10], [nx + 22, ny + 40], [nx - 22, ny + 40]]), '#d9433b');
-      limb([[nx - 10, ny + 20], [nx - 80, ny + 120], [nx - 160, -6]], 6, '#3c7ad6');
-    }
-  }
-  if (h) hunterDraw(t, h);
-  // the dark: the lamp off, only the phone's glow
-  if (isDark(t)) {
-    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = 'rgba(4,7,17,0.82)'; g.fillRect(0, 0, W, H);
-    if (h?.prop?.kind === 'phone') { const [px, py] = toScreen(cam, h.prop.p); const gr = g.createRadialGradient(px, py, 0, px, py, 320); gr.addColorStop(0, 'rgba(159,216,255,0.45)'); gr.addColorStop(1, 'rgba(159,216,255,0)'); g.fillStyle = gr; g.fillRect(px - 320, py - 320, 640, 640); }
-  }
-  if (flick === 0) { g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = 'rgba(4,7,17,0.6)'; g.fillRect(0, 0, W, H); }
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  const gr = g.createRadialGradient(cx, cy, r * 0.55, cx, cy, r); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,0.85)');
+  g.fillStyle = gr; g.fillRect(cx - r, cy - r, 2 * r, 2 * r);
+  g.restore();
+  g.lineWidth = 18; g.strokeStyle = '#1c1e26'; g.beginPath(); g.arc(cx, cy, r + 6, 0, TAU); g.stroke();
 }
 
 // —— everything over the picture ——
 function overlays(t, cam) {
   const S2 = p => toScreen(cam, p);
-  Hd.timeStamp(t, T.cover + 0.15, T.c1 - 0.1, 'ДЕНЬ 6 — 12:00');
-  if (t < T.c1) Hd.plaque(t, A.L0w11 - 0.08, T.c1 - 0.02, 540, 560, { icon: 'calendar', title: 'ГОТОВЬСЯ ЗАРАНЕЕ', sub: 'а не в темноте', color: GOLD });
-  if (t >= T.c1 && t < T.c2) {
-    { const p = S2([-120, -420]); Hd.redX(p[0], p[1], 70, sp(t, A.L1w12 - 0.05, 2.6, 8)); }
-    Hd.plaque(t, A.L1w14 - 0.08, T.c2 - 0.02, 540, 560, { icon: 'bottle', title: 'ПОСЛЕДНЯЯ БУТЫЛКА', sub: 'и где фонарик?', color: DANGER });
-  }
-  Hd.ribbon(t, T.dark, A.L1w12 - 0.15, 'ПОТОМ БУДЕТ ПОЗДНО', { y: 760, size: 88 });
-  if (t >= T.c2 && t < T.c3) Hd.plaque(t, A.L2w4 - 0.08, T.c3 - 0.02, 540, 560, { icon: 'house', title: '3 ДНЯ · ОДНО МЕСТО', sub: 'все знают, где запас', color: GOLD, to: S2([CRATE[0], -170]) });
-  // the three steps: headers, the checklist on the right, the water sum, the cash machine
-  Hd.stepHeader(t, 1, 'ВОДА И ЕДА', A.L3 + 0.02, A.L3e - 0.05);
-  Hd.stepHeader(t, 2, 'СВЕТ И СВЯЗЬ', A.L4 + 0.02, A.L4e - 0.05);
-  Hd.stepHeader(t, 3, 'АПТЕЧКА И ДЕНЬГИ', A.L5 + 0.02, A.L5e - 0.05);
-  if (t >= T.c3 && t < T.c6) checklist(t, 850, 720);
-  if (t >= T.c3 && t < T.c4) Hd.plaque(t, A.L3w4 - 0.08, T.c4 - 0.02, 360, 1560, { icon: 'drop', title: '4 Л × 3 ДНЯ = 12 Л', sub: 'на человека', color: ICE });
-  if (t >= T.c5 && t < T.c6) Hd.plaque(t, T.atm, T.c6 - 0.02, 360, 1560, { icon: 'x', title: 'БАНКОМАТ НЕ РАБОТАЕТ', sub: 'без света', color: DANGER });
-  if (t >= T.c6 && t < T.c7) Hd.plaque(t, A.L6w11 - 0.1, T.c7 - 0.02, 540, 560, { icon: 'check', title: 'ЗАПАС ДЛЯ ПУРГИ', sub: 'корм, вода, поводок', color: WARM });
+  const sc = scene(t);
+  Hd.timeStamp(t, T.cover + 0.15, T.c3 - 0.1, 'СУББОТА — 11:40');
+  if (t >= T.peep && t < T.c1) speech(t, A.L0w9 - 0.1, T.c1 - 0.05, 700, 330, '«Проверка газа, откройте!»');
+  if (sc === 'landing' && t < T.c2) Hd.plaque(t, T.two + 0.5, T.c2 - 0.05, 540, 330, { icon: 'x', title: 'ОДИН ОТВЛЕКАЕТ', sub: 'другой ищет деньги', color: DANGER });
+  if (sc === 'landing' && t >= T.c2) Hd.plaque(t, T.c2 + 0.1, T.c3 - 0.05, 540, 330, { icon: 'clock', title: 'НАСТОЯЩИЙ ПОДОЖДЁТ', sub: 'пока ты проверяешь', color: OK });
+  Hd.ribbon(t, A.L1w1 - 0.05, A.L1w5 - 0.1, 'ТОРОПИТ — ЗНАЧИТ, СТОП', { y: 1560, size: 76 });
+  // step 1
+  Hd.stepHeader(t, 1, 'НЕ ОТКРЫВАЙ СРАЗУ', A.L3 + 0.02, A.L3e - 0.05);
+  if (t >= T.c3 && t < T.c4) Hd.plaque(t, A.L3w8 - 0.08, T.c4 - 0.02, 540, 560, { icon: 'check', title: 'ГЛАЗОК И ЦЕПОЧКА', sub: 'говори через щель', color: OK });
+  // step 2: the bill
+  Hd.stepHeader(t, 2, 'ЗВОНИ САМ', A.L4 + 0.02, A.L4e - 0.05);
+  if (t >= T.c4 && t < T.c5) billCard(t, 680, 760);
+  // step 3
+  Hd.stepHeader(t, 3, 'ДРУГОЙ ДЕНЬ · 112', A.L5 + 0.02, A.L5e - 0.05);
+  if (t >= T.c5 && t < T.c6) { speech(t, A.L5w5 - 0.1, T.dial - 0.1, 700, 560, '«Приходите в другой день»'); if (t > T.dial) dialCard(t, 700, 760); }
+  // the twist
+  if (sc === 'peep' && t >= T.c6) Hd.plaque(t, A.L6w6 - 0.1, T.growl - 0.05, 540, 1560, { icon: 'x', title: '«ГАЗОВЩИК» ИСЧЕЗ', sub: 'настоящий бы подождал', color: DANGER });
+  if (t >= T.growl && t < T.c7) Hd.plaque(t, A.L6w14 - 0.1, T.c7 - 0.02, 540, 560, { icon: 'check', title: 'ПУРГА НА ПОСТУ', sub: 'рычит на дверь', color: WARM });
   Hd.endCard(t, A.L7 - 0.05, 0, 300);
-  if (t >= T.c7) Hd.plaque(t, A.L7w5 - 0.1, DUR + 1, 540, 720, { icon: 'comment', title: 'ЧТО У ТЕБЯ УЖЕ ЕСТЬ?', sub: 'пиши в комментариях', color: GOLD, size: 46 });
+  if (t >= T.c7) Hd.plaque(t, A.L7w5 - 0.1, DUR + 1, 540, 720, { icon: 'comment', title: 'ОТКРЫВАЕШЬ НЕЗНАКОМЦАМ?', sub: 'пиши в комментариях', color: GOLD, size: 44 });
 }
-// the checklist of the kit, a row ticked as each thing goes into the crate
-function checklist(t, x, y) {
-  const k = clamp(sp(t, T.c3 + 0.1, 2.4, 8)) * (1 - seg(T.c6 - 0.25, T.c6 - 0.02, t));
+function speech(t, t0, t1, x, y, str) {
+  if (t < t0 || t > t1 + 0.2) return;
+  const k = clamp(sp(t, t0, 2.6, 8)) * (1 - clamp((t - t1) / 0.2));
   if (k <= 0.01) return;
-  const w = 330, h = 60 + ITEMS.length * 50;
-  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(x, y); g.scale(lerp(0.9, 1, k), lerp(0.9, 1, k)); g.globalAlpha = clamp(k * 2);
-  g.save(); g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 24; g.shadowOffsetY = 8; rrect(-w / 2, -h / 2, w, h, 16, '#f6f2e7'); g.restore();
-  ITEMS.forEach(([r, t0], i) => {
-    const yy = -h / 2 + 54 + i * 50, on = clamp((t - t0 - 0.35) / 0.15);
-    rrect(-w / 2 + 20, yy - 28, 30, 30, 6, '#d9d2c2');
-    if (on > 0) limb([[-w / 2 + 25, yy - 14], [-w / 2 + 34, yy - 5], [-w / 2 + 50, yy - 28]], 6, rgba('#2f8f4e', on), false);
-    Hd.label(r, -w / 2 + 66, yy, 32, '#17162f', { fam: FONTS.cond, align: 'left', shadow: false, stroke: false });
-  });
+  const size = 40, w = measure(str, size, FONTS.cond) + 60, h = 90;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(clamp(x, w / 2 + 20, W - w / 2 - 20), y); g.scale(k, k); g.globalAlpha = clamp(k * 2);
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 20; g.shadowOffsetY = 6; rrect(-w / 2, -h / 2, w, h, 24, '#fff8e6'); poly([[-w / 2 + 50, h / 2 - 2], [-w / 2 + 90, h / 2 - 2], [-w / 2 + 30, h / 2 + 34]], '#fff8e6'); g.restore();
+  text(str, 0, 14, size, INK, { fam: FONTS.cond, shadow: false });
+  g.restore();
+}
+// step 2: the gas bill with the service's number circled; the stranger's card number crossed out
+function billCard(t, cx, cy) {
+  const k = clamp(sp(t, T.c4 + 0.1, 2.4, 8)) * (1 - seg(T.c5 - 0.25, T.c5 - 0.02, t));
+  if (k <= 0.01) return;
+  const w = 520, h = 600;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(cx, cy); g.rotate(0.03); g.scale(lerp(0.9, 1, k), lerp(0.9, 1, k)); g.globalAlpha = clamp(k * 2);
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 24; g.shadowOffsetY = 8; rect(-w / 2, -h / 2, w, h, '#f6f2e7'); g.restore();
+  Hd.label('КВИТАНЦИЯ', -w / 2 + 30, -h / 2 + 64, 40, '#17162f', { align: 'left', shadow: false, stroke: false });
+  Hd.label('за газ · октябрь', -w / 2 + 30, -h / 2 + 106, 26, '#5d6570', { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
+  for (let i = 0; i < 5; i++) rect(-w / 2 + 30, -h / 2 + 150 + i * 46, w - 60 - 80 * (i % 2), 10, 'rgba(23,22,47,0.18)');
+  Hd.label('Аварийная служба:', -w / 2 + 30, h / 2 - 150, 30, '#17162f', { fam: FONTS.cond, align: 'left', shadow: false, stroke: false });
+  Hd.label('104', -w / 2 + 30, h / 2 - 80, 64, '#2f8f4e', { align: 'left', shadow: false, stroke: false });
+  const ring = seg(A.L4w6 - 0.1, A.L4w8, t);
+  if (ring > 0) { g.lineWidth = 6; g.strokeStyle = '#2f8f4e'; g.beginPath(); g.ellipse(-w / 2 + 90, h / 2 - 100, 90, 56, 0, -Math.PI / 2, -Math.PI / 2 + TAU * ring); g.stroke(); }
+  g.restore();
+  // the stranger's card beside it, its number crossed out
+  const kc = clamp(sp(t, A.L4w9 - 0.1, 2.4, 8));
+  if (kc > 0.01) {
+    g.save(); g.translate(220, cy + 120); g.rotate(-0.08); g.scale(kc, kc);
+    rrect(-150, -90, 300, 180, 12, '#e9eef5'); rect(-130, -70, 70, 90, '#9aa6b8');
+    Hd.label('ГАЗ-СЕРВИС', -40, -40, 26, '#17162f', { align: 'left', shadow: false, stroke: false });
+    Hd.label('8-9XX-XXX', -40, 10, 26, '#5d6570', { fam: FONTS.mono, align: 'left', shadow: false, stroke: false });
+    g.restore();
+    Hd.redX(220, cy + 120, 70, sp(t, A.L4w12, 2.6, 8));
+  }
+}
+// step 3: the phone dialling 112
+function dialCard(t, cx, cy) {
+  const k = clamp(sp(t, T.dial, 2.4, 8)) * (1 - seg(T.c6 - 0.25, T.c6 - 0.02, t));
+  if (k <= 0.01) return;
+  const w = 360, h = 560;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(cx, cy); g.scale(lerp(0.9, 1, k), lerp(0.9, 1, k)); g.globalAlpha = clamp(k * 2);
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 40; g.shadowOffsetY = 14; rrect(-w / 2, -h / 2, w, h, 46, '#1b1e29'); g.restore();
+  rrect(-w / 2 + 16, -h / 2 + 16, w - 32, h - 32, 34, '#16233a');
+  const n = Math.min(3, Math.floor((t - T.dial) / 0.18) + 1);
+  Hd.label('112'.slice(0, n), 0, -120, 96, '#ffffff', { shadow: false, stroke: false });
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ell(-90 + c * 90, -10 + r * 80, 30, 30, 'rgba(255,255,255,0.12)');
+  ell(0, 220, 40, 40, '#2f8f4e');
   g.restore();
 }
 
-// —— the poster: him with the packed crate, the dog with her bowl ——
+// —— the poster: the fish-eye with the «gas man» holding up his card; the words on the right ——
 function coverFrame(t) {
-  const cam = { x: 60, y: -300, z: 1.55, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
-  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#090c16'; g.fillRect(0, 0, W, H);
-  view(cam, 1);
-  Ap.drawShell(t, { power: true, lampOn: true }); Ap.drawWindow(t, { day: 1 }); Ap.drawFridge(t); Ap.drawCounter(t, {}); stove(); radiator();
-  crate(); ITEMS.forEach(([, , kind], i) => { g.save(); g.beginPath(); g.rect(CRATE[0] - 126, -300, 252, 132); g.clip(); g.translate(CRATE[0] - 100 + (i % 5) * 50, -150 - 10 * (i % 2)); thing(kind, 0.7); g.restore(); });
-  const o = stand(base(t, { s: 0.9, face: -1, pop: 0.3, brow: 0.6, mouth: 0.5, look: [-0.6, 0.3], blink: 0 }), 230, 100);
-  const sh = shoulder(o); o.hands = { near: { p: [sh[0] - 80, sh[1] + 60], shape: 'thumb', ang: -Math.PI / 2 } };
-  const dl = drawDog({ x: -330, y: 40, s: 1.0, face: 1, sit: 1, look: 0.2, t: 0, ears: 1, wag: 1 });
-  if (dl?.nose) { const [nx, ny] = dl.nose; fill(polyPath([[nx - 34, ny + 10], [nx + 34, ny + 10], [nx + 26, ny + 44], [nx - 26, ny + 44]]), '#d9433b'); }
-  drawHunter(o);
+  peepFrame(1.5);
   g.setTransform(1, 0, 0, 1, 0, 0);
   g.save(); g.translate(1020, 230); g.rotate(-0.035);
   const tag = 'КАК ВЫЖИТЬ', tw = measure(tag, 52, FONTS.cond) + 56;
   rect(-tw + 6, -40 + 7, tw, 76, INK); rect(-tw, -40, tw, 76, '#ff4d4d'); text(tag, -tw / 2, 18, 52, '#fff3d6', { fam: FONTS.cond, shadow: false });
-  Hd.label('ЗАРАНЕЕ', 0, 210, 140, '#ffffff', { align: 'right', strokeW: 12 });
-  g.save(); g.shadowColor = 'rgba(255,200,80,0.9)'; g.shadowBlur = 40; Hd.label('ЗАПАС НА 3 ДНЯ', 0, 330, 84, '#ffd23f', { align: 'right', shadow: false, strokeW: 10 }); g.restore();
+  Hd.label('ОТКРЫВАТЬ', 0, 200, 110, '#ffffff', { align: 'right', strokeW: 12 });
+  g.save(); g.shadowColor = 'rgba(255,59,48,0.8)'; g.shadowBlur = 40; Hd.label('ИЛИ НЕТ?', 0, 330, 110, '#ff3b30', { align: 'right', shadow: false, strokeW: 12 }); g.restore();
   g.rotate(0.06);
-  const pl = 'ЧАСТЬ 8 · ФИНАЛ СЕЗОНА', pw = measure(pl, 52, FONTS.cond) + 60;
-  rect(-pw + 8, 410 + 8, pw, 88, INK); rect(-pw, 410, pw, 88, '#ffd43b'); text(pl, -pw / 2, 472, 52, '#111111', { fam: FONTS.cond, shadow: false });
+  const pl = 'КВАРТИРА ПОД ЗАЩИТОЙ · 2', pw = measure(pl, 48, FONTS.cond) + 60;
+  rect(-pw + 8, 400 + 8, pw, 84, INK); rect(-pw, 400, pw, 84, '#ffd43b'); text(pl, -pw / 2, 458, 48, '#111111', { fam: FONTS.cond, shadow: false });
   g.restore();
 }
 
@@ -305,22 +338,24 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  add(0.3, 'city_day', -24, 0, { dur: T.dark - 0.3 });
-  add(T.flick, 'spark', -10, 0.2);
-  add(A.L0w11 - 0.08, 'blip', -10, 0);
-  add(T.dark, 'power_down', -10, 0);
-  add(T.dark, 'ribbon', -8, 0);
-  add(A.L1w12 - 0.05, 'stamp', -8, -0.2);
-  add(A.L1w14 - 0.08, 'blip', -10, 0);
-  add(T.c2, 'whoosh', -12, 0);
-  add(T.c2, 'amb_flat', -22, 0, { dur: T.c6 - T.c2 });
-  add(A.L2w4 - 0.08, 'ding', -10, 0);
-  ITEMS.forEach(([, t0], i) => { add(t0, 'whoosh_in', -16, 0.3); add(t0 + 0.4, 'pop_word', -12, -0.1 + 0.02 * i); });
-  add(A.L3w4 - 0.08, 'fill_plink', -12, 0);
-  add(T.atm, 'stamp', -8, 0);
-  add(T.c6, 'whoosh', -12, 0);
-  add(T.dog, 'whine', -16, -0.3, { dur: 0.6 });
-  add(A.L6w11 - 0.1, 'ding', -10, 0);
+  add(0.3, 'amb_flat', -22, 0, { dur: T.c3 - 0.3 });
+  add(T.ring, 'ding', -6, 0.3); add(T.ring + 0.35, 'ding', -8, 0.3);
+  add(T.peep, 'whoosh_in', -14, 0);
+  add(A.L0w9 - 0.1, 'blip', -10, 0);
+  add(T.c1, 'whoosh', -12, 0);
+  add(A.L1w1 - 0.05, 'ribbon', -8, 0);
+  add(T.two + 0.5, 'stamp', -8, -0.3);
+  add(T.c2, 'ding', -12, 0);
+  add(T.c3, 'whoosh', -12, 0);
+  add(A.L3w8, 'click', -8, 0.2); add(A.L3w9 + 0.1, 'tap_squeak', -12, 0.2);
+  add(T.c4, 'paper', -10, 0, { dur: 0.4 });
+  add(A.L4w6, 'blip', -10, 0);
+  add(A.L4w12, 'stamp', -8, -0.2);
+  add(T.c5, 'whoosh', -12, 0);
+  for (let i = 0; i < 3; i++) add(T.dial + i * 0.18, 'click', -10, 0.1);
+  add(T.c6, 'whoosh_in', -14, 0);
+  add(A.L6w6, 'blip', -10, 0);
+  add(T.growl, 'whine', -10, -0.2, { dur: 1.2 });
   for (const t0 of [A.L3, A.L4, A.L5]) add(t0 + 0.04, 'pop_word', -8, 0);
   add(A.L7 + 0.1, 'pop_word', -6, 0);
   add(A.L7, 'whoosh_in', -12, 0);
