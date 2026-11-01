@@ -18,7 +18,7 @@ import { text, measure, FONTS, INK } from './type.js';
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
-const FB = { L0: [0.12, 4.36, 12], L1: [4.75, 11.8, 15], L2: [12.21, 14.93, 8], L3: [15.38, 19.62, 11], L4: [20.02, 25.02, 16], L5: [25.42, 31.43, 16], L6: [31.88, 37.09, 17], L7: [37.55, 41.44, 10] };
+const FB = { L0: [0.12, 4.36, 12], L1: [4.75, 11.8, 17], L2: [12.21, 14.93, 8], L3: [15.38, 19.62, 11], L4: [20.02, 25.02, 16], L5: [25.42, 31.43, 16], L6: [31.88, 37.09, 17], L7: [37.55, 41.44, 10] };
 export const DUR = VOICE?.dur ?? 41.79;
 const A = {};
 for (const id of Object.keys(FB)) {
@@ -28,7 +28,7 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ГЛАЗОК: GOLD, ФОРМЕ: DANGER, ТОРОПИТ: DANGER, КРАЖИ: DANGER, ДРУГОЙ: DANGER, ДЕНЬГИ: DANGER, ПОДОЖДЁТ: OK,
+const HOT = { ГЛАЗОК: GOLD, ФОРМЕ: DANGER, ТРЕБУЕТ: DANGER, КРАЖИ: DANGER, ДРУГОЙ: DANGER, ДЕНЬГИ: DANGER, ПОДОЖДЁТ: OK,
   СРАЗУ: DANGER, ЦЕПОЧКУ: GOLD, САМ: GOLD, КВИТАНЦИИ: GOLD, ГОСТЬ: DANGER, СОМНЕВАЕШЬСЯ: GOLD, ДВЕНАДЦАТЬ: GOLD,
   ИСЧЕЗ: DANGER, ПОДПИСЫВАЙСЯ: GOLD };
 
@@ -37,8 +37,8 @@ const T = {
   cover: 0.3,                        // the poster: the fish-eye
   ring: 0.45,                        // the bell
   peep: A.L0w3 - 0.06,               // «В глазок видно…»: the fish-eye
-  c1: A.L1 - 0.06,                   // «Он торопит…»: the landing, his ID; the partner by the lift
-  two: A.L1w9 - 0.06,                // «пока один отвлекает, другой ищет деньги»
+  c1: A.L1 - 0.06,                   // «Он требует открыть сразу…»: the landing, his ID; the partner by the lift
+  two: A.L1w11 - 0.06,                // «пока один отвлекает, другой ищет деньги»
   c2: A.L2 - 0.06,                   // «настоящий мастер подождёт»
   c3: A.L3 - 0.06,                   // step 1: the chain
   c4: A.L4 - 0.06,                   // step 2: the bill and the phone
@@ -234,7 +234,7 @@ function overlays(t, cam) {
   if (t >= T.peep && t < T.c1) speech(t, A.L0w9 - 0.1, T.c1 - 0.05, 700, 330, '«Проверка газа, откройте!»');
   if (sc === 'landing' && t < T.c2) Hd.plaque(t, T.two + 0.5, T.c2 - 0.05, 540, 330, { icon: 'x', title: 'ОДИН ОТВЛЕКАЕТ', sub: 'другой ищет деньги', color: DANGER });
   if (sc === 'landing' && t >= T.c2) Hd.plaque(t, T.c2 + 0.1, T.c3 - 0.05, 540, 330, { icon: 'clock', title: 'НАСТОЯЩИЙ ПОДОЖДЁТ', sub: 'пока ты проверяешь', color: OK });
-  Hd.ribbon(t, A.L1w1 - 0.05, A.L1w5 - 0.1, 'ТОРОПИТ — ЗНАЧИТ, СТОП', { y: 1560, size: 76 });
+  Hd.ribbon(t, A.L1w1 - 0.05, A.L1w7 - 0.1, 'ТОРОПЯТ — ЗНАЧИТ, СТОП', { y: 1560, size: 76 });
   // step 1
   Hd.stepHeader(t, 1, 'НЕ ОТКРЫВАЙ СРАЗУ', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.c3 && t < T.c4) Hd.plaque(t, A.L3w8 - 0.08, T.c4 - 0.02, 540, 560, { icon: 'check', title: 'ГЛАЗОК И ЦЕПОЧКА', sub: 'говори через щель', color: OK });
