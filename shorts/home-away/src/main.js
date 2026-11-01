@@ -20,7 +20,7 @@ import { text, measure, FONTS, INK } from './type.js';
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without build/words.json: [start, end, words] of each line (tools/fake_words.mjs on voice/script.json), words spread evenly
-const FB = { L0: [0.12, 4.84, 13], L1: [5.25, 11.56, 16], L2: [11.96, 16.74, 11], L3: [17.19, 22.07, 14], L4: [22.47, 28.4, 17], L5: [28.8, 32.89, 12], L6: [33.34, 40.03, 21], L7: [40.48, 44.99, 12] };
+const FB = { L0: [0.12, 4.84, 13], L1: [5.25, 11.56, 16], L2: [11.96, 16.74, 11], L3: [17.19, 22.07, 15], L4: [22.47, 28.4, 17], L5: [28.8, 32.89, 12], L6: [33.34, 40.03, 21], L7: [40.48, 44.99, 12] };
 export const DUR = VOICE?.dur ?? 45.34;
 const A = {};
 for (const id of Object.keys(FB)) {
@@ -31,7 +31,7 @@ for (const id of Object.keys(FB)) {
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ОТПУСК: GOLD, ПУСТОЙ: DANGER, УЛЕТАЕМ: DANGER, НАДО: DANGER, НИКОГО: DANGER, ПУСТЫМИ: DANGER, ЖИЛОЙ: GOLD,
-  ЗАМКИ: GOLD, ОКНА: GOLD, НЕЗАПЕРТОЕ: DANGER, СОСЕДКУ: GOLD, ПОЧТУ: GOLD, КЛЮЧ: GOLD, КОВРИКОМ: DANGER, ТАЙМЕР: GOLD,
+  ЗАМКИ: GOLD, ОКОН: GOLD, ОТКРЫТОЕ: DANGER, СОСЕДКУ: GOLD, ПОЧТУ: GOLD, КЛЮЧ: GOLD, КОВРИКОМ: DANGER, ТАЙМЕР: GOLD,
   МЕСТЕ: OK, КОТЛЕТАМИ: WARM, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
@@ -51,7 +51,7 @@ const T = {
   dog: A.L6w9 - 0.06,                // «А Пурга…»: the neighbour's door, the cutlets
   c7: A.L7 - 0.06,                   // «Подписывайся…»
 };
-const TURNS = [A.L3w1 - 0.05, A.L3w5 - 0.05];               // the two locks turned
+const TURNS = [A.L3w1 - 0.05, A.L3w4 - 0.05];               // the two locks turned
 export const CUTS = [T.cover, T.c1, T.c2, T.c3, T.c5, T.c6, T.c7];
 export const SNAPS = [T.lamp];
 export const MARKS = { ...T, A, TURNS };
@@ -242,10 +242,10 @@ function overlays(t, cam) {
   if (sc === 'phone') Hd.plaque(t, T.all + 0.4, T.c2 - 0.05, 540, 1560, { icon: 'x', title: 'ФОТО — ПОСЛЕ ОТПУСКА', sub: 'когда вернёшься', color: DANGER });
   if (sc === 'tower') Hd.plaque(t, T.live + 0.2, T.c3 - 0.05, 540, 330, { icon: 'house', title: 'ВЫГЛЯДИТ ЖИЛОЙ', sub: 'свет, почта, тишина у двери', color: WARM });
   // step 1
-  Hd.stepHeader(t, 1, 'ЗАМКИ И ОКНА', A.L3 + 0.02, A.L3e - 0.05);
+  Hd.stepHeader(t, 1, 'ДВЕРЬ И ОКНА', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.c3 && t < T.c4) {
     TURNS.forEach((t0, i) => { const p = S2([Ld.LOCKS[i][0] + 90, Ld.LOCKS[i][1]]); Hd.tick(p[0], p[1], sp(t, t0 + 0.4, 2.6, 8), 40); });
-    Hd.plaque(t, A.L3w9 - 0.08, T.c4 - 0.02, 540, 1560, { icon: 'x', title: 'ЧАСТО ВХОДЯТ', sub: 'через незапертое', color: DANGER });
+    Hd.plaque(t, A.L3w10 - 0.08, T.c4 - 0.02, 540, 1560, { icon: 'x', title: 'ЧАСТО ВХОДЯТ', sub: 'через открытое', color: DANGER });
   }
   // step 2
   Hd.stepHeader(t, 2, 'СОСЕДКА', A.L4 + 0.02, A.L4e - 0.05);
@@ -323,7 +323,7 @@ export function cues() {
   add(T.live, 'ding', -10, 0);
   add(T.c3, 'whoosh', -12, 0);
   TURNS.forEach(t0 => { add(t0, 'click', -8, 0.2); add(t0 + 0.4, 'pop_word', -12, 0.2); });
-  add(A.L3w9 - 0.08, 'blip', -10, 0);
+  add(A.L3w10 - 0.08, 'blip', -10, 0);
   add(T.c4, 'whoosh', -12, 0);
   add(A.L4w4 - 0.08, 'paper', -12, 0.3, { dur: 0.4 });
   add(A.L4w10, 'fill_plink', -12, 0.3);
