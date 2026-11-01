@@ -1,0 +1,98 @@
+{
+ "note": "Narration for «Дверь приоткрыта» (Как выжить, «Квартира под защитой» ч.3). Facts: Police advice when you come home to a break-in: don't go in or call out, the burglar may still be inside; go to a neighbour or the street and call the emergency number; don't touch anything, the home is a crime scene and the police look for fingerprints, the door handle included (crime prevention advice relayed by The Mix, ADT UK, Independent Age); then list what is missing and block the bank cards. Emergency number in Russia: 112. at/after/tail/sub as in the blackout season; tts = what the voice reads (a lowercase «пурга» gives «пургА»).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты вернулся с работы, а дверь квартиры приоткрыта, и замок поцарапан.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Хочется зайти и проверить, что пропало. Нельзя: вор может быть ещё внутри.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "И не кричи «кто там?». Просто тихо отойди от двери.",
+   "after": 0.4,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: уйди к соседям или на улицу и звони сто двенадцать.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: до приезда полиции ничего не трогай: ни ручку, ни замок, ни вещи. На них могут быть следы.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    2,
+    2,
+    2,
+    2,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: потом составь список пропавшего и сразу заблокируй банковские карты.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Полиция приехала через пятнадцать минут. Вора внутри не было, а Пурга нашла его перчатку под лестницей.",
+   "after": 0.45,
+   "tts": "Полиция приехала через пятнадцать минут. Вора внутри не было, а пурга нашла его перчатку под лестницей.",
+   "sub": [
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты бы зашёл проверить?",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    2,
+    4,
+    1
+   ]
+  }
+ ],
+ "tail": 0.35
+}

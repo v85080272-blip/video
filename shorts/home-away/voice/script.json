@@ -1,0 +1,101 @@
+{
+ "note": "Narration for «Уезжаешь в отпуск» (Как выжить, «Квартира под защитой» ч.1). Facts: Police advice on homes left empty: don't announce a trip on social media, post the photos after you are back (Thames Valley Police); a home that looks empty, the mailbox full and the lights always off, is an easy target (Grand Ducal Police of Luxembourg, «Holiday safety»); in many burglaries the way in was an unlocked door or window (PSNI); tell a neighbour, leave the spare key with them, not hidden outside (New Zealand Police); timer switches turn the lights on at dusk (Hampshire Constabulary). at/after/tail/sub as in the blackout season; tts = what the voice reads (a lowercase «пурга» gives «пургА»).",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты уезжаешь в отпуск на две недели. Квартира на двадцатом этаже остаётся пустой.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первое желание — выложить фото чемоданов: «Улетаем!». Не надо: так все узнают, что дома никого нет.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Воры ищут квартиры, которые выглядят пустыми. Значит, твоя должна выглядеть жилой.",
+   "after": 0.4,
+   "sub": [
+    3,
+    3,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: запри дверь на все замки и закрой окна. Часто воры входят через незапертое.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    4,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: попроси соседку забирать почту и рекламу из двери. Запасной ключ оставь ей, а не под ковриком.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: поставь лампу на таймер. Вечером свет включится сам, будто ты дома.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Через две недели ты вернулся, и всё на месте. А Пурга, которая жила у соседки, теперь ходит к ней за котлетами.",
+   "after": 0.45,
+   "tts": "Через две недели ты вернулся, и всё на месте. А пурга, которая жила у соседки, теперь ходит к ней за котлетами.",
+   "sub": [
+    4,
+    4,
+    3,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Подписывайся, чтобы знать, что делать. А ты выкладываешь фото из отпуска сразу?",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    2,
+    4,
+    3
+   ]
+  }
+ ],
+ "tail": 0.35
+}
