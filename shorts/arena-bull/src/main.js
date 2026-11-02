@@ -94,7 +94,7 @@ shot(T.c3, [[T.c3, -130, -172, 1.22], [T.wave, -110, -178, 1.18], [T.c4, 160, -1
 shot(T.c4, [[T.c4, 1040, -169, 1.24], [T.jump, 1060, -164, 1.28], [T.hit + 0.4, 1100, -154, 1.36], [T.c5, 1100, -152, 1.38]]);
 shot(T.c5, [[T.c5, 300, -221, 0.95], [T.c6, 310, -214, 0.98]]);
 shot(T.c6, [[T.c6, 60, -168, 1.25], [T.cheer, 90, -175, 1.2], [T.cheer + 1.3, 200, -420, 0.85], [T.catch + 0.3, 190, -330, 0.92], [T.c7, 170, -300, 0.95]]);
-shot(T.c7, [[T.c7, -200, -221, 0.95], [DUR, -195, -216, 0.97]]);
+shot(T.c7, [[T.c7, -230, -226, 0.93], [DUR, -225, -221, 0.95]]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
@@ -146,7 +146,7 @@ export function actorsAt(t) {
   // S3 · face to face; «головой»: a finger to his temple, a light bulb
   if (t < T.c3) {
     const o = stand(base(t, { look: [0.7, 0], brow: 0.6 }), 120);
-    if (t > T.idea - 0.25) { const H0 = headOf(o), k = clamp(sp(t, T.idea - 0.25, 2.6, 8)); o.hands = { near: { p: [lerp(H0[0] + 40, H0[0] + 4, k), lerp(H0[1] + 160, H0[1] + 10, k)], shape: 'point', ang: -1.2 } }; o.brow = -0.3; o.mouth = 0.2; }
+    if (t > T.idea - 0.25) { const H0 = headOf(o), k = clamp(sp(t, T.idea - 0.25, 2.6, 8)); o.hands = { near: { p: [lerp(H0[0] + 60, H0[0] + 34, k), lerp(H0[1] + 160, H0[1] - 24, k)], shape: 'point', ang: -1.2 } }; o.brow = -0.3; o.mouth = 0.2; }
     const b = { x: AR.gate + 230, y: 0, s: BS, face: 1, t, paw: ((t - T.c2) * 0.8) % 1 };
     return { h: o, b, gate: 1, cape: { lie: [230, 0] }, bulb: seg(T.idea, T.idea + 0.25, t), puff: (t - T.c2) % 1.6 };
   }
@@ -209,10 +209,10 @@ export function actorsAt(t) {
     return { h: o, b, d: t > T.cheer + 0.2 ? d : null, gate: 1, sword, emperor: seg(A.L6w8 - 0.3, A.L6w8, t), cheer: t > T.cheer, flowers: t - T.cheer };
   }
   // S8 · «Кого одолеть следующим?»: the gate shut again with a shadow and a question mark behind the bars
-  const o = stand(base(t, { look: [0.6, 0], brow: 0.3, mouth: 0.35 }), 60);
+  const o = stand(base(t, { look: [0.6, 0], brow: 0.3, mouth: 0.35 }), -40);
   const sh = shoulder(o), k = clamp(sp(t, A.L7 + 0.05, 2.4, 7));
-  o.hands = { near: { p: [sh[0] - 40, sh[1] - 110], shape: 'grip' }, far: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } };
-  return { h: o, sword: { p: [sh[0] - 40, sh[1] - 114], ang: -0.15, held: true }, d: { x: 240, y: 0, s: DS, face: -1, sit: 1, t, blink: dblink(t), mouth: 0.6, tongue: 0.8, wag: 1, wagPh: t * 3 }, gate: 1 - seg(T.c7, T.c7 + 0.6, t), next: true };
+  o.hands = { near: { p: [sh[0] - 50, sh[1] + 90], shape: 'grip' }, far: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } };
+  return { h: o, sword: { p: [sh[0] - 50, sh[1] + 86], ang: -0.35, held: true }, d: { x: 230, y: 0, s: DS, face: -1, sit: 1, t, blink: dblink(t), mouth: 0.6, tongue: 0.8, wag: 1, wagPh: t * 3 }, gate: 1 - seg(T.c7, T.c7 + 0.6, t), next: true };
 }
 
 // —— drawing the hunter: lying on the sand (rotated), the cape and the sword in his hand ——
@@ -421,7 +421,7 @@ function overlays(t, cam, a) {
   if (t >= T.roar && t < T.c1) Hd.plaque(t, T.roar + 0.1, T.c1 - 0.05, 540, 330, { icon: 'comment', title: 'ТЫСЯЧИ ЗРИТЕЛЕЙ', sub: 'и все смотрят на тебя', color: WARM });
   if (t >= T.arms && t < T.c2) Hd.plaque(t, T.arms + 0.05, T.c2 - 0.05, 540, 330, { icon: 'x', title: 'ОРУЖИЯ НЕТ', sub: 'только плащ на песке', color: DANGER, to: S2([230, -10]) });
   if (t >= T.c2 && t < T.c3) Hd.plaque(t, A.L2w0 + 0.05, T.idea - 0.15, 540, 330, { icon: 'x', title: 'СИЛОЙ НЕ ВЗЯТЬ', sub: 'он тяжелее тебя в разы', color: DANGER });
-  Hd.ribbon(t, T.idea, T.c3 - 0.1, 'ГОЛОВОЙ!', { y: 760, size: 110, rot: -0.1 });
+  Hd.ribbon(t, T.idea, T.c3 - 0.1, 'ГОЛОВОЙ!', { y: 330, size: 110, rot: -0.08 });
   // step 1
   Hd.stepHeader(t, 1, 'ПЛАЩ В СТОРОНУ', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.c3 && t < T.c4) Hd.plaque(t, A.L3w8 - 0.1, T.wave + 0.9, 540, 640, { icon: 'check', title: 'НЕ ЦВЕТ, А ДВИЖЕНИЕ', sub: 'красный он видит плохо', color: GOLD });
