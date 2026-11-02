@@ -19,7 +19,7 @@ import { text, measure, FONTS, INK } from './type.js';
 // —— the narration: line starts, ends and word starts (A.L2w5 = word 5 of line L2; dashes count as words) ——
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
-const FB = { L0: [0.12, 4.37, 13], L1: [4.77, 7.82, 9], L2: [8.27, 11.93, 11], L3: [12.33, 16.77, 14], L4: [17.17, 20.96, 11], L5: [21.41, 25.86, 14], L6: [26.31, 29.49, 9], L7: [29.84, 34.71, 14] };
+const FB = { L0: [0.12, 4.37, 13], L1: [4.77, 7.82, 9], L2: [8.27, 11.93, 12], L3: [12.33, 16.77, 14], L4: [17.17, 20.96, 11], L5: [21.41, 25.86, 14], L6: [26.31, 29.49, 9], L7: [29.84, 34.71, 14] };
 export const DUR = VOICE?.dur ?? 35.06;
 const A = {};
 for (const id of Object.keys(FB)) {
@@ -29,7 +29,7 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { КРИКОВ: DANGER, ЗАРАЖЁННЫЕ: DANGER, ШУМ: DANGER, ВСЁ: GOLD, ВЫХОДИ: DANGER, ШКАФОМ: GOLD, СВЕТ: GOLD, СЛЫШНО: GOLD,
+const HOT = { КРИКОВ: DANGER, ЗАРАЖЁННЫЕ: DANGER, ШУМ: DANGER, ВСЁ: GOLD, ВЫХОДИ: DANGER, ШКАФ: GOLD, СВЕТ: GOLD, СЛЫШНО: GOLD,
   ВОДУ: GOLD, ТЕЧЁТ: GOLD, УСПЕЛ: OK, РАНЬШЕ: WARM, УХОДИТЬ: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
@@ -42,7 +42,7 @@ const T = {
   clock: A.L1w5 - 0.06,              // «Первые минуты решают всё»: the countdown starts
   c2: A.L2 - 0.06,                   // step 1: the door
   key: A.L2w4,                       // «Закрой дверь на ключ»
-  push: A.L2w8 - 0.1,                // «подопри её шкафом»
+  push: A.L2w8 - 0.1,                // «придвинь к ней шкаф»
   c3: A.L3 - 0.06,                   // step 2: the light and the phone
   off: A.L3w2 - 0.08,                // «свет»
   mute: A.L3w4 - 0.08,               // «звук на телефоне»
