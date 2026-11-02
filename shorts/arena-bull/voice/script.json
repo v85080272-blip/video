@@ -1,0 +1,93 @@
+{
+ "note": "Narration for «Бык» (Арена, битва 1): the hunter wakes up on the arena in Rome and beats a bull with his head, not force. Facts: a bull charges movement, not the colour red; cattle have two kinds of cones and stationary flags of any colour drew only half-hearted attacks, waved ones a real charge (MythBusters 2007, LiveScience «Why Do Bulls Charge When They See Red?»); cattle have poor depth perception (UW–Madison Extension «Understanding cattle senses», Beef Magazine); a matador's cape passes tire the bull (Spanish-style bullfighting, faena); a freed gladiator was given a wooden sword, the rudis (warriorsandlegends.com «Gladiators and Freedom»). The Colosseum held some 50 000 or more (Roman amphitheatre, Wikipedia). at/after/tail/sub as in the blackout season.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты засыпаешь дома, а просыпаешься на арене в Риме. Ревут тысячи зрителей.",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Открываются ворота, и выходит бык. Оружия нет.",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Силой его не одолеть. Значит, головой.",
+   "after": 0.35,
+   "sub": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: бык бросается на движение, а не на красный цвет. Маши плащом в стороне от себя.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4,
+    5,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: бык плохо видит расстояние. Отпрыгни в последний миг, и он врежется в стену.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: гоняй его плащом, пока он не выдохнется.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Бык лёг, и ты его пощадил. Толпа ревёт, а тебе дают деревянный меч: это знак свободы.",
+   "after": 0.45,
+   "sub": [
+    2,
+    4,
+    2,
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Кого одолеть следующим? Пиши в комментариях и подписывайся, чтобы не пропустить следующую битву.",
+   "after": 0.45,
+   "sub": [
+    3,
+    3,
+    2,
+    5
+   ]
+  }
+ ]
+}
