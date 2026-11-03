@@ -146,6 +146,9 @@ box((0, -0.027, 0.03), (0.07, 0.004, 0.05), M['screen'], parent=RAD)
 bpy.ops.object.text_add(location=(0, -0.031, 0.03), rotation=(math.radians(90), 0, 0)); tx = bpy.context.object; tx.data.body = '07:00 СТАДИОН'
 tx.data.font = kit.font(); tx.data.size = 0.009; tx.data.align_x = 'CENTER'; tx.data.align_y = 'CENTER'; tx.data.materials.append(HUDG); tx.parent = RAD
 bpy.ops.object.light_add(type='POINT', location=(0, -0.08, 0.04)); rl = bpy.context.object; rl.data.energy = 3; rl.data.color = (0.4, 1.0, 0.55); rl.data.shadow_soft_size = 0.05; rl.parent = RAD
+def hold_radio(arm_deg, side=0.0):
+    """Соломия holds the radio up, upright by her chest (antenna up), never pointed out like something else"""
+    SOL['arms'][1].rotation_euler = (math.radians(arm_deg), 0, math.radians(side)); RAD.rotation_euler = (math.radians(-arm_deg), 0, 0)
 
 def walk(P, f0, f1, p0, p1, swing=0.45, period=24):
     """root from p0 to p1 between f0 and f1, legs and arms swinging, a little bob"""
@@ -236,18 +239,18 @@ elif SHOT == 'D':   # from the lower roof, looking up the wall: he climbs down f
     fill_light((11, -4, H17 + 4), 120)
 elif SHOT == 'E':   # the lower roof: the two of them, lit by the torch pointed down and the radio's glow; they turn to us
     cam_data.lens = 30
-    KRA['root'].location = (16.4, -0.9, H17); SOL['root'].location = (15.4, 0.3, H17)
+    KRA['root'].location = (16.4, -0.9, H17); SOL['root'].location = (15.7, 1.0, H17)      # clear of the hatch box at (15, 0)
     KT.rotation_euler = (math.radians(-60), 0, 0); KL.data.energy = 700
     key(KRA['head'], 'rotation_euler', 0, (0, 0, math.radians(30))); key(KRA['head'], 'rotation_euler', int(E * 0.3), (0, 0, 0))
     key(SOL['head'], 'rotation_euler', int(E * 0.4), (0, 0, math.radians(25))); key(SOL['head'], 'rotation_euler', int(E * 0.7), (0, 0, 0))
-    SOL['arms'][1].rotation_euler = (math.radians(-70), 0, 0)
+    hold_radio(-45)
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); walk(HUN, 0, int(E * 0.6), (11.5, -1.8, H17), (13.6, -1.6, H17))
     camkeys([(0, (13.5, -3.7, H17 + 1.5), (15.9, -0.3, H17 + 1.25)), (E, (13.9, -3.3, H17 + 1.45), (15.9, -0.3, H17 + 1.25))])
     fill_light((14.6, -2.0, H17 + 2.6), 140, color=(0.75, 0.8, 1.0), size=2.5)
 elif SHOT == 'F':   # close on the radio in Соломия's hand: its screen; then the focus goes to the stadium far behind
     cam_data.lens = 50
     KRA['root'].location = (17.6, -2.6, H17); SOL['root'].location = (16.7, -0.2, H17)
-    SOL['arms'][1].rotation_euler = (math.radians(-80), 0, math.radians(10)); KL.data.energy = 500; KT.rotation_euler = (math.radians(-70), 0, 0)
+    hold_radio(-60, 10); KL.data.energy = 500; KT.rotation_euler = (math.radians(-70), 0, 0)
     bpy.context.view_layer.update()
     rp = RAD.matrix_world.translation.copy()
     d = (Vector((SX, SY, -50)) - rp).normalized()
