@@ -1,0 +1,90 @@
+{
+ "note": "Narration for «По крышам» («Заражение», серия 4, in 3D; the viewers voted 1 — go to them; @красотка-ь2ж6д and @СоломіяАртемчук wrote «возьми с собой», so the two who blinked back from the next roof are them). Facts: keep at least 6 ft (1.8 m) from an unprotected roof edge — OSHA puts warning lines no less than 6 ft from the edge (29 CFR 1926.501, 1926.502); on a ladder face it and keep three points of contact — two hands and a foot, or two feet and a hand (OSHA 29 CFR 1926.1053(b)(15) and its ladder safety guidance). at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Вы выбрали: идём к ним. Соседний подъезд ниже нашего на пять этажей.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первое: по крыше ночью только шагом. И свети под ноги.",
+   "after": 0.45,
+   "sub": [
+    1,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Второе: к краю не ближе двух метров. Там ветер и темнота.",
+   "after": 0.4,
+   "sub": [
+    1,
+    6,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Третье: по лестнице спускайся лицом к ней. И всегда три точки опоры.",
+   "after": 0.4,
+   "sub": [
+    1,
+    6,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Внизу нас ждали двое. Красотка и Соломия. С фонарём и рацией.",
+   "after": 0.5,
+   "sub": [
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "По рации передают: завтра в семь утра эвакуация со стадиона.",
+   "after": 0.45,
+   "sub": [
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Теперь нас пятеро. Идём к стадиону или ждём вертолёт? Пиши 1 или 2.",
+   "after": 0.45,
+   "tts": "Теперь нас пятеро. Идём к стадиону или ждём вертолёт? Пиши один или два.",
+   "sub": [
+    3,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А напиши «возьми с собой» — и в следующей серии выживаешь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}
