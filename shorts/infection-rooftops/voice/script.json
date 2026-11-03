@@ -1,5 +1,5 @@
 {
- "note": "Narration for «По крышам» («Заражение», серия 4, in 3D; the viewers voted 1 — go to them; @красотка-ь2ж6д and @СоломіяАртемчук wrote «возьми с собой», so the two who blinked back from the next roof are them). Facts: keep at least 6 ft (1.8 m) from an unprotected roof edge — OSHA puts warning lines no less than 6 ft from the edge (29 CFR 1926.501, 1926.502); on a ladder face it and keep three points of contact — two hands and a foot, or two feet and a hand (OSHA 29 CFR 1926.1053(b)(15) and its ladder safety guidance). at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words).",
+ "note": "Narration for «По крышам» («Заражение», серия 4, in 3D; the viewers voted 1 — go to them; @красотка-ь2ж6д and @СоломіяАртемчук wrote «возьми с собой», so the two who blinked back from the next roof are them). Facts: keep at least 6 ft (1.8 m) from an unprotected roof edge — OSHA puts warning lines no less than 6 ft from the edge (29 CFR 1926.501, 1926.502); on a ladder face it and keep three points of contact — two hands and a foot, or two feet and a hand (OSHA 29 CFR 1926.1053(b)(15) and its ladder safety guidance). at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words). L1 ends at «шагом»: in all six takes the voice said «свЕти» in «И свети под ноги», so that sentence was cut from take s4; «свети под ноги» stays on the screen.",
  "tail": 0.35,
  "lines": [
   {
@@ -14,12 +14,11 @@
   },
   {
    "id": "L1",
-   "text": "Первое: по крыше ночью только шагом. И свети под ноги.",
+   "text": "Первое: по крыше ночью только шагом.",
    "after": 0.45,
    "sub": [
     1,
-    5,
-    4
+    5
    ]
   },
   {

@@ -13,7 +13,7 @@ import { text, measure, FONTS, INK } from './type.js';
 
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
-const FB = { L0: [0.12, 4.4, 12], L1: [4.85, 7.9, 10], L2: [8.3, 11.6, 11], L3: [12.0, 16.0, 12], L4: [16.5, 20.4, 11], L5: [20.85, 24.6, 10],
+const FB = { L0: [0.12, 4.4, 12], L1: [4.85, 7.0, 6], L2: [8.3, 11.6, 11], L3: [12.0, 16.0, 12], L4: [16.5, 20.4, 11], L5: [20.85, 24.6, 10],
   L6: [25.05, 29.3, 13], L7: [29.75, 34.3, 14] };
 export const DUR = VOICE?.dur ?? 34.7;
 const A = {};
@@ -57,7 +57,7 @@ export function frame(t) {
     Hd.plaque(t, A.L0w8 - 0.1, T.cB - 0.05, 540, 470, { icon: 'stairs', title: 'НА 5 ЭТАЖЕЙ НИЖЕ', sub: 'соседний подъезд', color: WARM, size: 38 });
   }
   Hd.stepHeader(t, 1, 'ТОЛЬКО ШАГОМ', A.L1 + 0.02, A.L1e - 0.05);
-  if (t >= T.cB && t < T.cC) Hd.plaque(t, A.L1w6 - 0.05, T.cC - 0.05, 540, 470, { icon: 'torch', title: 'СВЕТИ ПОД НОГИ', sub: 'видишь, куда ступаешь', color: OK, size: 40 });
+  if (t >= T.cB && t < T.cC) Hd.plaque(t, A.L1w4, T.cC - 0.05, 540, 470, { icon: 'torch', title: 'СВЕТИ ПОД НОГИ', sub: 'видишь, куда ступаешь', color: OK, size: 40 });
   Hd.stepHeader(t, 2, '2 МЕТРА ОТ КРАЯ', A.L2 + 0.02, A.L2e - 0.05);
   if (t >= T.cC && t < T.cD) Hd.plaque(t, A.L2w7 - 0.05, T.cD - 0.05, 540, 470, { icon: 'x', title: 'ВЕТЕР И ТЕМНОТА', sub: 'край не прощает', color: DANGER, size: 40 });
   Hd.stepHeader(t, 3, 'ТРИ ТОЧКИ ОПОРЫ', A.L3 + 0.02, A.L3e - 0.05);
