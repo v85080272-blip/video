@@ -198,7 +198,7 @@ def person(x, y, z, kind, rot=0.0):
 ZT = (TOP - 1) * FH        # the 15th floor level
 H_root, H_head, H_arms = person(-1.25, 0.75, ZT, 'hunter', rot=math.radians(-150))
 G_root, G_head, G_arms = person(-0.55, 0.42, ZT, 'granny', rot=math.radians(-160))
-D_root, D_head, _ = person(0.32, 1.12, ZT, 'dog', rot=math.radians(165))
+D_root, D_head, _ = person(0.0, 0.95, ZT, 'dog', rot=math.radians(180))     # at the end of the gap, where no balusters are: she looks down under the handrail
 H_arms[1].rotation_euler = (math.radians(-55), 0, math.radians(-15))
 Z_root, Z_head, Z_arms = person(-0.6, -0.85, 0.0, 'zombie', rot=math.radians(180))
 Z_arms[0].rotation_euler = (-0.45, 0, 0.12); Z_arms[1].rotation_euler = (0.05, 0, -0.08)   # one arm half-raised, as if reaching
