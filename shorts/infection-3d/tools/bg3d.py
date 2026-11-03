@@ -115,10 +115,14 @@ def main():
     M, dur = D['marks'], D['duration']
     edges = [0.0, M['c1'], M['c2'], M['black'], dur]
     fr = [round(e * FPS) for e in edges]
-    s2 = 'f_s2v' if os.path.isdir(os.path.join(rdir, 'f_s2v')) and len(os.listdir(os.path.join(rdir, 'f_s2v'))) >= 49 else 'f_s2'
-    plan = [('f_s1', Dust(200, 1, fall=(0, 4), inward=0.04, gain=1.7), ''),     # falling slowly down the shaft
+    have = lambda d, n: os.path.isdir(os.path.join(rdir, d)) and len(os.listdir(os.path.join(rdir, d))) >= n
+    # the hazy renders (VOL=1: real haze, dust and depth of field) when they are complete; otherwise the plain ones with 2D dust
+    s1 = 'f_s1v' if have('f_s1v', 49) else 'f_s1'
+    s2 = 'f_s2v' if have('f_s2v', 49) else 'f_s2'
+    s3 = 'f_s3v' if have('f_s3v', 71) else 'f_s3'
+    plan = [(s1, None if s1 == 'f_s1v' else Dust(200, 1, fall=(0, 4), inward=0.04, gain=1.7), ''),     # falling slowly down the shaft
             (s2, None, 'colorlevels=rimin=0.40:gimin=0.40:bimin=0.40,hqdn3d=1.5:1.5:5:5' if s2 == 'f_s2v' else ''),   # the haze lifts the blacks: put them back
-            ('f_s3', Dust(220, 3, fall=(2, 2), gain=1.9), '')]
+            (s3, None if s3 == 'f_s3v' else Dust(220, 3, fall=(2, 2), gain=1.9), 'colorlevels=rimin=0.15:gimin=0.15:bimin=0.15,hqdn3d=1.5:1.5:5:5' if s3 == 'f_s3v' else '')]
     with tempfile.TemporaryDirectory() as tmp:
         parts = []
         for k, (src, dust, pre) in enumerate(plan):

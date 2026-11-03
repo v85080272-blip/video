@@ -265,7 +265,7 @@ if VOL:
     else:
         volume_box((W0, 0.0, -0.2), (W1, DEPTH, ZT + FH), 0.018 if SHOT == 's1' else 0.03)
         if SHOT == 's1': dust(500, (-1.0, 0.9, ZT - 1.5), (1.0, 2.6, ZT + 2.0), 110, seed=12)
-        else: dust(600, (-1.4, 0.3, ZT + 0.1), (0.9, 2.4, ZT + 2.4), 150, seed=13)
+        else: dust(200, (-1.2, 0.8, ZT + 0.15), (0.5, 2.3, ZT + 1.6), 150, seed=13)      # in and around the torch beam only
 
 # —— the cameras and the actors' motion, frame by frame (30 fps) ——
 cam_data = bpy.data.cameras.new('cam'); cam = bpy.data.objects.new('cam', cam_data); col_main.objects.link(cam); sc.camera = cam
