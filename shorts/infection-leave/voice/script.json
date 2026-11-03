@@ -1,0 +1,91 @@
+{
+ "note": "Narration for «Уходим» («Заражение», серия 2; nobody voted, so the hunter leaves). Facts: a go-bag with water, food that needs no cooking, a first-aid kit and a torch (Ready.gov «Build a kit»; Philadelphia OEM «Ready or not»); sturdy shoes and clothing that gives some protection — long sleeves, long trousers (Ready.gov «Evacuation guidelines», archived 2016; Philadelphia OEM); do not use an elevator during a fire or other emergency, take the stairs (Philadelphia OEM). Баба Валя is the neighbour from «Квартира под защитой». at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Решено: уходим. Но между тобой и улицей двадцать этажей.",
+   "at": 0.12,
+   "sub": [
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "А в подъезде кто-то уже стонет.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: собери рюкзак. Вода, еда, аптечка, фонарик.",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: оденься плотно. Ботинки, куртка и перчатки.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: только по лестнице. Лифт может застрять, и ты в ловушке.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "На пятнадцатом этаже скрипнула дверь. Но это соседка, баба Валя. Со сковородкой.",
+   "after": 0.45,
+   "sub": [
+    5,
+    3,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Теперь вас трое. Вниз через подъезд или наверх, на крышу? Пиши 1 или 2.",
+   "after": 0.45,
+   "tts": "Теперь вас трое. Вниз через подъезд или наверх, на крышу? Пиши один или два.",
+   "sub": [
+    3,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А напиши «возьми с собой» — и в следующей серии выживаешь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}
