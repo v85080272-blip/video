@@ -1,0 +1,101 @@
+{
+ "note": "Narration for «На крышу» («Заражение», серия 3; the viewers voted for the roof). Facts: in a high-rise fire never go to the roof — smoke rises, and roof doors are locked so you can be trapped (Toronto Fire Services, «Fire safety in high-rise buildings»); helicopter rescue from a roof is highly unlikely (Texas Department of Insurance, high-rise fire safety Q&A); ground-to-air signals must be big — at least 2.5 m per symbol by the ICAO ground-air code, 1 × 6 m in survival manuals; SOS by light is three short, three long, three short. Баба Валя is the neighbour from «Квартира под защитой»; she has the keys because she is the «старшая по дому». at/after/tail/sub as in the blackout season; tts = what the voice reads (digits and Latin in words).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Решено: на крышу. Последний пролёт, и люк. На замке.",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Баба Валя достала ключи. Тридцать лет старшая по дому.",
+   "after": 0.4,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "В пожар на крышу не бегут: дым идёт вверх. Но у нас не пожар.",
+   "after": 0.45,
+   "sub": [
+    4,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: люк закрой и придави.",
+   "after": 0.45,
+   "sub": [
+    1,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: выложи SOS. Буквы по три метра, чтобы увидели с вертолёта.",
+   "after": 0.4,
+   "tts": "Второе: выложи эс-о-эс. Буквы по три метра, чтобы увидели с вертолёта.",
+   "sub": [
+    1,
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: ночью сигналь фонарём. Три коротких, три длинных, три коротких.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "И с соседней крыши мигнули в ответ.",
+   "after": 0.5,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Идём к ним по крышам или ждём здесь? Пиши 1 или 2.",
+   "after": 0.45,
+   "tts": "Идём к ним по крышам или ждём здесь? Пиши один или два.",
+   "sub": [
+    5,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "А напиши «возьми с собой» — и в следующей серии выживаешь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}
