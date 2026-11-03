@@ -20,7 +20,7 @@ import { text, measure, FONTS, INK } from './type.js';
 // —— the narration: line starts, ends and word starts (A.L2w5 = word 5 of line L2; dashes count as words) ——
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const LN = id => VOICE?.lines.find(l => l.id === id);
-const FB = { L0: [0.12, 3.2, 9], L1: [3.6, 6.7, 9], L2: [7.15, 11.6, 14], L3: [12.05, 13.8, 5], L4: [14.2, 18.3, 11], L5: [18.7, 22.7, 10],
+const FB = { L0: [0.12, 3.2, 10], L1: [3.6, 6.7, 9], L2: [7.15, 11.6, 14], L3: [12.05, 13.8, 5], L4: [14.2, 18.3, 11], L5: [18.7, 22.7, 10],
   L6: [23.2, 25.2, 7], L7: [25.65, 29.6, 12], L8: [29.95, 34.3, 14] };
 export const DUR = VOICE?.dur ?? 34.7;
 const A = {};
@@ -31,14 +31,14 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { КРЫШУ: GOLD, ЗАМКЕ: DANGER, КЛЮЧИ: WARM, ПОЖАР: DANGER, ВВЕРХ: DANGER, ЗАКРОЙ: GOLD, ПРИДАВИ: GOLD, SOS: GOLD, МЕТРА: GOLD,
+const HOT = { КРЫШУ: GOLD, ЗАКРЫТ: DANGER, КЛЮЧИ: WARM, ПОЖАР: DANGER, ВВЕРХ: DANGER, ЗАКРОЙ: GOLD, ПРИДАВИ: GOLD, SOS: GOLD, МЕТРА: GOLD,
   ФОНАРЁМ: GOLD, КОРОТКИХ: GOLD, ДЛИННЫХ: GOLD, ОТВЕТ: DANGER, ЗДЕСЬ: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
 const T = {
   cover: 0.3,
   top: A.L0w5 - 0.08,                // «…и люк»: the top landing, the hatch in the ceiling
-  locked: A.L0w7 - 0.05,             // «На замке»: he tugs the padlock
+  locked: A.L0w7 - 0.05,             // «Закрыт на ключ»: he tugs the padlock
   keys: A.L1w3 - 0.08,               // «достала ключи»
   elder: A.L1w4 - 0.05,              // «Тридцать лет старшая по дому»
   unlock: A.L1e - 0.1,
@@ -103,10 +103,10 @@ function hermite(keys, t) {
 }
 const SHOTS = [];
 const shot = (t0, keys) => SHOTS.push({ t0, keys });
-shot(T.top, [[T.top, 640, -260, 1.05], [T.unlock, 690, -280, 1.1], [T.c4, 700, -285, 1.12]]);
-shot(T.c4, [[T.c4, 40, -230, 1.12], [T.press, 60, -225, 1.18], [T.c5, 80, -222, 1.2]]);
-shot(T.c6, [[T.c6, 520, -260, 1.08], [T.reply - 0.7, 600, -270, 1.12], [T.reply + 0.3, 1050, -330, 1.3], [T.c7, 1000, -310, 1.24]]);
-shot(T.c7, [[T.c7, 380, -250, 1.14], [T.c8, 400, -255, 1.12], [DUR, 410, -255, 1.1]]);     // back to the hatch: it knocks
+shot(T.top, [[T.top, 640, -185, 1.05], [T.unlock, 690, -190, 1.1], [T.c4, 700, -192, 1.12]]);       // the floor at about y 1150 on screen, the subtitles below it
+shot(T.c4, [[T.c4, 40, -170, 1.12], [T.press, 60, -165, 1.18], [T.c5, 80, -160, 1.2]]);
+shot(T.c6, [[T.c6, 520, -180, 1.08], [T.reply - 0.7, 600, -185, 1.12], [T.reply + 0.3, 1050, -250, 1.3], [T.c7, 1000, -240, 1.24]]);
+shot(T.c7, [[T.c7, 380, -175, 1.14], [T.c8, 400, -178, 1.12], [DUR, 410, -178, 1.1]]);     // back to the hatch: it knocks
 export function camAt(t) {
   if (scene(t) === 'climb') { const x = climbX(t), y = stairY(x); return { x: x - 120, y: y - 190, z: 1.15, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 }; }
   if (scene(t) === 'plan') return { x: 0, y: -700, z: 1, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
