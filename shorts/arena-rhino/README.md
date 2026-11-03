@@ -18,3 +18,7 @@ Wildlife, Latest Sightings, SANParks).
 Новое: `src/rhino.js` (носорог: шаг, бег, опущенный рог, принюхивается, уши поворачиваются на звук, оглядывается,
 оглушён). Звуки в `tools/fx.py`: `rhino_stomp`, `sniff`, `shh`, `rhino_grunt`, `wind_gust` (плюс `hooves`, `snort`,
 `wall_hit` из «Быка»). Музыка — `tools/music.py`. Сборка — как в `../blackout-week/README.md`.
+
+Статус: озвучено и собрано 03.11, `qa/check_clip.py` без ошибок (−14,2 LUFS, пик −1,9 dBTP, 37,7 с; замечание: Whisper под музыкой не расслышал «у» в «Нюх у носорога» — без музыки слово разборчиво).
+В ролике: L0 s6, L1 s4, L2 s6, L3 s2, L4 s6, L5 s3, L6 s6, L7 s1 (дубли в `/home/user/work/arena-rhino`; s1 и s2 переписаны после нехватки памяти). У отброшенных: «первОе», «зАмри» в трёх дублях, «пИши».
+
