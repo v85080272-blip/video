@@ -52,7 +52,7 @@ def facade_material():
     L.new(mixc.outputs['Result'], b.inputs['Base Color'])
     warm = N.new('ShaderNodeMix'); warm.data_type = 'RGBA'; L.new(wn.outputs['Color'], warm.inputs['Factor'])
     warm.inputs['A'].default_value = (1.0, 0.72, 0.42, 1); warm.inputs['B'].default_value = (0.75, 0.85, 1.0, 1)
-    L.new(warm.outputs['Result'], b.inputs['Emission Color']); L.new(op('MULTIPLY', lit, 5.0), b.inputs['Emission Strength'])
+    L.new(warm.outputs['Result'], b.inputs['Emission Color']); L.new(op('MULTIPLY', lit, 3.0), b.inputs['Emission Strength'])
     try: m.cycles.emission_sampling = 'NONE'
     except Exception: pass
     return m
@@ -144,7 +144,7 @@ RAD = empty((0, -0.06, -0.6), 'radio', parent=SOL['arms'][1])
 box((0, 0, 0.0), (0.09, 0.05, 0.18), M['radio'], parent=RAD); cyl((0.03, 0, 0.17), 0.006, 0.16, M['radio'], verts=4, parent=RAD)
 box((0, -0.027, 0.03), (0.07, 0.004, 0.05), M['screen'], parent=RAD)
 bpy.ops.object.text_add(location=(0, -0.031, 0.03), rotation=(math.radians(90), 0, 0)); tx = bpy.context.object; tx.data.body = '07:00 СТАДИОН'
-tx.data.size = 0.009; tx.data.align_x = 'CENTER'; tx.data.align_y = 'CENTER'; tx.data.materials.append(HUDG); tx.parent = RAD
+tx.data.font = kit.font(); tx.data.size = 0.009; tx.data.align_x = 'CENTER'; tx.data.align_y = 'CENTER'; tx.data.materials.append(HUDG); tx.parent = RAD
 bpy.ops.object.light_add(type='POINT', location=(0, -0.08, 0.04)); rl = bpy.context.object; rl.data.energy = 3; rl.data.color = (0.4, 1.0, 0.55); rl.data.shadow_soft_size = 0.05; rl.parent = RAD
 
 def walk(P, f0, f1, p0, p1, swing=0.45, period=24):
@@ -160,12 +160,18 @@ def dog_trot(P, f0, f1, p0, p1, period=14):
         u = (f - f0) / max(1, f1 - f0); ph = 2 * math.pi * (f - f0) / period
         P['root'].location = Vector(p0).lerp(Vector(p1), u) + Vector((0, 0, 0.02 * abs(math.sin(ph)))); P['root'].keyframe_insert('location', frame=f)
         for i, hp in enumerate(P['hips']): key(hp, 'rotation_euler', f, (0.5 * math.sin(ph + math.pi * ((i // 2 + i % 2) % 2)), 0, 0))
-def blink(L, frames, on_energy):
+def beam_of(torch): return bpy.data.objects[torch['beam']]
+def blink(L, frames, on_energy, beam=None):
     """switch a light on and off on the given (on, off) frame pairs"""
     L.data.energy = 0; L.data.keyframe_insert('energy', frame=0)
     for a, b in frames:
         L.data.energy = 0; L.data.keyframe_insert('energy', frame=a - 1); L.data.energy = on_energy; L.data.keyframe_insert('energy', frame=a)
         L.data.keyframe_insert('energy', frame=b); L.data.energy = 0; L.data.keyframe_insert('energy', frame=b + 1)
+        if beam is not None:
+            beam.hide_render = True; beam.keyframe_insert('hide_render', frame=a - 1); beam.hide_render = False; beam.keyframe_insert('hide_render', frame=a)
+            beam.keyframe_insert('hide_render', frame=b); beam.hide_render = True; beam.keyframe_insert('hide_render', frame=b + 1)
+    if beam is not None:
+        beam.hide_render = True; beam.keyframe_insert('hide_render', frame=0)
     for fc in (L.data.animation_data.action.fcurves if hasattr(L.data.animation_data.action, 'fcurves') else []):
         for kp in fc.keyframe_points: kp.interpolation = 'CONSTANT'
 
@@ -181,11 +187,12 @@ def fill_light(p, energy, color=(0.6, 0.7, 1.0), size=2.0):
 
 E = NF
 HL.data.energy = 0                              # the hunter's torch stays off unless a shot says so
+beam_of(HT).hide_render = SHOT != 'B'
 if SHOT == 'A':     # behind the three on our roof; on the lower roof a torch blinks three times; a slow push
     cam_data.lens = 24
-    camkeys([(0, (-1.5, -5.2, 2.3), (16, -0.5, -12.5)), (E, (1.2, -4.0, 1.9), (16, -0.5, -12.8))])
+    camkeys([(0, (3.6, -3.9, 2.6), (15.5, -0.8, -4.6)), (E, (4.4, -3.4, 2.4), (15.5, -0.8, -5.0))])
     KT.rotation_euler = (math.radians(-130), 0, 0)       # up at us
-    s = int(E * 0.35); blink(KL, [(s, s + 6), (s + 12, s + 18), (s + 24, s + 30), (s + 44, E + 5)], 1600)
+    s = int(E * 0.35); blink(KL, [(s, s + 6), (s + 12, s + 18), (s + 24, s + 30), (s + 44, E + 5)], 1600, beam_of(KT))
     key(HUN['head'], 'rotation_euler', 0, (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.5), (math.radians(-18), 0, 0))
     fill_light((4, -3, 4), 60)
 elif SHOT == 'B':   # low, ahead of him: he walks towards us at a slow pace, the torch pool just ahead of his boots; the dog beside
@@ -193,13 +200,13 @@ elif SHOT == 'B':   # low, ahead of him: he walks towards us at a slow pace, the
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); DOG['root'].rotation_euler = (0, 0, math.radians(90))
     walk(HUN, 0, E, (-1.2, -1.5, H22), (1.6, -1.5, H22)); dog_trot(DOG, 0, E, (-1.6, -0.75, H22), (1.2, -0.75, H22))
     HUN['arms'][1].rotation_euler = (math.radians(-35), 0, 0); HL.data.energy = 1100; HT.rotation_euler = (math.radians(-35), 0, 0)
-    camkeys([(0, (4.0, -2.4, 0.32), (0.0, -1.4, 0.55)), (E, (3.7, -2.3, 0.3), (1.4, -1.4, 0.5))])
+    camkeys([(0, (4.0, -2.5, 0.45), (0.0, -1.4, 0.65)), (E, (3.7, -2.4, 0.42), (1.4, -1.4, 0.6))])
     GRA['root'].location = (-3, 0.5, H22)
     fill_light((2.5, -3, 3), 40)
 elif SHOT == 'C':   # over the corner of the parapet: the edge, the drop to the lower roof, a glowing line two metres in from the edge
     cam_data.lens = 20
     for yy in range(-11, 12, 2): box((6.65, yy * 0.5, H22 + 0.07), (0.07, 0.55, 0.02), HUDY, name='line')
-    bpy.ops.object.text_add(location=(7.7, -4.2, H22 + 0.08)); t2 = bpy.context.object; t2.data.body = '2 м'; t2.data.size = 0.45; t2.data.materials.append(HUDY)
+    bpy.ops.object.text_add(location=(7.7, -4.2, H22 + 0.08)); t2 = bpy.context.object; t2.data.body = '2 м'; t2.data.font = kit.font(); t2.data.size = 0.45; t2.data.materials.append(HUDY)
     t2.rotation_euler = (0, 0, math.radians(90))
     for P, y0, x in [(HUN, -4.5, 5.4), (GRA, -5.4, 4.6)]:
         P['root'].rotation_euler = (0, 0, math.radians(180)); walk(P, 0, E, (x, y0, H22), (x, y0 + 3.0, H22))
@@ -221,38 +228,40 @@ elif SHOT == 'D':   # from the lower roof, looking up the wall: he climbs down f
         hands = [Vector((LX, LY - 0.22, zz + 1.95 + 0.15 * a)), Vector((LX, LY + 0.22, zz + 1.85 - 0.15 * a))]
         foot = Vector((LX, LY + (0.12 if a else -0.12), zz + 0.12))
         for mk, p in zip(marks, hands + [foot]): key(mk, 'location', f, p)
-    camkeys([(0, (12.6, -5.6, H17 + 1.4), (LX, LY, -6.0)), (E, (12.4, -5.3, H17 + 1.3), (LX, LY, -7.6))])
+    cam_data.lens = 28
+    camkeys([(0, (11.2, -4.8, H17 + 1.2), (LX, LY, -6.4)), (E, (11.0, -4.6, H17 + 1.15), (LX, LY, -7.8))])
     KRA['root'].location = (12.2, -1.2, H17); SOL['root'].location = (12.9, -0.4, H17)
     KT.rotation_euler = (math.radians(-130), 0, math.radians(20)); KL.data.energy = 900
     fill_light((11, -4, H17 + 4), 120)
 elif SHOT == 'E':   # the lower roof: the two of them, lit by the torch pointed down and the radio's glow; they turn to us
     cam_data.lens = 30
-    KRA['root'].location = (16.0, -1.1, H17); SOL['root'].location = (16.7, -0.2, H17)
+    KRA['root'].location = (16.4, -0.9, H17); SOL['root'].location = (15.4, 0.3, H17)
     KT.rotation_euler = (math.radians(-60), 0, 0); KL.data.energy = 700
     key(KRA['head'], 'rotation_euler', 0, (0, 0, math.radians(30))); key(KRA['head'], 'rotation_euler', int(E * 0.3), (0, 0, 0))
     key(SOL['head'], 'rotation_euler', int(E * 0.4), (0, 0, math.radians(25))); key(SOL['head'], 'rotation_euler', int(E * 0.7), (0, 0, 0))
     SOL['arms'][1].rotation_euler = (math.radians(-70), 0, 0)
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); walk(HUN, 0, int(E * 0.6), (11.5, -1.8, H17), (13.6, -1.6, H17))
-    camkeys([(0, (13.4, -3.8, H17 + 1.5), (16.3, -0.6, H17 + 1.3)), (E, (13.9, -3.4, H17 + 1.45), (16.3, -0.6, H17 + 1.3))])
+    camkeys([(0, (13.5, -3.7, H17 + 1.5), (15.9, -0.3, H17 + 1.25)), (E, (13.9, -3.3, H17 + 1.45), (15.9, -0.3, H17 + 1.25))])
     fill_light((14.5, -2.5, H17 + 3.2), 70, color=(0.75, 0.8, 1.0))
 elif SHOT == 'F':   # close on the radio in Соломия's hand: its screen; then the focus goes to the stadium far behind
-    cam_data.lens = 45
-    KRA['root'].location = (16.0, -1.1, H17); SOL['root'].location = (16.7, -0.2, H17)
+    cam_data.lens = 50
+    KRA['root'].location = (17.6, -2.6, H17); SOL['root'].location = (16.7, -0.2, H17)
     SOL['arms'][1].rotation_euler = (math.radians(-80), 0, math.radians(10)); KL.data.energy = 500; KT.rotation_euler = (math.radians(-70), 0, 0)
     bpy.context.view_layer.update()
     rp = RAD.matrix_world.translation.copy()
     d = (Vector((SX, SY, -50)) - rp).normalized()
-    camkeys([(0, tuple(rp - d * 0.75 + Vector((0, 0, 0.05))), tuple(rp)), (E, tuple(rp - d * 0.68 + Vector((0, 0, 0.06))), tuple(rp + d * 2))])
+    side = Vector((-d.y, d.x, 0)).normalized() * 0.25
+    camkeys([(0, tuple(rp - d * 1.0 + side + Vector((0, 0, 0.06))), tuple(rp)), (E, tuple(rp - d * 0.92 + side + Vector((0, 0, 0.07))), tuple(rp + d * 3))])
     cam_data.dof.use_dof = True; cam_data.dof.aperture_fstop = 2.2
-    cam_data.dof.focus_distance = 0.75; cam_data.dof.keyframe_insert('focus_distance', frame=int(E * 0.45))
+    cam_data.dof.focus_distance = 1.0; cam_data.dof.keyframe_insert('focus_distance', frame=int(E * 0.45))
     cam_data.dof.focus_distance = 300; cam_data.dof.keyframe_insert('focus_distance', frame=int(E * 0.8))
     fill_light(tuple(rp + Vector((-0.6, -0.8, 0.8))), 8, size=0.8)
 else:               # G: the five at the far side of the lower roof, a safe way from the edge, the city and the stadium before them
-    cam_data.lens = 22
+    cam_data.lens = 24
     for P, p in [(HUN, (21.5, 1.0)), (GRA, (20.8, 0.2)), (DOG, (21.9, 1.8)), (KRA, (22.3, -0.4)), (SOL, (21.0, 2.4))]:
         P['root'].location = (*p, H17); P['root'].rotation_euler = (0, 0, math.radians(135))
     KT.rotation_euler = (math.radians(-60), 0, 0); KL.data.energy = 500
-    camkeys([(0, (17.2, -3.6, H17 + 1.8), (60, 60, -40)), (E, (15.8, -5.0, H17 + 2.8), (60, 60, -42))])
+    camkeys([(0, (18.8, -2.0, H17 + 1.7), (60, 60, -36)), (E, (18.0, -2.9, H17 + 2.3), (60, 60, -38))])
     fill_light((19.5, -1.5, H17 + 3.5), 50)
 if VOL:
     kit.volume_box((-12, -9, -16), (30, 9, 6), 0.012)

@@ -727,11 +727,128 @@ def zombie_scare(rng, dur=1.3, f0=58, far=0.45, **_):
     return zombie_growl(rng, dur, f0=f0, far=far)
 
 
+
+# ——— «На крышу» ———
+def _clink(rng, f, sec=0.25, a=1.0):
+    """one small piece of metal against another: a few inharmonic partials, a bright tick"""
+    fr = [f, f * 2.76, f * 5.4, f * 8.9]
+    y = partials(sec, fr, [0.06, 0.04, 0.025, 0.015], [1, 0.6, 0.35, 0.2], rng, 0.02) * a
+    add(y, 0.0, bp(white(rng, 0.01), 3000, 12000) * 0.3 * a)
+    return y
+
+
+def keys(rng, dur=1.6, **_):
+    """a big bunch of keys shaken and sorted through: clinks thick at first, then fewer"""
+    y = np.zeros(n_(dur + 0.4))
+    s = 0.0
+    while s < dur:
+        add(y, s, _clink(rng, rng.uniform(2400, 4800), 0.2, rng.uniform(0.4, 1.0)))
+        s += rng.uniform(0.02, 0.07) * (1 + 2.5 * s / dur)
+    return fade(norm(verb(y, room(rng, 0.8, damp=6000), 0.15), 0.7), 0.003, 0.15)
+
+
+def padlock(rng, **_):
+    """a padlock tugged on its hasp: two rattling jerks of steel on steel"""
+    sec = 0.9
+    y = np.zeros(n_(sec))
+    for s0 in (0.0, 0.32):
+        for k in range(5):
+            add(y, s0 + k * 0.025 + rng.uniform(0, 0.01), _clink(rng, rng.uniform(900, 1500), 0.18, 1 - k * 0.15))
+        add(y, s0, thump(rng, 0.15, 180, 2500, 0.02) * 0.4)
+    return fade(norm(verb(y, room(rng, 1.4, damp=4000), 0.3), 0.85), 0.002, 0.15)
+
+
+def lock_drop(rng, **_):
+    """the open padlock drops to the concrete: a hard clank, two bounces"""
+    sec = 1.0
+    y = np.zeros(n_(sec))
+    for s0, a in [(0.0, 1.0), (0.16, 0.45), (0.27, 0.2)]:
+        add(y, s0, _clink(rng, rng.uniform(700, 900), 0.35, a)); add(y, s0, thump(rng, 0.1, 140, 3000, 0.015) * 0.5 * a)
+    return fade(norm(verb(y, room(rng, 1.6, damp=4000), 0.35), 0.85), 0.001, 0.2)
+
+
+def roof_wind(rng, dur=4.0, **_):
+    """wind over a flat roof at the 22nd floor: a broad rush that swells and drops, a whistle in the antenna"""
+    t = tt(dur)
+    gust = 0.6 + 0.4 * np.sin(TAU * 0.21 * t + 1.0) * np.sin(TAU * 0.07 * t + 0.4)
+    y = lp(colored(rng, dur, -2), 900) * gust
+    y += bp(colored(rng, dur, -1), 1600, 2600) * np.clip(gust - 0.7, 0, 1) * 0.6
+    return fade(norm(y, 0.45), 0.4, 0.5)
+
+
+def heli_far(rng, dur=2.3, **_):
+    """a helicopter somewhere far off (the one we hope for): a muffled rotor beat that passes"""
+    t = tt(dur)
+    k = np.sin(np.pi * t / dur)
+    blades = (0.5 + 0.5 * np.sin(TAU * 11 * t)) ** 4
+    y = lp(colored(rng, dur, -1), 700) * (0.3 + 0.7 * blades) * k
+    return fade(norm(verb(y, room(rng, 2.5, damp=2500, width=0.9), 0.5), 0.4), 0.3, 0.4)
+
+
+def beep(rng, dur=0.15, f=880, **_):
+    """the torch's code as a soft tone (one dot or dash)"""
+    t = tt(dur + 0.05)
+    y = np.sin(TAU * f * t) * np.minimum(1, t / 0.008) * np.clip((dur - t) / 0.02 + 1, 0, 1)
+    return fade(norm(verb(y, room(rng, 0.6, damp=7000), 0.2), 0.4), 0.002, 0.04)
+
+
+def hatch_knock(rng, **_):
+    """something hits the steel hatch from below: a heavy boom of sheet metal, the lid jumping in its frame"""
+    sec = 1.4
+    y = thump(rng, sec, 70, 1200, 0.12) * 0.9
+    y += partials(sec, [96, 151, 233, 377, 590], [0.5, 0.35, 0.25, 0.15, 0.08], [1, 0.7, 0.5, 0.35, 0.2], rng, 0.02) * 0.6
+    add(y, 0.11, _clink(rng, 600, 0.3, 0.6))
+    return fade(norm(verb(y, room(rng, 1.2, damp=3000), 0.3), 0.95), 0.0005, 0.3)
+
+
+
+# ——— «По крышам» ———
+def steps_roof(rng, dur=3.0, rate=1.6, **_):
+    """boots on a bitumen roof at night: a soft gritty crunch per step, slow"""
+    y = np.zeros(n_(dur + 0.5))
+    s = 0.05
+    while s < dur:
+        d = 0.16
+        add(y, s, bp(colored(rng, d, -1), 500, 4000) * env(d, 0.004, 0.06) * 0.8 + thump(rng, d, 90, 800, 0.03)[:n_(d)] * 0.4)
+        s += 1 / rate * rng.uniform(0.9, 1.1)
+    return fade(norm(verb(y, room(rng, 0.6, damp=5000), 0.15), 0.6), 0.01, 0.1)
+
+
+def ladder_rung(rng, **_):
+    """a boot on a steel rung of the fire ladder: a dull clang with a short ring"""
+    sec = 0.6
+    y = partials(sec, [310, 742, 1260, 1980], [0.12, 0.08, 0.05, 0.03], [1, 0.6, 0.4, 0.25], rng, 0.03) * 0.7
+    add(y, 0.0, thump(rng, 0.12, 120, 1500, 0.02) * 0.6)
+    return fade(norm(verb(y, room(rng, 1.4, damp=3500), 0.3), 0.7), 0.001, 0.15)
+
+
+def radio_static(rng, dur=3.0, **_):
+    """a walkie-talkie: hiss and crackle, a squelch at the start, a far voice-like mumble in the band"""
+    t = tt(dur)
+    y = bp(white(rng, dur), 1200, 3800) * 0.25 * (0.7 + 0.3 * np.sin(TAU * 3.1 * t))
+    s = 0.1
+    while s < dur - 0.1:
+        add(y, s, bp(white(rng, 0.02), 2000, 6000) * env(0.02, 0.001, 0.01) * 0.8)
+        s += rng.uniform(0.04, 0.25)
+    add(y, 0.0, bp(white(rng, 0.12), 800, 5000) * env(0.12, 0.002, 0.08) * 1.2)
+    mum = bp(colored(rng, dur, -1), 300, 1400) * (0.5 + 0.5 * np.sin(TAU * 4.5 * t + 2 * np.sin(TAU * 0.7 * t))) ** 2
+    y += mum * 0.5 * np.clip((t - 0.4) / 0.3, 0, 1)
+    return fade(norm(y, 0.45), 0.02, 0.2)
+
+
+def wind_gust(rng, dur=3.0, **_):
+    """a gust over the edge of the roof"""
+    t = tt(dur)
+    gust = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.5
+    y = lp(colored(rng, dur, -2), 1400) * gust + bp(colored(rng, dur, -1), 1800, 3200) * gust ** 3 * 0.5
+    return fade(norm(y, 0.5), 0.2, 0.4)
+
+
 FX = {k: v for k, v in globals().items() if callable(v) and k in (
     'city', 'hum_stop', 'ticks_up', 'ribbon', 'crowd_steps', 'drain', 'whoosh_down', 'pump', 'spark', 'node_off', 'amb_flat',
     'tap_squeak', 'tap_run', 'tap_cough', 'fill_plink', 'whine', 'paper', 'candle', 'fire_whoosh', 'fire', 'puff', 'morning',
     'squeak_dry', 'pour', 'flush', 'city_day', 'stamp', 'ding', 'pop_word', 'crowd_murmur', 'crowd_roar', 'gate_chain',
     'hooves', 'snort', 'cloth', 'wall_hit', 'tweet', 'thud', 'wood_clack', 'bark', 'screams', 'groans', 'car_alarm', 'scrape',
     'steps_out', 'zombie_growl', 'zombie_far', 'zombie_crowd', 'door_creak', 'door_unlock', 'door_open', 'stair_steps', 'heartbeat',
-    'breath', 'zipper', 'pan_clang', 'dog_growl', 'stairwell_air', 'lift_hum', 'cloth_soft', 'zombie_scare')}
+    'breath', 'zipper', 'pan_clang', 'dog_growl', 'stairwell_air', 'lift_hum', 'cloth_soft', 'zombie_scare', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock', 'steps_roof', 'ladder_rung', 'radio_static', 'wind_gust')}
 FX.update(power_down=power_down, whoosh=whoosh, whoosh_in=whoosh_in, blip=blip, click=click, toggle=toggle)

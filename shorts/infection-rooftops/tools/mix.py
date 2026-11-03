@@ -22,10 +22,10 @@ from fx import FX, amb_house
 TARGET_LUFS, CEIL_DBTP = -14.0, -2.0
 SFX_DB, BED_LU = 0.0, -22.0
 FX_CAP = {'scare': 4.0, 'blast': 0.0, 'other': -1.0, 'soft': -5.0}
-SCARE = {'zombie_scare'}
+SCARE = set()
 BLAST = {'power_down'}
 SOFT = {'city', 'amb_flat', 'morning', 'city_day', 'crowd_steps', 'ticks_up', 'candle', 'fire', 'drain', 'pump', 'tap_run', 'paper',
-        'whoosh', 'whoosh_in', 'whoosh_down', 'pop_word', 'fill_plink', 'stairwell_air', 'lift_hum', 'cloth_soft'}                     # textures that should sit inside the score
+        'whoosh', 'whoosh_in', 'whoosh_down', 'pop_word', 'fill_plink', 'stairwell_air', 'lift_hum', 'cloth_soft', 'roof_wind', 'radio_static', 'steps_roof', 'beep'}                     # textures that should sit inside the score
 TRIM = {}
 # the voiced version
 V_CAP = {'scare': 3.0, 'blast': -1.0, 'soft': -6.0, 'other': -1.0}     # an effect's loudest 400 ms against the narrator's integrated loudness

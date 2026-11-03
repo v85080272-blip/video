@@ -167,9 +167,9 @@ def torch_on(parent, energy=1400, beam_len=6.0, beam_r=1.2, name='torch'):
     L.data.energy = energy; L.data.spot_size = math.radians(26); L.data.spot_blend = 0.5; L.data.color = (1, 0.92, 0.75); L.data.shadow_soft_size = 0.02
     bm = bpy.data.materials.new(name + '_beam'); bm.use_nodes = True; nt = bm.node_tree; nt.nodes.clear()
     out = nt.nodes.new('ShaderNodeOutputMaterial'); mix = nt.nodes.new('ShaderNodeMixShader'); tr = nt.nodes.new('ShaderNodeBsdfTransparent')
-    em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (1, 0.93, 0.78, 1); em.inputs['Strength'].default_value = 0.6
+    em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (1, 0.93, 0.78, 1); em.inputs['Strength'].default_value = 0.22
     lw = nt.nodes.new('ShaderNodeLayerWeight'); lw.inputs['Blend'].default_value = 0.35
-    inv = nt.nodes.new('ShaderNodeMath'); inv.operation = 'MULTIPLY'; inv.inputs[1].default_value = 0.35
+    inv = nt.nodes.new('ShaderNodeMath'); inv.operation = 'MULTIPLY'; inv.inputs[1].default_value = 0.14
     nt.links.new(lw.outputs['Facing'], inv.inputs[0]); nt.links.new(inv.outputs[0], mix.inputs['Fac'])
     nt.links.new(tr.outputs[0], mix.inputs[1]); nt.links.new(em.outputs[0], mix.inputs[2]); nt.links.new(mix.outputs[0], out.inputs['Surface'])
     try: bm.blend_method = 'BLEND'
@@ -178,7 +178,14 @@ def torch_on(parent, energy=1400, beam_len=6.0, beam_r=1.2, name='torch'):
     except Exception: pass
     beam = cyl((0, 0, -beam_len / 2), beam_r, beam_len, bm, verts=20, r2=0.03, parent=t, name=name + '_beamcone'); beam.visible_shadow = False
     t['light'] = L.name
+    t['beam'] = beam.name
     return t, L
+
+
+def font(path='/home/user/video/shorts/infection-rooftops/fonts/DejaVuSansMono-Bold.ttf'):
+    """a font with Cyrillic letters for the text in the scene"""
+    try: return bpy.data.fonts.load(path, check_existing=True)
+    except Exception as e: print('font', e); return None
 
 
 def volume_box(lo, hi, density, color=(0.85, 0.9, 1.0), aniso=0.45):
