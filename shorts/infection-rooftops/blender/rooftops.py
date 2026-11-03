@@ -190,11 +190,11 @@ HL.data.energy = 0                              # the hunter's torch stays off u
 beam_of(HT).hide_render = SHOT != 'B'
 if SHOT == 'A':     # behind the three on our roof; on the lower roof a torch blinks three times; a slow push
     cam_data.lens = 24
-    camkeys([(0, (3.6, -3.9, 2.6), (15.5, -0.8, -4.6)), (E, (4.4, -3.4, 2.4), (15.5, -0.8, -5.0))])
+    camkeys([(0, (4.0, -1.6, 9.5), (11.0, -0.8, -5.0)), (E, (4.7, -1.4, 8.4), (11.5, -0.8, -5.6))])     # high above, like a drone: the three, the drop, the lower roof
     KT.rotation_euler = (math.radians(-130), 0, 0)       # up at us
     s = int(E * 0.35); blink(KL, [(s, s + 6), (s + 12, s + 18), (s + 24, s + 30), (s + 44, E + 5)], 1600, beam_of(KT))
     key(HUN['head'], 'rotation_euler', 0, (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.5), (math.radians(-18), 0, 0))
-    fill_light((4, -3, 4), 60)
+    fill_light((4, -3, 4), 60); fill_light((16, -0.8, H17 + 6), 600, color=(0.6, 0.7, 1.0), size=8)       # the lower roof readable from above
 elif SHOT == 'B':   # low, ahead of him: he walks towards us at a slow pace, the torch pool just ahead of his boots; the dog beside
     cam_data.lens = 28
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); DOG['root'].rotation_euler = (0, 0, math.radians(90))
@@ -228,8 +228,9 @@ elif SHOT == 'D':   # from the lower roof, looking up the wall: he climbs down f
         hands = [Vector((LX, LY - 0.22, zz + 1.95 + 0.15 * a)), Vector((LX, LY + 0.22, zz + 1.85 - 0.15 * a))]
         foot = Vector((LX, LY + (0.12 if a else -0.12), zz + 0.12))
         for mk, p in zip(marks, hands + [foot]): key(mk, 'location', f, p)
-    cam_data.lens = 28
-    camkeys([(0, (11.2, -4.8, H17 + 1.2), (LX, LY, -6.4)), (E, (11.0, -4.6, H17 + 1.15), (LX, LY, -7.8))])
+    cam_data.lens = 32
+    camkeys([(0, (11.2, -4.8, H17 + 1.2), (LX, LY, -5.6)), (E, (11.0, -4.6, H17 + 1.15), (LX, LY, -7.4))])
+    fill_light((LX + 1.6, LY - 1.2, -5.5), 90, color=(0.75, 0.8, 1.0), size=1.5); fill_light((LX + 1.6, LY - 1.2, -8.5), 70, color=(0.75, 0.8, 1.0), size=1.5)
     KRA['root'].location = (12.2, -1.2, H17); SOL['root'].location = (12.9, -0.4, H17)
     KT.rotation_euler = (math.radians(-130), 0, math.radians(20)); KL.data.energy = 900
     fill_light((11, -4, H17 + 4), 120)
@@ -242,7 +243,7 @@ elif SHOT == 'E':   # the lower roof: the two of them, lit by the torch pointed 
     SOL['arms'][1].rotation_euler = (math.radians(-70), 0, 0)
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); walk(HUN, 0, int(E * 0.6), (11.5, -1.8, H17), (13.6, -1.6, H17))
     camkeys([(0, (13.5, -3.7, H17 + 1.5), (15.9, -0.3, H17 + 1.25)), (E, (13.9, -3.3, H17 + 1.45), (15.9, -0.3, H17 + 1.25))])
-    fill_light((14.5, -2.5, H17 + 3.2), 70, color=(0.75, 0.8, 1.0))
+    fill_light((14.6, -2.0, H17 + 2.6), 140, color=(0.75, 0.8, 1.0), size=2.5)
 elif SHOT == 'F':   # close on the radio in Соломия's hand: its screen; then the focus goes to the stadium far behind
     cam_data.lens = 50
     KRA['root'].location = (17.6, -2.6, H17); SOL['root'].location = (16.7, -0.2, H17)
