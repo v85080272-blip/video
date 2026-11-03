@@ -12,6 +12,7 @@ SHOT, F0, F1, OUT = args[0], int(args[1]), int(args[2]), args[3]
 PCT = int(args[4]) if len(args) > 4 else 75
 SAMPLES = int(args[5]) if len(args) > 5 else 16
 STEP = int(args[6]) if len(args) > 6 else 1      # 2: every other frame (15 fps), the 2D pass interpolates
+VOL = os.environ.get('VOL', '0') == '1'          # VOL=1: the haze in the air, the dust in the light, depth of field
 FPS = 30
 T_START = time.time()
 random.seed(7)
@@ -228,6 +229,44 @@ for k in (5, 10, 14):
     bpy.ops.object.light_add(type='AREA', location=(0, DEPTH + 0.3, (k - 1) * FH + 2.7), rotation=(math.radians(-90), 0, 0)); a = bpy.context.object
     a.data.energy = 260; a.data.size = 1.4; a.data.color = (0.55, 0.68, 1.0)
 
+# —— the air: a thin homogeneous haze that shows the light (the lift's glow, the torch beam, the depth of the shaft),
+# and dust motes drifting in it ——
+def volume_box(lo, hi, density, color=(0.85, 0.9, 1.0), aniso=0.45):
+    vm = bpy.data.materials.new('haze'); vm.use_nodes = True; nt = vm.node_tree; nt.nodes.clear()
+    pv = nt.nodes.new('ShaderNodeVolumePrincipled'); out = nt.nodes.new('ShaderNodeOutputMaterial')
+    pv.inputs['Density'].default_value = density; pv.inputs['Anisotropy'].default_value = aniso; pv.inputs['Color'].default_value = (*color, 1)
+    nt.links.new(pv.outputs['Volume'], out.inputs['Volume'])
+    c = [(a + b) / 2 for a, b in zip(lo, hi)]; sz = [b - a for a, b in zip(lo, hi)]
+    o = box(tuple(c), tuple(sz), vm, name='haze'); o.visible_shadow = False
+    return o
+def dust(n, lo, hi, frames, seed=11):
+    rnd = random.Random(seed)
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=1.0); proto = bpy.context.object; me = proto.data
+    # dust glows when the light is behind it: mostly translucent, a little diffuse
+    dm = bpy.data.materials.new('dust'); dm.use_nodes = True; nt = dm.node_tree; nt.nodes.clear()
+    tr = nt.nodes.new('ShaderNodeBsdfTranslucent'); df = nt.nodes.new('ShaderNodeBsdfDiffuse'); mx = nt.nodes.new('ShaderNodeMixShader'); out = nt.nodes.new('ShaderNodeOutputMaterial')
+    tr.inputs['Color'].default_value = (0.8, 0.77, 0.72, 1); df.inputs['Color'].default_value = (0.9, 0.88, 0.84, 1); mx.inputs['Fac'].default_value = 0.25
+    nt.links.new(tr.outputs[0], mx.inputs[1]); nt.links.new(df.outputs[0], mx.inputs[2]); nt.links.new(mx.outputs[0], out.inputs['Surface'])
+    me.materials.append(dm); bpy.data.objects.remove(proto)
+    for i in range(n):
+        o = bpy.data.objects.new('mote', me); col_main.objects.link(o)
+        r = rnd.uniform(0.003, 0.009); o.scale = (r, r, r); o.visible_shadow = False
+        p = Vector([rnd.uniform(a, b) for a, b in zip(lo, hi)])
+        v = Vector((rnd.gauss(0, 0.02), rnd.gauss(0, 0.02), rnd.gauss(-0.006, 0.01)))     # metres per second
+        w = Vector((rnd.gauss(0, 0.015), rnd.gauss(0, 0.015), rnd.gauss(0, 0.01)))
+        for f in (0, frames // 2, frames):
+            u = f / 30
+            o.location = p + v * u + (w if f == frames // 2 else Vector())
+            o.keyframe_insert('location', frame=f)
+if VOL:
+    if SHOT == 's2':
+        volume_box((-1.9, -1.45, -0.05), (0.9, 3.6, 2.6), 0.08)          # only where the lift light reaches: no noisy haze in the dark
+        dust(380, (-1.3, -1.35, 0.05), (0.3, 2.6, 2.2), 110)
+    else:
+        volume_box((W0, 0.0, -0.2), (W1, DEPTH, ZT + FH), 0.018 if SHOT == 's1' else 0.03)
+        if SHOT == 's1': dust(500, (-1.0, 0.9, ZT - 1.5), (1.0, 2.6, ZT + 2.0), 110, seed=12)
+        else: dust(600, (-1.4, 0.3, ZT + 0.1), (0.9, 2.4, ZT + 2.4), 150, seed=13)
+
 # —— the cameras and the actors' motion, frame by frame (30 fps) ——
 cam_data = bpy.data.cameras.new('cam'); cam = bpy.data.objects.new('cam', cam_data); col_main.objects.link(cam); sc.camera = cam
 cam_data.clip_start = 0.05; cam_data.clip_end = 120
@@ -235,16 +274,19 @@ def key(obj, path, f, val):
     setattr(obj, path, val); obj.keyframe_insert(path, frame=f)
 if SHOT == 's1':                 # down the gap from the 15th floor: a slow push down, a little roll
     cam_data.lens = 18
+    cam_data.dof.use_dof = VOL; cam_data.dof.focus_distance = 7.0; cam_data.dof.aperture_fstop = 4.0
     key(cam, 'location', 0, Vector((0.0, 1.6, ZT + 2.2))); key(cam, 'rotation_euler', 0, (math.radians(14), 0, math.radians(0)))
     key(cam, 'location', 100, Vector((0.02, 1.7, ZT + 1.6))); key(cam, 'rotation_euler', 100, (math.radians(9), 0, math.radians(6)))
 elif SHOT == 's2':               # the 1st floor: the open lift from the landing, a slow dolly in; someone inside
     cam_data.lens = 28
+    cam_data.dof.use_dof = VOL; cam_data.dof.focus_object = Z_head; cam_data.dof.aperture_fstop = 2.4
     key(cam, 'location', 0, Vector((0.1, 4.0, 1.4))); key(cam, 'rotation_euler', 0, (math.radians(88), 0, math.radians(171)))   # in the gap, clear of flight B (x ≥ 0.42)
     key(cam, 'location', 100, Vector((0.15, 3.0, 1.35))); key(cam, 'rotation_euler', 100, (math.radians(88), 0, math.radians(168)))
     key(Z_head, 'rotation_euler', 0, (0.35, 0, 0)); key(Z_head, 'rotation_euler', 55, (0.35, 0, 0)); key(Z_head, 'rotation_euler', 62, (0.45, 0, math.radians(-35))); key(Z_head, 'rotation_euler', 110, (0.45, 0, math.radians(-38)))
     for f in range(0, 111, 20): key(Z_root, 'rotation_euler', f, (0.03 * math.sin(f / 9), 0, math.radians(180 + 3 * math.sin(f / 13))))
 else:                            # s3: the three on the landing, the beam down the gap, she crosses herself, the dog peers down
     cam_data.lens = 22
+    cam_data.dof.use_dof = VOL; cam_data.dof.focus_object = G_head; cam_data.dof.aperture_fstop = 2.8
     look = empty((-0.55, 1.25, ZT + 0.85), 'look'); aim(cam, look)
     key(cam, 'location', 0, Vector((2.45, 0.15, ZT + 2.05))); key(cam, 'location', 140, Vector((2.3, 0.3, ZT + 1.95)))
     # the sign of the cross: forehead, chest, right shoulder, left shoulder
@@ -273,6 +315,7 @@ except Exception as e: print('beam emission sampling', e)
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = SAMPLES; sc.cycles.use_adaptive_sampling = True; sc.cycles.adaptive_threshold = 0.04
 sc.cycles.use_denoising = True; sc.cycles.max_bounces = 3; sc.cycles.diffuse_bounces = 2; sc.cycles.glossy_bounces = 1; sc.cycles.transparent_max_bounces = 8
 sc.render.use_persistent_data = True
+sc.cycles.volume_bounces = 0; sc.cycles.volume_step_rate = 4.0      # single scattering; the haze is homogeneous
 sc.render.resolution_x, sc.render.resolution_y = 1080, 1920; sc.render.resolution_percentage = PCT
 sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'; sc.view_settings.exposure = 1.0
 # (fog, glow and the grade are added in the 2D pass over these frames)
@@ -281,5 +324,6 @@ sc.frame_start, sc.frame_end = F0, F1
 sc.frame_step = STEP
 sc.render.filepath = os.path.join(OUT, '')
 sc.render.image_settings.file_format = 'PNG'
+sc.render.use_overwrite = False                  # a restarted run skips the frames already on disk
 t0 = time.time(); bpy.ops.render.render(animation=True)
 print(f'{SHOT}: {(F1 - F0) // STEP + 1} frames in {time.time() - t0:.0f} s')
