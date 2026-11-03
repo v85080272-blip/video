@@ -9,11 +9,12 @@ import sys
 import tempfile
 
 FPS = 30
-GRADE = ('split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.55:gimin=0.55:bimin=0.55,gblur=sigma=10,scale=1080:1920[gl];'
-         '[a][gl]blend=all_mode=screen:all_opacity=0.6,'
-         'eq=contrast=1.07:saturation=0.86:gamma=0.95,'
-         'colorbalance=rs=-0.04:bs=0.05:rh=0.04:gh=0.01:bh=-0.04,'
-         'vignette=angle=PI/4.3,noise=alls=3:allf=t')
+# in RGB (gbrp): the glow is a screen blend of the blurred highlights, which in YUV would tint the whole frame
+GRADE = ('format=gbrp,split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.6:gimin=0.6:bimin=0.6,gblur=sigma=10,scale=1080:1920[gl];'
+         '[a][gl]blend=all_mode=screen:all_opacity=0.55,'
+         'colorbalance=rs=-0.05:bs=0.06:rm=-0.02:bm=0.02:rh=0.04:gh=0.01:bh=-0.03,format=yuv444p,'
+         'eq=contrast=1.1:saturation=0.85:gamma=0.88:brightness=-0.02,'
+         'vignette=angle=PI/4.0,noise=alls=3:allf=t')
 
 
 def run(cmd):
