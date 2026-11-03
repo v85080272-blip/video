@@ -117,7 +117,7 @@ def main():
     fr = [round(e * FPS) for e in edges]
     s2 = 'f_s2v' if os.path.isdir(os.path.join(rdir, 'f_s2v')) and len(os.listdir(os.path.join(rdir, 'f_s2v'))) >= 49 else 'f_s2'
     plan = [('f_s1', Dust(200, 1, fall=(0, 4), inward=0.04, gain=1.7), ''),     # falling slowly down the shaft
-            (s2, None, 'hqdn3d=1.5:1.5:5:5' if s2 == 'f_s2v' else ''),
+            (s2, None, 'colorlevels=rimin=0.40:gimin=0.40:bimin=0.40,hqdn3d=1.5:1.5:5:5' if s2 == 'f_s2v' else ''),   # the haze lifts the blacks: put them back
             ('f_s3', Dust(220, 3, fall=(2, 2), gain=1.9), '')]
     with tempfile.TemporaryDirectory() as tmp:
         parts = []
