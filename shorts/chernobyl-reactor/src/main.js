@@ -81,7 +81,9 @@ function heights(t, t0, t1) {
   const base = 1240, k = 4.4, x1 = 690, x2 = 900;
   const g1 = seg(t0, t0 + 0.7, t, ease.out), g2 = seg(t0 + 0.35, t0 + 1.05, t, ease.out);
   g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = a;
-  fill(rrPath(x1 - 60, base - 108 * k * g1, 120, 108 * k * g1, 12), 'rgba(205,212,220,0.92)');
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.45)'; g.shadowBlur = 24; g.shadowOffsetY = 8;           // a dark card behind, the arch is pale
+  fill(rrPath(x1 - 140, base - 108 * k - 90, 500, 108 * k + 160, 22), 'rgba(11,15,26,0.82)'); g.restore();
+  fill(rrPath(x1 - 60, base - 108 * k * g1, 120, 108 * k * g1, 12), 'rgba(205,212,220,0.95)');
   const h2 = 93 * k * g2;                               // the statue: a stepped silhouette on its pedestal, the torch up
   g.save(); g.translate(x2, base); g.fillStyle = 'rgba(120,200,170,0.95)';
   g.fill(polyPath([[-48, 0], [48, 0], [40, -h2 * 0.5], [22, -h2 * 0.52], [18, -h2 * 0.82], [8, -h2 * 0.88], [14, -h2 * 0.94], [10, -h2], [2, -h2],
