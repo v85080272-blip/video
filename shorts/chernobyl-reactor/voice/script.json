@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Чернобыль: к реактору» (a new 3D series «Зона», episode 1). The hunter and Пурга go to the reactor with a guide. Facts: entry to the Exclusion Zone only on a licensed tour or with a permit from the State Agency for Exclusion Zone Management, no independent access; tourism is suspended under martial law since 2022 (Ukraine's environment minister: not before the war ends). Rules visitors sign: clothes that cover the body (no shorts, short sleeves, open shoes), no eating, drinking or smoking outdoors, do not touch buildings, trees, plants, do not sit on the ground or put things down, keep to the route. Moss collects caesium-137, a dosimeter jumps over it. Dose = rate × time: time, distance, shielding (CDC, ALARA). The Pripyat amusement park and its Ferris wheel were to open on 1 May 1986. The New Safe Confinement: 108 m high, 257 m span, 162 m long, completed 2019, hit by a drone on 14 Feb 2025. Stray dogs near the plant: visitors are told not to pet them, there can be radioactive dust in the fur (Clean Futures Fund). Radiation control frames at the exit checkpoints. A day tour gives about 2–7 µSv, like one or two hours in a plane. at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words; «пурга» lower case so the voice stresses it right).",
+ "note": "Narration for «Чернобыль: к реактору» (a new 3D series «Зона», episode 1). The hunter and Пурга go to the reactor with a guide. Facts: entry to the Exclusion Zone only on a licensed tour or with a permit from the State Agency for Exclusion Zone Management, no independent access; tourism is suspended under martial law since 2022 (Ukraine's environment minister: not before the war ends). Rules visitors sign: clothes that cover the body (no shorts, short sleeves, open shoes), no eating, drinking or smoking outdoors, do not touch buildings, trees, plants, do not sit on the ground or put things down, keep to the route. Moss collects caesium-137, a dosimeter jumps over it. Dose = rate × time: time, distance, shielding (CDC, ALARA). The Pripyat amusement park and its Ferris wheel were to open on 1 May 1986. The New Safe Confinement: 108 m high, 257 m span, 162 m long, completed 2019, hit by a drone on 14 Feb 2025. Stray dogs near the plant: visitors are told not to pet them, there can be radioactive dust in the fur (Clean Futures Fund). Radiation control frames at the exit checkpoints. A day tour gives about 2–7 µSv, like one or two hours in a plane. at/after/tail/sub as in the blackout season; tts = what the voice reads (digits in words; «пурга» lower case so the voice stresses it right). Added for a longer cut (about a minute): N1 — the arch could house the Statue of Liberty (93 m to the torch; the arch is 108 m; Live Science, Scientific American); N3 — no eating or drinking outdoors, the dust from the hands gets inside; N2 — Pripyat was evacuated on 27 April 1986 from 14:00, about 36 hours after the explosion, people were told it was for three days (ChNPP: about 45 000 taken out that day). N1–N3 are read in a take run of their own (OUT=/home/user/work/chernobyl-reactor-n).",
  "tail": 0.35,
  "lines": [
   {
@@ -10,6 +10,17 @@
     5,
     3,
     6
+   ]
+  },
+  {
+   "id": "N1",
+   "text": "Над реактором стальная арка: сто восемь метров. Под ней поместилась бы статуя Свободы.",
+   "after": 0.45,
+   "sub": [
+    4,
+    3,
+    4,
+    2
    ]
   },
   {
@@ -46,6 +57,16 @@
    ]
   },
   {
+   "id": "N3",
+   "text": "Четвёртое: не ешь и не пей на улице. Пыль с рук попадёт внутрь.",
+   "after": 0.4,
+   "sub": [
+    1,
+    7,
+    5
+   ]
+  },
+  {
    "id": "L4",
    "text": "Это Припять. Колесо обозрения должны были открыть к первому мая восемьдесят шестого.",
    "after": 0.5,
@@ -54,6 +75,17 @@
     2,
     3,
     5
+   ]
+  },
+  {
+   "id": "N2",
+   "text": "Город вывезли через тридцать шесть часов. Людям сказали: на три дня.",
+   "after": 0.45,
+   "sub": [
+    2,
+    4,
+    2,
+    3
    ]
   },
   {

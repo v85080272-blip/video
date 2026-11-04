@@ -844,11 +844,79 @@ def wind_gust(rng, dur=3.0, **_):
     return fade(norm(y, 0.5), 0.2, 0.4)
 
 
+# ——— «Чернобыль» ———
+def geiger(rng, dur=2.0, rate=3.0, rate2=None, **_):
+    """the dosimeter: dry random clicks (a Poisson stream); with rate2 the rate climbs to it over the cue"""
+    y = np.zeros(n_(dur + 0.1))
+    s = 0.0
+    while s < dur:
+        r = rate if rate2 is None else rate + (rate2 - rate) * min(1.0, s / max(0.1, dur * 0.7)) ** 2
+        add(y, s, hp(white(rng, 0.004), 2500) * env(0.004, 0.0003, 0.002) * rng.uniform(0.6, 1.0))
+        s += rng.exponential(1.0 / max(0.2, r))
+    return norm(y, 0.6)
+
+
+def zone_wind(rng, dur=4.0, **_):
+    """an open, empty place: a soft wind in the grass and the birches, now and then a leaf rustle"""
+    t = tt(dur)
+    y = lp(colored(rng, dur, -2), 900) * (0.75 + 0.25 * np.sin(TAU * 0.13 * t + 1.0))
+    y += bp(colored(rng, dur, -1), 2500, 7000) * 0.12 * (0.5 + 0.5 * np.sin(TAU * 0.31 * t) ** 2)
+    return fade(norm(y, 0.5), 0.5, 0.8)
+
+
+def crow(rng, **_):
+    """a crow far off: two harsh caws"""
+    y = np.zeros(n_(1.1))
+    for k in range(2):
+        d = 0.28
+        t = tt(d); f = (430 + rng.uniform(-20, 20)) * (1 - 0.12 * t / d)
+        tone = harm(TAU * np.cumsum(f) / SR, 10, 0.8)
+        c = bp(tone * (1 + 0.6 * colored(rng, d, 0)[:len(tone)]), 500, 3000) * env(d, 0.02, 0.15)
+        add(y, 0.05 + k * 0.42, c)
+    return fade(norm(verb(y, room(rng, 2.2, damp=3000), 0.5), 0.4), 0.005, 0.2)
+
+
+def wheel_creak(rng, dur=2.4, **_):
+    """the old Ferris wheel in the wind: a slow metal creak that bends in pitch"""
+    t = tt(dur)
+    f = 180 + 60 * np.sin(TAU * 0.6 * t) + 30 * np.sin(TAU * 1.7 * t)
+    ph = TAU * np.cumsum(f) / SR
+    y = (np.sign(np.sin(ph)) * 0.3 + np.sin(2 * ph) * 0.4 + np.sin(3.1 * ph) * 0.2) * np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 2
+    y = bp(y, 300, 2500) * (0.6 + 0.4 * (np.sin(TAU * 5.0 * t) > 0))
+    return fade(norm(verb(y, room(rng, 1.6, damp=3500), 0.4), 0.45), 0.1, 0.3)
+
+
+def bottle(rng, **_):
+    """a plastic bottle: the crackle of the plastic and a slosh of water"""
+    y = np.zeros(n_(0.9))
+    for k in range(5):
+        add(y, 0.02 + 0.05 * k, bp(white(rng, 0.03), 1500, 6000) * env(0.03, 0.001, 0.02) * rng.uniform(0.4, 0.9))
+    add(y, 0.3, bp(colored(rng, 0.45, -1), 300, 1800) * env(0.45, 0.05, 0.3) * 0.7)
+    return fade(norm(y, 0.5), 0.002, 0.1)
+
+
+def sniff(rng, dur=1.0, **_):
+    """a dog sniffing: quick short in-breaths through the nose"""
+    y = np.zeros(n_(dur + 0.1))
+    s = 0.0
+    while s < dur:
+        add(y, s, bp(white(rng, 0.07), 1500, 5500) * env(0.07, 0.005, 0.05))
+        s += rng.uniform(0.1, 0.16)
+    return fade(norm(y, 0.5), 0.002, 0.05)
+
+
+def bus_far(rng, dur=3.0, **_):
+    """a far, low rumble of engines that fades (the buses going out, remembered)"""
+    t = tt(dur)
+    y = lp(colored(rng, dur, -2), 220) * (1 - t / dur) ** 1.5 + 0.2 * np.sin(TAU * 48 * t) * (1 - t / dur) ** 2
+    return fade(norm(y, 0.45), 0.4, 0.6)
+
+
 FX = {k: v for k, v in globals().items() if callable(v) and k in (
     'city', 'hum_stop', 'ticks_up', 'ribbon', 'crowd_steps', 'drain', 'whoosh_down', 'pump', 'spark', 'node_off', 'amb_flat',
     'tap_squeak', 'tap_run', 'tap_cough', 'fill_plink', 'whine', 'paper', 'candle', 'fire_whoosh', 'fire', 'puff', 'morning',
     'squeak_dry', 'pour', 'flush', 'city_day', 'stamp', 'ding', 'pop_word', 'crowd_murmur', 'crowd_roar', 'gate_chain',
     'hooves', 'snort', 'cloth', 'wall_hit', 'tweet', 'thud', 'wood_clack', 'bark', 'screams', 'groans', 'car_alarm', 'scrape',
     'steps_out', 'zombie_growl', 'zombie_far', 'zombie_crowd', 'door_creak', 'door_unlock', 'door_open', 'stair_steps', 'heartbeat',
-    'breath', 'zipper', 'pan_clang', 'dog_growl', 'stairwell_air', 'lift_hum', 'cloth_soft', 'zombie_scare', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock', 'steps_roof', 'ladder_rung', 'radio_static', 'wind_gust')}
+    'breath', 'zipper', 'pan_clang', 'dog_growl', 'stairwell_air', 'lift_hum', 'cloth_soft', 'zombie_scare', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock', 'steps_roof', 'ladder_rung', 'radio_static', 'wind_gust', 'geiger', 'zone_wind', 'crow', 'wheel_creak', 'bottle', 'sniff', 'bus_far')}
 FX.update(power_down=power_down, whoosh=whoosh, whoosh_in=whoosh_in, blip=blip, click=click, toggle=toggle)

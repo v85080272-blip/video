@@ -1,7 +1,7 @@
-# The picture track of «По крышам»: the Blender frames of each shot (every 2nd or 3rd frame, 66 %) scaled to 1080×1920,
-# interpolated to 30 fps, graded like the 3D test (a glow round the lights, cold shadows and warm highlights, a vignette,
+# The picture track of «Чернобыль: к реактору»: the Blender frames of each shot (every 2nd or 3rd frame, 66 %) scaled to 1080×1920,
+# interpolated to 30 fps, graded for daylight (a soft glow round the brightest things, cool shadows, warm highlights, a vignette,
 # a little grain against banding in the dark) and cut to the shot lengths from build/cues.json.
-# usage: python3 tools/bg.py build/cues.json <render dir with f_A … f_G> build/bg.mp4
+# usage: python3 tools/bg.py build/cues.json <render dir with f_A … f_K> build/bg.mp4
 import json
 import os
 import subprocess
@@ -9,15 +9,16 @@ import sys
 import tempfile
 
 FPS = 30
-STEP = {'A': 3, 'B': 2, 'C': 2, 'D': 2, 'E': 2, 'F': 3, 'G': 3}
-# shot A is the hook, and the three on our roof sit in its upper corner: a little lift and no vignette there
-LIFT = {'A': 'eq=gamma=1.18:brightness=0.015,'}
-NOVIG = {'A'}
-GRADE = ('format=gbrp,split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.55:gimin=0.55:bimin=0.55,gblur=sigma=10,scale=1080:1920[gl];'
-         '[a][gl]blend=all_mode=screen:all_opacity=0.6,'
-         'colorbalance=rs=-0.05:bs=0.07:rm=-0.02:bm=0.03:rh=0.05:gh=0.01:bh=-0.03,format=yuv444p,'
-         'eq=contrast=1.08:saturation=0.9:gamma=0.95,'
-         'vignette=angle=PI/4.0,noise=alls=3:allf=t')
+STEP = {'A': 3, 'B': 3, 'C': 2, 'D': 2, 'E': 2, 'F': 2, 'G': 3, 'H': 3, 'I': 2, 'J': 2, 'K': 3}
+# by day: a soft glow only round the brightest things (the sky over the arch, the lamp), a little more contrast and
+# colour than the haze leaves, cool shadows and warm highlights, a light vignette and grain
+LIFT = {}
+NOVIG = set()
+GRADE = ('format=gbrp,split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.82:gimin=0.82:bimin=0.82,gblur=sigma=12,scale=1080:1920[gl];'
+         '[a][gl]blend=all_mode=screen:all_opacity=0.35,'
+         'colorbalance=rs=-0.03:bs=0.05:rm=-0.01:bm=0.02:rh=0.04:gh=0.01:bh=-0.03,format=yuv444p,'
+         'eq=contrast=1.12:saturation=1.08:gamma=0.97,'
+         'vignette=angle=PI/5.0,noise=alls=2:allf=t')
 
 
 def run(cmd):

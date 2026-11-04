@@ -6,10 +6,12 @@
 #     asphalt, moss in the cracks, a fenced patch with the radiation sign, sixteen-storey blocks behind.
 # The hunter and Пурга go with a guide (olive jacket, cap, the yellow dosimeter). A grey spring morning, a light haze.
 # usage: python blender/zone.py <shot A..H> <seconds> <out dir> [percent 66] [samples 16] [step 2] [first frame 0]
-#   A road: the three walk to the arch                      B bumper cars: «ничего не трогай», the guide stops his hand
-#   C moss: the dosimeter over the moss, close and low      D sign: past the radiation sign, quickly
-#   E wheel: the Ferris wheel that never opened             F dogs: Пурга meets the local dogs
-#   G frame: the radiation control frame at the exit        H end: the three at the road, the arch behind, the choice
+#   A road: the three walk to the arch (L0)                 B arch: under the arch, looking up its 108 m (N1)
+#   C bumper cars: the guide stops his hand (L1)            D moss: the dosimeter over the moss, close and low (L2)
+#   E sign: past the radiation sign, quickly (L3)           F water: no drinking outdoors, the bottle goes back (N3)
+#   G wheel: the Ferris wheel that never opened (L4)        H street: an empty street of Pripyat, a bus left behind (N2)
+#   I dogs: Пурга meets the local dogs (L5)                 J frame: the radiation control frame at the exit (L6)
+#   K end: the three at the road, the arch behind, the choice (L7–L8)
 import bpy, math, random, sys, os
 from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -145,12 +147,23 @@ def sun(energy, color, elev, azim, angle=6.0):
 box((PX / 2, 0, -0.05), (PX + 3000, 3000, 0.1), GRASS, name='ground')
 
 
+# the many small things (trees, moss) are copies of one mesh each, made without bpy.ops: far faster to build
+_PROTO = {}
+def proto(key, make):
+    if key not in _PROTO:
+        o = make(); _PROTO[key] = o.data; bpy.data.objects.remove(o)
+    return _PROTO[key]
+def inst(me, loc, scale=(1, 1, 1), rot=(0, 0, 0), name='inst'):
+    o = bpy.data.objects.new(name, me); kit.col().objects.link(o); o.location = loc; o.scale = scale; o.rotation_euler = rot
+    return o
 def birch(x, y, h, seed):
     r = random.Random(seed)
-    cyl((x, y, h / 2), 0.09 + 0.03 * r.random(), h, BIRCH, verts=7, rot=(r.uniform(-0.06, 0.06), r.uniform(-0.06, 0.06), 0), name='birch')
+    trunk = proto('trunk', lambda: cyl((0, 0, 0), 1.0, 1.0, BIRCH, verts=7)); crown = proto('crown', lambda: ico((0, 0, 0), 1.0, LEAF, sub=2))
+    rr = 0.09 + 0.03 * r.random()
+    inst(trunk, (x, y, h / 2), (rr, rr, h), (r.uniform(-0.06, 0.06), r.uniform(-0.06, 0.06), 0), 'birch')
     for k in range(4):
-        ico((x + r.uniform(-1, 1), y + r.uniform(-1, 1), h * r.uniform(0.62, 0.95)), r.uniform(1.0, 1.7), LEAF, sub=2, name='crown',
-            scale=(1, 1, r.uniform(0.9, 1.4)))
+        cr = r.uniform(1.0, 1.7)
+        inst(crown, (x + r.uniform(-1, 1), y + r.uniform(-1, 1), h * r.uniform(0.62, 0.95)), (cr, cr, cr * r.uniform(0.9, 1.4)), name='crown')
 
 
 # —— the plant: the arch over unit 4, the turbine hall, the road ——
@@ -257,7 +270,7 @@ MS = Vector((PX + 1.0, -6.0, 0.06))                # the moss patch
 rm = random.Random(21)
 for k in range(140):
     p = MS + Vector((rm.gauss(0, 0.35), rm.gauss(0, 0.25), 0))
-    ico(tuple(p), rm.uniform(0.03, 0.09), MOSS, sub=2, name='moss', scale=(1, 1, rm.uniform(0.35, 0.6)))
+    mr = rm.uniform(0.03, 0.09); inst(proto('moss', lambda: ico((0, 0, 0), 1.0, MOSS, sub=2)), tuple(p), (mr, mr, mr * rm.uniform(0.35, 0.6)), name='moss')
 box((PX + 2, -8, 0.03), (40, 16, 0.06), ASPH, name='park_path')
 # the blocks of Pripyat behind the park, birches everywhere between them
 rb = random.Random(5)
@@ -271,12 +284,34 @@ for k in range(120):
     if abs(y + 8) < 9 and abs(x - PX - 2) < 20: continue
     birch(x, y, rb.uniform(8, 16), 500 + k)
 
+# a street of Pripyat: blocks on both sides, birches grown up through the asphalt, a bus left where it stood
+SX0 = PX - 250.0
+box((SX0, 50, 0.03), (14, 420, 0.06), ASPH, name='street')
+rs = random.Random(31)
+for k in range(11):
+    for side in (-1, 1):
+        y = -120 + k * 36 + rs.uniform(-3, 3)
+        hgt = rs.choice([15.0, 27.0, 45.0])
+        box((SX0 + side * (24 + rs.uniform(0, 4)), y, hgt / 2), (14, 28, hgt), FDAY, name='sblock')
+for k in range(60):
+    x = SX0 + rs.uniform(-16, 16); y = rs.uniform(-110, 250)
+    if abs(x - SX0) < 2.5 and -15 < y < 15: continue
+    birch(x, y, rs.uniform(6, 13), 900 + k)
+BUS = Vector((SX0 + 3.2, 22, 0))
+box(BUS + Vector((0, 0, 1.75)), (2.5, 10.5, 2.6), YEL, name='bus'); box(BUS + Vector((0, 0, 2.3)), (2.52, 9.6, 0.8), DARK, name='bus_windows')
+for dy in (-3.6, 3.4):
+    for dx in (-1.15, 1.15): cyl(BUS + Vector((dx, dy, 0.48)), 0.48, 0.3, DARK, verts=12, rot=(0, math.pi / 2, 0), name='bus_wheel')
+
 # —— the people ——
 GUI = person(0.6, 0.0, 0, 'guide', rot=0.0)
 HUN = person(-0.6, 0.0, 0, 'hunter', rot=0.0)
 DOG = person(0.0, -0.8, 0, 'dog', rot=0.0)
 ST1 = person(3.0, 30.0, 0, 'stray1', rot=0.0)
 ST2 = person(4.0, 31.0, 0, 'stray2', rot=0.0)
+WATER = mat('water_bottle', (0.35, 0.6, 0.85), rough=0.15)
+BOT = empty((0, -0.02, -0.62), 'bottle', parent=HUN['arms'][1]); cyl((0, 0, 0.0), 0.04, 0.22, WATER, verts=10, parent=BOT); cyl((0, 0, 0.13), 0.02, 0.04, M['collar'], verts=8, parent=BOT)
+BOT.hide_render = True
+for ch in BOT.children: ch.hide_render = True
 
 
 def walk(P, f0, f1, p0, p1, swing=0.45, period=24):
@@ -320,7 +355,7 @@ def dof(dist, fstop=2.8):
 
 
 ARCHV = Vector((0, AY, 40))
-HAZE = 0.0035
+HAZE = 0.0018
 if SHOT == 'A':     # behind and low: the three walk up the road to the arch, which fills the morning haze ahead
     sky((0.42, 0.5, 0.62), (0.95, 0.78, 0.6), 1.1); sun(3.0, (1.0, 0.8, 0.6), 9, 200)
     cam_data.lens = 26
@@ -328,12 +363,21 @@ if SHOT == 'A':     # behind and low: the three walk up the road to the arch, wh
     for P in (GUI, HUN, DOG): P['root'].rotation_euler = (0, 0, math.pi)          # facing +y, to the arch
     GUI['arms'][1].rotation_euler = (math.radians(-55), 0, 0)                     # the dosimeter held out in front
     camkeys([(0, (0.4, -4.0, 1.05), (0.2, 60, 14)), (E, (0.4, 0.5, 1.15), (0.2, 60, 15))])
-    HAZE = 0.0045
-elif SHOT == 'B':   # the bumper cars: he reaches for a rusty car, the guide's hand comes up, his hand goes back
+    HAZE = 0.0024
+elif SHOT == 'B':   # under the arch: from the three, small by its end wall, the camera tilts up its 108 m
+    sky((0.42, 0.5, 0.62), (0.9, 0.8, 0.68), 1.0); sun(3.0, (1.0, 0.82, 0.62), 12, 200)
+    cam_data.lens = 18
+    yb = AY - 81 - 28
+    for P, dx in ((GUI, 1.0), (HUN, -0.2), (DOG, 0.4)): place(P, (dx, yb + (0.4 if P is DOG else 0), 0), (0, AY, 0))
+    key(HUN['head'], 'rotation_euler', 0, (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.5), (math.radians(-30), 0, 0))
+    camkeys([(0, (3.0, yb - 9.0, 1.2), (0.5, yb + 10, 2.5)), (int(E * 0.25), (3.0, yb - 9.0, 1.2), (0.5, yb + 10, 2.5)),
+             (E, (2.6, yb - 10.5, 1.0), (0.0, AY - 81, 70))])
+    HAZE = 0.0016
+elif SHOT == 'C':   # the bumper cars: he reaches for a rusty car, the guide's hand comes up, his hand goes back
     sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
     cam_data.lens = 32
     car = CARS[1].location
-    place(HUN, car + Vector((1.6, -1.6, -0.2)), car); place(GUI, car + Vector((2.6, -2.4, -0.2)), HUN['root'].location)
+    place(HUN, car + Vector((1.5, -1.5, -0.2)), car); place(GUI, car + Vector((3.1, -0.2, -0.2)), car + Vector((1.5, -1.5, 0)))   # side by side, both seen
     place(DOG, car + Vector((2.0, -2.9, -0.2)), car)
     sh = HUN['arms'][1]; key(sh, 'rotation_euler', 0, (0, 0, 0)); key(sh, 'rotation_euler', int(E * 0.3), (math.radians(-70), 0, 0))
     key(sh, 'rotation_euler', int(E * 0.48), (math.radians(-72), 0, 0)); key(sh, 'rotation_euler', int(E * 0.75), (math.radians(-10), 0, 0))
@@ -342,19 +386,19 @@ elif SHOT == 'B':   # the bumper cars: he reaches for a rusty car, the guide's h
     mid = (HUN['root'].location + car) / 2
     camkeys([(0, tuple(mid + Vector((3.2, -4.2, 1.5))), tuple(mid + Vector((0, 0, 0.9)))), (E, tuple(mid + Vector((2.6, -3.6, 1.4))), tuple(mid + Vector((0, 0, 0.9))))])
     dof((Vector((3.2, -4.2, 0.6))).length, 4.0)
-elif SHOT == 'C':   # low over the moss: the guide's hand brings the dosimeter down into the frame, the focus on it; boots and Пурга behind
+elif SHOT == 'D':   # low over the moss: the guide's hand brings the dosimeter down into the frame, the focus on it; boots and Пурга behind
     sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
     cam_data.lens = 40
     place(GUI, (PX + 60, 60, 0), (PX, 0, 0))                     # the guide himself stays out of the frame: only his arm comes in
     place(HUN, MS + Vector((-0.9, 1.5, -0.06)), MS); place(DOG, MS + Vector((0.7, 1.2, -0.06)), MS)
     pr = empty(tuple(MS + Vector((0.05, 0.15, 1.1))), 'probe')
-    cyl((0, 0.35, 0.25), 0.075, 0.7, M['olive'], verts=8, rot=(math.radians(-55), 0, 0), parent=pr); ico((0, 0.03, 0.03), 0.065, M['skin'], parent=pr)
+    cyl((0, 0.45, 0.32), 0.075, 0.95, M['olive'], verts=8, rot=(math.radians(-55), 0, 0), parent=pr); ico((0, 0.03, 0.03), 0.065, M['boots'], parent=pr)   # a gloved hand
     box((0, 0, -0.04), (0.07, 0.035, 0.13), M['dosim'], parent=pr); box((0, -0.019, -0.015), (0.05, 0.004, 0.035), M['lcd'], parent=pr)
     key(pr, 'location', 0, MS + Vector((0.05, 0.15, 0.95))); key(pr, 'location', int(E * 0.45), MS + Vector((0.02, 0.05, 0.22)))
     key(pr, 'location', E, MS + Vector((0.0, 0.04, 0.2)))
-    camkeys([(0, tuple(MS + Vector((0.12, -1.1, 0.28))), tuple(MS + Vector((0, 0.2, 0.25)))), (E, tuple(MS + Vector((0.08, -0.95, 0.26))), tuple(MS + Vector((0, 0.15, 0.22))))])
-    dof(1.05, 2.0)
-elif SHOT == 'D':   # past the fenced patch and its sign, quickly: a short, fast walk, the camera pans with them
+    camkeys([(0, tuple(MS + Vector((1.05, -0.55, 0.3))), tuple(MS + Vector((0, 0.1, 0.25)))), (E, tuple(MS + Vector((0.9, -0.5, 0.27))), tuple(MS + Vector((0, 0.08, 0.2))))])
+    dof(1.1, 2.0)                                  # from the side: the arm comes down across the frame, the hunter and Пурга soft behind
+elif SHOT == 'E':   # past the fenced patch and its sign, quickly: a short, fast walk, the camera pans with them
     sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
     cam_data.lens = 26
     y0 = SG.y - 2.0
@@ -363,13 +407,35 @@ elif SHOT == 'D':   # past the fenced patch and its sign, quickly: a short, fast
         (dog_trot(P, 0, E, (SG.x - 3.5 + dx, y0 + dy, 0), (SG.x + 7 + dx, y0 + dy, 0), period=10) if P is DOG else
          walk(P, 0, E, (SG.x - 3.5 + dx, y0 + dy, 0), (SG.x + 7 + dx, y0 + dy, 0), swing=0.55, period=16))
     camkeys([(0, (SG.x - 2.5, y0 - 6.0, 1.4), (SG.x - 0.5, y0 + 1.5, 1.2)), (E, (SG.x + 3.5, y0 - 6.0, 1.4), (SG.x + 4.5, y0 + 1.5, 1.2))])
-elif SHOT == 'E':   # the Ferris wheel that never opened: wide from below, the three small at its foot; a slow push and tilt up
+elif SHOT == 'F':   # no drinking outdoors: he lifts the bottle, the guide shakes his head, the bottle goes back down
+    sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
+    cam_data.lens = 35
+    c = Vector((PX - 4.0, -9.0, 0))
+    place(HUN, c + Vector((-0.6, 0, 0)), c + Vector((1, 0, 0))); place(GUI, c + Vector((0.65, 0.1, 0)), c + Vector((-1, 0, 0)))
+    place(DOG, c + Vector((-0.3, -0.9, 0)), c + Vector((1, -0.5, 0)))
+    BOT.hide_render = False
+    for ch in BOT.children: ch.hide_render = False
+    sh = HUN['arms'][1]
+    for f, a in [(0, -10), (int(E * 0.2), -10), (int(E * 0.38), -128), (int(E * 0.62), -128), (int(E * 0.82), -15), (E, -12)]:
+        key(sh, 'rotation_euler', f, (math.radians(a), 0, math.radians(-12)))
+    for f, a in [(int(E * 0.36), 0), (int(E * 0.42), 22), (int(E * 0.48), -22), (int(E * 0.54), 22), (int(E * 0.6), -18), (int(E * 0.66), 0)]:
+        key(GUI['head'], 'rotation_euler', f, (0, 0, math.radians(a)))
+    gs = GUI['arms'][0]; key(gs, 'rotation_euler', int(E * 0.33), (0, 0, 0)); key(gs, 'rotation_euler', int(E * 0.45), (math.radians(-80), 0, math.radians(15)))
+    key(gs, 'rotation_euler', int(E * 0.72), (math.radians(-80), 0, math.radians(15))); key(gs, 'rotation_euler', int(E * 0.88), (0, 0, 0))
+    camkeys([(0, tuple(c + Vector((0.4, -3.6, 1.45))), tuple(c + Vector((0, 0, 1.3)))), (E, tuple(c + Vector((0.2, -3.2, 1.45))), tuple(c + Vector((0, 0, 1.3))))])
+    dof(3.4, 4.0)
+elif SHOT == 'G':   # the Ferris wheel that never opened: wide from below, the three small at its foot; a slow push and tilt up
     sky((0.48, 0.55, 0.64), (0.8, 0.8, 0.78), 1.0); sun(2.4, (1.0, 0.9, 0.78), 22, 140)
     cam_data.lens = 22
     place(GUI, (WX - 2.0, WY - 7.0, 0), (WX, WY, 0)); place(HUN, (WX - 3.0, WY - 7.6, 0), (WX, WY, 5)); place(DOG, (WX - 2.4, WY - 8.4, 0), (WX, WY, 0))
     key(HUN['head'], 'rotation_euler', 0, (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.5), (math.radians(-22), 0, 0))
     camkeys([(0, (WX - 7.0, WY - 22.0, 1.3), (WX - 0.5, WY, 9.0)), (E, (WX - 6.0, WY - 19.0, 1.2), (WX - 0.5, WY, 11.0))])
-elif SHOT == 'F':   # by the road near the plant: Пурга and two local dogs sniff, tails go; the guide's hand says no; the arch soft behind
+elif SHOT == 'H':   # an empty street of Pripyat: blocks, birches through the asphalt, the bus; the camera moves slowly down it
+    sky((0.5, 0.56, 0.62), (0.8, 0.79, 0.76), 1.0); sun(2.0, (1.0, 0.92, 0.84), 28, 160)
+    cam_data.lens = 24
+    camkeys([(0, (SX0 - 1.0, -2.0, 1.6), (SX0 + 1.5, 60, 5.0)), (E, (SX0 - 0.8, 5.0, 1.65), (SX0 + 1.8, 66, 5.5))])     # towards the bus, 24 → 17 m
+    HAZE = 0.0022
+elif SHOT == 'I':   # by the road near the plant: Пурга and two local dogs sniff, tails go; the guide's hand says no; the arch soft behind
     sky((0.48, 0.55, 0.64), (0.85, 0.8, 0.74), 1.05); sun(2.6, (1.0, 0.86, 0.7), 16, 190)
     cam_data.lens = 45
     c = Vector((2.5, 120.0, 0))
@@ -382,7 +448,7 @@ elif SHOT == 'F':   # by the road near the plant: Пурга and two local dogs 
     key(gs, 'rotation_euler', E, (math.radians(-75), 0, math.radians(20)))
     camkeys([(0, tuple(c + Vector((0.3, -3.4, 0.55))), tuple(c + Vector((0.1, 0.4, 0.45)))), (E, tuple(c + Vector((0.1, -3.0, 0.55))), tuple(c + Vector((0.1, 0.4, 0.45))))])
     dof(3.4, 2.4)
-elif SHOT == 'G':   # the exit: the hunter steps through the control frame; its lamp goes green
+elif SHOT == 'J':   # the exit: the hunter steps through the control frame; its lamp goes green
     sky((0.48, 0.55, 0.64), (0.9, 0.78, 0.64), 1.05); sun(2.6, (1.0, 0.8, 0.6), 12, 210)
     cam_data.lens = 30
     HUN['root'].rotation_euler = (0, 0, 0)                   # facing −y: out, towards us
@@ -394,7 +460,7 @@ elif SHOT == 'G':   # the exit: the hunter steps through the control frame; its 
     bpy.ops.object.light_add(type='POINT', location=tuple(CK + Vector((0, -0.3, 2.5)))); gl = bpy.context.object; gl.data.color = (0.3, 1.0, 0.45); gl.data.shadow_soft_size = 0.1
     gl.data.energy = 0; gl.data.keyframe_insert('energy', frame=int(E * 0.5)); gl.data.energy = 60; gl.data.keyframe_insert('energy', frame=int(E * 0.55))
     camkeys([(0, tuple(CK + Vector((0.8, -5.5, 1.5))), tuple(CK + Vector((0, 0.5, 1.4)))), (E, tuple(CK + Vector((0.6, -4.8, 1.45))), tuple(CK + Vector((0, 0.2, 1.4))))])
-else:               # H: the end: the three by the road at sunset, the arch behind them; the camera rises
+else:               # K: the end: the three by the road at sunset, the arch behind them; the camera rises
     sky((0.36, 0.42, 0.6), (1.0, 0.62, 0.38), 1.1); sun(3.5, (1.0, 0.62, 0.35), 5, 250)
     cam_data.lens = 26
     c = Vector((0.5, 30.0, 0))
@@ -403,7 +469,7 @@ else:               # H: the end: the three by the road at sunset, the arch behi
     key(HUN['head'], 'rotation_euler', int(E * 0.3), (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.45), (0, 0, math.radians(-30)))
     key(HUN['head'], 'rotation_euler', int(E * 0.7), (0, 0, math.radians(-30))); key(HUN['head'], 'rotation_euler', int(E * 0.85), (0, 0, 0))
     camkeys([(0, tuple(c + Vector((1.2, -4.5, 1.0))), tuple(c + Vector((0, 40, 9)))), (E, tuple(c + Vector((1.6, -6.0, 2.6))), tuple(c + Vector((0, 60, 18))))])
-    HAZE = 0.004
+    HAZE = 0.0024
 # a light haze over the whole place: far things go pale and blue, the low sun shows in the air
 kit.volume_box((-700, -400, -1), (PX + 600, 900, 160), HAZE, color=(0.9, 0.92, 0.95), aniso=0.6)
 kit.ease_all()
