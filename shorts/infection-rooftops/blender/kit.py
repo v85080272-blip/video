@@ -159,24 +159,24 @@ def person(x, y, z, kind, rot=0.0):
     return P
 
 
+BEAM_DENSITY = float(os.environ.get('BEAM_DENSITY', '0.22'))
+
+
 def torch_on(parent, energy=1400, beam_len=6.0, beam_r=1.2, name='torch'):
     """a hand torch on an empty: the body, the glowing lens, a spot light and a visible beam cone; returns the empty"""
     t = empty((0, 0, 0), name, parent=parent)
-    cyl((0, 0, 0.09), 0.035, 0.18, M['torch'], verts=8, parent=t); cyl((0, 0, -0.005), 0.032, 0.01, M['lens'], verts=8, parent=t)
-    bpy.ops.object.light_add(type='SPOT', location=(0, 0, 0)); L = bpy.context.object; L.parent = t
-    L.data.energy = energy; L.data.spot_size = math.radians(26); L.data.spot_blend = 0.5; L.data.color = (1, 0.92, 0.75); L.data.shadow_soft_size = 0.02
+    for o in (cyl((0, 0, 0.09), 0.035, 0.18, M['torch'], verts=8, parent=t), cyl((0, 0, -0.005), 0.032, 0.01, M['lens'], verts=8, parent=t)):
+        o.visible_shadow = False                     # the light sits at the lens: the torch itself must not block it
+    bpy.ops.object.light_add(type='SPOT', location=(0, 0, -0.02)); L = bpy.context.object; L.parent = t
+    L.data.energy = energy; L.data.spot_size = math.radians(26); L.data.spot_blend = 0.75; L.data.color = (1, 0.92, 0.75); L.data.shadow_soft_size = 0.02
+    # the beam is air lit by the spot itself: a thin volume inside the cone, so it shows only where the light really is
+    # (its rim soft where the spot blends out, nothing while the torch is off), and never a solid wedge
     bm = bpy.data.materials.new(name + '_beam'); bm.use_nodes = True; nt = bm.node_tree; nt.nodes.clear()
-    out = nt.nodes.new('ShaderNodeOutputMaterial'); mix = nt.nodes.new('ShaderNodeMixShader'); tr = nt.nodes.new('ShaderNodeBsdfTransparent')
-    em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (1, 0.93, 0.78, 1); em.inputs['Strength'].default_value = 0.22
-    lw = nt.nodes.new('ShaderNodeLayerWeight'); lw.inputs['Blend'].default_value = 0.35
-    inv = nt.nodes.new('ShaderNodeMath'); inv.operation = 'MULTIPLY'; inv.inputs[1].default_value = 0.14
-    nt.links.new(lw.outputs['Facing'], inv.inputs[0]); nt.links.new(inv.outputs[0], mix.inputs['Fac'])
-    nt.links.new(tr.outputs[0], mix.inputs[1]); nt.links.new(em.outputs[0], mix.inputs[2]); nt.links.new(mix.outputs[0], out.inputs['Surface'])
-    try: bm.blend_method = 'BLEND'
-    except Exception: pass
-    try: bm.cycles.emission_sampling = 'NONE'
-    except Exception: pass
-    beam = cyl((0, 0, -beam_len / 2), beam_r, beam_len, bm, verts=20, r2=0.03, parent=t, name=name + '_beamcone'); beam.visible_shadow = False
+    out = nt.nodes.new('ShaderNodeOutputMaterial'); pv = nt.nodes.new('ShaderNodeVolumePrincipled')
+    pv.inputs['Color'].default_value = (1, 0.95, 0.85, 1); pv.inputs['Anisotropy'].default_value = 0.35
+    pv.inputs['Density'].default_value = BEAM_DENSITY
+    nt.links.new(pv.outputs['Volume'], out.inputs['Volume'])
+    beam = cyl((0, 0, -beam_len / 2), beam_r, beam_len, bm, verts=32, r2=0.03, parent=t, name=name + '_beamcone'); beam.visible_shadow = False
     t['light'] = L.name
     t['beam'] = beam.name
     return t, L

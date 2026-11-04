@@ -191,18 +191,21 @@ def fill_light(p, energy, color=(0.6, 0.7, 1.0), size=2.0):
 E = NF
 HL.data.energy = 0                              # the hunter's torch stays off unless a shot says so
 beam_of(HT).hide_render = SHOT != 'B'
-if SHOT == 'A':     # behind the three on our roof; on the lower roof a torch blinks three times; a slow push
+if SHOT == 'A':     # from the side, in the air between the houses: the three on our roof up left, the lower roof down right, where a torch beam blinks up at us
     cam_data.lens = 24
-    camkeys([(0, (4.0, -1.6, 9.5), (11.0, -0.8, -5.0)), (E, (4.7, -1.4, 8.4), (11.5, -0.8, -5.6))])     # high above, like a drone: the three, the drop, the lower roof
-    KT.rotation_euler = (math.radians(-130), 0, 0)       # up at us
+    cx, cy, cz = (float(v) for v in os.environ.get('ACAM', '11.0,-19.0,4.0').split(','))
+    lx, ly, lz = (float(v) for v in os.environ.get('ALOOK', '10.5,-1.0,-6.5').split(','))
+    camkeys([(0, (cx, cy, cz), (lx, ly, lz)), (E, (cx - 0.4, cy + 1.8, cz - 0.3), (lx, ly, lz - 0.3))])     # a slow push in
+    kit.aim(KT, kit.empty((9.5, 3.0, 2.0), 'ktorch_aim'))     # up towards our roof, a little to the side, so the beam is seen along its length
     s = int(E * 0.35); blink(KL, [(s, s + 6), (s + 12, s + 18), (s + 24, s + 30), (s + 44, E + 5)], 1600, beam_of(KT))
     key(HUN['head'], 'rotation_euler', 0, (0, 0, 0)); key(HUN['head'], 'rotation_euler', int(E * 0.5), (math.radians(-18), 0, 0))
-    fill_light((4, -3, 4), 60); fill_light((16, -0.8, H17 + 6), 600, color=(0.6, 0.7, 1.0), size=8)       # the lower roof readable from above
+    fill_light((4, -3, 4), 60); fill_light((16, -0.8, H17 + 6), 220, color=(0.6, 0.7, 1.0), size=8)       # the lower roof just readable
 elif SHOT == 'B':   # low, ahead of him: he walks towards us at a slow pace, the torch pool just ahead of his boots; the dog beside
     cam_data.lens = 28
     HUN['root'].rotation_euler = (0, 0, math.radians(90)); DOG['root'].rotation_euler = (0, 0, math.radians(90))
     walk(HUN, 0, E, (-1.2, -1.5, H22), (1.6, -1.5, H22)); dog_trot(DOG, 0, E, (-1.6, -0.75, H22), (1.2, -0.75, H22))
-    HUN['arms'][1].rotation_euler = (math.radians(-35), 0, 0); HL.data.energy = 1100; HT.rotation_euler = (math.radians(-35), 0, 0)
+    HUN['arms'][1].rotation_euler = (math.radians(-35), 0, 0); HL.data.energy = 1100
+    kit.aim(HT, kit.empty((0.0, -1.7, 0.0), 'htorch_aim', parent=HUN['root']))      # the beam on the roof a step and a half ahead of his boots
     camkeys([(0, (4.0, -2.5, 0.45), (0.0, -1.4, 0.65)), (E, (3.7, -2.4, 0.42), (1.4, -1.4, 0.6))])
     GRA['root'].location = (-3, 0.5, H22)
     fill_light((2.5, -3, 3), 40)
@@ -260,13 +263,21 @@ elif SHOT == 'F':   # close on the radio in Соломия's hand: its screen; t
     cam_data.dof.focus_distance = 1.0; cam_data.dof.keyframe_insert('focus_distance', frame=int(E * 0.45))
     cam_data.dof.focus_distance = 300; cam_data.dof.keyframe_insert('focus_distance', frame=int(E * 0.8))
     fill_light(tuple(rp + Vector((-0.6, -0.8, 0.8))), 8, size=0.8)
-else:               # G: the five at the far side of the lower roof, a safe way from the edge, the city and the stadium before them
+else:               # G: the five side by side at the far side of the lower roof, a safe way from the edge, looking at the stadium
     cam_data.lens = 24
-    for P, p in [(HUN, (21.5, 1.0)), (GRA, (20.8, 0.2)), (DOG, (21.9, 1.8)), (KRA, (22.3, -0.4)), (SOL, (21.0, 2.4))]:
-        P['root'].location = (*p, H17); P['root'].rotation_euler = (0, 0, math.radians(135))
+    fwd = Vector((SX - 21.5, SY - 0.8, 0)).normalized(); perp = Vector((fwd.y, -fwd.x, 0)); C = Vector((21.5, 0.8, H17))
+    face = math.atan2(fwd.x, -fwd.y)                     # a person faces −Y; this turns them to the stadium
+    for k, (P, dz) in enumerate([(SOL, 0.1), (HUN, -0.05), (DOG, 0.25), (GRA, 0.0), (KRA, 0.12)]):
+        P['root'].location = C + perp * ((k - 2) * 0.55) + fwd * dz; P['root'].rotation_euler = (0, 0, face + math.radians((k - 2) * -4))
     KT.rotation_euler = (math.radians(-60), 0, 0); KL.data.energy = 500
-    camkeys([(0, (18.8, -2.0, H17 + 1.7), (60, 60, -36)), (E, (18.0, -2.9, H17 + 2.3), (60, 60, -38))])
-    fill_light((19.5, -1.5, H17 + 3.5), 50)
+    hold_radio(-45)
+    key(KRA['head'], 'rotation_euler', int(E * 0.15), (0, 0, 0)); key(KRA['head'], 'rotation_euler', int(E * 0.25), (0, 0, math.radians(-28)))
+    key(KRA['head'], 'rotation_euler', int(E * 0.5), (0, 0, math.radians(-28))); key(KRA['head'], 'rotation_euler', int(E * 0.6), (0, 0, 0))
+    key(SOL['head'], 'rotation_euler', int(E * 0.2), (0, 0, 0)); key(SOL['head'], 'rotation_euler', int(E * 0.3), (0, 0, math.radians(25)))
+    key(SOL['head'], 'rotation_euler', int(E * 0.55), (0, 0, math.radians(25))); key(SOL['head'], 'rotation_euler', int(E * 0.65), (0, 0, 0))
+    c0 = C - fwd * 4.3 + perp * 0.35; c1 = C - fwd * 5.4 + perp * 0.6
+    camkeys([(0, (c0.x, c0.y, H17 + 1.3), tuple(C + fwd * 6 + Vector((0, 0, 2.0)))), (E, (c1.x, c1.y, H17 + 2.2), tuple(C + fwd * 40 + Vector((0, 0, 2.5))))])     # low enough under the cards
+    fill_light(tuple(C - fwd * 2.0 + Vector((0, 0, 3.5))), 70)
 if VOL:
     kit.volume_box((-12, -9, -16), (30, 9, 6), 0.012)
 kit.ease_all()

@@ -53,8 +53,8 @@ export function frame(t) {
   Hd.timeStamp(t, T.cD + 0.2, T.cE - 0.2, '22:09 — ПОЖАРНАЯ ЛЕСТНИЦА', { y: 170 });
   Hd.timeStamp(t, T.cE + 0.2, DUR, '22:12 — СОСЕДНИЙ ПОДЪЕЗД', { y: 170 });
   if (t < T.cB) {
-    Hd.plaque(t, A.L0w1, T.cB - 0.05, 540, 330, { icon: 'comment', title: 'ВЫ ВЫБРАЛИ: К НИМ', sub: 'по вашим комментариям', color: GOLD });
-    Hd.plaque(t, A.L0w8 - 0.1, T.cB - 0.05, 540, 470, { icon: 'stairs', title: 'НА 5 ЭТАЖЕЙ НИЖЕ', sub: 'соседний подъезд', color: WARM, size: 38 });
+    Hd.plaque(t, A.L0w1, T.cB - 0.05, 640, 330, { icon: 'comment', title: 'ВЫ ВЫБРАЛИ: К НИМ', sub: 'по вашим комментариям', color: GOLD });
+    Hd.plaque(t, A.L0w8 - 0.1, T.cB - 0.05, 660, 470, { icon: 'stairs', title: 'НА 5 ЭТАЖЕЙ НИЖЕ', sub: 'соседний подъезд', color: WARM, size: 38 });
   }
   Hd.stepHeader(t, 1, 'ТОЛЬКО ШАГОМ', A.L1 + 0.02, A.L1e - 0.05);
   if (t >= T.cB && t < T.cC) Hd.plaque(t, A.L1w4, T.cC - 0.05, 540, 470, { icon: 'torch', title: 'СВЕТИ ПОД НОГИ', sub: 'видишь, куда ступаешь', color: OK, size: 40 });
@@ -63,8 +63,8 @@ export function frame(t) {
   Hd.stepHeader(t, 3, 'ТРИ ТОЧКИ ОПОРЫ', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.cD && t < T.cE) Hd.plaque(t, A.L3w8 - 0.05, T.cE - 0.05, 540, 470, { icon: 'check', title: '2 РУКИ + 1 НОГА', sub: 'или 2 ноги + 1 рука', color: OK, size: 40 });
   if (t >= T.cE && t < T.cF) {
-    Hd.plaque(t, T.names, T.cF - 0.05, 300, 380, { icon: 'torch', title: 'КРАСОТКА', sub: '@красотка-ь2ж6д', color: '#c59bff', size: 40 });
-    Hd.plaque(t, T.names + 0.35, T.cF - 0.05, 780, 520, { icon: 'phone', title: 'СОЛОМИЯ', sub: '@СоломіяАртемчук', color: '#ffd23f', size: 40 });
+    Hd.plaque(t, T.names, T.cF - 0.05, 780, 380, { icon: 'torch', title: 'КРАСОТКА', sub: '@красотка-ь2ж6д', color: '#c59bff', size: 40 });
+    Hd.plaque(t, T.names + 0.35, T.cF - 0.05, 300, 520, { icon: 'phone', title: 'СОЛОМИЯ', sub: '@СоломіяАртемчук', color: '#ffd23f', size: 40 });
   }
   if (t >= T.cF && t < T.cG) Hd.plaque(t, T.radio, T.cG - 0.05, 540, 380, { icon: 'clock', title: 'ЭВАКУАЦИЯ В 7:00', sub: 'со стадиона', color: GOLD, size: 46 });
   if (t >= T.cG) {
