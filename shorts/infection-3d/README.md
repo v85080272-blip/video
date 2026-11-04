@@ -39,8 +39,12 @@ cd tools && python3 music.py ../build/cues.json ../build/music.wav && python3 mi
 /home/user/work/i3d-render.sh
 python3 tools/bg3d.py build/cues.json /home/user/work/infection-3d-r build/bg.mp4
 OVERLAY=1 FPS=30 node render.mjs video build/overlay.mov 1
-ffmpeg -i build/bg.mp4 -i build/overlay.mov -i build/mix.wav -filter_complex "[0:v][1:v]overlay=format=auto,format=yuv420p[v]" -map "[v]" -map 2:a -c:v libx264 -preset slow -crf 16 -c:a aac -b:a 256k -ar 48000 -shortest -movflags +faststart out/zarazhenie-3d-proba.mp4
+ffmpeg -i build/bg.mp4 -i build/overlay.mov -i build/mix.wav -filter_complex "[0:v][1:v]overlay=format=auto,format=yuv420p[v];[2:a]afade=t=out:st=10.76:d=0.9[a]" -map "[v]" -map "[a]" -c:v libx264 -preset slow -crf 16 -c:a aac -b:a 256k -ar 48000 -shortest -movflags +faststart out/zarazhenie-3d-proba.mp4
 ```
 
 Голос: L0 s5, L1 s3, L2 s4 (дубли в `/home/user/work/infection-3d`). Проверены ударения «двЕри», «пургА», «лАяла».
 У отброшенных дублей были «стОит», «пУрга», «лаЯла».
+
+Статус 04.11: все три плана пересчитаны с настоящей дымкой и пылью из Blender (`VOL=1`: f_s1v, f_s2v, f_s3v). Собака на площадке больше не в перилах.
+Проверка `qa/check_clip.py` прошла без ошибок: −14,3 LUFS, пик −1,1 dBTP, 11,6 с. В конце звук затухает за 0,9 с: в сборку добавлен `afade`.
+
