@@ -120,7 +120,7 @@ def main():
     s1 = 'f_s1v' if have('f_s1v', 49) else 'f_s1'
     s2 = 'f_s2v' if have('f_s2v', 49) else 'f_s2'
     s3 = 'f_s3v' if have('f_s3v', 71) else 'f_s3'
-    plan = [(s1, None if s1 == 'f_s1v' else Dust(200, 1, fall=(0, 4), inward=0.04, gain=1.7), ''),     # falling slowly down the shaft
+    plan = [(s1, None if s1 == 'f_s1v' else Dust(200, 1, fall=(0, 4), inward=0.04, gain=1.7), 'colorlevels=rimin=0.12:gimin=0.12:bimin=0.12,hqdn3d=1.5:1.5:5:5' if s1 == 'f_s1v' else ''),     # falling slowly down the shaft
             (s2, None, 'colorlevels=rimin=0.40:gimin=0.40:bimin=0.40,hqdn3d=1.5:1.5:5:5' if s2 == 'f_s2v' else ''),   # the haze lifts the blacks: put them back
             (s3, None if s3 == 'f_s3v' else Dust(220, 3, fall=(2, 2), gain=1.9), 'colorlevels=rimin=0.15:gimin=0.15:bimin=0.15,hqdn3d=1.5:1.5:5:5' if s3 == 'f_s3v' else '')]
     with tempfile.TemporaryDirectory() as tmp:
