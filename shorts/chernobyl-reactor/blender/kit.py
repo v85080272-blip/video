@@ -117,6 +117,7 @@ def person(x, y, z, kind, rot=0.0):
         box((0, 0.24, 1.2), (0.34, 0.2, 0.5), M['pack'], parent=root)
         head = empty((0, 0, 1.62), 'head', parent=root)
         ico((0, 0, 0.1), 0.17, M['skin'], parent=head); ico((0, -0.09, 0.01), 0.14, M['beard'], parent=head, scale=(1, 0.8, 1))
+        ico((0, 0.05, 0.12), 0.165, M['beard'], parent=head, scale=(1.02, 0.95, 0.95))          # the hair at the back, so from behind he reads from behind
         cyl((0, 0, 0.27), 0.19, 0.16, M['hat'], verts=10, parent=head); cyl((0, 0, 0.2), 0.21, 0.07, M['fur'], verts=10, parent=head)
         P['arms'] = _arms(root, 0.3, 1.45, 0.56, M['jacket'], M['skin'])
     elif kind == 'granny':
@@ -154,6 +155,7 @@ def person(x, y, z, kind, rot=0.0):
         cyl((0, 0, 1.17), 0.24, 0.72, M['olive'], r2=0.2, parent=root, name='torso')
         head = empty((0, 0, 1.6), 'uhead', parent=root)
         ico((0, 0, 0.1), 0.16, M['skin'], parent=head); cyl((0, 0, 0.22), 0.17, 0.1, M['cap'], verts=12, parent=head)
+        ico((0, 0.05, 0.11), 0.155, M['hat'], parent=head, scale=(1.02, 0.95, 0.9))               # short hair at the back
         box((0, -0.18, 0.18), (0.26, 0.14, 0.025), M['cap'], parent=head)
         P['arms'] = _arms(root, 0.29, 1.45, 0.56, M['olive'], M['skin'], tag='ush')
         dz = empty((0, -0.05, -0.62), 'dosimeter', parent=P['arms'][1])

@@ -375,17 +375,18 @@ elif SHOT == 'B':   # under the arch: from the three, small by its end wall, the
     HAZE = 0.0016
 elif SHOT == 'C':   # the bumper cars: he reaches for a rusty car, the guide's hand comes up, his hand goes back
     sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
-    cam_data.lens = 32
-    car = CARS[1].location
-    place(HUN, car + Vector((1.5, -1.5, -0.2)), car); place(GUI, car + Vector((3.1, -0.2, -0.2)), car + Vector((1.5, -1.5, 0)))   # side by side, both seen
-    place(DOG, car + Vector((2.0, -2.9, -0.2)), car)
+    cam_data.lens = 30
+    car = CARS[1].location.copy()
+    place(HUN, car + Vector((0.0, -1.35, -0.2)), car); place(GUI, car + Vector((-0.9, -2.5, -0.2)), car + Vector((0.0, -1.35, 0)))
+    place(DOG, car + Vector((0.5, -2.3, -0.2)), car)                                  # seen from the side: his arm goes out across the frame
     sh = HUN['arms'][1]; key(sh, 'rotation_euler', 0, (0, 0, 0)); key(sh, 'rotation_euler', int(E * 0.3), (math.radians(-70), 0, 0))
     key(sh, 'rotation_euler', int(E * 0.48), (math.radians(-72), 0, 0)); key(sh, 'rotation_euler', int(E * 0.75), (math.radians(-10), 0, 0))
-    gs = GUI['arms'][0]; key(gs, 'rotation_euler', int(E * 0.25), (0, 0, 0)); key(gs, 'rotation_euler', int(E * 0.42), (math.radians(-80), 0, math.radians(-25)))
-    key(gs, 'rotation_euler', int(E * 0.8), (math.radians(-80), 0, math.radians(-25)))
-    mid = (HUN['root'].location + car) / 2
-    camkeys([(0, tuple(mid + Vector((3.2, -4.2, 1.5))), tuple(mid + Vector((0, 0, 0.9)))), (E, tuple(mid + Vector((2.6, -3.6, 1.4))), tuple(mid + Vector((0, 0, 0.9))))])
-    dof((Vector((3.2, -4.2, 0.6))).length, 4.0)
+    gs = GUI['arms'][0]; key(gs, 'rotation_euler', int(E * 0.25), (0, 0, 0)); key(gs, 'rotation_euler', int(E * 0.42), (math.radians(-85), 0, 0))
+    key(gs, 'rotation_euler', int(E * 0.8), (math.radians(-85), 0, 0))
+    for f, a_ in [(int(E * 0.42), 0), (int(E * 0.5), 20), (int(E * 0.58), -20), (int(E * 0.66), 0)]: key(GUI['head'], 'rotation_euler', f, (0, 0, math.radians(a_)))
+    tgt = car + Vector((0.0, -1.3, 0.95))
+    camkeys([(0, tuple(car + Vector((4.3, -1.5, 1.35))), tuple(tgt)), (E, tuple(car + Vector((3.9, -1.4, 1.3))), tuple(tgt))])
+    dof(4.2, 4.0)
 elif SHOT == 'D':   # low over the moss: the guide's hand brings the dosimeter down into the frame, the focus on it; boots and Пурга behind
     sky((0.5, 0.56, 0.62), (0.78, 0.78, 0.76), 1.0); sun(2.2, (1.0, 0.92, 0.82), 25, 150)
     cam_data.lens = 40
