@@ -35,7 +35,7 @@ Hd.SUB.y = 1450; Hd.SUB.size = 78; Hd.SUB.lead = 92;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ЧЕРНОБЫЛЯ: GOLD, ГИДОМ: GOLD, ПРОПУСКУ: GOLD, МЕТРОВ: GOLD, СВОБОДЫ: GOLD, ОДЕЖДА: OK, ТРОГАЙ: DANGER, ЗЕМЛЮ: DANGER,
-  МОХ: DANGER, ЗАПИЩИТ: DANGER, ЗАДЕРЖИВАЙСЯ: GOLD, ДОЗА: OK, УЛИЦЕ: DANGER, ВНУТРЬ: DANGER, ПРИПЯТЬ: GOLD, ШЕСТОГО: GOLD,
+  МОХ: DANGER, ГУБКА: DANGER, ЗАДЕРЖИВАЙСЯ: GOLD, ДОЗА: OK, УЛИЦЕ: DANGER, ВНУТРЬ: DANGER, ПРИПЯТЬ: GOLD, ШЕСТОГО: GOLD,
   ЧАСОВ: GOLD, ДНЯ: DANGER, СОБАК: GOLD, НЕЛЬЗЯ: DANGER, ЧИСТО: OK, САМОЛЁТЕ: GOLD, ДУГА: GOLD, ЛЕС: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
