@@ -80,7 +80,7 @@ export function frame(t) {
       g.restore();
     });
   }
-  if (t >= T.c8) Hd.plaque(t, A.L7w1 - 0.1, DUR + 1, 540, 620, { icon: 'comment', title: '«ВОЗЬМИ С СОБОЙ»', sub: 'и в серии 5 ты с нами', color: GOLD, size: 52 });
+  if (t >= T.c8) Hd.plaque(t, A.L7w1 - 0.1, DUR + 1, 540, 730, { icon: 'comment', title: '«ВОЗЬМИ С СОБОЙ»', sub: 'и в серии 5 ты с нами', color: GOLD, size: 52 });
   Hd.endCard(t, A.L7w12 - 0.1, 0, 300);
   Hd.karaoke(t, SUBS, HOT);
 }

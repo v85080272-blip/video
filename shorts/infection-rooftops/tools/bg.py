@@ -10,6 +10,9 @@ import tempfile
 
 FPS = 30
 STEP = {'A': 3, 'B': 2, 'C': 2, 'D': 2, 'E': 2, 'F': 3, 'G': 3}
+# shot A is the hook, and the three on our roof sit in its upper corner: a little lift and no vignette there
+LIFT = {'A': 'eq=gamma=1.18:brightness=0.015,'}
+NOVIG = {'A'}
 GRADE = ('format=gbrp,split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.55:gimin=0.55:bimin=0.55,gblur=sigma=10,scale=1080:1920[gl];'
          '[a][gl]blend=all_mode=screen:all_opacity=0.6,'
          'colorbalance=rs=-0.05:bs=0.07:rm=-0.02:bm=0.03:rh=0.05:gh=0.01:bh=-0.03,format=yuv444p,'
@@ -29,7 +32,9 @@ def shot(src, step, n, out, tmp):
         os.symlink(os.path.abspath(os.path.join(src, f)), os.path.join(seq, f'{i:04d}.png'))
     have = (len(frames) - 1) * step + 1
     assert have >= n, f'{src}: {have} frames at 30 fps, the shot needs {n}'
-    vf = f'scale=1080:1920:flags=lanczos,minterpolate=fps={FPS}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1,' + GRADE
+    name = os.path.basename(src)[2:]
+    grade = GRADE.replace(',vignette=angle=PI/4.0', '') if name in NOVIG else GRADE
+    vf = f'scale=1080:1920:flags=lanczos,minterpolate=fps={FPS}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1,' + LIFT.get(name, '') + grade
     run(['ffmpeg', '-v', 'error', '-y', '-framerate', f'{FPS}/{step}', '-i', os.path.join(seq, '%04d.png'), '-filter_complex', vf,
          '-frames:v', str(n), '-r', str(FPS), '-c:v', 'libx264', '-preset', 'medium', '-crf', '10', '-pix_fmt', 'yuv420p', out])
 
