@@ -36,7 +36,7 @@ const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.i
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ЧЕРНОБЫЛЯ: GOLD, ГИДОМ: GOLD, ПРОПУСКУ: GOLD, МЕТРОВ: GOLD, СВОБОДЫ: GOLD, ОДЕЖДА: OK, ТРОГАЙ: DANGER, ЗЕМЛЮ: DANGER,
   МОХ: DANGER, ГУБКА: DANGER, ЗАДЕРЖИВАЙСЯ: GOLD, ДОЗА: OK, УЛИЦЕ: DANGER, ВНУТРЬ: DANGER, ПРИПЯТЬ: GOLD, ШЕСТОГО: GOLD,
-  ЧАСОВ: GOLD, ДНЯ: DANGER, СОБАК: GOLD, НЕЛЬЗЯ: DANGER, ЧИСТО: OK, САМОЛЁТЕ: GOLD, ДУГА: GOLD, ЛЕС: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  ЧАСОВ: GOLD, ДНЯ: DANGER, СОБАК: GOLD, ТРОГАТЬ: DANGER, НЕЛЬЗЯ: DANGER, ЧИСТО: OK, САМОЛЁТЕ: GOLD, ДУГА: GOLD, ЛЕС: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
 const SH = [['A', 'L0'], ['B', 'N1'], ['C', 'L1'], ['D', 'L2'], ['E', 'L3'], ['F', 'N3'], ['G', 'L4'], ['H', 'N2'], ['I', 'L5'], ['J', 'L6'], ['K', 'L7']];
@@ -126,7 +126,7 @@ export function frame(t) {
     Hd.plaque(t, A.N2w2 - 0.05, T.cI - 0.05, 540, 330, { icon: 'clock', title: 'ЧЕРЕЗ 36 ЧАСОВ', sub: '27 апреля, 14:00 — автобусы', color: WARM, size: 42 });
     Hd.plaque(t, A.N2w7 - 0.1, T.cI - 0.05, 540, 520, { icon: 'comment', title: '«НА ТРИ ДНЯ»', sub: 'около 45 000 человек', color: DANGER, size: 46 });
   }
-  if (inShot(t, 'I')) Hd.plaque(t, A.L5w4 - 0.05, T.cJ - 0.05, 540, 420, { icon: 'x', title: 'НЕ ГЛАДЬ', sub: 'на шерсти бывает пыль', color: DANGER, size: 46 });
+  if (inShot(t, 'I')) Hd.plaque(t, A.L5b - 0.05, T.cJ - 0.05, 540, 420, { icon: 'x', title: 'НЕ ГЛАДЬ И НЕ ТРОГАЙ', sub: 'на шерсти бывает пыль', color: DANGER, size: 44 });
   if (inShot(t, 'J')) {
     const k = clamp(sp(t, T.lamp, 2.6, 8));
     if (k > 0.01) {

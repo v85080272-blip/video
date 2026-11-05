@@ -70,7 +70,7 @@ def score(M, dur):
 
     e = S['E'] = Sec(dur, stop=end0, over=0.05)                        # the choice
     e.wet.add(c['K'], saws(rng, [45, 52, 57, 62], end0 - c['K'] + 0.2, attack=0.4, release=0.3, bright=900), -15, 0.0)
-    for i, t in enumerate(grid(c['K'] + 0.3, end0, BEAT / 2)):
+    for i, t in enumerate(grid(c['K'] + 0.3, A['L7w8'] - 0.05, BEAT / 2)):      # the pulse stops at «Пиши один или два»: the words stay clear
         e.dry.add(t, pizz(rng, [45, 45, 52, 45][i % 4], 0.4), -13, -0.1)
         if i % 2 == 0:
             e.dry.add(t, timp(rng, 33, 0.3), -14, 0.0)
