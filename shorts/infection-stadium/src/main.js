@@ -36,6 +36,7 @@ for (const id of Object.keys(FB)) {
   A[id] = LN(id)?.at ?? FB[id][0]; A[id + 'e'] = LN(id)?.end ?? FB[id][1];
   for (let i = 0; i < Math.max(n, FB[id][2]); i++) A[id + 'w' + i] = ws ? ws[Math.min(i, n - 1)].s : lerp(FB[id][0], FB[id][1], i / FB[id][2]);
 }
+Hd.SUB.y = 1440; Hd.SUB.size = 80; Hd.SUB.lead = 94;           // under the floor line (y ≈ 1160), clear of the feet
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СТАДИОНА: GOLD, ОНИ: DANGER, СЕМЬ: GOLD, ОТСТАТЬ: DANGER, ВСТРЕТИТЬСЯ: GOLD, ПАРАМИ: GOLD, СВОЕГО: GOLD, ДОКУМЕНТЫ: GOLD,
