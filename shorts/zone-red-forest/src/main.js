@@ -33,8 +33,8 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, ПОРЫЖЕЛИ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
-  АСФАЛЬТЕ: GOLD, РОТ: GOLD, ПЫЛЬ: DANGER, ГРИБОВ: DANGER, РЕКИ: DANGER, ЗАРЫЧАЛА: DANGER, СЕМЬ: DANGER, БЕГИ: DANGER, ВЫШЕ: GOLD,
+const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, РЫЖИМИ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
+  АСФАЛЬТЕ: GOLD, РОТ: GOLD, ПЫЛЬ: DANGER, ГРИБОВ: DANGER, РЕКИ: DANGER, ЗАРЫЧАЛА: DANGER, ВОЛКИ: DANGER, СЕМЬ: DANGER, БЕГИ: DANGER, ВЫШЕ: GOLD,
   ЛИЦОМ: GOLD, РАЗВИЛКА: GOLD, ДУГА: GOLD, ПРИПЯТЬ: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the beats ——
@@ -42,7 +42,7 @@ const T = {
   cover: 0.3,
   bus: A.L0w2,                       // «от группы»: the bus far off, leaving
   c1: A.L1 - 0.06,                   // 1986: the pines go ginger
-  dead: A.L1w9 - 0.05,
+  dead: A.L1w10 - 0.05,
   c2: A.L2 - 0.06,                   // the bulldozer, the trenches, the sand
   click: A.L2w7 - 0.05,
   c3: A.L3 - 0.06,                   // out of the forest onto the asphalt
@@ -382,7 +382,7 @@ function overlays(t, cam, a) {
   if (sc === 'mush') Hd.plaque(t, A.L5w3 - 0.05, T.c6 - 0.05, 540, 470, { icon: 'x', title: 'ГРИБЫ КОПЯТ ЦЕЗИЙ', sub: 'больше всего в лесу', color: DANGER, size: 40 });
   if (sc === 'river') Hd.plaque(t, A.L6w2 - 0.05, T.c7 - 0.05, 540, 420, { icon: 'drop', title: 'НЕ ПЕЙ ИЗ РЕКИ', sub: 'даже если очень хочется', color: DANGER, size: 42 });
   if (sc === 'wolves') {
-    if (t < T.c8) Hd.plaque(t, A.L7w8 - 0.05, T.c8 - 0.05, 540, 400, { icon: 'x', title: 'ВОЛКОВ ×7', sub: 'чем в заповедниках', color: DANGER, size: 52 });
+    if (t < T.c8) Hd.plaque(t, A.L7w9 - 0.05, T.c8 - 0.05, 540, 400, { icon: 'x', title: 'ВОЛКОВ ×7', sub: 'чем в заповедниках', color: DANGER, size: 52 });
     else [['НЕ БЕГИ', A.L8], ['СТАНЬ ВЫШЕ И КРИЧИ', A.L8w2], ['ОТХОДИ ЛИЦОМ К НИМ', A.L8w6]].forEach(([s, t0], i) =>
       Hd.plaque(t, t0, T.c9 - 0.05, 540, 330 + i * 120, { icon: i ? 'check' : 'x', title: s, color: i ? OK : DANGER, size: 40 }));
   }
