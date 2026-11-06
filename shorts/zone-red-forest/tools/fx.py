@@ -757,11 +757,20 @@ def hatch_knock(rng, **_):
     return fade(norm(verb(y, room(rng, 1.2, damp=3000), 0.3), 0.95), 0.0005, 0.3)
 
 
+
+# ——— «Рыжий лес» ———
+def wind_gust(rng, dur=3.0, **_):
+    """a gust over the edge of the roof"""
+    t = tt(dur)
+    gust = np.sin(np.pi * np.clip(t / dur, 0, 1)) ** 1.5
+    y = lp(colored(rng, dur, -2), 1400) * gust + bp(colored(rng, dur, -1), 1800, 3200) * gust ** 3 * 0.5
+    return fade(norm(y, 0.5), 0.2, 0.4)
+
 FX = {k: v for k, v in globals().items() if callable(v) and k in (
     'city', 'hum_stop', 'ticks_up', 'ribbon', 'crowd_steps', 'drain', 'whoosh_down', 'pump', 'spark', 'node_off', 'amb_flat',
     'tap_squeak', 'tap_run', 'tap_cough', 'fill_plink', 'whine', 'paper', 'candle', 'fire_whoosh', 'fire', 'puff', 'morning',
     'squeak_dry', 'pour', 'flush', 'city_day', 'stamp', 'ding', 'pop_word', 'crowd_murmur', 'crowd_roar', 'gate_chain',
     'hooves', 'snort', 'cloth', 'wall_hit', 'tweet', 'thud', 'wood_clack', 'bark', 'screams', 'groans', 'car_alarm', 'scrape',
     'steps_out', 'zombie_growl', 'zombie_far', 'zombie_crowd', 'door_creak', 'door_unlock', 'door_open', 'stair_steps', 'heartbeat',
-    'breath', 'zipper', 'pan_clang', 'dog_growl', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock')}
+    'breath', 'zipper', 'pan_clang', 'dog_growl', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock', 'wind_gust')}
 FX.update(power_down=power_down, whoosh=whoosh, whoosh_in=whoosh_in, blip=blip, click=click, toggle=toggle)
