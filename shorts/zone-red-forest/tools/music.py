@@ -62,7 +62,7 @@ def score(M, dur):
 
     f = S['fork'] = Sec(dur, stop=end0, over=0.05)
     f.wet.add(m['c9'], saws(rng, [45, 52, 57, 62], end0 - m['c9'] + 0.2, attack=0.6, release=0.3, bright=900), -15, 0.0)
-    for i, t in enumerate(grid(m['c10'] + 0.2, A['L10w7'] - 0.05, BEAT / 2)):      # the pulse stops for «Пиши один или два»
+    for i, t in enumerate(grid(m['c10'] + 0.2, A['L10w9'] - 0.05, BEAT / 2)):      # the pulse stops for «Пиши один или два»
         f.dry.add(t, pizz(rng, [45, 45, 52, 45][i % 4], 0.4), -13, -0.1)
         if i % 2 == 0:
             f.dry.add(t, timp(rng, 33, 0.3), -14, 0.0)

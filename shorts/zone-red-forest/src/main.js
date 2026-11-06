@@ -35,7 +35,7 @@ const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.i
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, РЫЖИМИ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
   АСФАЛЬТЕ: GOLD, РОТ: GOLD, ПЫЛЬ: DANGER, ГРИБОВ: DANGER, РЕКИ: DANGER, ЗАРЫЧАЛА: DANGER, ВОЛКИ: DANGER, СЕМЬ: DANGER, БЕГИ: DANGER, ВЫШЕ: GOLD,
-  ЛИЦОМ: GOLD, РАЗВИЛКА: GOLD, ДУГА: GOLD, ПРИПЯТЬ: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  ЛИЦОМ: GOLD, РАЗВИЛКА: GOLD, ДУГА: GOLD, ГОРОД: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the beats ——
 const T = {
@@ -387,7 +387,7 @@ function overlays(t, cam, a) {
       Hd.plaque(t, t0, T.c9 - 0.05, 540, 330 + i * 120, { icon: i ? 'check' : 'x', title: s, color: i ? OK : DANGER, size: 40 }));
   }
   if (t >= T.c10) {
-    [['1', 'РАДАР «ДУГА»', A.L10w1], ['2', 'ПРИПЯТЬ', A.L10w4]].forEach(([nn, s, t0], i) => {
+    [['1', 'РАДАР «ДУГА»', A.L10w2], ['2', 'ПРИПЯТЬ', A.L10w5]].forEach(([nn, s, t0], i) => {
       const k = clamp(sp(t, t0, 2.6, 8)) * (1 - seg(T.c11, T.c11 + 0.3, t));
       if (k <= 0.01) return;
       const w = measure(s, 50, FONTS.cond) + 130, y = 520 + i * 130;
@@ -455,7 +455,7 @@ export function cues() {
   add(T.wolves + 0.4, 'dog_growl', -10, 0.6, { dur: 1.0 });
   add(T.shout, 'bark', -8, 0.2); add(T.shout + 0.5, 'bark', -10, 0.2);
   add(T.c9 - 0.4, 'whoosh', -14, 0.6);
-  for (let i = 0; i < 2; i++) add((i ? A.L10w4 : A.L10w1) + 0.02, 'pop_word', -8, -0.3 + i * 0.6);
+  for (let i = 0; i < 2; i++) add((i ? A.L10w5 : A.L10w2) + 0.02, 'pop_word', -8, -0.3 + i * 0.6);
   add(A.L11w1 - 0.1, 'blip', -8, 0);
   add(A.L11w13, 'pop_word', -6, 0);
   return c.sort((a, b) => a.t - b.t);
