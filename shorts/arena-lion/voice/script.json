@@ -1,0 +1,89 @@
+{
+ "note": "Narration for «Лев» (Арена, битва 2; the viewers voted for the lion). Facts: on foot in front of a lion, don't run (running makes you prey); stand your ground, make yourself look big — arms or a coat raised — and make loud noise; back away slowly, facing the animal, never turning your back (safari-guide advice relayed by Citizen Digital «6 ways to survive a lion encounter»; US National Park Service «Mountain Lion Safety»: convince it you are not prey, face it, back away slowly, wave your arms, hold your coat open, shout). The twist is the Roman legend of Androcles (Aulus Gellius, «Attic Nights» 5.14, c. 150 CE): a man took a thorn out of a lion's paw, and later in the arena the lion spared him. at/after/tail/sub as in the blackout season.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Арена, битва вторая. Ворота поднимаются, и выходит лев. Его выбрали вы.",
+   "at": 0.12,
+   "sub": [
+    3,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Оружия опять нет. Значит, снова головой.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: не беги. Того, кто бежит, лев считает добычей.",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: стань большим и громким. Подними плащ над головой и кричи.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: отступай медленно, лицом к нему. Спину не показывай.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Лев остановился и захромал: в лапе заноза. Ты вытащил её, как в древней римской легенде.",
+   "after": 0.45,
+   "sub": [
+    4,
+    3,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "И лев лёг у твоих ног. Толпа ревёт!",
+   "after": 0.3,
+   "sub": [
+    6,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Кого одолеть следующим? Пиши в комментариях и подписывайся, чтобы не пропустить следующую битву.",
+   "after": 0.45,
+   "sub": [
+    3,
+    3,
+    2,
+    5
+   ]
+  }
+ ]
+}

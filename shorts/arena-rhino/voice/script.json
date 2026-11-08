@@ -1,0 +1,89 @@
+{
+ "note": "Narration for «Носорог» (Арена, битва 3; the viewers voted for the rhino). Facts: a rhino relies on smell and hearing more than on sight (consistently in rhino fact sheets; SANParks notes the black rhino sees about as well as a rabbit, so not blind); keep downwind so it cannot smell you; stand still and quiet; if it charges, put something big — a tree, a rock, a vehicle — between you and it; many charges are bluffs and are broken off (Discover Wildlife «Can a human outrun a rhino?»; Latest Sightings «How to properly handle a charging rhino»; SANParks, black rhino, Marakele National Park). at/after/tail/sub as in the blackout season.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Арена, битва третья. Ворота поднимаются, и выходит носорог. Его выбрали вы.",
+   "at": 0.12,
+   "sub": [
+    3,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Он весит больше тонны. Силой не взять, значит, головой.",
+   "after": 0.4,
+   "sub": [
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: встань так, чтобы ветер дул от него к тебе. Нюх у носорога отличный.",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    7,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: замри и молчи. Он слышит лучше, чем видит.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: если бросился, встань за колонну. Пусть между вами будет камень.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Носорог врезался в колонну, фыркнул и потерял тебя: нюхом не найти, глазами не разглядеть.",
+   "after": 0.45,
+   "sub": [
+    4,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Он развернулся и ушёл. Толпа ревёт!",
+   "after": 0.4,
+   "sub": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Кого одолеть следующим? Пиши в комментариях и подписывайся, чтобы не пропустить следующую битву.",
+   "after": 0.45,
+   "sub": [
+    3,
+    3,
+    2,
+    5
+   ]
+  }
+ ]
+}
