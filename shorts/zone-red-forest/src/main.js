@@ -33,7 +33,7 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, РЫЖИМИ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
+const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, РЫЖИМ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
   АСФАЛЬТЕ: GOLD, РОТ: GOLD, ПЫЛЬ: DANGER, ГРИБОВ: DANGER, РЕКИ: DANGER, ЗАРЫЧАЛА: DANGER, ВОЛКИ: DANGER, СЕМЬ: DANGER, БЕГИ: DANGER, ВЫШЕ: GOLD,
   ЛИЦОМ: GOLD, РАЗВИЛКА: GOLD, ДУГА: GOLD, ГОРОД: GOLD, СОБОЙ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
