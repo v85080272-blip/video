@@ -1,0 +1,94 @@
+{
+ "note": "Narration for «Первые 5 минут» («Заражение», серия 1): the hunter wakes up to screams, the infected chase people in the street; what to do in the first minutes. The advice is ordinary emergency practice: stay inside, lock and barricade the door; no light and no sound so nobody outside notices you; fill the bath and bottles while the water still runs (CDC «Preparedness 101: Zombie Apocalypse», 2011 — the CDC's own emergency-kit guide written for a zombie outbreak: about a gallon of water a person a day; FEMA «Shelter-in-place», Ready.gov «Water»). at/after/tail/sub as in the blackout season; tts = what the voice reads (a lowercase «пурга» gives «пургА»; digits in words).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты просыпаешься от криков. За окном бегут люди, а за ними — заражённые.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Они бегут на любой шум. Первые минуты решают всё.",
+   "after": 0.4,
+   "sub": [
+    5,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: не выходи. Закрой дверь на ключ и придвинь к ней шкаф.",
+   "after": 0.45,
+   "sub": [
+    1,
+    2,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: выключи свет и звук на телефоне. Тебя не должно быть видно и слышно.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: набери воду в ванну и бутылки, пока она ещё течёт.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Ты всё успел. А Пурга тихо легла у порога: она услышит их раньше тебя.",
+   "after": 0.45,
+   "tts": "Ты всё успел. А пурга тихо легла у порога: она услышит их раньше тебя.",
+   "sub": [
+    3,
+    6,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Что дальше: остаться или уходить? Пиши 1 или 2.",
+   "after": 0.45,
+   "tts": "Что дальше: остаться или уходить? Пиши один или два.",
+   "sub": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А напиши «возьми с собой» — и в следующей серии выживаешь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}

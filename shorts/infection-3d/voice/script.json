@@ -1,0 +1,35 @@
+{
+ "note": "A 10-second 3D test for «Заражение», серия 3 (Blender, the reference's way of telling: a mystery first, short chopped sentences, character beats). at/after/tail/sub as in the blackout season; tts = what the voice reads (a lowercase «пурга» gives «пургА»).",
+ "tail": 0.5,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Лифт в нашем доме стоит на первом этаже.",
+   "at": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Двери открыты. И внутри кто-то есть.",
+   "after": 0.55,
+   "sub": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Баба Валя перекрестилась. Пурга не лаяла. Она смотрела вниз.",
+   "after": 0.6,
+   "tts": "Баба Валя перекрестилась. пурга не лаяла. Она смотрела вниз.",
+   "sub": [
+    3,
+    3,
+    3
+   ]
+  }
+ ]
+}
