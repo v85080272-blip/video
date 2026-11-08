@@ -1,0 +1,137 @@
+{
+ "note": "Narration for «Дуга» («Зона», серия 3, in 3D: the viewers voted 1 — the Duga radar; @БогданУзун-6б6 wrote «возьми с собой», so Богдан comes along; no guide, more danger: a thunderstorm at the radar). Facts: the Duga over-the-horizon radar (Chernobyl-2) — the receiving antenna is about 150 m high; it worked 1976–1989; its signal, a tapping of about 10 pulses a second on shortwave, was heard on radios all over the world, so it was nicknamed the «Russian Woodpecker»; the transmitters were near Lyubech, about 60 km away (Wikipedia «Duga radar»; CNN Travel). Lightning: if you can hear thunder you are close enough to be struck; stay away from tall objects (towers, fences, power lines) and isolated trees; a group spreads out; go into a building; indoors do not lean on concrete walls (rebar) and stay away from windows; wait 30 minutes after the last thunder (US National Weather Service, NOAA «Lightning safety»; OSHA). Ground current from a strike spreads through the ground (NWS). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Над тобой сто пятьдесят метров ржавого железа. И сюда идёт гроза.",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Это радар «Дуга». С тобой Пурга и Богдан: он написал «возьми с собой».",
+   "after": 0.4,
+   "sub": [
+    3,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Его стук ловили радиоприёмники по всему миру. Прозвали «Русский дятел».",
+   "after": 0.4,
+   "sub": [
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: наверх не лезь. Лестницы ржавые, а падать — как с пятидесятого этажа.",
+   "after": 0.45,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "И тут гром. Слышишь гром — значит, молния достанет и тебя.",
+   "after": 0.45,
+   "sub": [
+    3,
+    2,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Второе: уходи от радара. Молния бьёт в самое высокое, а ток идёт по земле.",
+   "after": 0.4,
+   "sub": [
+    4,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Третье: не прячься под одиноким деревом. И разойдитесь подальше друг от друга.",
+   "after": 0.4,
+   "sub": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Беги в здание. Вот бетонный корпус старой военной части.",
+   "after": 0.4,
+   "sub": [
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Внутри не стой у окна и не прислоняйся к стене: в бетоне железная арматура.",
+   "after": 0.4,
+   "sub": [
+    5,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Удар! Молния бьёт прямо в радар.",
+   "after": 0.5,
+   "sub": [
+    1,
+    5
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Гром стих? Жди ещё тридцать минут и только потом выходи.",
+   "after": 0.5,
+   "sub": [
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "Куда дальше: в мёртвый город или в пионерлагерь «Изумрудный»? Пиши 1 или 2.",
+   "tts": "Куда дальше: в мёртвый город или в пионерлагерь «Изумрудный»? Пиши один или два.",
+   "after": 0.45,
+   "sub": [
+    2,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L12",
+   "text": "А напиши «возьми с собой» — и в следующей серии идёшь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}
