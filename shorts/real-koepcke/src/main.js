@@ -238,7 +238,7 @@ function overlays(t) {
   Hd.timeStamp(t, T.c1 + 0.15, T.c2 - 0.05, '24.12.1971 · ПЕРУ', { color: WARM });
   Hd.timeStamp(t, T.wake + 0.6, T.c4 - 0.05, 'ДЖУНГЛИ · ДЕНЬ 1', { color: OK, dot: OK });
   if (sc === 'storm') Hd.plaque(t, T.c1 + 0.6, T.c2 - 0.05, 540, 330, { icon: 'bolt', title: 'РЕЙС 508 · 92 НА БОРТУ', sub: 'в грозу, над джунглями', color: WARM, size: 40 });
-  if (sc === 'fall' && t > T.wake + 0.5) Hd.plaque(t, T.wake + 0.6, T.c3 - 0.05, 540, 420, { icon: 'x', title: 'ОДНА', sub: 'пристёгнута к креслу', color: DANGER, size: 46 });
+  if (sc === 'fall' && t > T.wake + 0.5) Hd.plaque(t, T.wake + 0.6, T.c3 - 0.05, 540, 420, { icon: 'x', title: 'ОДНА', sub: 'вокруг ни души', color: DANGER, size: 46 });
   if (sc === 'inv') [['КЛЮЧИЦА СЛОМАНА', A.L3w0, 'x'], ['ОЧКИ ПОТЕРЯНЫ', A.L3w2, 'x'], ['ОДНА САНДАЛИЯ', A.L3w4, 'x']].forEach(([s, t0, ic], i) =>
     Hd.plaque(t, t0, T.c4 - 0.05, 540, 330 + i * 120, { icon: ic, title: s, color: DANGER, size: 40 }));
   if (sc === 'father' && t < T.map) Hd.plaque(t, A.L4w3, T.map - 0.05, 540, 330, { icon: 'comment', title: 'УРОК ОТЦА', sub: 'он был биологом', color: GOLD, size: 44 });
