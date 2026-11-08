@@ -291,7 +291,7 @@ export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0.0, 'whoosh', -6, 0); add(0.0, 'roof_wind', -8, 0, { dur: T.c1 });
-  add(T.survived, 'stamp', -4, 0);
+  add(T.survived, 'stamp', -8, 0);
   add(T.c1, 'roof_wind', -14, 0, { dur: T.c2 - T.c1 }); add(T.c1, 'heli_far', -16, 0.3, { dur: T.c2 - T.c1 });
   add(T.bolt, 'thud', -2, 0); add(T.bolt + 0.02, 'spark', -6, 0.2); add(T.bolt + 0.3, 'wall_hit', -6, 0.3);
   add(T.c2, 'whoosh_down', -6, 0); add(T.c2 + 0.3, 'roof_wind', -10, 0, { dur: T.wake - T.c2 });

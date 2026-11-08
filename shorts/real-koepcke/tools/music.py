@@ -38,7 +38,7 @@ def score(M, dur):
         h.dry.add(0.25 + i * 0.55, celesta(rng, n, 0.55), -14, 0.4 - 0.15 * i)
     h.dry.add(m['survived'], brass(rng, [50, 57, 62, 65], 0.8, bright=2400), -9, 0.0)
     h.dry.add(m['survived'], timp(rng, 38, 0.9), -8, 0.0)
-    h.dry.add(m['survived'], crash(rng, 0.6), -14, 0.0)
+    h.wet.add(m['survived'] + 0.02, crash(rng, 0.5), -18, 0.0)
 
     st = S['storm'] = Sec(dur, stop=m['c2'] + 0.1, over=0.08)
     st.wet.add(m['c1'], saws(rng, [26, 33, 38], m['c2'] - m['c1'] + 0.3, attack=0.5, release=0.4, bright=260), -13, 0.0)
@@ -111,8 +111,8 @@ def score(M, dur):
         if i % 2 == 0:
             c.dry.add(t, timp(rng, 33, 0.3), -14, 0.0)
 
-    end = S['end'] = Sec(dur, gain=((end0, -3.0), (dur, -6.0)))
-    end.wet.add(end0, saws(rng, [38, 45, 50, 53], dur - end0 + 0.3, attack=0.4, release=0.5, bright=900), -15, 0.0)
+    end = S['end'] = Sec(dur, gain=((end0, -3.0), (dur - 0.7, -6.0), (dur, -40.0)))       # fades out on the last frames
+    end.wet.add(end0, saws(rng, [38, 45, 50, 53], dur - end0 - 0.6, attack=0.4, release=0.4, bright=900), -15, 0.0)
     for i, (dt, n) in enumerate([(0.0, 69), (0.35, 72), (0.7, 77), (1.05, 76), (1.6, 74)]):
         end.dry.add(end0 + 0.15 + dt, celesta(rng, n, 0.6), -11, 0.15)
     return S, rng
