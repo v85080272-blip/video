@@ -42,7 +42,7 @@ const T = {
   c1: A.L1 - 0.06, c2: A.L2 - 0.06, c3: A.L3 - 0.06, c4: A.L4 - 0.3, c5: A.L5 - 0.06, c6: A.L6 - 0.06, c7: A.L7 - 0.06,
   c8: A.L8 - 0.06, c9: A.L9 - 0.42, c10: A.L10 - 0.06, c11: A.L11 - 0.06,
   storm: A.L0w9 - 0.1,                 // «гроза»: a far flash
-  nick: A.L1w4,                        // «Богдан»
+  nick: A.L1w6,                        // «Богдан»
   tap: A.L2w1,                         // «стук»
   thunder: A.L4w2 - 0.25,              // «И тут гром»
   run: A.L5w1,
@@ -167,11 +167,11 @@ function nickCard(t) {
   if (shotAt(t) !== 'B') return;
   const k = clamp(sp(t, T.nick - 0.05, 2.6, 8)) * (1 - seg(T.c2 - 0.3, T.c2 - 0.02, t));
   if (k <= 0.01) return;
-  const s1 = '@БогданУзун-6б6', s2 = 'написал «возьми с собой»', w = Math.max(measure(s1, 50, FONTS.cond), measure(s2, 32, FONTS.mono)) + 150;
+  const s1 = '@БогданУзун-6б6', s2 = 'написал «возьми с собой»', w = Math.max(measure(s1, 46, FONTS.mono), measure(s2, 32, FONTS.mono)) + 150;   // mono: «б» must not read as «6»
   g.save(); g.translate(540, 470); g.rotate(-0.025); g.scale(k, k);
   rrect(-w / 2 + 6, -70 + 8, w, 140, 22, INK); rrect(-w / 2, -70, w, 140, 22, '#fff3d6');
   g.save(); g.translate(-w / 2 + 62, -6); Hd.icon('comment', 30, '#3b8eea'); g.restore();
-  text(s1, 40, 0, 50, INK, { fam: FONTS.cond, shadow: false });
+  text(s1, 40, 0, 46, INK, { fam: FONTS.mono, shadow: false });
   text(s2, 40, 46, 30, '#5a5f6e', { fam: FONTS.mono, shadow: false });
   g.restore();
 }

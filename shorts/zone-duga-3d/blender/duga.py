@@ -201,13 +201,13 @@ def wall_x(y, holes, name):
                 zs = [(lo, hi) for (lo, hi) in sum([[(lo, min(hi, z0)), (max(lo, z1), hi)] for (lo, hi) in zs], []) if hi - lo > 0.01]
         for lo, hi in zs: parts.append(bar((cx, y, (lo + hi) / 2), (b - a, T, hi - lo)))
     return obj(mesh_parts(name, parts, CONC), tuple(BLD), name)
-NHOLES = [(0, 1.7, 0, 2.3)] + [(x, 1.6, 0.9, 2.3) for x in WIN] + [(x, 1.6, 4.4, 5.8) for x in WIN + [0]]
+NHOLES = [(0, 2.0, 0, 2.7)] + [(x, 1.6, 0.9, 2.3) for x in WIN] + [(x, 1.6, 4.4, 5.8) for x in WIN + [0]]
 SHOLES = [(x, 1.6, 0.9, 2.3) for x in WIN + [0]] + [(x, 1.6, 4.4, 5.8) for x in WIN + [0]]
 wall_x(BD / 2, NHOLES, 'wall_n'); wall_x(-BD / 2, SHOLES, 'wall_s')
 for s_ in (-1, 1): box(tuple(BLD + Vector((s_ * BW / 2, 0, BH / 2))), (T, BD, BH), CONC, name='wall_e')
 box(tuple(BLD + Vector((0, 0, 3.4))), (BW, BD, 0.25), CONCD, name='slab1'); box(tuple(BLD + Vector((0, 0, BH + 0.15))), (BW + 0.4, BD + 0.4, 0.3), CONCD, name='roof')
 box(tuple(BLD + Vector((0, 0, 0.02))), (BW, BD, 0.04), CONCD, name='ground_floor')
-box(tuple(BLD + Vector((0, BD / 2 + 1.0, 2.7))), (3.4, 2.0, 0.18), CONCD, name='canopy')
+box(tuple(BLD + Vector((0, BD / 2 + 1.0, 3.05))), (3.6, 2.0, 0.18), CONCD, name='canopy')
 for k in (-6, 6): box(tuple(BLD + Vector((0, k * 0.7, 3.4 + 0.0))), (0.4, 0.4, 0.01), CONCD, name='x')
 for cx in (-6, 6): cyl(tuple(BLD + Vector((cx, 0, 1.7))), 0.25, 3.4, CONCD, verts=8, name='column')
 DEBRIS = []
@@ -305,7 +305,7 @@ def dof(dist, fstop=2.8):
 
 
 STORM = ((0.1, 0.11, 0.14), (0.36, 0.37, 0.4))
-HAZE, HCOL = 0.0035, (0.75, 0.8, 0.9)
+HAZE, HCOL = 0.0014, (0.5, 0.55, 0.65)          # storm air: thin, blue-grey (thick haze turns the sky white)
 P0 = Vector((0, -14, 0))                              # where they stand before the radar
 DOOR = BLD + Vector((0, BD / 2, 0))                   # the door, on the side facing the radar
 if SHOT in 'ABCDE':
@@ -314,7 +314,8 @@ if SHOT == 'A':     # looking straight up the mast into the cloud, then down to 
     cam_data.lens = 18
     place(HUN, P0, P0 + Vector((0, 10, 0))); place(BOG, P0 + Vector((1.3, -0.3, 0)), P0 + Vector((0, 10, 0))); place(DOG, P0 + Vector((-1.0, 0.4, 0)), P0 + Vector((0, 10, 0)))
     for P in (HUN, BOG): key(P['head'], 'rotation_euler', 0, (math.radians(-35), 0, 0))
-    camkeys([(0, (2.5, -4.5, 1.2), (0.5, -1.5, 140)), (int(E * 0.35), (2.5, -6.0, 2.0), (0.5, -2.0, 90)), (E, (-5.5, -27.0, 2.2), (0.0, -6.0, 22))])
+    camkeys([(0, (0.3, -6.5, 1.2), (0.0, -1.5, 140)), (int(E * 0.3), (0.3, -8.0, 2.0), (0.0, -2.0, 90)), (int(E * 0.62), (-4.5, -24.0, 2.2), (0.0, -10.0, 8)),
+             (E, (-5.5, -27.0, 2.2), (0.0, -10.0, 8.5))])
     far = bolt((-380, 900, 520), (-300, 900, 0), 3, r=4.0); strike(far, int(E * ev(0, 0.78))); flash(int(E * ev(0, 0.78)), 6.0)
 elif SHOT == 'B':   # the three of them before the radar; Богдан waves
     cam_data.lens = 32
@@ -340,8 +341,8 @@ elif SHOT == 'D':   # the ladder: Богдан's hand on a rung, looking up; the
     walk(HUN, int(E * 0.25), int(E * 0.55), (-3.0, 5.2, 0), tuple(lad + Vector((-0.55, 1.15, 0))))
     hs = HUN['arms'][1]; key(hs, 'rotation_euler', int(E * 0.55), (0, 0, 0)); key(hs, 'rotation_euler', int(E * 0.66), (math.radians(-80), 0, math.radians(-25)))
     key(BOG['head'], 'rotation_euler', int(E * 0.62), (math.radians(-40), 0, 0)); key(BOG['head'], 'rotation_euler', int(E * 0.78), (0, 0, math.radians(-50)))
-    camkeys([(0, tuple(lad + Vector((0.9, 3.4, 0.5))), tuple(lad + Vector((0, -0.4, 45)))), (int(E * 0.45), tuple(lad + Vector((0.9, 3.6, 0.6))), tuple(lad + Vector((0, -0.4, 30)))),
-             (E, tuple(lad + Vector((1.2, 4.6, 1.0))), tuple(lad + Vector((-0.2, 0.0, 8))))])
+    camkeys([(0, tuple(lad + Vector((0.9, 3.4, 0.5))), tuple(lad + Vector((0, -0.4, 9)))), (int(E * 0.45), tuple(lad + Vector((0.9, 3.6, 0.6))), tuple(lad + Vector((0, -0.4, 7)))),
+             (E, tuple(lad + Vector((1.4, 5.2, 1.2))), tuple(lad + Vector((-0.2, 0.0, 2.5))))])
 elif SHOT == 'E':   # thunder: they turn to it; the dog cowers; a bolt over the forest
     cam_data.lens = 24
     tgt = Vector((260, 520, 0))
@@ -354,7 +355,7 @@ elif SHOT == 'E':   # thunder: they turn to it; the dog cowers; a bolt over the 
     key(DOG['head'], 'rotation_euler', t1, (0, 0, 0)); key(DOG['head'], 'rotation_euler', t1 + 6, (math.radians(25), 0, 0))
     flash(int(E * ev(0, 0.04)), 5.0)
     b2 = bolt((240, 560, 470), (300, 600, 0), 7, r=3.5); strike(b2, int(E * ev(1, 0.6))); flash(int(E * ev(1, 0.6)), 10.0)
-    camkeys([(0, tuple(P0 + Vector((-2.0, -6.5, 1.5))), tuple(P0 + Vector((14, 30, 22)))), (E, tuple(P0 + Vector((-2.4, -7.6, 1.6))), tuple(P0 + Vector((18, 30, 26))))])
+    camkeys([(0, tuple(P0 + Vector((-1.0, -8.5, 1.4))), tuple(P0 + Vector((10, 30, 20)))), (E, tuple(P0 + Vector((-1.2, -9.4, 1.5))), tuple(P0 + Vector((13, 30, 23))))])
 elif SHOT == 'F':   # they run from the radar towards the meadow; the radar behind them
     sky(*STORM, 0.85); sun(1.1, (0.82, 0.86, 1.0), 32, 150)
     cam_data.lens = 26
@@ -363,24 +364,25 @@ elif SHOT == 'F':   # they run from the radar towards the meadow; the radar behi
         P['root'].rotation_euler = heading(a0, a1)
         (dog_trot if P is DOG else run)(P, f0, E, tuple(a0 + pv * off), tuple(a1 + pv * off))
     mid = (a0 + a1) / 2
-    camkeys([(0, tuple(a0 + Vector((0, 0, 0)) - pv * 9 + Vector((0, -4, 1.4))), tuple(a0 + dv * 3 + Vector((0, 0, 2.5)))),
-             (E, tuple(a1 - pv * 9 + Vector((0, 2, 1.6))), tuple(a1 + Vector((0, 0, 3.5))))])
+    camkeys([(0, tuple(a0 + dv * 8 + pv * 1.0 + Vector((0, 0, 1.2))), tuple(a0 - dv * 30 + Vector((0, 0, 14)))),     # ahead of them, backing away
+             (E, tuple(a1 + dv * 5 + pv * 1.0 + Vector((0, 0, 1.3))), tuple(a1 - dv * 30 + Vector((0, 0, 12))))])
     flash(int(E * ev(0, 0.5)), 5.0)
 elif SHOT == 'G':   # the lone tree in the meadow: they run past it, not under it, and spread apart
     sky(*STORM, 0.85); sun(1.0, (0.82, 0.86, 1.0), 32, 150)
     cam_data.lens = 24
-    a0, a1 = TREE + Vector((-24, 16, 0)), TREE + Vector((0, -28, 0)); dv = (a1 - a0).normalized(); pv = Vector((dv.y, -dv.x, 0))   # 13 m clear of the trunk
+    a0, a1 = TREE + Vector((-13.2, -3.8, 0)), TREE + Vector((0, -28, 0)); dv = (a1 - a0).normalized(); pv = Vector((dv.y, -dv.x, 0))   # 13 m clear of the trunk
     for P, off in ((HUN, 0.0), (BOG, 1.0), (DOG, -0.8)):
         P['root'].rotation_euler = heading(a0, a1)
         fs = list(range(0, E + 1, 2)); first = True
         for f in fs:
-            u = f / E; spread = 1.0 + 5.0 * max(0.0, min(1.0, (u - 0.25) / 0.4))
+            u = f / E; spread = 1.0 + 4.0 * max(0.0, min(1.0, (u - 0.2) / 0.45))
             p = a0.lerp(a1, u) + pv * off * spread + Vector((0, 0, 0)); ph = 2 * math.pi * f / (12 if P is DOG else 14)
             P['root'].location = p + Vector((0, 0, 0.03 * abs(math.sin(ph)))); P['root'].keyframe_insert('location', frame=f)
             for i, hp in enumerate(P['hips']):
                 key(hp, 'rotation_euler', f, ((0.6 if P is DOG else 0.8) * math.sin(ph + math.pi * (((i // 2 + i % 2) % 2) if P is DOG else i)), 0, 0))
             for i, sh in enumerate(P['arms']): key(sh, 'rotation_euler', f, (-0.5 * math.sin(ph + math.pi * i), 0, 0))
-    camkeys([(0, tuple(TREE + Vector((-30, -10, 2.2))), tuple(TREE + Vector((-6, 6, 4.0)))), (E, tuple(TREE + Vector((-28, -18, 2.4))), tuple(TREE + Vector((-2, -14, 3.2))))])
+    cam_data.lens = 22
+    camkeys([(0, tuple(a1 + dv * 6 + Vector((0, 0, 1.5))), tuple(a0 - dv * 30 + Vector((0, 0, 10)))), (E, tuple(a1 + dv * 7.5 + Vector((0, 0, 1.6))), tuple(a0 - dv * 30 + Vector((0, 0, 8))))])
     flash(int(E * ev(0, 0.3)), 4.0)
 elif SHOT == 'H':   # the concrete block: they run in through the door
     sky((0.08, 0.09, 0.11), (0.3, 0.31, 0.34), 0.8); sun(0.9, (0.82, 0.86, 1.0), 32, 150)
@@ -392,10 +394,10 @@ elif SHOT == 'H':   # the concrete block: they run in through the door
         key(P['root'], 'location', 0, p0) if f0 > 0 else None
     camkeys([(0, tuple(d0 + Vector((-10, 19, 1.8))), tuple(d0 + Vector((-2, 2, 2.6)))), (E, tuple(d0 + Vector((-7, 12, 1.7))), tuple(d0 + Vector((0, 0, 2.8))))])
     flash(int(E * ev(0, 0.35)), 3.0)
-    HAZE = 0.006
+    HAZE = 0.0025
 elif SHOT == 'I':   # inside: Богдан leans on the wall by a window; the hunter pulls him into the middle of the room
     sky((0.08, 0.09, 0.11), (0.3, 0.31, 0.34), 0.9); sun(0.8, (0.82, 0.86, 1.0), 32, 150)
-    cam_data.lens = 22
+    cam_data.lens = 28
     wall = BLD + Vector((-6.0, BD / 2 - 0.55, 0))
     place(BOG, wall, wall + Vector((0, -5, 0))); BOG['root'].rotation_euler.x = math.radians(-6)        # his back on the wall
     place(HUN, BLD + Vector((-3.0, 1.0, 0)), wall); place(DOG, BLD + Vector((-1.5, 0.0, 0)), wall)
@@ -405,21 +407,22 @@ elif SHOT == 'I':   # inside: Богдан leans on the wall by a window; the hu
     key(BOG['root'], 'rotation_euler', t1 + 6, BOG['root'].rotation_euler.copy())
     BOG['root'].rotation_euler.x = 0; BOG['root'].keyframe_insert('rotation_euler', frame=t1 + 12)
     walk(BOG, t1 + 10, int(E * 0.8), tuple(wall), tuple(BLD + Vector((-5.4, 0.8, 0))))
-    camkeys([(0, tuple(BLD + Vector((-1.0, -3.6, 1.6))), tuple(wall + Vector((-0.4, 0, 1.2)))), (E, tuple(BLD + Vector((-1.4, -3.2, 1.55))), tuple(BLD + Vector((-5.2, 1.6, 1.1))))])
+    camkeys([(0, tuple(BLD + Vector((-2.0, -2.6, 1.6))), tuple(wall + Vector((-0.4, 0, 1.2)))), (E, tuple(BLD + Vector((-2.3, -2.2, 1.55))), tuple(BLD + Vector((-5.2, 1.6, 1.1))))])
     for f in (int(E * ev(0, 0.15)), int(E * ev(1, 0.7))): flash(f, 8.0)
     HAZE = 0.0
 elif SHOT == 'J':   # from the doorway, low: the bolt comes down on the radar
     sky((0.07, 0.08, 0.1), (0.28, 0.29, 0.32), 0.8); sun(0.8, (0.82, 0.86, 1.0), 32, 150)
     cam_data.lens = 18
     MX = X0 + 21 * DX                               # the mast straight ahead of the door (x = 60)
-    place(HUN, DOOR + Vector((-0.75, -1.0, 0)), Vector((MX, 0, 0))); place(BOG, DOOR + Vector((0.8, -1.2, 0)), Vector((MX, 0, 0))); place(DOG, DOOR + Vector((0.25, -1.5, 0)), Vector((MX, 0, 0)))
+    place(HUN, DOOR + Vector((-0.78, -0.55, 0)), Vector((MX, 0, 0))); place(BOG, DOOR + Vector((0.82, -0.6, 0)), Vector((MX, 0, 0))); place(DOG, DOOR + Vector((-1.6, -1.2, 0)), Vector((MX, 0, 0)))   # at the jambs: the frame's edges
     hit = int(E * ev(0, 0.12))
     b3 = bolt((MX + 70, 160, 560), (MX, -0.5, H + 1), 11, r=2.2, branches=4); strike(b3, hit, n=3); flash(hit, 24.0, decay=7)
     for d_ in (6, 12): b3.hide_render = False; b3.keyframe_insert('hide_render', frame=hit + d_); b3.hide_render = True; b3.keyframe_insert('hide_render', frame=hit + d_ + 1)
     glow = ico((MX, -0.5, H + 1), 3.0, mat('glow', (1.0, 0.9, 0.8), emit=60), sub=2, name='glow'); glow.hide_render = True; glow.keyframe_insert('hide_render', frame=0)
     hit -= hit % STEP
     for d_, on in [(0, True), (STEP + 2, False)]: glow.hide_render = not on; glow.keyframe_insert('hide_render', frame=hit + d_)
-    camkeys([(0, tuple(DOOR + Vector((0.1, -2.4, 0.55))), (MX, 0, 105)), (E, tuple(DOOR + Vector((0.1, -2.2, 0.6))), (MX, 0, 110))])   # the radar's top just under the lintel
+    cam_data.lens = 22
+    camkeys([(0, tuple(DOOR + Vector((0.05, -1.6, 0.4))), (MX, 0, 135)), (E, tuple(DOOR + Vector((0.05, -1.45, 0.42))), (MX, 0, 140))])   # the radar's top under the lintel
     HAZE = 0.0025
 elif SHOT == 'K':   # they sit on the floor in the middle of the room; the light outside comes back
     bg, mx = sky((0.08, 0.09, 0.11), (0.3, 0.31, 0.34), 0.8); s_ = sun(0.6, (1.0, 0.86, 0.65), 18, 220)
@@ -439,7 +442,7 @@ elif SHOT == 'K':   # they sit on the floor in the middle of the room; the light
     camkeys([(0, tuple(c0 + Vector((2.8, -3.2, 1.2))), tuple(c0 + Vector((-0.3, 0.3, 0.6)))), (E, tuple(c0 + Vector((2.6, -2.8, 1.25))), tuple(c0 + Vector((-0.3, 0.3, 0.8))))])
     HAZE = 0.0
 else:               # L: out into the clear evening: the signpost at the fork, the radar beyond, the camera rising behind them
-    sky((0.3, 0.38, 0.55), (0.98, 0.7, 0.45), 1.0); sun(3.0, (1.0, 0.72, 0.48), 9, 205)
+    sky((0.26, 0.34, 0.52), (0.95, 0.66, 0.42), 0.7); sun(2.0, (1.0, 0.72, 0.48), 9, 205)
     hide(*CLOUDS[::2])
     cam_data.lens = 26
     fk = FK
@@ -449,8 +452,8 @@ else:               # L: out into the clear evening: the signpost at the fork, t
         key(P['root'], 'rotation_euler', int(E * 0.5), P['root'].rotation_euler.copy()); P['root'].rotation_euler.z = heading(p1, fk + Vector((0, 30, 0)))[2]
         P['root'].keyframe_insert('rotation_euler', frame=int(E * 0.56))
     for f, a in [(int(E * 0.45), 0), (int(E * 0.55), 35), (int(E * 0.7), 35), (int(E * 0.78), -35), (int(E * 0.9), -35)]: key(HUN['head'], 'rotation_euler', f, (0, 0, math.radians(a)))
-    camkeys([(0, tuple(fk + Vector((0.6, -8.5, 1.6))), tuple(fk + Vector((0, 4, 2.0)))), (E, tuple(fk + Vector((1.2, -11.0, 4.5))), tuple(fk + Vector((-4, 60, 40))))])
-    HAZE, HCOL = 0.0015, (0.95, 0.85, 0.75)
+    camkeys([(0, tuple(fk + Vector((0.6, -8.5, 1.6))), tuple(fk + Vector((0, 4, 2.0)))), (E, tuple(fk + Vector((1.2, -9.5, 2.6))), tuple(fk + Vector((-3, 60, 12))))])
+    HAZE, HCOL = 0.0002, (0.95, 0.85, 0.75)
 if HAZE > 0: kit.volume_box((-900, -500, -1), (900, 1200, 260), HAZE, color=HCOL, aniso=0.5)
 kit.ease_all()
 kit.render(sc, OUT, F0, NF, PCT, SAMPLES, STEP)
