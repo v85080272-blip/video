@@ -31,6 +31,7 @@ for (const id of Object.keys(FB)) {
   A[id] = LN(id)?.at ?? FB[id][0]; A[id + 'e'] = LN(id)?.end ?? FB[id][1];
   for (let i = 0; i < Math.max(n, FB[id][2]); i++) A[id + 'w' + i] = ws ? ws[Math.min(i, n - 1)].s : lerp(FB[id][0], FB[id][1], i / FB[id][2]);
 }
+if (process.env.OVERLAY === '1') { Hd.SUB.y = 1450; Hd.SUB.size = 78; Hd.SUB.lead = 92; }      // over 3D: low, clear of the people
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ГРУППЫ: DANGER, РЫЖИЙ: WARM, ГРЯЗНОЕ: DANGER, РЫЖИМ: WARM, ПОГИБЛИ: DANGER, ЗАКОПАЛИ: WARM, ЩЁЛКАЕТ: DANGER, ДОРОГЕ: GOLD,
