@@ -144,7 +144,7 @@ function father(t) {
   }
   // the lesson as a map: a stream joins a creek, the creek a river, and on the river — houses; the arrows run downstream
   g.fillStyle = '#21283a'; g.fillRect(0, 0, W, H);
-  g.save(); g.translate(540, 880); g.rotate(-0.02);
+  g.save(); g.translate(540, 770); g.rotate(-0.02); g.scale(0.9, 0.9);
   rrect(-470, -620, 940, 1240, 20, Hd.NIGHT.paper);
   for (let i = 0; i < 26; i++) ell(-440 + 880 * hash(i * 1.3), -590 + 1180 * hash(i * 2.1), 50, 50, 'rgba(60,120,70,0.25)');
   const u = seg(T.map, T.people + 0.4, t, x => x);
@@ -242,7 +242,7 @@ function overlays(t) {
   if (sc === 'inv') [['КЛЮЧИЦА СЛОМАНА', A.L3w0, 'x'], ['ОЧКИ ПОТЕРЯНЫ', A.L3w2, 'x'], ['ОДНА САНДАЛИЯ', A.L3w4, 'x']].forEach(([s, t0, ic], i) =>
     Hd.plaque(t, t0, T.c4 - 0.05, 540, 330 + i * 120, { icon: ic, title: s, color: DANGER, size: 40 }));
   if (sc === 'father' && t < T.map) Hd.plaque(t, A.L4w3, T.map - 0.05, 540, 330, { icon: 'comment', title: 'УРОК ОТЦА', sub: 'он был биологом', color: GOLD, size: 44 });
-  if (sc === 'father' && t >= T.map) Hd.plaque(t, T.map + 0.2, T.c5 - 0.05, 540, 1640, { icon: 'check', title: 'ИДИ ВНИЗ ПО ТЕЧЕНИЮ', sub: 'вода приведёт к людям', color: OK, size: 42 });
+  if (sc === 'father' && t >= T.map) Hd.plaque(t, T.map + 0.2, T.c5 - 0.05, 540, 1640, { icon: 'check', title: 'ПРАВИЛО ОТЦА', sub: 'ручей → река → люди', color: OK, size: 42 });
   if (sc === 'walk' || sc === 'wound' || sc === 'boat') {
     const d = sc === 'walk' ? 1 + Math.floor(8 * clamp((t - T.c5) / (T.c6 - T.c5))) : sc === 'wound' ? 9 : 10;
     g.setTransform(1, 0, 0, 1, 0, 0); g.save();
