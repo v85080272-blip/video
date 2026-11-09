@@ -85,7 +85,7 @@ export function frame(t) {
 function flashes(t) {
   let a = 0;
   for (const n of Object.keys(EV)) for (let k = 0; k < EV[n].length; k++) {
-    const t0 = evT(n, k), big = n === 'J' ? 0.75 : n === 'A' || n === 'E' && k === 0 ? 0.18 : 0.3, u = t - t0;
+    const t0 = evT(n, k), big = n === 'J' ? 0.18 : n === 'A' || n === 'E' && k === 0 ? 0.18 : 0.3, u = t - t0;
     if (u >= -0.02 && u < 0.5) a = Math.max(a, big * (u < 0.04 ? 1 : u < 0.08 ? 0.3 : u < 0.12 ? 0.8 : Math.exp(-(u - 0.12) / 0.09)));
   }
   if (a > 0.003) { g.globalAlpha = a; rect(0, 0, W, H, '#e8eeff'); g.globalAlpha = 1; }

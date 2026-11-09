@@ -395,6 +395,8 @@ elif SHOT == 'H':   # the concrete block: they run in through the door
     camkeys([(0, tuple(d0 + Vector((-10, 19, 1.8))), tuple(d0 + Vector((-2, 2, 2.6)))), (E, tuple(d0 + Vector((-7, 12, 1.7))), tuple(d0 + Vector((0, 0, 2.8))))])
     flash(int(E * ev(0, 0.35)), 3.0)
     HAZE = 0.0025
+    hide(*[o for o in bpy.data.objects if o.name.split('.')[0] in ('signpost', 'board', 'Text', 'Cone')    # the camera flies through the signpost here
+           and (Vector(o.location[:2]) - FK.xy).length < 5])
 elif SHOT == 'I':   # inside: Богдан leans on the wall by a window; the hunter pulls him into the middle of the room
     sky((0.08, 0.09, 0.11), (0.3, 0.31, 0.34), 0.9); sun(0.8, (0.82, 0.86, 1.0), 32, 150)
     cam_data.lens = 28
@@ -410,20 +412,19 @@ elif SHOT == 'I':   # inside: Богдан leans on the wall by a window; the hu
     camkeys([(0, tuple(BLD + Vector((-2.0, -2.6, 1.6))), tuple(wall + Vector((-0.4, 0, 1.2)))), (E, tuple(BLD + Vector((-2.3, -2.2, 1.55))), tuple(BLD + Vector((-5.2, 1.6, 1.1))))])
     for f in (int(E * ev(0, 0.15)), int(E * ev(1, 0.7))): flash(f, 8.0)
     HAZE = 0.0
-elif SHOT == 'J':   # from the doorway, low: the bolt comes down on the radar
+elif SHOT == 'J':   # on the threshold, under the canopy's edge: the bolt comes down on the radar, big
     sky((0.07, 0.08, 0.1), (0.28, 0.29, 0.32), 0.8); sun(0.8, (0.82, 0.86, 1.0), 32, 150)
-    cam_data.lens = 18
     MX = X0 + 21 * DX                               # the mast straight ahead of the door (x = 60)
-    place(HUN, DOOR + Vector((-0.78, -0.55, 0)), Vector((MX, 0, 0))); place(BOG, DOOR + Vector((0.82, -0.6, 0)), Vector((MX, 0, 0))); place(DOG, DOOR + Vector((-1.6, -1.2, 0)), Vector((MX, 0, 0)))   # at the jambs: the frame's edges
-    hit = int(E * ev(0, 0.12))
-    b3 = bolt((MX + 70, 160, 560), (MX, -0.5, H + 1), 11, r=2.2, branches=4); strike(b3, hit, n=3); flash(hit, 24.0, decay=7)
-    for d_ in (6, 12): b3.hide_render = False; b3.keyframe_insert('hide_render', frame=hit + d_); b3.hide_render = True; b3.keyframe_insert('hide_render', frame=hit + d_ + 1)
+    hide(HUN['root'], BOG['root'], DOG['root'])     # they are inside, behind the camera
+    hit = int(E * ev(0, 0.12)); hit -= hit % STEP      # on a rendered frame (every STEP-th)
+    b3 = bolt((MX + 45, 40, 430), (MX, -0.5, H + 1), 11, r=2.4, branches=4); flash(hit, 4.0, decay=8)
+    for d_, on in [(0, True), (6, False), (8, True), (10, False), (16, True), (18, False)]:     # ~0.2 s, a flicker, a second stroke
+        b3.hide_render = not on; b3.keyframe_insert('hide_render', frame=hit + d_)
     glow = ico((MX, -0.5, H + 1), 3.0, mat('glow', (1.0, 0.9, 0.8), emit=60), sub=2, name='glow'); glow.hide_render = True; glow.keyframe_insert('hide_render', frame=0)
-    hit -= hit % STEP
-    for d_, on in [(0, True), (STEP + 2, False)]: glow.hide_render = not on; glow.keyframe_insert('hide_render', frame=hit + d_)
-    cam_data.lens = 22
-    camkeys([(0, tuple(DOOR + Vector((0.05, -1.6, 0.4))), (MX, 0, 135)), (E, tuple(DOOR + Vector((0.05, -1.45, 0.42))), (MX, 0, 140))])   # the radar's top under the lintel
-    HAZE = 0.0025
+    for d_, on in [(0, True), (10, False), (16, True), (18, False)]: glow.hide_render = not on; glow.keyframe_insert('hide_render', frame=hit + d_)
+    cam_data.lens = 35
+    camkeys([(0, tuple(DOOR + Vector((0.0, 0.25, 1.1))), (MX, -3, 120)), (E, tuple(DOOR + Vector((0.0, 0.45, 1.15))), (MX, -3, 126))])   # the canopy's edge across the top
+    HAZE = 0.001
 elif SHOT == 'K':   # they sit on the floor in the middle of the room; the light outside comes back
     bg, mx = sky((0.08, 0.09, 0.11), (0.3, 0.31, 0.34), 0.8); s_ = sun(0.6, (1.0, 0.86, 0.65), 18, 220)
     bg.inputs['Strength'].keyframe_insert('default_value', frame=int(E * 0.2)); bg.inputs['Strength'].default_value = 1.4; bg.inputs['Strength'].keyframe_insert('default_value', frame=int(E * 0.85))
