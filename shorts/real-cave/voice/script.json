@@ -1,0 +1,124 @@
+{
+ "note": "Narration for «Дети в затопленной пещере» — «Реальные истории», 3 (viewers voted 2 under «69 дней под землёй»). Built on the retention formula: ~45 s, a hook with a question answered only at the end («спасти их можно только во сне» → they were sedated and carried out), a stop-question in the middle (swim or wait?), the easter egg (Пурга hidden three times). Tham Luang, Chiang Rai, Thailand: on 23 June 2018 twelve boys of the Wild Boars football team (11–16) and their 25-year-old coach Ekkapol Chanthawong went into the cave after training; monsoon rain flooded the passages and they retreated to a muddy ledge about 4 km inside. No food; they drank water dripping from the rock, not the murky floodwater; the coach, a former monk, taught them to meditate to stay calm and save energy and air. On 2 July (day 10) British cave divers John Volanthen and Rick Stanton found them. The boys could not dive; from 8 to 10 July they were sedated, fitted with full-face masks and carried out underwater one by one by the divers; all 13 survived (a former Thai Navy SEAL, Saman Kunan, died on 6 July placing air tanks). Sources: Wikipedia «Tham Luang cave rescue»; TIME 2018; The Jakarta Post 19.07.2018 («It was a miracle»); Khaosod English 06.07.2018; Bangor Daily News 05.07.2018. Words the voice may stress wrongly are avoided: «заперты» (→ «застряли»), «Еды» (→ «Есть нечего»). Next vote: the tsunami on the beach (Tilly Smith, 2004) or a volcanic eruption (Mount Pelée, 1902: a prisoner survived in a stone cell). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Тринадцать человек застряли в пещере, а вода прибывает. Спасти их можно только во сне.",
+   "at": 0.12,
+   "sub": [
+    5,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Таиланд, две тысячи восемнадцатый. Футбольная команда и тренер заходят в пещеру. Начинается ливень.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Вода затапливает выход, и они уходят на четыре километра вглубь.",
+   "after": 0.3,
+   "sub": [
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Есть нечего. Пьют только чистую воду, которая капает со скалы.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Стоп. Что бы сделал ты: поплыл к выходу или ждал?",
+   "after": 0.3,
+   "sub": [
+    1,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Ждать! Под водой километры тёмных проходов, а плавать они не умеют.",
+   "after": 0.9,
+   "sub": [
+    1,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "На десятый день из воды выныривают два водолаза.",
+   "after": 0.35,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Детям дают лекарство, чтобы они уснули, надевают маски и выносят под водой по одному.",
+   "after": 0.3,
+   "sub": [
+    5,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Спасены все тринадцать.",
+   "after": 0.3,
+   "sub": [
+    3
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Запомни: застрял под землёй — не плыви вслепую. Жди на сухом месте и береги силы.",
+   "after": 0.45,
+   "sub": [
+    4,
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Дальше: цунами на пляже или извержение вулкана? Пиши 1 или 2.",
+   "tts": "Дальше: цунами на пляже или извержение вулкана? Пиши один или два.",
+   "after": 0.4,
+   "sub": [
+    1,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "Подписывайся!",
+   "after": 0.3,
+   "sub": [
+    1
+   ]
+  }
+ ]
+}
