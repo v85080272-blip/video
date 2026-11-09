@@ -72,7 +72,7 @@ function teamOnLedge(t, y, o = {}) {
 function hook(t) {
   caveWalls(t, { roof: 470 });
   ledge(1020);
-  teamOnLedge(t, 1060, { lamp: true, lookY: 0.6 });
+  teamOnLedge(t, 1060, { lamp: true, lookY: 0.6, s: 0.36 });
   const wl = lerp(1700, 1240, seg(0, T.c1, t, x => x));
   water(t, wl);
   for (const [x, y] of [[180, 640], [520, 700], [860, 620]]) { const gr = g.createRadialGradient(x, y, 0, x, y, 420); gr.addColorStop(0, 'rgba(255,230,160,0.12)'); gr.addColorStop(1, 'rgba(255,230,160,0)'); g.fillStyle = gr; g.fillRect(x - 420, y - 420, 840, 840); }
@@ -244,7 +244,7 @@ function overlays(t) {
   Hd.timeStamp(t, T.c1 + 0.15, T.c2 - 0.05, '23.06.2018 · ТАИЛАНД', { color: WARM });
   if (sc === 'flood') Hd.plaque(t, T.km, T.c3 - 0.05, 540, 330, { icon: 'x', title: '4 КМ ПОД ГОРОЙ', sub: 'выход под водой', color: DANGER, size: 46 });
   if (sc === 'drip') {
-    Hd.plaque(t, T.drink + 0.2, T.c4 - 0.05, 540, 330, { icon: 'drop', title: 'ТОЛЬКО С ПОТОЛКА', sub: 'чистая вода капает со скалы', color: OK, size: 42 });
+    Hd.plaque(t, T.drink + 0.2, T.c4 - 0.05, 540, 330, { icon: 'drop', title: 'ТОЛЬКО С ПОТОЛКА', sub: 'чистая вода капает сверху', color: OK, size: 42 });
     Hd.plaque(t, T.drink + 0.6, T.c4 - 0.05, 540, 480, { icon: 'x', title: 'НЕ ИЗ ЛУЖИ', sub: 'мутная вода — болезни', color: DANGER, size: 40 });
   }
   if (sc === 'stop') { const ks = sp(t, T.c4, 2.2, 8); if (ks > 0.01) { g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 560); g.rotate(-0.06); const z = lerp(1.8, 1, Math.min(1, ks)); g.scale(z, z); g.globalAlpha = Math.min(1, ks * 3);
