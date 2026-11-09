@@ -39,7 +39,7 @@ def score(M, dur):
     b.wet.add(m['c1'], saws(rng, [41, 48, 53, 57], m['c2'] - m['c1'] + 0.2, attack=0.4, release=0.3, bright=900), -18, 0.0)
     for i, t in enumerate(grid(m['c1'] + 0.1, m['c2'], BEAT / 2)):
         b.dry.add(t, pizz(rng, [41, 48, 53, 48, 45, 48, 52, 48][i % 8], 0.5), -14, -0.2 + 0.4 * (i % 2))
-    for k, w_ in enumerate(('L1w4', 'L1w5', 'L1w7', 'L1w15')):
+    for k, w_ in enumerate(('L1w4', 'L1w5', 'L1w7', 'L1w10')):
         b.dry.add(A[w_], glock(rng, [81, 84, 88, 86][k], 0.5, 1.4), -15, -0.3 + 0.2 * k)
 
     c = S['1986'] = Sec(dur, stop=m['c3'], over=0.05)

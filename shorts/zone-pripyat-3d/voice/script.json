@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Мёртвый город» («Зона», серия 4, 3D): viewers voted 1 under «Дуга» (the dead city), and @KolyaKostenko, @НастяКарпенко-э9с and @MaryMama2308 wrote «возьми с собой» — they come along, and Богдан again. Pripyat: about 49,400 people in 1986; on 27 April 1986 the city was emptied in about three hours (some 1,200 buses), the people were told it was for three days and never came back; 40 years on (2026) nobody lives there. Rules: the buildings are not entered — forty years without repair, floors and stairs give way (tour rules; travel reports); nothing is taken out — things can carry radioactive dust (the gas masks on the floors); the basement of hospital No. 126 holds the firefighters' clothes from the night of the accident and is one of the most radioactive places in the city; visits are by day, nobody stays the night in the Zone; at the exit everyone passes the radiation control frame (chernobylgallery.com «Pripyat Hospital»; chernobylstory.com; Hiroshima Peace Media «Chernobyl Today, Part 2»; Moscow Times 2011 «The day a Soviet paradise stood still»; Boston Globe 2019). Next vote: a night in the Zone, or the forest fire (the Exclusion Zone wildfires of April 2020). «пол» not «полы» (пОлы / полЫ); no «дозиметр» (дозимЕтр in ep. 1). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "note": "Narration for «Мёртвый город» («Зона», серия 4, 3D): viewers voted 1 under «Дуга» (the dead city), and @KolyaKostenko, @НастяКарпенко-э9с and @MaryMama2308 wrote «возьми с собой» — they come along, and Богдан again. Pripyat: about 49,400 people in 1986; on 27 April 1986 the city was emptied in about three hours (some 1,200 buses), the people were told it was for three days and never came back; 40 years on (2026) nobody lives there. Rules: the buildings are not entered — forty years without repair, floors and stairs give way (tour rules; travel reports); nothing is taken out — things can carry radioactive dust (the gas masks on the floors); the basement of hospital No. 126 holds the firefighters' clothes from the night of the accident and is one of the most radioactive places in the city; visits are by day, nobody stays the night in the Zone; at the exit everyone passes the radiation control frame (chernobylgallery.com «Pripyat Hospital»; chernobylstory.com; Hiroshima Peace Media «Chernobyl Today, Part 2»; Moscow Times 2011 «The day a Soviet paradise stood still»; Boston Globe 2019). Next vote: a night in the Zone, or the forest fire (the Exclusion Zone wildfires of April 2020). «пол» not «полы» (пОлы / полЫ); no «дозиметр» (дозимЕтр in ep. 1); «они написали «возьми с собой»» dropped from L1 — all six takes read «написАли» (the nick cards say it instead). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
  "tail": 0.35,
  "lines": [
   {
@@ -14,12 +14,11 @@
   },
   {
    "id": "L1",
-   "text": "Это Припять. С нами Коля, Настя и Мэри: они написали «возьми с собой». И снова Богдан.",
+   "text": "Это Припять. С нами Коля, Настя и Мэри. И снова Богдан.",
    "after": 0.4,
    "sub": [
     2,
     6,
-    5,
     3
    ]
   },

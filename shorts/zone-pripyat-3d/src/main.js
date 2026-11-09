@@ -51,7 +51,7 @@ const frac = (n, t) => { const [, a, b] = shotOf(n); return clamp((t - a) / (b -
 // what happens inside a shot, as fractions of it (blender/pripyat.py reads them as EV): the waves at the names, the hand on
 // Коля's shoulder, the slab, the gas mask picked up and put down, Богдан's hand on Настя, Мэри's thumbs up
 export const EV = {
-  B: [frac('B', A.L1w4), frac('B', A.L1w5), frac('B', A.L1w7), frac('B', A.L1w15)],
+  B: [frac('B', A.L1w4), frac('B', A.L1w5), frac('B', A.L1w7), frac('B', A.L1w10)],
   D: [frac('D', A.L3w3)],
   E: [frac('E', T.crash - 0.25)],
   F: [frac('F', A.L5 + 0.1), frac('F', A.L5w5)],
@@ -100,7 +100,7 @@ function dosimeter(t) {
 }
 // the four nicks: a card pops in as each is named (mono: «б» must not read as «6»)
 const NICKS = [['@KolyaKostenko', 'написал «возьми меня с собой»', 'L1w4'], ['@НастяКарпенко-э9с', 'написала «возьми с собой»', 'L1w5'],
-  ['@MaryMama2308', 'написала «возьми с собой»', 'L1w7'], ['@БогданУзун-6б6', 'снова с нами', 'L1w15']];
+  ['@MaryMama2308', 'написала «возьми с собой»', 'L1w7'], ['@БогданУзун-6б6', 'снова с нами', 'L1w10']];
 function nickCards(t) {
   if (shotAt(t) !== 'B') return;
   NICKS.forEach(([s1, s2, w_], i) => {
@@ -223,7 +223,7 @@ export function cues() {
   add(0.2, 'roof_wind', -16, 0, { dur: T.c2 - 0.2 });
   add(0.6, 'tweet', -22, 0.3, { dur: 1.2 }); add(T.c1 + 0.3, 'tweet', -22, -0.3, { dur: 1.2 });
   add(T.c1 + 0.2, 'steps_out', -16, 0, { dur: T.c2 - T.c1 - 0.3 });
-  for (const w_ of ['L1w4', 'L1w5', 'L1w7', 'L1w15']) add(A[w_] + 0.02, 'pop_word', -10, 0);
+  for (const w_ of ['L1w4', 'L1w5', 'L1w7', 'L1w10']) add(A[w_] + 0.02, 'pop_word', -10, 0);
   add(T.c2, 'crowd_murmur', -20, 0, { dur: T.c3 - T.c2 }); add(T.c2 + 0.2, 'heli_far', -22, -0.4, { dur: T.c3 - T.c2 - 0.3 });
   add(T.c3, 'roof_wind', -18, 0, { dur: T.c8 - T.c3 }); add(T.c3 + 0.1, 'steps_out', -12, 0.2, { dur: T.c4 - T.c3 - 0.2 });
   add(T.crash, 'wall_hit', -2, 0.2); add(T.crash + 0.15, 'thud', -6, 0.1);
