@@ -282,7 +282,7 @@ def gasmask():
 GM = proto('gasmask', gasmask)
 for k in range(170):
     p = SR_ + Vector((rd.uniform(-5.6, 5.6), rd.uniform(-4.1, 4.1), 0.06))
-    inst(GM, tuple(p), (1, 1, 1), (rd.uniform(1.2, 1.9), rd.uniform(-0.5, 0.5), rd.uniform(0, 6.28)), name='gm')
+    inst(GM, tuple(p + Vector((0, 0, 0.03))), (1, 1, 1), (rd.uniform(-1.85, -1.3), rd.uniform(-0.35, 0.35), rd.uniform(0, 6.28)), name='gm')     # face up: the eyepieces to the ceiling
 MASK = inst(GM, (0, 0, 0), name='mary_mask')                    # the one Мэри picks up (parented to her hand in F)
 bpy.ops.object.light_add(type='AREA', location=tuple(SR_ + Vector((0, 0, 3.0)))); RFILL = bpy.context.object; RFILL.data.energy = 650; RFILL.data.size = 9; RFILL.data.color = (0.85, 0.9, 1.0)
 
@@ -459,7 +459,7 @@ elif SHOT == 'F':   # the school room: Мэри picks up a gas mask… and puts 
     fp, fd = int(E * ev(0, 0.25)), int(E * ev(1, 0.62))
     place(MAR, SR_ + Vector((1.2, 0.4, 0)), SR_ + Vector((-2, -3, 0)))
     for P, p in ((NAS, SR_ + Vector((3.2, 2.2, 0))), (BOG, SR_ + Vector((4.0, 0.6, 0))), (HUN, SR_ + Vector((3.5, -1.6, 0))), (KOL, SR_ + Vector((2.6, 3.3, 0))), (DOG, SR_ + Vector((2.6, -0.4, 0)))): place(P, p, MAR['root'].location)
-    hold = empty((0, 0, -0.6), 'mask_hold', parent=MAR['arms'][1]); MASK.parent = hold; MASK.location = (0, 0, -0.08); MASK.rotation_euler = (math.radians(70), 0, 0)
+    hold = empty((0, 0, -0.6), 'mask_hold', parent=MAR['arms'][1]); MASK.parent = hold; MASK.location = (0, -0.05, -0.1); MASK.rotation_euler = (math.radians(-20), 0, math.radians(180))
     key(MASK, 'scale', 0, (0.001, 0.001, 0.001)); key(MASK, 'scale', fp + 3, (0.001, 0.001, 0.001)); key(MASK, 'scale', fp + 4, (1, 1, 1)); key(MASK, 'scale', fd + 3, (1, 1, 1)); key(MASK, 'scale', fd + 4, (0.001, 0.001, 0.001))
     arm_to(MAR, 0, 0); arm_to(MAR, fp, 30); arm_to(MAR, fp + 6, -95); arm_to(MAR, fd, -95); arm_to(MAR, fd + 6, 25); arm_to(MAR, fd + 12, 0)
     r0 = MAR['root'].rotation_euler.copy(); rb = r0.copy(); rb.x = math.radians(-22)
@@ -467,7 +467,7 @@ elif SHOT == 'F':   # the school room: Мэри picks up a gas mask… and puts 
     key(HUN['head'], 'rotation_euler', fd - 8, (0, 0, 0)); arm_to(HUN, fd - 8, 0); arm_to(HUN, fd - 2, -70, ang_z=20)
     camkeys([(0, tuple(SR_ + Vector((-1.0, -1.7, 1.05))), tuple(SR_ + Vector((1.2, 0.5, 0.75)))), (E, tuple(SR_ + Vector((-0.7, -1.4, 1.05))), tuple(SR_ + Vector((1.2, 0.5, 0.9))))])
     dof(3.0, 4.0)
-    HAZE = 0.004; HCOL = (0.95, 0.92, 0.85)
+    HAZE = 0.0
 elif SHOT == 'G':   # the hospital: Настя at the top of the basement stairs; Богдан holds her back — seen from the dark below
     cam_data.lens = 22
     top = BS + Vector((-2.2, -1.0, 0))

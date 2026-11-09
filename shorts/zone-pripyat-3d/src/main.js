@@ -9,7 +9,7 @@
 // Zone or the forest fire?
 import fs from 'node:fs';
 import { lerp, clamp, ease, spring, bump, hash, TAU } from './lib.js';
-import { g, W, H, ell, rect, rrect, fill, rrPath } from './flat.js';
+import { g, W, H, ell, rect, rrect, fill, rrPath, limb } from './flat.js';
 import * as Hd from './hud.js';
 import { text, measure, FONTS, INK } from './type.js';
 
@@ -120,12 +120,68 @@ function film(t) {
   if (shotAt(t) !== 'C') return;
   Hd.timeStamp(t, T.c2 + 0.1, T.c3 - 0.1, '27.04.1986 · ЭВАКУАЦИЯ', { color: WARM, dot: DANGER });
 }
+
+// —— to keep them watching ——
+// the easter egg: Мэри's kitten (her avatar) hides three times — in a window, behind a desk, on the pavement at sunset
+const KITTENS = [['D', 812, 628, 0.85, 'peek'], ['F', 940, 1004, 1.0, 'peek'], ['I', 958, 1196, 0.7, 'sit']];
+function kitten(x, y, s, pose, t) {
+  g.save(); g.translate(x, y); g.scale(s, s);
+  const fur = '#8d8f96', dark = '#5d5f66', blink = (t % 3.3) < 0.12;
+  if (pose === 'sit') { ell(0, 46, 34, 40, fur); ell(-6, 80, 30, 10, dark); limb([[26, 70], [52, 60], [58, 34]], 9, fur); }
+  for (const sx of [-1, 1]) { g.fillStyle = fur; g.beginPath(); g.moveTo(sx * 34, -10); g.lineTo(sx * 38, -54); g.lineTo(sx * 8, -30); g.closePath(); g.fill();
+    g.fillStyle = '#e9a3b3'; g.beginPath(); g.moveTo(sx * 30, -16); g.lineTo(sx * 33, -42); g.lineTo(sx * 15, -28); g.closePath(); g.fill(); }
+  ell(0, 0, 40, 34, fur); ell(-14, 6, 10, 7, '#a4a6ad'); ell(14, 6, 10, 7, '#a4a6ad');
+  for (const sx of [-14, 14]) { if (blink) limb([[sx - 7, -4], [sx + 7, -4]], 3, '#1e1f24', false); else { ell(sx, -4, 7, 9, '#f3e9a8'); ell(sx, -3, 3, 7, '#1e1f24'); } }
+  ell(0, 8, 4, 3, '#e98aa0');
+  for (const sx of [-1, 1]) for (const dy of [-2, 4]) limb([[sx * 10, 10 + dy * 0.3], [sx * 40, 6 + dy]], 1.5, 'rgba(255,255,255,0.7)', false);
+  if (pose === 'peek') for (const sx of [-16, 16]) ell(sx, 34, 11, 8, fur);
+  g.restore();
+}
+function kittens(t) {
+  const sh = shotAt(t);
+  for (const [n, x, y, s, pose] of KITTENS) {
+    if (sh !== n) continue;
+    const [, a, b] = shotOf(n), u = clamp((t - a - 0.4) / 0.3) * (1 - clamp((t - b + 0.5) / 0.3));
+    if (u <= 0) continue;
+    g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = u; kitten(x, y + 18 * (1 - u), s, pose, t); g.restore();
+  }
+}
+// the run of the episode as a strip under the time stamp: the three rules and the exit, lit as they pass
+function progress(t) {
+  const a = clamp((t - T.c3 + 0.2) / 0.3) * (1 - seg(T.c10 - 0.3, T.c10, t));
+  if (a <= 0.01) return;
+  const marks = [['ДОМА', T.c3], ['ВЕЩИ', T.c5], ['ПОДВАЛ', T.c6], ['ВЫХОД', T.c9]], x0 = 70, w = 940, y = 262, seg_ = w / marks.length;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = a;
+  fill(rrPath(x0, y - 22, w, 44, 22), 'rgba(11,15,26,0.72)');
+  marks.forEach(([s, t0], i) => {
+    const next = i + 1 < marks.length ? marks[i + 1][1] : T.c10, done = t >= next, on = t >= t0 && !done;
+    const x = x0 + i * seg_, c = done ? OK : on ? GOLD : 'rgba(201,214,234,0.35)';
+    if (done || on) fill(rrPath(x + 6, y - 16, (seg_ - 12) * (done ? 1 : clamp((t - t0) / (next - t0))), 32, 16), done ? 'rgba(47,143,78,0.55)' : 'rgba(255,210,63,0.35)');
+    text((done ? '✓ ' : '') + s, x + seg_ / 2, y + 9, 26, c === OK ? '#c8f5d4' : on ? '#ffe9a0' : '#8b97ad', { fam: FONTS.mono, shadow: false });
+  });
+  g.restore();
+}
+// the easter-egg note: at the start (the task) and at the end (the ask)
+function eggNote(t, t0, t1, s1, s2, y) {
+  const k = clamp(sp(t, t0, 2.6, 8)) * (1 - seg(t1 - 0.3, t1, t));
+  if (k <= 0.01) return;
+  const w = Math.max(measure(s1, 40, FONTS.cond), measure(s2, 28, FONTS.mono)) + 170;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, y); g.rotate(-0.02); g.scale(k, k);
+  rrect(-w / 2 + 6, -60 + 8, w, 120, 22, INK); rrect(-w / 2, -60, w, 120, 22, '#fff3d6');
+  g.save(); g.translate(-w / 2 + 62, 4); kitten(0, 0, 0.62, 'peek', t); g.restore();
+  text(s1, 50, -2, 40, INK, { fam: FONTS.cond, shadow: false });
+  text(s2, 50, 38, 28, '#5a5f6e', { fam: FONTS.mono, shadow: false });
+  g.restore();
+}
 function overlays(t) {
   const sh = shotAt(t);
   Hd.timeStamp(t, 0.3, T.c2 - 0.1, 'ПРИПЯТЬ · 11:20', { color: WARM, dot: DANGER });
   Hd.timeStamp(t, T.c3 + 0.15, T.c8 - 0.1, 'ПРИПЯТЬ · 14:05', { color: WARM, dot: DANGER });
   Hd.timeStamp(t, T.c8 + 0.15, DUR, 'ЗАКАТ · 18:40', { color: WARM, dot: OK });
-  dosimeter(t); nickCards(t); film(t);
+  dosimeter(t); nickCards(t); film(t); kittens(t); progress(t);
+  Hd.ribbon(t, 0.1, A.L0w6 - 0.15, 'ВСЕ ЛИ ПРОЙДУТ РАМКУ?', { y: 700, size: 74 });       // the open question; the answer is in J
+  eggNote(t, A.L0w6 + 0.2, T.c1 - 0.05, 'ПАСХАЛКА: 3 КОТЁНКА', 'спрятаны в серии — найди все', 1690);
+  eggNote(t, A.L11 + 0.2, DUR + 1, 'НАШЁЛ 3 КОТЁНКОВ?', 'пиши секунды в комментариях', 930);
   if (sh === 'A') Hd.plaque(t, A.L0w6, T.c1 - 0.05, 540, 420, { icon: 'house', title: 'ГОРОД-ПРИЗРАК', sub: '50 000 жителей · пусто 40 лет', color: GOLD, size: 44 });
   if (sh === 'C') {
     Hd.plaque(t, A.L2w2, T.c3 - 0.05, 540, 420, { icon: 'clock', title: 'ЗА 3 ЧАСА', sub: 'около 1200 автобусов', color: WARM, size: 46 });
@@ -141,7 +197,7 @@ function overlays(t) {
   if (sh === 'H') Hd.plaque(t, T.c7 + 0.2, T.c8 - 0.05, 540, 420, { icon: 'flame', title: 'ОДЕЖДА ПОЖАРНЫХ', sub: 'лежит здесь с 1986 года', color: DANGER, size: 44 });
   if (sh === 'I') Hd.plaque(t, A.L8w2, T.c9 - 0.05, 540, 420, { icon: 'clock', title: 'ДО ЗАКАТА', sub: 'ночевать в Зоне нельзя', color: WARM, size: 46 });
   if (sh === 'J') {
-    Hd.plaque(t, A.L9w3, T.c10 - 0.05, 540, 420, { icon: 'check', title: 'ЧИСТО', sub: 'рамка пропустила всех', color: OK, size: 52 });
+    Hd.plaque(t, A.L9w3, T.c10 - 0.05, 540, 420, { icon: 'check', title: 'ВСЕ ПРОШЛИ', sub: 'рамка: у всех чисто', color: OK, size: 52 });
   }
   if (t >= T.c10) {
     [['1', 'НОЧЬ В ЗОНЕ', A.L10w2], ['2', 'ЛЕСНОЙ ПОЖАР', A.L10w6]].forEach(([nn, s, t0], i) => {

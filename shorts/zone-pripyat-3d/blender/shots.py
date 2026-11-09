@@ -12,7 +12,7 @@ cues, rdir = sys.argv[1], sys.argv[2]
 only = sys.argv[3] if len(sys.argv) > 3 and sys.argv[3] != '-' else None
 pct = sys.argv[4] if len(sys.argv) > 4 else '66'
 samples = sys.argv[5] if len(sys.argv) > 5 else '10'
-SAMPLES = {'F': '14', 'H': '14', 'G': '12'}             # indoors, the basement, the pit: more bounces to settle
+SAMPLES = {'F': '12', 'H': '14', 'G': '12'}             # indoors, the basement, the pit: more bounces to settle
 M = json.load(open(cues))['marks']
 for name, t0, t1 in M['shots']:
     if only and name not in only:
