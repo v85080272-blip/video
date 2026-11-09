@@ -32,7 +32,7 @@ const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.i
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СЕМЬСОТ: DANGER, ЗЕМЛЁЙ: DANGER, ВЫЖИЛИ: OK, ОБРУШИЛАСЬ: DANGER, ВЫХОД: DANGER, ЛОВУШКЕ: DANGER, УБЕЖИЩЕ: GOLD,
   ПОРОВНУ: GOLD, ТУНЦА: GOLD, МОЛОКА: GOLD, СУТОК: DANGER, СЕМНАДЦАТЬ: GOLD, ЖИВЫ: OK, ЗАПИСКУ: GOLD, ПОРЯДКЕ: OK,
-  ПИСЬМА: WARM, КАПСУЛЕ: GOLD, БРИГАДИР: GOLD, НАДОЛГО: GOLD, ВМЕСТЕ: OK, ПУСТЫНЕ: GOLD, ОКЕАНЕ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  ПИСЬМА: WARM, КАПСУЛЕ: GOLD, БРИГАДИР: GOLD, НАДОЛГО: GOLD, ВМЕСТЕ: OK, ЦУНАМИ: DANGER, ПЕЩЕРЕ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 const T = {
   lit: A.L0w0, pull: A.L0w3 - 0.12, days: A.L0w7 - 0.1, survived: A.L0w12 - 0.05,
@@ -298,7 +298,7 @@ function overlays(t) {
     Hd.plaque(t, T.all, T.c10 - 0.05, 540, 470, { icon: 'check', title: 'ВСЕ ЖИВЫ', sub: 'бригадир — последним', color: OK, size: 52 });
   }
   if (t >= T.c11) {
-    [['1', '9 ДНЕЙ В ПУСТЫНЕ', A.L11w2], ['2', '76 ДНЕЙ НА ПЛОТУ', A.L11w7]].forEach(([nn, s, t0], i) => {
+    [['1', 'ЦУНАМИ НА ПЛЯЖЕ', A.L11w2], ['2', 'ДЕТИ В ПЕЩЕРЕ', A.L11w6]].forEach(([nn, s, t0], i) => {
       const k = clamp(sp(t, t0, 2.6, 8)) * (1 - seg(T.c12, T.c12 + 0.3, t));
       if (k <= 0.01) return;
       const w = measure(s, 50, FONTS.cond) + 130, y = 640 + i * 140;
@@ -346,7 +346,7 @@ export function cues() {
   add(T.c8, 'drill', -14, 0, { dur: T.lift - T.c8 }); add(T.lift, 'gate_chain', -12, 0, { dur: T.c9 - T.lift - 0.2 });
   add(T.c9, 'gate_chain', -12, 0, { dur: 1.0 }); add(T.c9 + 0.9, 'crowd_roar', -6, 0, { dur: T.c10 - T.c9 - 0.6 }); add(T.all, 'ding', -8, 0);
   add(T.c10, 'paper', -12, 0); for (const t0 of [A.L10w6, A.L10w8, A.L10w10]) add(t0 + 0.02, 'pop_word', -12, 0);
-  for (let i = 0; i < 2; i++) add((i ? A.L11w7 : A.L11w2) + 0.02, 'pop_word', -8, -0.3 + i * 0.6);
+  for (let i = 0; i < 2; i++) add((i ? A.L11w6 : A.L11w2) + 0.02, 'pop_word', -8, -0.3 + i * 0.6);
   add(A.L12w1, 'pop_word', -6, 0);
   return c.sort((a, b) => a.t - b.t);
 }
