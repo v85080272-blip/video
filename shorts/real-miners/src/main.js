@@ -32,7 +32,7 @@ const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.i
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СЕМЬСОТ: DANGER, ЗЕМЛЁЙ: DANGER, ВЫЖИЛИ: OK, ОБРУШИЛАСЬ: DANGER, ВЫХОД: DANGER, ЛОВУШКЕ: DANGER, УБЕЖИЩЕ: GOLD,
   ПОРОВНУ: GOLD, ТУНЦА: GOLD, МОЛОКА: GOLD, СУТОК: DANGER, СЕМНАДЦАТЬ: GOLD, ЖИВЫ: OK, ЗАПИСКУ: GOLD, ПОРЯДКЕ: OK,
-  ПИСЬМА: WARM, КАПСУЛЕ: GOLD, БРИГАДИР: GOLD, НАДОЛГО: GOLD, ВМЕСТЕ: OK, ЦУНАМИ: DANGER, ПЕЩЕРЕ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  РОДНЫХ: WARM, КАПСУЛЕ: GOLD, БРИГАДИР: GOLD, НАДОЛГО: GOLD, ВМЕСТЕ: OK, ЦУНАМИ: DANGER, ПЕЩЕРЕ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 const T = {
   lit: A.L0w0, pull: A.L0w3 - 0.12, days: A.L0w7 - 0.1, survived: A.L0w12 - 0.05,
@@ -285,7 +285,7 @@ function overlays(t) {
   if (sc === 'note') Hd.plaque(t, T.note, T.c7 - 0.05, 540, 330, { icon: 'comment', title: 'ЗАПИСКА НА БУРЕ', sub: 'по-испански, красным', color: OK, size: 44 });
   if (sc === 'supplies') {
     Hd.plaque(t, T.c7 + 0.3, T.c8 - 0.05, 540, 330, { icon: 'bottle', title: '«ГОЛУБКИ»', sub: 'так звали эти трубы', color: GOLD, size: 46 });
-    [['ЕДА', 'can', A.L7w6], ['ВОДА', 'drop', A.L7w7], ['ПИСЬМА ИЗ ДОМА', 'comment', A.L7w9]].forEach(([s, ic, t0], i) =>
+    [['ЕДА', 'can', A.L7w6], ['ВОДА', 'drop', A.L7w7], ['ЗАПИСКИ ОТ РОДНЫХ', 'comment', A.L7w9]].forEach(([s, ic, t0], i) =>
       Hd.plaque(t, t0, T.c8 - 0.05, i % 2 ? 760 : 300, 900 + i * 150, { icon: ic, title: s, color: [OK, '#4a90c9', WARM][i], size: 38 }));
   }
   if (sc === 'rescue' && t > T.lift) {
@@ -331,7 +331,7 @@ export function cues() {
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0.0, 'drip', -14, 0, { dur: T.pull }); add(0.0, 'rumble', -20, 0, { dur: T.c1, near: 0.1 });
   for (let i = 0; i < 6; i++) add(T.lit + i * (A.L0w2 + 0.3 - T.lit) / 6, 'click', -16, -0.5 + i * 0.2);
-  add(T.pull, 'whoosh', -8, 0); add(T.days, 'ticks_up', -12, 0.2); add(T.survived, 'stamp', -8, 0);
+  add(T.pull, 'whoosh', -8, 0); add(T.days, 'ticks_up', -17, 0.2, { dur: 1.0 }); add(T.survived, 'stamp', -8, 0);
   add(T.c1, 'steps_out', -12, 0, { dur: T.crash - T.c1 }); add(T.c1, 'roof_wind', -18, 0, { dur: T.c2 - T.c1 });
   add(T.crash - 0.2, 'rumble', -4, 0, { dur: 3.0, near: 0.8 }); add(T.crash, 'wall_hit', -4, 0); add(T.crash + 0.25, 'thud', -6, 0.3);
   add(T.block, 'thud', -8, -0.2);
