@@ -1,0 +1,130 @@
+{
+ "note": "Narration for «Мёртвый город» («Зона», серия 4, 3D): viewers voted 1 under «Дуга» (the dead city), and @KolyaKostenko, @НастяКарпенко-э9с and @MaryMama2308 wrote «возьми с собой» — they come along, and Богдан again. Pripyat: about 49,400 people in 1986; on 27 April 1986 the city was emptied in about three hours (some 1,200 buses), the people were told it was for three days and never came back; 40 years on (2026) nobody lives there. Rules: the buildings are not entered — forty years without repair, floors and stairs give way (tour rules; travel reports); nothing is taken out — things can carry radioactive dust (the gas masks on the floors); the basement of hospital No. 126 holds the firefighters' clothes from the night of the accident and is one of the most radioactive places in the city; visits are by day, nobody stays the night in the Zone; at the exit everyone passes the radiation control frame (chernobylgallery.com «Pripyat Hospital»; chernobylstory.com; Hiroshima Peace Media «Chernobyl Today, Part 2»; Moscow Times 2011 «The day a Soviet paradise stood still»; Boston Globe 2019). Next vote: a night in the Zone, or the forest fire (the Exclusion Zone wildfires of April 2020). «пол» not «полы» (пОлы / полЫ); no «дозиметр» (дозимЕтр in ep. 1). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Город на пятьдесят тысяч человек. Сорок лет здесь никто не живёт. И мы идём внутрь.",
+   "at": 0.12,
+   "sub": [
+    5,
+    6,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Это Припять. С нами Коля, Настя и Мэри: они написали «возьми с собой». И снова Богдан.",
+   "after": 0.4,
+   "sub": [
+    2,
+    6,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Город вывезли за три часа. Сказали — на три дня. Никто не вернулся.",
+   "after": 0.4,
+   "sub": [
+    5,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: в дома не заходи. Сорок лет без ремонта — пол и лестницы проваливаются.",
+   "after": 0.45,
+   "sub": [
+    5,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "И тут — грохот: с балкона падает плита!",
+   "after": 0.35,
+   "sub": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Второе: ничего не бери. Мэри, положи противогаз: на нём может быть радиоактивная пыль.",
+   "after": 0.45,
+   "sub": [
+    4,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Третье: в подвал больницы не спускайся. Там до сих пор лежит одежда пожарных.",
+   "after": 0.45,
+   "sub": [
+    6,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Это одно из самых радиоактивных мест в городе.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Темнеет. Уходим до заката: ночевать в Зоне нельзя.",
+   "after": 0.5,
+   "sub": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "На выходе рамка: у всех чисто. Мэри, хорошо, что ты бросила противогаз!",
+   "after": 0.45,
+   "sub": [
+    3,
+    3,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Куда дальше: ночь в Зоне или лесной пожар? Пиши 1 или 2.",
+   "tts": "Куда дальше: ночь в Зоне или лесной пожар? Пиши один или два.",
+   "after": 0.45,
+   "sub": [
+    2,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "А напиши «возьми с собой» — и в следующей серии идёшь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}
