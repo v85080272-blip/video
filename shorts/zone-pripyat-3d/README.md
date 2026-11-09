@@ -23,7 +23,18 @@ python3 blender/shots.py build/cues.json /home/user/work/pripyat-r ABCDEFGHIJK 6
 python3 tools/bg.py build/cues.json /home/user/work/pripyat-r build/bg.mp4
 OVERLAY=1 FPS=30 node render.mjs video build/overlay.mov 1
 cd tools && python3 music.py ../build/cues.json ../build/music.wav && python3 mix.py ../build/cues.json ../build/music.wav ../build/mix.wav ../build/voice.wav && cd ..
-ffmpeg -i build/bg.mp4 -i build/overlay.mov -i build/mix.wav -filter_complex "[0:v]tpad=stop_mode=clone:stop=2[b];[b][1:v]overlay=format=auto,format=yuv420p[v];[2:a]afade=t=out:st=54.75:d=0.5[a]" -map "[v]" -map "[a]" -c:v libx264 -preset slow -crf 16 -c:a aac -b:a 256k -ar 48000 -shortest -movflags +faststart out/zona-pripyat.mp4
+ffmpeg -i build/bg.mp4 -i build/overlay.mov -i build/mix.wav -filter_complex "[0:v]tpad=stop_mode=clone:stop=4[b];[b][1:v]overlay=format=auto,format=yuv420p[v];[2:a]afade=t=out:st=53.32:d=0.5[a]" -map "[v]" -map "[a]" -c:v libx264 -preset slow -crf 16 -c:a aac -b:a 256k -ar 48000 -shortest -movflags +faststart out/zona-pripyat.mp4
 ```
 
-@STATUS@
+Статус: собрано 09.11. `qa/check_clip.py`: ошибок нет (−14,2 LUFS, пик −2,0 dBTP, 53,8 с, 83 слова); сомнение в «Мэри»
+под музыкой — в чистом голосе «мЭри» (0,999), колокольчики на именах сдвинуты после них. Голос: L0 s2, L1 s2
+(`/home/user/work/zone-pripyat-b`: было «…они написали «возьми с собой»» — все шесть дублей «написАли», теперь «С нами
+Коля, Настя и Мэри. И снова Богдан»), L2 s5, L3 s4, L4 s2, L5 s3, L6 s4, L7 s1, L8 s6, L9 s6, L10 s6
+(`/home/user/work/zone-pripyat-fix`: нарезка обрезала «два», конец дотянут по дублю — `qa/extend_tail.py`), L11 s3.
+
+Чтобы досматривали (`../RETENTION.md`): лента-вопрос «ВСЕ ЛИ ПРОЙДУТ РАМКУ?» в первую секунду (ответ «ВСЕ ПРОШЛИ» в J),
+шкала прогресса «ДОМА → ВЕЩИ → ПОДВАЛ → ВЫХОД», пасхалка — котёнок Мэри спрятан три раза (в окне в D, на парте в F, на
+тротуаре в I), в начале «ПАСХАЛКА: 3 КОТЁНКА», в конце «НАШЁЛ 3 КОТЁНКОВ? Пиши секунды».
+
+После полного рендера класс (F) перерендерен: противогазы лежали стёклами вниз и читались как камни; без дымки в комнате
+и кадр в два раза быстрее. Кадры — в `/home/user/work/pripyat-r` (~5 ч на 2 процесса, 66 %, 10 сэмплов).

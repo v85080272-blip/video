@@ -40,7 +40,7 @@ def score(M, dur):
     for i, t in enumerate(grid(m['c1'] + 0.1, m['c2'], BEAT / 2)):
         b.dry.add(t, pizz(rng, [41, 48, 53, 48, 45, 48, 52, 48][i % 8], 0.5), -14, -0.2 + 0.4 * (i % 2))
     for k, w_ in enumerate(('L1w4', 'L1w5', 'L1w7', 'L1w10')):
-        b.dry.add(A[w_], glock(rng, [81, 84, 88, 86][k], 0.5, 1.4), -15, -0.3 + 0.2 * k)
+        b.dry.add(A[w_] + 0.45, glock(rng, [81, 84, 88, 86][k], 0.5, 1.4), -18, -0.3 + 0.2 * k)     # after the name, not on it
 
     c = S['1986'] = Sec(dur, stop=m['c3'], over=0.05)
     c.wet.add(m['c2'], saws(rng, [38, 45, 50], m['c3'] - m['c2'] + 0.2, attack=0.8, release=0.3, bright=400), -19, 0.0)
