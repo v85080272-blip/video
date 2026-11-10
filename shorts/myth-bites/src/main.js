@@ -161,7 +161,7 @@ function plaques(t) {
     P(A.L2w12, T.c3 - 0.05, 560, { icon: 'medkit', title: 'НЕ ДВИГАЙСЯ → К ВРАЧУ', color: OK, size: 42 });
   }
   if (sc === 'jelly' && t > T.v1) {
-    P(A.L4w1, T.c5 - 0.05, 320, { icon: 'x', title: 'СТАНЕТ БОЛЬНЕЕ', color: DANGER, size: 42 });
+    P(A.L4w1, T.c5 - 0.05, 320, { icon: 'x', title: 'БУДЕТ ТОЛЬКО БОЛЬНЕЕ', color: DANGER, size: 42 });
     P(A.L4w4, T.c5 - 0.05, 440, { icon: 'drop', title: 'ПРОМОЙ МОРСКОЙ ВОДОЙ', sub: 'не пресной', color: OK, size: 42 });
     P(A.L4w8, T.c5 - 0.05, 580, { icon: 'check', title: 'ЩУПАЛЬЦА — ПИНЦЕТОМ', color: OK, size: 42 });
   }
