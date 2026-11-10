@@ -1,0 +1,88 @@
+{
+ "note": "Narration for «Правда или миф», №1 «Три совета из кино» — a new short 2D format (feedback of 10.11: try «правда или миф» and shorter cuts). Three survival myths, each: the advice → 1.6 s for the viewer to guess (two buttons and a countdown) → the verdict and what to do instead; at the end «Сколько угадал?» for the comments. Facts: snakebite — do not cut or suck the wound, do not use a tourniquet; keep the person still, immobilise the limb and get to hospital (WHO «Snakebite envenoming» fact sheet; CDC NIOSH «Venomous snakes»). Jellyfish — urine does not help and can make the stinging cells fire more; rinse with sea water (not fresh water) and lift off the tentacles (Mayo Clinic «Jellyfish stings: first aid»; NHS). Quicksand — wet quicksand is about twice as dense as the human body, so a person cannot sink fully; struggling makes it grip harder: lie back to spread the weight and work the legs out slowly (Khaldoun et al., Nature 437, 2005; Smithsonian). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Три совета из кино. Два из них могут убить. Угадай, какой правда.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первый: укусила змея — высоси яд.",
+   "after": 0.35,
+   "sub": [
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Яд уже в крови, а ртом ты занесёшь в ранку заразу. Не двигайся и срочно к врачу.",
+   "after": 1.6,
+   "sub": [
+    1,
+    4,
+    4,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второй: обжёгся медузой — пописай на ожог.",
+   "after": 0.4,
+   "sub": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Миф! Станет только больнее. Промой морской водой и сними щупальца.",
+   "after": 1.6,
+   "sub": [
+    1,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третий: затягивает зыбучий песок — ляг на спину.",
+   "after": 0.4,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Правда! Ты легче мокрого песка и целиком не утонешь. Не дёргайся и медленно тяни ноги.",
+   "after": 1.6,
+   "sub": [
+    1,
+    4,
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Дальше — мифы про холод. Подписывайся!",
+   "after": 0.45,
+   "sub": [
+    2,
+    3,
+    4,
+    1
+   ]
+  }
+ ]
+}
