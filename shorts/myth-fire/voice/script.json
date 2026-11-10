@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Правда или миф», №5 «Пожар дома». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: never pour water on burning oil — it sinks, turns to steam and throws the burning oil out in a fireball; slide a lid over the pan and turn the burner off (State Farm; NFPA and USFA via safety summaries). Smoke and poisonous gases rise with the heat, the air is cleaner near the floor — get low and go under the smoke (fire department handouts citing NFPA). Use the stairs, never the elevator during a fire; the shaft draws smoke like a chimney and the lift can stop (Amarillo and Crystal Lake fire departments, citing NFPA). «ползи» avoided (пОлзи risk) → «держись пониже». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "note": "Narration for «Правда или миф», №5 «Пожар дома». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: never pour water on burning oil — it sinks, turns to steam and throws the burning oil out in a fireball; slide a lid over the pan and turn the burner off (State Farm; NFPA and USFA via safety summaries). Smoke and poisonous gases rise with the heat, the air is cleaner near the floor — get low and go under the smoke (fire department handouts citing NFPA). Use the stairs, never the elevator during a fire; the shaft draws smoke like a chimney and the lift can stop (Amarillo and Crystal Lake fire departments, citing NFPA). «ползи» avoided (пОлзи risk) → «держись пониже». at/after/tail/sub as in the blackout season; tts = what the voice reads. Rewritten after the takes: «залей водой» (five takes «зАлей») → «плесни водой»; «в дыму держись пониже, у самого пола» (most takes «дЫму», «самогО») → «когда кругом дым, держись пониже, у пола».",
  "tail": 0.35,
  "lines": [
   {
@@ -14,7 +14,7 @@
   },
   {
    "id": "L1",
-   "text": "Первый: загорелось масло на сковороде — залей водой.",
+   "text": "Первый: загорелось масло на сковороде — плесни водой.",
    "after": 0.35,
    "sub": [
     1,
@@ -35,12 +35,12 @@
   },
   {
    "id": "L3",
-   "text": "Второй: в дыму держись пониже, у самого пола.",
+   "text": "Второй: когда кругом дым, держись пониже, у пола.",
    "after": 0.35,
    "sub": [
     1,
-    4,
-    3
+    3,
+    4
    ]
   },
   {
