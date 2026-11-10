@@ -12,7 +12,7 @@ FPS = 30
 STEP = {}                                   # from build/cues.json (marks.step, as src/main.js renders them)
 # by day: a soft glow only round the brightest things (the sky over the arch, the lamp), a little more contrast and
 # colour than the haze leaves, cool shadows and warm highlights, a light vignette and grain
-LIFT = {'C': 'eq=saturation=0.6,colorbalance=rm=0.1:gm=0.03:bm=-0.12,'}      # 1986: an old film, warm and faded
+LIFT = {}      # «Лес горит»: one day, one grade (no 1986 film look)
 NOVIG = set()
 GRADE = ('format=gbrp,split=2[a][b];[b]scale=270:480,colorlevels=rimin=0.82:gimin=0.82:bimin=0.82,gblur=sigma=12,scale=1080:1920[gl];'
          '[a][gl]blend=all_mode=screen:all_opacity=0.35,'

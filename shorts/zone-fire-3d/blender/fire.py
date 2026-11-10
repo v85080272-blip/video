@@ -213,7 +213,6 @@ box(tuple(CP + Vector((0, -4.0, 4.0))), (3.0, 0.05, 1.0), SIGNBOARD, name='cp_si
 AR = Vector((520, 900, 0))
 bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=60, depth=160, location=tuple(AR + Vector((0, 0, 0))), rotation=(0, math.pi / 2, 0))
 arch = bpy.context.object; arch.data.materials.append(ARCH); arch.scale = (1, 1, 1.8)
-box(tuple(AR + Vector((0, 0, -55))), (400, 400, 110), DRYGRASS, name='arch_cut')       # sink the lower half
 for k in range(5): box(tuple(AR + Vector((120 + k * 50, 30, 18))), (40, 60, 36), CONC, name='block')
 cyl(tuple(AR + Vector((-130, 20, 75))), 6, 150, CONC, verts=12, name='stack')
 
@@ -339,13 +338,21 @@ elif SHOT == 'G':   # far: the arch over the reactor on the horizon; the burning
     sky((0.42, 0.52, 0.66), (0.98, 0.72, 0.5), 1.0); sun(2.6, (1.0, 0.7, 0.45), 14, 190)
     cam_data.lens = 35
     hide(*[P['root'] for P in GROUP], DOG['root'])
-    for k, root in enumerate(COLS[:5]): root.location = AR + Vector((-260 + k * 40, -180 + 10 * k, 0)); root.scale = (4, 4, 4)
-    cam_data.lens = 70
-    camkeys([(0, tuple(AR + Vector((-260, -520, 60))), tuple(AR + Vector((0, 0, 50)))), (E, tuple(AR + Vector((-250, -500, 62))), tuple(AR + Vector((0, 0, 50))))])
-    for k in range(80):
-        x = AR.x + rf.uniform(-330, 200); y = AR.y - rf.uniform(150, 330)
-        pine(x, y, rf.uniform(10, 16), 'young', 7000 + k)
-        if k % 3 == 0: inst(flame, (x, y, 4), (3, 2.5, 8), (0, 0.2, 0), 'farflame')
+    FAR = FIRE.copy(); FAR.node_tree.nodes['Math'].inputs[1].default_value = 4.0
+    _r = FAR.node_tree.nodes['Color Ramp'].color_ramp; _r.elements[0].color = (0.8, 0.06, 0.0, 1); _r.elements[1].color = (1.0, 0.3, 0.0, 1)
+    farflame = proto('farflame', lambda: cyl((0, 0, 0), 1.0, 1.0, FAR, verts=7, r2=0.0))
+    C = AR + Vector((-150, -560, 0)); fw = Vector((150, 560, 0)).normalized(); rt = Vector((fw.y, -fw.x, 0))
+    for k, root in enumerate(COLS[:4]): root.location = C + fw * (300 - 12 * k) + rt * (-95 + 38 * k); root.scale = (3, 3, 3)
+    for root in COLS[4:]: hide(root)
+    cam_data.lens = 35
+    camkeys([(0, tuple(C + Vector((0, 0, 30))), tuple(AR + Vector((0, 0, 42)))), (E, tuple(C + Vector((4, 10, 31))), tuple(AR + Vector((0, 0, 42))))])
+    for k in range(90):
+        d = rf.uniform(110, 430); l = rf.uniform(-0.3, 0.3) * d
+        q = C + fw * d + rt * l
+        pine(q.x, q.y, rf.uniform(10, 16), 'snag' if k % 3 == 1 else 'young', 7000 + k)
+        if k % 2 == 0:
+            for j in range(3):
+                inst(farflame, (q.x + rf.uniform(-3, 3), q.y + rf.uniform(-3, 3), 0), (rf.uniform(1.8, 2.6),) * 2 + (rf.uniform(5, 9),), (0, 0, 0), 'farflame')
     HAZE = 0.0003
 else:               # H: past the barrier, the road clean; they walk on, turn and wave back
     sky(*DAY, 1.0); sun(3.2, (1.0, 0.86, 0.68), 34, 160)

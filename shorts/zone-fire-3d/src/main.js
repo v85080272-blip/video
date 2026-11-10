@@ -39,7 +39,7 @@ const HOT = { ЧЕРНОБЫЛЬСКОЙ: GOLD, ГОРИТ: DANGER, ВЕТРУ: 
 const T = { c1: A.L1 - 0.06, c2: A.L2 - 0.06, c3: A.L3 - 0.06, c4: A.L4 - 0.06, c5: A.L5 - 0.06, c6: A.L6 - 0.06, c7: A.L7 - 0.06, ans: A.L4 - 0.04 };
 export const SHOTS = [['A', 0, T.c1], ['B', T.c1, T.c2], ['C', T.c2, T.c3], ['D', T.c3, T.c4], ['E', T.c4, T.c5], ['F', T.c5, T.c6], ['G', T.c6, T.c7], ['H', T.c7, DUR]];
 export const EV = {};
-export const STEP = { A: 2, B: 3, C: 2, D: 2, E: 2, F: 2, G: 3, H: 2 };
+export const STEP = { A: 3, B: 4, C: 3, D: 6, E: 3, F: 4, G: 6, H: 3 };          // the slow shots every 4th–6th frame, the rest in between (tools/bg.py)
 export const NF = Object.fromEntries(SHOTS.map(([n, a, b]) => [n, Math.round((b - a) * 30) + STEP[n]]));
 export const CUTS = SHOTS.slice(1).map(s => s[1]);
 export const SNAPS = [];
