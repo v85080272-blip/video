@@ -178,10 +178,8 @@ function overlays(t) {
   Hd.timeStamp(t, 0.3, T.c2 - 0.1, 'ПРИПЯТЬ · 11:20', { color: WARM, dot: DANGER });
   Hd.timeStamp(t, T.c3 + 0.15, T.c8 - 0.1, 'ПРИПЯТЬ · 14:05', { color: WARM, dot: DANGER });
   Hd.timeStamp(t, T.c8 + 0.15, DUR, 'ЗАКАТ · 18:40', { color: WARM, dot: OK });
-  dosimeter(t); nickCards(t); film(t); kittens(t); progress(t);
+  dosimeter(t); nickCards(t); film(t); progress(t);           // the kittens (kittens(), eggNote()) were too easy to find: out
   Hd.ribbon(t, 0.1, A.L0w6 - 0.15, 'ВСЕ ЛИ ПРОЙДУТ РАМКУ?', { y: 700, size: 74 });       // the open question; the answer is in J
-  eggNote(t, A.L0w6 + 0.2, T.c1 - 0.05, 'ПАСХАЛКА: 3 КОТЁНКА', 'спрятаны в серии — найди все', 1690);
-  eggNote(t, A.L11 + 0.2, DUR + 1, 'НАШЁЛ 3 КОТЁНКОВ?', 'пиши секунды в комментариях', 930);
   if (sh === 'A') Hd.plaque(t, A.L0w6, T.c1 - 0.05, 540, 420, { icon: 'house', title: 'ГОРОД-ПРИЗРАК', sub: '50 000 жителей · пусто 40 лет', color: GOLD, size: 44 });
   if (sh === 'C') {
     Hd.plaque(t, A.L2w2, T.c3 - 0.05, 540, 420, { icon: 'clock', title: 'ЗА 3 ЧАСА', sub: 'около 1200 автобусов', color: WARM, size: 46 });
