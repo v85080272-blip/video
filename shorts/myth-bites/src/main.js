@@ -62,8 +62,9 @@ const mouthOf = o => framesOf(o).H.p([-34, 40]);
 function hook(t) {
   const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#1d2a44'); gr.addColorStop(1, '#3a2240'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
   for (let i = 0; i < 30; i++) ell(1080 * hash(i * 1.3), 1920 * hash(i * 2.7), 3, 3, 'rgba(255,255,255,0.35)');
-  const ks = [A.L0w0, A.L0w1, A.L0w3].map(t0 => clamp(sp(t, t0 - 0.1, 2.6, 8)));
-  [['snake', 220], ['jelly', 540], ['sand', 860]].forEach(([k, x], i) => { if (ks[i] > 0.01) card(x, 760, 0.9 * ks[i], k, t); });
+  // all three cards are on screen from the very first frame (the feed shows it before the sound); each one bumps on its word
+  const ks = [A.L0w0, A.L0w1, A.L0w3].map(t0 => 1 + 0.12 * (t >= t0 - 0.1 ? Math.exp(-(t - t0 + 0.1) / 0.15) : 0));
+  [['snake', 220], ['jelly', 540], ['sand', 860]].forEach(([k, x], i) => card(x, 760, 0.9 * ks[i], k, t));
   hunter(t, 360, 1300, 0.62, { face: 1, look: [0.6, -0.3], brow: 0.4, mouth: 0.3 });
   drawDog({ x: 720, y: 1462, s: 0.55, face: -1, t, sit: 1, look: -0.3 });
 }
@@ -150,10 +151,10 @@ function plaques(t) {
   const sc = scene(t);
   const P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);
   if (sc === 'hook') {
-    const k = clamp(sp(t, 0.05, 2.4, 8));
+    const k = 1;                                         // the headline and the ribbon are there at 0 s: no pop-in on the first frame
     g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 360); g.scale(k, k); g.rotate(-0.03);
     const s = 'ПРАВДА ИЛИ МИФ?', sw = measure(s, 84) + 80; rrect(-sw / 2 + 10, -66 + 10, sw, 132, 22, INK); rrect(-sw / 2, -66, sw, 132, 22, '#ffd23f'); text(s, 0, 30, 84, INK, { shadow: false }); g.restore();
-    Hd.ribbon(t, A.L0w4 - 0.05, T.c1 - 0.05, '2 ИЗ 3 МОГУТ УБИТЬ', { y: 1060, size: 70 });
+    Hd.ribbon(t, -1, T.c1 - 0.05, '2 ИЗ 3 МОГУТ УБИТЬ', { y: 1060, size: 70 });
   }
   if (sc === 'snake' && t > T.v0) {
     P(A.L2w1, T.c3 - 0.05, 320, { icon: 'x', title: 'ЯД УЖЕ В КРОВИ', color: DANGER, size: 42 });
