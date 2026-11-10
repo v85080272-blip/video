@@ -1,0 +1,104 @@
+{
+ "note": "Narration for «Тонкий лёд» — «Реальные истории» №5, a standalone 2D short (≤45 s) built on every rule of the Studio export of 10.11: a bright first frame with the danger in big letters (ЛЁД ТРЕЩИТ? НЕ БЕГИ — ЛОЖИСЬ!), you in a real danger here and now, a STOP with two buttons in the middle, the real case at the end as the answer to the opening question, a loop. Ice cracks under you → don't run: lie down and crawl back (lying, the weight spreads) → STOP: you have fallen through — 1 climb out at the nearest edge or 2 turn to where you came from (2 s countdown) → 2: that ice already held you → arms on the ice, kick to get level, slide out on your belly; don't stand up, roll away → the first minute just breathe, then about ten minutes while the hands still work (1-10-1) → Norway 1999: a skier fell through the ice and was eighty minutes in ice water; her body cooled to 13.7 °C and she was saved → share. Facts: face the direction you came from — that ice held you; kick to get horizontal, don't climb straight up, slide out and roll away, don't stand until clear (CBC «Here's what to do if you fall through ice»; AccuWeather; US Coast Guard); 1-10-1 — about 1 minute of cold shock to get breathing under control, about 10 minutes of useful movement, about 1 hour before unconsciousness (Dr Gordon Giesbrecht; AMC «Remember the rule of 1-10-1»); МЧС: no sudden moves, spread the arms, crawl out on the chest, do not stand, roll or crawl away (Altapress citing МЧС; Rambler). Anna Bågenholm, May 1999, near Narvik, Norway: fell head-first through the ice of a stream while skiing, about 80 minutes in the freezing water (an air pocket, circulatory arrest after about 40 minutes), core temperature 13.7 °C, rewarmed on a heart-lung machine, fully recovered (Wikipedia «Anna Bågenholm»; ScienceAlert; CNN 2009). The name and the year are not voiced (on screen only); «пробыла» (прОбыла/пробылА) avoided → «была». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты идёшь по льду, и вдруг под ногами треск.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Не беги! Ложись и отползай назад.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Лёжа вес расходится, и лёд держит.",
+   "after": 0.25,
+   "sub": [
+    6
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Стоп. А если ты уже провалился? Один — лезть, где ближе. Два — туда, откуда пришёл.",
+   "after": 0.4,
+   "sub": [
+    6,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Два! Там лёд тебя уже выдержал.",
+   "after": 2.0,
+   "sub": [
+    1,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Руки на лёд, работай ногами и выползай на животе.",
+   "after": 0.3,
+   "sub": [
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Не вставай — откатись подальше.",
+   "after": 0.2,
+   "sub": [
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Первую минуту просто дыши. Потом у тебя минут десять, пока слушаются руки.",
+   "after": 0.35,
+   "sub": [
+    4,
+    8
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "В Норвегии лыжница провалилась под лёд и восемьдесят минут была в ледяной воде.",
+   "after": 0.45,
+   "sub": [
+    6,
+    7
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Тело остыло почти до четырнадцати градусов — но её спасли.",
+   "after": 0.25,
+   "sub": [
+    6,
+    3
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Перешли тому, кто зимой ходит по льду. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    7,
+    1
+   ]
+  }
+ ]
+}
