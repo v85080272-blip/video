@@ -32,7 +32,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { КИНО: GOLD, УБИТЬ: DANGER, ПРАВДА: OK, ЗМЕЯ: DANGER, ВЫСОСИ: GOLD, МИФ: DANGER, КРОВИ: DANGER, ЗАРАЗУ: DANGER, ВРАЧУ: OK,
-  МЕДУЗОЙ: DANGER, ПОПИСАЙ: GOLD, БОЛЬНЕЕ: DANGER, МОРСКОЙ: OK, ЩУПАЛЬЦА: GOLD, ЗЫБУЧИЙ: DANGER, СПИНУ: GOLD, ЛЕГЧЕ: OK,
+  МЕДУЗОЙ: DANGER, ПОМОЧИСЬ: GOLD, БОЛЬНЕЕ: DANGER, МОРСКАЯ: OK, ПИНЦЕТ: OK, ЩУПАЛЕЦ: GOLD, ЗЫБУЧИЙ: DANGER, СПИНУ: GOLD, ЛЕГЧЕ: OK,
   УТОНЕШЬ: OK, МЕДЛЕННО: OK, УГАДАЛ: GOLD, ХОЛОД: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the three: [setup line, verdict line, scene, the true answer]
@@ -46,7 +46,7 @@ const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const scene = t => (t < T.c1 ? 'hook' : t < T.c3 ? 'snake' : t < T.c5 ? 'jelly' : t < T.c7 ? 'sand' : 'end');
 const qOf = t => (t < T.c3 ? 0 : t < T.c5 ? 1 : 2);
-const PUNCH = [A.L0w8, T.v0, T.v1, T.v2, A.L1w4, A.L3w4, A.L5w5];
+const PUNCH = [A.L0w8, T.v0, T.v1, T.v2, A.L1w4, A.L3w4, A.L5w5];      // «высоси», «помочись», «ляг»
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.07 * z; }
 
 // —— the hunter, standing: hip at (x, y) ——
@@ -162,8 +162,8 @@ function plaques(t) {
   }
   if (sc === 'jelly' && t > T.v1) {
     P(A.L4w1, T.c5 - 0.05, 320, { icon: 'x', title: 'СТАНЕТ БОЛЬНЕЕ', color: DANGER, size: 42 });
-    P(A.L4w4, T.c5 - 0.05, 440, { icon: 'drop', title: 'ПРОМОЙ МОРСКОЙ ВОДОЙ', color: OK, size: 42 });
-    P(A.L4w8, T.c5 - 0.05, 560, { icon: 'check', title: 'СНИМИ ЩУПАЛЬЦА', color: OK, size: 42 });
+    P(A.L4w4, T.c5 - 0.05, 440, { icon: 'drop', title: 'ПРОМОЙ МОРСКОЙ ВОДОЙ', sub: 'не пресной', color: OK, size: 42 });
+    P(A.L4w8, T.c5 - 0.05, 580, { icon: 'check', title: 'ЩУПАЛЬЦА — ПИНЦЕТОМ', color: OK, size: 42 });
   }
   if (sc === 'sand' && t > T.v2) {
     P(A.L6w1, T.c7 - 0.05, 320, { icon: 'check', title: 'ТЫ ЛЕГЧЕ МОКРОГО ПЕСКА', color: OK, size: 40 });
