@@ -85,10 +85,13 @@ function layersScene(t) {
   winterDay(t, 1250);
   const rev = t > T.v1, off = rev && t > A.L4w8 - 0.1;
   hunter(t, 300, 1180, 0.82, { face: 1, look: [0.6, -0.1], brow: 0.3, mouth: 0.3 });
-  // the diagram: one thick coat or three thin layers with warm air between them
+  // the diagram: one thick coat or three thin layers with warm air between them; it steps aside while the buttons and the stamp are up
+  const da = 1 - seg(T.g1 - 0.2, T.g1, t) + seg(T.v1 + 0.9, T.v1 + 1.2, t);
+  g.save(); g.globalAlpha = clamp(da);
   thickCoat(760, 1120, 0.72); Hd.label('ОДНА ТОЛСТАЯ', 760, 1215, 42, INK, { fam: FONTS.cond, shadow: false });
   layers(760, 800, 0.8, t, rev ? clamp((t - A.L4w1) / 0.6) : 0); Hd.label('ТРИ ТОНКИХ', 760, 880, 42, INK, { fam: FONTS.cond, shadow: false });
   if (off) { const u = clamp((t - A.L4w8 + 0.1) / 0.6); g.save(); g.globalAlpha = 1 - u; g.translate(760 + 200 * u, 800 - 120 * u); g.rotate(0.8 * u); g.lineWidth = 22 * 0.8; g.strokeStyle = '#3a6aa8'; g.beginPath(); g.arc(0, 0, 0.8 * 220, Math.PI * 1.05, Math.PI * 1.95); g.stroke(); g.restore(); }
+  g.restore();
   drawDog({ x: 560, y: 1540, s: 0.5, face: 1, t, sit: 1, look: 0.4, wag: 1, wagPh: t * 3 });
 }
 function snowScene(t) {
