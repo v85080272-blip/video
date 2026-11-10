@@ -1,7 +1,7 @@
 # Effects of «Погас свет, ты на 20-м этаже», synthesised like sfx.py (noise through filters, damped partials, glides; no samples).
 # FX[name](rng, **cue) returns a mono or stereo float array at 48 kHz; names match cues() in src/main.js.
 import numpy as np
-from sfx import (splash, SR, TAU, n_, tt, lp, hp, bp, peak, white, colored, env, fade, norm, partials, sweep, harm, svf_bp, room, verb,
+from sfx import (clang, splash, SR, TAU, n_, tt, lp, hp, bp, peak, white, colored, env, fade, norm, partials, sweep, harm, svf_bp, room, verb,
                  thump, groan, whoosh, whoosh_in, pop, water, tick, sputter, zap, blip, click, toggle, power_down)
 
 
@@ -936,6 +936,17 @@ def ice_water(rng, dur=3.0, **_):
     return fade(norm(verb(y, room(rng, 0.8, damp=4000), 0.2), 0.5), 0.2, 0.3)
 
 
+def glass(rng, **_):
+    """a window breaking: a sharp crack, then shards tinkling down"""
+    d = 1.2
+    t = tt(d)
+    y = hp(white(rng, d), 2500) * np.exp(-t / 0.02) * 0.9
+    for _ in range(int(rng.integers(10, 16))):
+        s = rng.uniform(0.03, 0.9); f = rng.uniform(3000, 7000)
+        add(y, s, np.sin(TAU * f * tt(0.12)) * env(0.12, 0.001, 0.05) * rng.uniform(0.15, 0.45))
+    return fade(norm(verb(y, room(rng, 1.2, damp=7000), 0.25), 0.8), 0.001, 0.2)
+
+
 FX = {k: v for k, v in globals().items() if callable(v) and k in (
     'city', 'hum_stop', 'ticks_up', 'ribbon', 'crowd_steps', 'drain', 'whoosh_down', 'pump', 'spark', 'node_off', 'amb_flat',
     'tap_squeak', 'tap_run', 'tap_cough', 'fill_plink', 'whine', 'paper', 'candle', 'fire_whoosh', 'fire', 'puff', 'morning',
@@ -943,4 +954,4 @@ FX = {k: v for k, v in globals().items() if callable(v) and k in (
     'hooves', 'snort', 'cloth', 'wall_hit', 'tweet', 'thud', 'wood_clack', 'bark', 'screams', 'groans', 'car_alarm', 'scrape',
     'steps_out', 'zombie_growl', 'zombie_far', 'zombie_crowd', 'door_creak', 'door_unlock', 'door_open', 'stair_steps', 'heartbeat',
     'breath', 'zipper', 'pan_clang', 'dog_growl', 'keys', 'padlock', 'lock_drop', 'roof_wind', 'heli_far', 'beep', 'hatch_knock')}
-FX.update(ice_crack=ice_crack, ice_wind=ice_wind, crawl=crawl, ice_water=ice_water, splash=splash, surf=surf, gulls=gulls, flop=flop, wave_roar=wave_roar, wave_crash=wave_crash, steps_run=steps_run, alert=shout, thunder=thunder, rain=rain, rumble=rumble, drill=drill, drip=drip, power_down=power_down, whoosh=whoosh, whoosh_in=whoosh_in, blip=blip, click=click, toggle=toggle)
+FX.update(glass=glass, clang=clang, ice_crack=ice_crack, ice_wind=ice_wind, crawl=crawl, ice_water=ice_water, splash=splash, surf=surf, gulls=gulls, flop=flop, wave_roar=wave_roar, wave_crash=wave_crash, steps_run=steps_run, alert=shout, thunder=thunder, rain=rain, rumble=rumble, drill=drill, drip=drip, power_down=power_down, whoosh=whoosh, whoosh_in=whoosh_in, blip=blip, click=click, toggle=toggle)

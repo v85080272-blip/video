@@ -1,5 +1,5 @@
-# Score for «Правда или миф» №2 «Мифы про холод» (same quiz score as №1), synthesised with numpy (48 kHz stereo). A minor, beat 0.42 s.
-# The hook: a bright pizzicato pulse, a stab on «навредят». Each question: the pulse under the tip, then it drops out
+# Score for «Правда или миф» №5 «Пожар дома» (same quiz score as №1), synthesised with numpy (48 kHz stereo). A minor, beat 0.42 s.
+# The hook: a bright pizzicato pulse, a stab on «могут убить». Each question: the pulse under the tip, then it drops out
 # for the guess (only the ticking clock — sound effects), then a stinger on the verdict: a low brass chord for МИФ, a
 # bright major chord and a bell for ПРАВДА, and the pulse comes back under the advice. The end: the pulse, a celesta.
 # usage: python3 tools/music.py build/cues.json build/music.wav
@@ -36,7 +36,7 @@ def score(M, dur):
     h = S['hook'] = Sec(dur, stop=T['c1'], over=0.05)
     h.wet.add(0.0, saws(rng, [45, 52, 57, 60], T['c1'] + 0.2, attack=0.2, release=0.2, bright=900), -17, 0.0)
     pulse(h, rng, 0.1, T['c1'], [57, 64, 60, 64, 57, 64, 62, 64], 33)
-    h.dry.add(A['L0w9'], brass(rng, [45, 51, 57], 0.6, bright=2200), -10, 0.0)
+    h.dry.add(A['L0w8'], brass(rng, [45, 51, 57], 0.6, bright=2200), -10, 0.0)
 
     for i, (c0, c1) in enumerate([('c1', 'c3'), ('c3', 'c5'), ('c5', 'c7')]):
         q = S[f'q{i}'] = Sec(dur, stop=T[c1], over=0.05)
@@ -58,7 +58,7 @@ def score(M, dur):
     e.wet.add(T['c7'], saws(rng, [45, 52, 57, 61], dur - T['c7'], attack=0.3, release=0.4, bright=1000), -16, 0.0)
     pulse(e, rng, T['c7'] + 0.05, A['L7w2'] - 0.05, [57, 64, 61, 64], 33, 0.45)
     for k, (dt, n) in enumerate([(0.0, 69), (0.3, 73), (0.6, 76), (0.9, 81)]):
-        e.dry.add(A['L7w10'] + dt * 0.6, celesta(rng, n, 0.6), -12, 0.15)
+        e.dry.add(A['L7w11'] + dt * 0.6, celesta(rng, n, 0.6), -12, 0.15)
     return S, rng
 
 
