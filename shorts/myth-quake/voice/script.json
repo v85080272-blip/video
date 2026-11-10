@@ -1,0 +1,86 @@
+{
+ "note": "Narration for «Правда или миф», №4 «Землетрясение». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: a doorway is no stronger than any other part of a modern house and does not protect from falling and flying objects, the door can swing into you (FEMA; NZ Civil Defence «Don't shelter in a doorway»; San Bernardino County). Drop, Cover and Hold On: get under a sturdy table and hold its leg — it covers you from what falls (Great ShakeOut). Do not run outside during the shaking: moving people get hurt far more often, mostly by falling objects and glass; go out when it stops (ShakeOut; NZ Civil Defence). «начало трясти» avoided (начАло read as the noun) → «затрясло». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Три совета при землетрясении. Два из них опасны. Угадай, какой правда.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первый: трясёт — встань в дверной проём.",
+   "after": 0.35,
+   "sub": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Проём не крепче стены, а от падающих вещей он не спасёт.",
+   "after": 1.6,
+   "sub": [
+    1,
+    4,
+    7
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второй: залезь под стол и держись за ножку.",
+   "after": 0.35,
+   "sub": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Правда! Пригнись, укройся и держись. Стол прикроет от того, что падает сверху.",
+   "after": 1.6,
+   "sub": [
+    1,
+    4,
+    7
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третий: затрясло — скорее на улицу.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Миф! На бегу тебя скорее ранит: стёкла, обломки. Выходи, когда толчки закончатся.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. И перешли тому, кто живёт в высотке. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ]
+  }
+ ]
+}
