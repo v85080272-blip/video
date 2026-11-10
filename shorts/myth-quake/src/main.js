@@ -214,7 +214,7 @@ export function cues() {
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0.02, 'stamp', -12, 0);
   for (const t0 of [A.L0w0, A.L0w1, A.L0w3]) add(t0 - 0.08, 'pop_word', -10, 0);
-  add(T.c1, 'rumble', -10, 0, { dur: T.c7 - T.c1, near: 0.8 });
+  add(T.c1, 'rumble', -17, 0, { dur: T.c7 - T.c1, near: 0.8 });
   add(T.v0 + 0.1, 'thud', -12, 0.3); add(T.v0 + 0.3, 'thud', -14, 0.1); add(T.v0 + 0.5, 'clang', -16, 0.2);
   add(A.L3w1, 'cloth', -14, -0.2); add(A.L4w10, 'thud', -12, -0.2); add(A.L4w10 + 0.15, 'thud', -14, -0.1);
   add(A.L5w3 - 0.1, 'steps_run', -14, 0.2, { dur: 1.2 }); add(T.v2 + 0.1, 'glass', -10, 0.1); add(T.v2 + 0.4, 'glass', -14, -0.2);
