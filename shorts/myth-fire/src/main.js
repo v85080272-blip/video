@@ -165,12 +165,12 @@ function plaques(t) {
     P(A.L2w11, T.c3 - 0.05, 560, { icon: 'check', title: 'ВЫКЛЮЧИ ПЛИТУ', color: OK, size: 44 });
   }
   if (sc === 'smoke' && t > T.v1) {
-    P(A.L4w1, T.c5 - 0.05, 1580, { icon: 'x', title: 'ДЫМ И ЖАР — ВВЕРХУ', color: DANGER, size: 42 });
-    P(A.L4w6, T.c5 - 0.05, 1700, { icon: 'check', title: 'ВНИЗУ ВОЗДУХ ЧИЩЕ', color: OK, size: 42 });
+    P(A.L4w1, T.c5 - 0.05, 400, { icon: 'x', title: 'ДЫМ И ЖАР — ВВЕРХУ', color: DANGER, size: 42 });
+    P(A.L4w6, T.c5 - 0.05, 520, { icon: 'check', title: 'ВНИЗУ ВОЗДУХ ЧИЩЕ', color: OK, size: 42 });
   }
   if (sc === 'lift' && t > T.v2) {
-    P(A.L6w1, T.c7 - 0.05, 1640, { icon: 'x', title: 'ЛИФТ ЗАСТРЯНЕТ, ШАХТА ТЯНЕТ ДЫМ', color: DANGER, size: 36 });
-    P(A.L6w10, T.c7 - 0.05, 1760, { icon: 'stairs', title: 'ТОЛЬКО ЛЕСТНИЦА', color: OK, size: 44 });
+    P(A.L6w1, T.c7 - 0.05, 400, { icon: 'x', title: 'ЛИФТ ЗАСТРЯНЕТ, ШАХТА ТЯНЕТ ДЫМ', color: DANGER, size: 36 });
+    P(A.L6w10, T.c7 - 0.05, 520, { icon: 'stairs', title: 'ТОЛЬКО ЛЕСТНИЦА', color: OK, size: 44 });
   }
   if (sc === 'end') {
     const k = clamp(sp(t, T.c7 + 0.05, 2.4, 8)) * (1 - seg(A.L7w11 - 0.4, A.L7w11, t));
