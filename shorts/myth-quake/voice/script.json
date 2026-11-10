@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Правда или миф», №4 «Землетрясение». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: a doorway is no stronger than any other part of a modern house and does not protect from falling and flying objects, the door can swing into you (FEMA; NZ Civil Defence «Don't shelter in a doorway»; San Bernardino County). Drop, Cover and Hold On: get under a sturdy table and hold its leg — it covers you from what falls (Great ShakeOut). Do not run outside during the shaking: moving people get hurt far more often, mostly by falling objects and glass; go out when it stops (ShakeOut; NZ Civil Defence). «начало трясти» avoided (начАло read as the noun) → «затрясло». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "note": "Narration for «Правда или миф», №4 «Землетрясение». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: a doorway is no stronger than any other part of a modern house and does not protect from falling and flying objects, the door can swing into you (FEMA; NZ Civil Defence «Don't shelter in a doorway»; San Bernardino County). Drop, Cover and Hold On: get under a sturdy table and hold its leg — it covers you from what falls (Great ShakeOut). Do not run outside during the shaking: moving people get hurt far more often, mostly by falling objects and glass; go out when it stops (ShakeOut; NZ Civil Defence). «начало трясти» avoided (начАло read as the noun) → «затрясло». at/after/tail/sub as in the blackout season; tts = what the voice reads. Rewritten after the check: «не крепче стены» (стены́, genitive — the voice was right, but the check read it as стЕны, plural) → «не крепче стен», which has one reading.",
  "tail": 0.35,
  "lines": [
   {
@@ -23,7 +23,7 @@
   },
   {
    "id": "L2",
-   "text": "Миф! Проём не крепче стены, а от падающих вещей он не спасёт.",
+   "text": "Миф! Проём не крепче стен, а от падающих вещей он не спасёт.",
    "after": 1.6,
    "sub": [
     1,
