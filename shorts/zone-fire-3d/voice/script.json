@@ -1,0 +1,85 @@
+{
+ "note": "Narration for «Зона», серия 5 «Лес горит» (3D) — the viewers' vote (night in the Zone or a forest fire); a forest fire because the Studio export says dark night openings lose viewers. On the rules of the export: a bright first frame (the burning forest in daylight, «ЛЕС ГОРИТ?», «НЕ БЕГИ ПО ВЕТРУ!» from 0 s), ≈44 s, a STOP with two buttons in the middle, the real case at the end, a vote and «возьми с собой» for the comments; the radiation control is a real checkpoint (road, booth, barrier, canopy — the feedback of 10.11), called «пропускной пункт» (not «КПП», which the voice would spell out). Facts: in a forest fire leave across the wind and the fire, towards a road, a clearing, a river; breathe through a wet cloth and keep low, the air is cleaner near the ground (МЧС leaflets on forest fires). In the Zone the fire lifts radioactive dust (caesium) from the burning litter into the smoke. April 2020: the biggest fires recorded in the Zone, within about 2 km of the New Safe Confinement; the smoke reached Kyiv, which topped the world's pollution index; radiation in Kyiv stayed within the norm (NOAA; SciJinks; Atlantic Council; AP via KSTP). The Zone: only with a guide and a pass, closed to tourists now (on screen). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты в Чернобыльской зоне, и лес вокруг горит.",
+   "at": 0.12,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "По ветру огонь идёт быстрее всего. Уходи поперёк ветра — к дороге или к реке.",
+   "after": 0.3,
+   "sub": [
+    6,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "А дым в Зоне несёт радиоактивную пыль из леса.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Стоп. Дым уже рядом. Один — проскочить сквозь него. Два — закрыть нос мокрой тканью и пригнуться.",
+   "after": 0.4,
+   "sub": [
+    4,
+    4,
+    7
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Два! Мокрая ткань задержит часть дыма и пыли, а у земли воздух чище.",
+   "after": 2.0,
+   "sub": [
+    1,
+    7,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "У дороги — пропускной пункт. Тут всех проверяют на радиацию, и только потом выпускают.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "В апреле двадцатого года Зона горела по-настоящему. Огонь подошёл к станции на два километра, а дым дошёл до Киева.",
+   "after": 0.45,
+   "sub": [
+    7,
+    7,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Куда пойдём дальше? Пиши в комментариях. А напиши «возьми с собой» — и пойдёшь с нами.",
+   "after": 0.4,
+   "sub": [
+    3,
+    3,
+    5,
+    4
+   ]
+  }
+ ]
+}
