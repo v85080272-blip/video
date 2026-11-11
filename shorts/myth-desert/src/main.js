@@ -205,8 +205,8 @@ function badges(t, open) {                             // over each column: its 
     }
     g.restore();
     g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = k;
-    const lw = measure(label, 34, FONTS.cond) + 36; rrect(x - lw / 2 + 5, 1350 + 6, lw, 62, 14, INK); rrect(x - lw / 2, 1350, lw, 62, 14, '#fff3d6');
-    text(label, x, 1393, 34, INK, { fam: FONTS.cond, shadow: false }); g.restore();
+    const lw = measure(label, 34, FONTS.cond) + 36; rrect(x - lw / 2 + 5, 1300 + 6, lw, 62, 14, INK); rrect(x - lw / 2, 1300, lw, 62, 14, '#fff3d6');
+    text(label, x, 1343, 34, INK, { fam: FONTS.cond, shadow: false }); g.restore();
   });
 }
 function guess(t) {
@@ -253,7 +253,7 @@ function plaques(t, open) {
   P(A.L6w3, T.x2, 440, { icon: 'check', title: 'МЕНЬШЕ ПОТА — ВОДЫ ХВАТИТ ДОЛЬШЕ', color: OK, size: 34 });
   if (t >= T.c7 - 0.3) {
     headline('СКОЛЬКО УГАДАЛ?', 330, clamp(sp(t, T.c7 - 0.2, 2.4, 8)) * (1 - seg(A.L7w11 - 0.4, A.L7w11 - 0.1, t)));
-    P(A.L7w6, DUR + 1, 520, { icon: 'comment', title: 'ПЕРЕШЛИ ТОМУ, КТО ЛЮБИТ ПОХОДЫ', color: GOLD, size: 38 });
+    P(A.L7w6, A.L7w11 - 0.25, 520, { icon: 'comment', title: 'ПЕРЕШЛИ ТОМУ, КТО ЛЮБИТ ПОХОДЫ', color: GOLD, size: 38 });
   }
 }
 
