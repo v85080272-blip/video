@@ -1,0 +1,132 @@
+{
+ "note": "Narration for «Рыжий лес» («Зона», серия 2, in 2D: the viewers voted 2 — the Red Forest; and asked for more danger: no guide, you are alone with Пурга — you fell behind the group, so this is how to get out, not a way to go there). Facts: the Red Forest is named after the ginger-brown pines that died from the radiation in 1986; most were bulldozed and buried in trenches under sand; it is one of the most contaminated places in the world (Wikipedia «Red Forest»). Stay on concrete and asphalt, where there is less dust than on soil (tour guidance). Wild mushrooms collect caesium-137 more than other forest food (STUK, Finland; AGES, Austria). Wolves in the Chernobyl zone are more than seven times as many as in four uncontaminated reserves nearby (Deryabina et al. 2015, Current Biology). A wolf: do not run, make yourself big and loud, back away slowly facing it (Oregon Department of Fish and Wildlife; Colorado Parks and Wildlife). at/after/tail/sub as in the blackout season; tts = what the voice reads. L1 was «…сосны тут порыжели…» and L7 «Волков в Зоне…»: all six takes said «порЫжели»/«порыжелИ» and «вОлков», so they became «стали рыжими» and «Волки. Их в Зоне…» (new takes in /home/user/work/zone-red-forest-b). L10 was «…или в Припять?»: all six takes said «припЯть» in the question, so it became «или в мёртвый город?» (the card still says ПРИПЯТЬ; takes in /home/user/work/zone-red-forest-c). Then «сосны тут стали рыжими»: all six takes said «соснЫ» (it is «сОсны» here), so it became «лес тут стал рыжим» (takes in /home/user/work/zone-red-forest-d).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты отстал от группы. Вокруг Рыжий лес — самое грязное место Зоны.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "В восемьдесят шестом лес тут стал рыжим от радиации и погиб.",
+   "after": 0.45,
+   "sub": [
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Их снесли и закопали прямо здесь. А счётчик щёлкает до сих пор.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    6
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Первое: выходи только по дороге. На асфальте пыли меньше, чем в лесу.",
+   "after": 0.5,
+   "sub": [
+    1,
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Второе: закрой нос и рот. Ветер поднимает радиоактивную пыль.",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третье: никаких грибов. Они собирают радиацию сильнее всего в лесу.",
+   "after": 0.4,
+   "sub": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "И не пей из реки, даже если очень хочется.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А потом собака зарычала. Волки. Их в Зоне в семь раз больше, чем в заповедниках.",
+   "after": 0.5,
+   "sub": [
+    4,
+    1,
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Не беги. Стань выше, кричи и медленно отходи лицом к ним.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Волки ушли. А впереди развилка.",
+   "after": 0.5,
+   "sub": [
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Куда дальше: к радару «Дуга» или в мёртвый город? Пиши 1 или 2.",
+   "tts": "Куда дальше: к радару «Дуга» или в мёртвый город? Пиши один или два.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "А напиши «возьми с собой» — и в следующей серии идёшь с нами. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}

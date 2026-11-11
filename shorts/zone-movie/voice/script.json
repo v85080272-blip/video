@@ -1,0 +1,103 @@
+{
+ "note": "Narration for «Зона: 5 походов» — the long (≈5 min, 16:9) cut of the five 3D episodes. Only the new lines: the intro over a montage, four transitions between episodes («зрители выбрали…», with the route on the map), the outro: the main rules of the Zone read out while all 23 rules stand on screen (the one read lights up). The episodes keep their own voices; episodes 1–4 lose their vote endings («Пиши 1 или 2»), episode 5 keeps its vote. Facts: Pripyat is about 3 km from the plant. at/after/tail/sub as in the blackout season; tts = what the voice reads. Avoided: «в дома» (дОма/домА) → «в здания».",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "I0",
+   "text": "Что в Чернобыльской зоне может тебя убить? Пять походов туда, где до сих пор опасно. Досмотри до конца: в финале все правила Зоны на одном экране.",
+   "at": 0.3,
+   "sub": [
+    4,
+    3,
+    2,
+    6,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "T1",
+   "text": "Зрители выбрали Рыжий лес. И попросили больше опасности — поэтому дальше без гида.",
+   "after": 1.0,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "T2",
+   "text": "Следующая точка — радар «Дуга». И впервые с нами идёт зритель.",
+   "after": 1.0,
+   "sub": [
+    4,
+    6
+   ]
+  },
+  {
+   "id": "T3",
+   "text": "Дальше — Припять. Город всего в трёх километрах от станции.",
+   "after": 1.0,
+   "sub": [
+    2,
+    7
+   ]
+  },
+  {
+   "id": "T4",
+   "text": "Ночь в Зоне или лесной пожар? Зрители выбрали пожар.",
+   "after": 1.0,
+   "sub": [
+    6,
+    3
+   ]
+  },
+  {
+   "id": "O1",
+   "text": "Пять походов — и все вернулись. Вот главные правила Зоны.",
+   "after": 1.0,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "O2",
+   "text": "Только с гидом и по пропуску. Ничего не трогай и ничего не бери.",
+   "after": 0.5,
+   "sub": [
+    6,
+    7
+   ]
+  },
+  {
+   "id": "O3",
+   "text": "Выходи только по дороге, закрывай нос и рот. В грозу уходи подальше от высокого.",
+   "after": 0.5,
+   "sub": [
+    4,
+    4,
+    6
+   ]
+  },
+  {
+   "id": "O4",
+   "text": "В здания не заходи. При пожаре уходи поперёк ветра. А на выходе — проверка на радиацию.",
+   "after": 0.5,
+   "sub": [
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "id": "O5",
+   "text": "Подписывайся: дальше будет ещё страшнее.",
+   "after": 0.6,
+   "sub": [
+    5
+   ]
+  }
+ ]
+}
