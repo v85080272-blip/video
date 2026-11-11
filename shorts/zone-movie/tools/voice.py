@@ -17,7 +17,7 @@ BREATH_DB = -2.0                     # the narrator's own breaths, a touch under
 script, out = sys.argv[1:3]
 pick = dict(a.split('=', 1) for a in sys.argv[3:])
 lines = json.load(open(script))['lines']
-track = np.zeros(int(120 * SR))
+track = np.zeros(int((max([l.get('at', 0) for l in lines] + [0]) + 120) * SR))      # long enough for the long cut too
 placed, ok, prev_end = [], True, 0.0
 
 

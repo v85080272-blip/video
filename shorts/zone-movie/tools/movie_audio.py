@@ -64,7 +64,7 @@ def episode_audio(path, trim, fade):
     y = np.frombuffer(raw, np.float32).reshape(-1, 2).T.astype(np.float64)
     n = y.shape[1]
     if fade:
-        k = M.at(0.35); y[:, n - k:] *= np.linspace(1, 0, k)
+        k = M.at(0.12); y[:, n - k:] *= np.linspace(1, 0, k)          # after the last word of the vote (it can end 0.15 s before the cut)
     k = M.at(0.02); y[:, :k] *= np.linspace(0, 1, k)
     return y
 

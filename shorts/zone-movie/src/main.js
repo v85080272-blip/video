@@ -4,7 +4,9 @@
 // rules ticking as they are said, the count of all the rules); the transitions («зрители выбрали…», the poster of the
 // next episode, the route moving on the map); the outro (all 23 rules on one screen, the ones read out light up).
 // LAYER=top draws only what goes over the montage in the intro (the hook and the subtitles), transparent.
-// The timing comes from build/timeline.json (tools/timeline.py), the voice from build/words.json.
+// The timing comes from build/timeline.json (tools/timeline.py), the voice from build/words.json. The transition posters
+// (build/poster_k.jpg) are clean 3D frames (build/bg.mp4 at 0.6 s) for episodes 1–4, which open from black, and the
+// first frame of the final cut for episode 5, which the transition reveals.
 import fs from 'node:fs';
 import { loadImage } from '@napi-rs/canvas';
 import { lerp, clamp, ease, spring, bump, TAU } from './lib.js';
