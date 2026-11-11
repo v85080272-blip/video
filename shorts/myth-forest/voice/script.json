@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Правда или миф», №7 «Заблудился в лесу» — the first with the new host Искра and her cat Факт (the user's character sheets, 11.11), an A/B test against №2–6 with the hunter. Her voice is synthetic: designed by Qwen3-TTS VoiceDesign from an attribute instruction («female, young adult, warm and soft, medium pitch, lively, friendly, smiling»), no real person; the designed sample is then the reference for the base model, so every take has the same voice. Three tips, «правда» last. Facts: moss favours the shady, damp side of a tree — often north, but it can grow on any side; do not navigate by it (Woodland Trust, «Moss and trees»; Forest Preserve District of Will County, «Myth buster»). Birds eat berries that are poisonous to people — pokeberry, holly, Virginia creeper (BirdNote). Lost: stop and stay where you are, call 112, answer with your voice — searchers find a person who stays put sooner (ЛизаАлерт advice, via Т—Ж and others). Subtitle groups (sub) are counted without the dash. at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "note": "Narration for «Правда или миф», №7 «Заблудился в лесу» — the first with the new host Искра and her cat Факт (the user's character sheets, 11.11), an A/B test against №2–6 with the hunter. Her voice is synthetic: designed by Qwen3-TTS VoiceDesign from an attribute instruction («female, young adult, warm and soft, medium pitch, lively, friendly, smiling»), no real person; the designed sample is then the reference for the base model, so every take has the same voice. Three tips, «правда» last. Facts: moss favours the shady, damp side of a tree — often north, but it can grow on any side; do not navigate by it (Woodland Trust, «Moss and trees»; Forest Preserve District of Will County, «Myth buster»). Birds eat berries that are poisonous to people — pokeberry, holly, Virginia creeper (BirdNote). Lost: stop and stay where you are, call 112, answer with your voice — searchers find a person who stays put sooner (ЛизаАлерт advice, via Т—Ж and others). Subtitle groups (sub) are counted without the dash. at/after/tail/sub as in the blackout season; tts = what the voice reads. Искра speaks slower than the narrator: every line at tempo 1.1 (ffmpeg atempo, the pitch stays), the gaps a little shorter — 45.7 s instead of 50.2.",
  "tail": 0.35,
  "lines": [
   {
@@ -11,71 +11,78 @@
     2,
     5,
     3
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L1",
    "text": "Первый: север легко найти по мху — он растёт с северной стороны.",
-   "after": 0.9,
+   "after": 0.7,
    "sub": [
     1,
     5,
     5
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L2",
    "text": "Миф! Мох растёт там, где сыро и тень, — с любой стороны. Будешь ходить кругами.",
-   "after": 1.6,
+   "after": 1.5,
    "sub": [
     1,
     3,
     4,
     3,
     3
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L3",
    "text": "Второй: ягоды, которые клюют птицы, можно есть и тебе.",
-   "after": 0.9,
+   "after": 0.8,
    "sub": [
     1,
     4,
     4
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L4",
    "text": "Миф! Птицы спокойно едят ягоды, ядовитые для человека. Незнакомые ягоды не ешь.",
-   "after": 1.6,
+   "after": 1.5,
    "sub": [
     1,
     4,
     3,
     4
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L5",
    "text": "Третий: понял, что заблудился, — остановись и оставайся на месте.",
-   "after": 0.9,
+   "after": 0.8,
    "sub": [
     1,
     3,
     5
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L6",
    "text": "Правда! Так тебя скорее найдут. Звони сто двенадцать и подавай голос.",
-   "after": 1.6,
+   "after": 1.5,
    "sub": [
     1,
     4,
     3,
     3
-   ]
+   ],
+   "tempo": 1.1
   },
   {
    "id": "L7",
@@ -86,7 +93,8 @@
     3,
     7,
     1
-   ]
+   ],
+   "tempo": 1.1
   }
  ]
 }
