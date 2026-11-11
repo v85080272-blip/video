@@ -49,7 +49,7 @@ const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const scene = t => (t < T.c3 ? 'top' : t < T.c5 ? 'float' : t < T.c7 ? 'shore' : 'end');
 const qOf = t => (t < T.c3 ? 0 : t < T.c5 ? 1 : 2);
-const PUNCH = [A.L0w5, T.v0, T.v1, T.v2, A.L2w4, A.L4w2, A.L6w5];
+const PUNCH = [A.L0w5, T.v0, T.v1, T.v2, A.L2w4, A.L4w2, A.L6w1];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 
 // —— the scenes ——
@@ -158,7 +158,7 @@ function plaques(t) {
   const sc = scene(t), P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);
   if (sc === 'top' && t > T.v0 + 1.2) { P(A.L2w1, T.c3 - 0.05, 320, { icon: 'check', title: 'ТЕЧЕНИЕ УЗКОЕ — ПЛЫВИ ВБОК', color: OK, size: 40 }); P(A.L2w8, T.c3 - 0.05, 440, { icon: 'x', title: 'ПРОТИВ НЕГО ТОЛЬКО УСТАНЕШЬ', color: DANGER, size: 38 }); }
   if (sc === 'float' && t > T.v1 + 1.2) { P(A.L4w1, T.c5 - 0.05, 320, { icon: 'check', title: 'ОТДОХНИ НА СПИНЕ', color: OK, size: 44 }); P(A.L4w5, T.c5 - 0.05, 440, { icon: 'check', title: 'ЗА ПРИБОЕМ ТЕЧЕНИЕ СЛАБЕЕТ', color: OK, size: 38 }); }
-  if (sc === 'shore' && t > T.v2 + 1.2) { P(A.L6w1, T.c7 - 0.05, 320, { icon: 'check', title: 'МАШИ РУКОЙ И ЗОВИ НА ПОМОЩЬ', color: OK, size: 38 }); }
+  if (sc === 'shore' && t > T.v2 + 1.2) { P(A.L6w1, T.c7 - 0.05, 320, { icon: 'check', title: 'КРИЧИ И ПОДАВАЙ ЗНАК РУКОЙ', color: OK, size: 38 }); }
   if (sc === 'end') {
     const k = clamp(sp(t, T.c7 + 0.05, 2.4, 8)) * (1 - seg(A.L7w5 - 0.3, A.L7w5, t));
     if (k > 0.01) {

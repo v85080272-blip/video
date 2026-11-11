@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Выживи за 30 секунд», №1 «Тягун» — a new short 2D format (the viewer's pick of 10.11): one situation, three decisions in a row, each with two buttons and a countdown (the music drops out), then the answer; «Сколько угадал?» at the end. On the rules of the Studio export: a bright first frame (the beach from above, the swimmer in the rip channel, «ТЕБЯ УНОСИТ В МОРЕ?», «ВЫЖИВИ ЗА 30 СЕКУНД»), ≈42 s. The right answers are 2, 1, 2 so they cannot be guessed by a pattern. Facts: most rip currents are narrow (under about 25 m) — swim parallel to the shore, not against the current; if you cannot, float, and when you can, swim parallel; wave and call for help (NOAA Ocean Service «What is a rip current?»; NOAA/Sea Grant «Break the grip of the rip»). Rip currents usually weaken beyond the line of breaking waves. They account for more than 80% of rescues by surf beach lifeguards (USLA estimate, via AccuWeather). The unverified «even a champion cannot swim against it» was left out. at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "note": "Narration for «Выживи за 30 секунд», №1 «Тягун» — a new short 2D format (the viewer's pick of 10.11): one situation, three decisions in a row, each with two buttons and a countdown (the music drops out), then the answer; «Сколько угадал?» at the end. On the rules of the Studio export: a bright first frame (the beach from above, the swimmer in the rip channel, «ТЕБЯ УНОСИТ В МОРЕ?», «ВЫЖИВИ ЗА 30 СЕКУНД»), ≈42 s. The right answers are 2, 1, 2 so they cannot be guessed by a pattern. Facts: most rip currents are narrow (under about 25 m) — swim parallel to the shore, not against the current; if you cannot, float, and when you can, swim parallel; wave and call for help (NOAA Ocean Service «What is a rip current?»; NOAA/Sea Grant «Break the grip of the rip»). Rip currents usually weaken beyond the line of breaking waves. They account for more than 80% of rescues by surf beach lifeguards (USLA estimate, via AccuWeather). The unverified «even a champion cannot swim against it» was left out. at/after/tail/sub as in the blackout season; tts = what the voice reads. Rewritten after the takes: «Тебя должны заметить: маши рукой и зови на помощь» (five takes «мАши», one «дОлжны») → «Кричи и подавай знак рукой — так тебя заметят спасатели».",
  "tail": 0.35,
  "lines": [
   {
@@ -68,12 +68,12 @@
   },
   {
    "id": "L6",
-   "text": "Два! Тебя должны заметить: маши рукой и зови на помощь.",
+   "text": "Два! Кричи и подавай знак рукой — так тебя заметят спасатели.",
    "after": 1.8,
    "sub": [
     1,
-    3,
-    6
+    5,
+    5
    ]
   },
   {
