@@ -1,0 +1,169 @@
+[
+ {
+  "k": 1,
+  "id": "chernobyl-k-reaktoru",
+  "title": "К РЕАКТОРУ",
+  "place": "ЧАЭС",
+  "file": "/home/user/video/shorts/chernobyl-reactor/out/chernobyl-k-reaktoru.mp4",
+  "bg": "/home/user/video/shorts/chernobyl-reactor/build/bg.mp4",
+  "cues": "/home/user/video/shorts/chernobyl-reactor/build/cues.json",
+  "trim": 50.33,
+  "with": "охотник, Пурга и гид",
+  "chosen": "",
+  "rules": [
+   [
+    "L0",
+    "Только с гидом и по пропуску"
+   ],
+   [
+    "L1",
+    "Закрытая одежда, ничего не трогай"
+   ],
+   [
+    "L2",
+    "Обходи мох"
+   ],
+   [
+    "L3",
+    "Не задерживайся"
+   ],
+   [
+    "N3",
+    "Не ешь и не пей на улице"
+   ],
+   [
+    "L5b",
+    "Собак не трогай"
+   ]
+  ],
+  "starts_black": true
+ },
+ {
+  "k": 2,
+  "id": "zona-ryzhiy-les",
+  "title": "РЫЖИЙ ЛЕС",
+  "place": "РЫЖИЙ ЛЕС",
+  "file": "/home/user/work/video-zone/shorts/zone-red-forest-3d/out/zona-ryzhiy-les.mp4",
+  "bg": "/home/user/work/video-zone/shorts/zone-red-forest-3d/build/bg.mp4",
+  "cues": "/home/user/work/video-zone/shorts/zone-red-forest-3d/build/cues.json",
+  "trim": 41.96,
+  "with": "охотник и Пурга — без гида",
+  "chosen": "ЗРИТЕЛИ ВЫБРАЛИ",
+  "rules": [
+   [
+    "L3",
+    "Выходи только по дороге"
+   ],
+   [
+    "L4",
+    "Закрой нос и рот"
+   ],
+   [
+    "L5",
+    "Никаких грибов"
+   ],
+   [
+    "L6",
+    "Не пей из реки"
+   ],
+   [
+    "L8",
+    "Волки: не беги, стань выше"
+   ]
+  ],
+  "starts_black": true
+ },
+ {
+  "k": 3,
+  "id": "zona-duga",
+  "title": "РАДАР «ДУГА»",
+  "place": "«ДУГА»",
+  "file": "/home/user/work/video-zone/shorts/zone-duga-3d/out/zona-duga.mp4",
+  "bg": "/home/user/work/video-zone/shorts/zone-duga-3d/build/bg.mp4",
+  "cues": "/home/user/work/video-zone/shorts/zone-duga-3d/build/cues.json",
+  "trim": 50.01,
+  "with": "+ Богдан из комментариев",
+  "chosen": "ЗРИТЕЛИ ВЫБРАЛИ",
+  "rules": [
+   [
+    "L3",
+    "На радар не лезь"
+   ],
+   [
+    "L5",
+    "Гроза: уходи от высокого"
+   ],
+   [
+    "L6",
+    "Не под одиноким деревом"
+   ],
+   [
+    "L8",
+    "В здании — не у окна и не у стены"
+   ],
+   [
+    "L10",
+    "После грома жди 30 минут"
+   ]
+  ],
+  "starts_black": true
+ },
+ {
+  "k": 4,
+  "id": "zona-pripyat",
+  "title": "МЁРТВЫЙ ГОРОД",
+  "place": "ПРИПЯТЬ",
+  "file": "/home/user/work/video-zone/shorts/zone-pripyat-3d/out/zona-pripyat.mp4",
+  "bg": "/home/user/work/video-zone/shorts/zone-pripyat-3d/build/bg.mp4",
+  "cues": "/home/user/work/video-zone/shorts/zone-pripyat-3d/build/cues.json",
+  "trim": 44.45,
+  "with": "+ Коля, Настя, Мэри и Богдан",
+  "chosen": "ЗРИТЕЛИ ВЫБРАЛИ",
+  "rules": [
+   [
+    "L3",
+    "В дома не заходи"
+   ],
+   [
+    "L5",
+    "Ничего не бери"
+   ],
+   [
+    "L6",
+    "В подвал больницы не спускайся"
+   ],
+   [
+    "L8",
+    "Уходи до заката"
+   ]
+  ],
+  "starts_black": true
+ },
+ {
+  "k": 5,
+  "id": "zona-les-gorit",
+  "title": "ЛЕС ГОРИТ",
+  "place": "ПОЖАР",
+  "file": "/home/user/work/video-zone/shorts/zone-fire-3d/out/zona-les-gorit.mp4",
+  "bg": "/home/user/work/video-zone/shorts/zone-fire-3d/build/bg.mp4",
+  "cues": "/home/user/work/video-zone/shorts/zone-fire-3d/build/cues.json",
+  "trim": 41.52,
+  "with": "Богдан, Коля, Настя и Мэри",
+  "chosen": "ЗРИТЕЛИ ВЫБРАЛИ",
+  "rules": [
+   [
+    "L1",
+    "Пожар: уходи поперёк ветра"
+   ],
+   [
+    "L4",
+    "Мокрая ткань на нос, пригнись"
+   ],
+   [
+    "L5",
+    "На выходе — проверка на радиацию"
+   ]
+  ],
+  "starts_black": false
+ }
+]
