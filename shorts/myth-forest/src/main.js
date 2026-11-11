@@ -10,7 +10,7 @@ import { lerp, clamp, ease, spring, bump, hash, TAU } from './lib.js';
 import { g, W, H, ell, limb, rect, rrect, fill, poly, smoothPath, polyPath, rrPath } from './flat.js';
 import * as Hd from './hud.js';
 import { forest, mossTree, berryBush, clearing } from './forest.js';
-import { iskra, cat } from './iskra.js';
+import { iskra, cat, sprite } from './iskra.js';
 import { text, measure, FONTS, INK } from './type.js';
 
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
@@ -216,9 +216,29 @@ function hosts(t) {
   tag2('ИСКРА', 545, 1330, A.L7w6 - 0.05, DUR + 1); tag2('КОТ ФАКТ', 740, 1490, A.L7w10 - 0.05, DUR + 1);
 }
 
+// —— the cover: the first 3 frames (0.05 s) are a thumbnail of their own — YouTube takes the first frame when no cover is
+// chosen (the owner's note, 11.11); the same picture is saved as out/<id>-cover.jpg for Reels and the YouTube app ——
+export const COVER = 0.05;
+function cover(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  forest(t, { tint: '#d5ecc8' });
+  g.save(); g.translate(540, 1000); g.scale(1.25, 1.25); g.translate(-540, -1000); mossTree(t, { compass: 1, spin: 0.4 }); g.restore();
+  // a red ring round the moss, an arrow to it, a cross on it
+  g.save(); g.lineWidth = 14; g.strokeStyle = '#e53935'; g.beginPath(); g.ellipse(452, 860, 125, 255, -0.04, 0, Math.PI * 2); g.stroke(); g.restore();
+  limb([[860, 640], [640, 760]], 22, '#e53935', false); poly([[592, 790], [660, 714], [688, 800]], '#e53935');
+  Hd.redX(452, 720, 190, 1);
+  const box = (s, y, size, fillC, ink, rot) => { g.save(); g.translate(540, y); g.rotate(rot); const sw = measure(s, size) + 70;
+    rrect(-sw / 2 + 12, -size * 0.78 + 12, sw, size * 1.56, 26, INK); rrect(-sw / 2, -size * 0.78, sw, size * 1.56, 26, fillC); text(s, 0, size * 0.36, size, ink, { shadow: false }); g.restore(); };
+  box('ЗАБЛУДИЛСЯ?', 210, 104, '#ffd23f', INK, -0.04);
+  box('НЕ ИДИ ПО МХУ!', 400, 112, '#e53935', '#ffffff', 0.03);
+  sprite('b_idea', 330, 1945, 980);
+  sprite('c_wow', 840, 1905, 470);
+}
+
 export function init() { Hd.initHud(); }
 export function frame(t) {
   g.setTransform(1, 0, 0, 1, 0, 0);
+  if (t < COVER) { cover(t); Hd.finish(t, 0.5); return; }
   const z = zoomAt(t);
   if (z > 1.0005) { g.translate(540, 1000); g.scale(z, z); g.translate(-540, -1000); }
   const F = columns(t), open = Math.max(...F);

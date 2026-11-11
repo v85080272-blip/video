@@ -18,6 +18,15 @@ for (const p of POSES) {
 const CATS = ['front', 'profile', 'back', 'sure', 'doubt', 'wow'];
 const C = {};
 for (const c of CATS) C[c] = await load('c_' + c + '.png');
+const EXTRA = {};
+for (const f of ['b_idea', 'b_wink', 'b_think', 'b_laugh', 'h_wow', 'h_smile', 'h_wink', 'd_truth', 'd_myth', 'd_q']) EXTRA[f] = await load(f + '.png');
+// any other sprite from the sheets (busts, heads, the detector screens), bottom centre at (x, y), height h
+export function sprite(name, x, y, h, o = {}) {
+  const img = EXTRA[name] ?? C[name.replace('c_', '')];
+  if (!img) return;
+  const w = img.width * h / img.height;
+  g.save(); g.translate(x, y); if (o.rot) g.rotate(o.rot); g.scale(o.flip ? -1 : 1, 1); g.drawImage(img, -w / 2, -h, w, h); g.restore();
+}
 const MOUTH = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/mouth.json', import.meta.url))); } catch { return null; } })();
 
 // how open the mouth is at t (0 shut … 1 wide), from the voice's loudness
