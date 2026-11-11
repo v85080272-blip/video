@@ -7,7 +7,7 @@
 #        ONLY="L4 L5" OUT=... bash voice/takes.sh …  reads only those lines (new takes after a rewrite)
 #        PAR=1 runs one take at a time (each needs about 7 GB of memory)
 cd "$(dirname "$0")"
-export M=/home/user/work/models B=/home/user/work/qwentts.cpp/build/qwen-tts REF=/home/user/work/iskra-voice/refB
+export M=/home/user/work/models B=/home/user/work/qwentts.cpp/build/qwen-tts REF=/home/user/video/shorts/iskra-voice
 export OUT=${OUT:-/home/user/work/myth-forest}
 mkdir -p $OUT/takes $OUT/logs
 python3 - "$OUT" "${ONLY:-}" <<'PY'
