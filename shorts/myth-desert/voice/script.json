@@ -1,0 +1,91 @@
+{
+ "note": "Narration for «Правда или миф», №6 «Пустыня» — the first in three columns (the viewer's idea of 11.11: the three situations side by side, so the screen is never empty while they guess). Three tips, the viewer guesses before each verdict; «правда» last. Facts: most cacti guard their flesh with acids and potent alkaloids; the juice makes you sick (vomiting, diarrhoea) and dehydrates you further — the film myth comes from westerns (Britannica, «Can you drink water from a cactus?»; Field & Stream, «Survival myths»). Do not ration water: US Army FM 21-76 (ch. 13, desert survival) — «Do not ration your water! If you try to ration water, you stand a good chance of becoming a heat casualty»; the army's old «water discipline» caused hundreds of heat casualties; save sweat instead (shade, rest in the heat of the day). Travel at night or in the cool of the morning and evening, rest in the shade by day (FM 21-76, ch. 13). Words with a stress trap avoided: «по глотку» (глОтку/глоткУ), «в тени» (тЕни/тенИ), «воды» (вОды/водЫ). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Три совета в пустыне. Два из них могут убить. Угадай, какой правда.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первый: хочешь пить — разрежь кактус и выпей сок.",
+   "after": 0.9,
+   "sub": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Сок кактуса едкий и горький: тебя вырвет, и пить захочется ещё сильнее.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второй: фляга почти пустая — пей по капле, чтобы растянуть.",
+   "after": 0.9,
+   "sub": [
+    1,
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Миф! Так свалишься от теплового удара. Пей, когда хочется, а береги пот.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третий: иди ночью, а днём прячься от солнца.",
+   "after": 0.9,
+   "sub": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Правда! Ночью прохладно: потеешь меньше, и фляги хватит надольше.",
+   "after": 1.6,
+   "sub": [
+    1,
+    2,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. И перешли тому, кто любит походы. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    6,
+    1
+   ]
+  }
+ ]
+}
