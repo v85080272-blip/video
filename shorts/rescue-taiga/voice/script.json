@@ -1,0 +1,86 @@
+{
+ "note": "Narration for «Операция спасения», №1 «Девочка и щенок в тайге» — a new format (11.11, after «Дети в пещере» went down well): a real rescue, the viewer is the chief rescuer and makes two decisions (two buttons and a countdown), then what really happened. Facts (the sources agree on these; they differ on 11 or 12 days, 3 or almost 4 years, the puppy's name): Yakutia, summer 2014 — a little girl, Karina Chikitova, followed her father into the taiga with a puppy; at home they thought she was with him and noticed only days later; helicopters and drones were useless because the grass was taller than a man, more than a hundred people searched on foot; on the 9th day the puppy came back alone, the rescuers' dogs followed its trail and three days later she was found alive in tall grass, about 6 km away; she ate berries and drank river water, the puppy (rescuers say) warmed her at night; a statue «the girl and the dog» stands at Yakutsk airport (Moscow Times; SBS; Siberian Times via OutdoorHub; life.ru; snob.ru). Lesson: if a child is missing, call 112 at once. Subtitle groups (sub) are counted without the dash. at/after/tail/sub as in the blackout season; tts = what the voice reads. Avoided: «Дома хватились» (дОма / домА) → «Её хватились».",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Девочке три года, она одна в тайге, с ней только щенок. Ты главный спасатель. Найдёшь её?",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Её хватились только через три дня. Где искать? Один — с вертолёта. Два — пешком, цепью.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    2,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Два! Трава выше роста, сверху её не видно. Люди прочёсывали тайгу пешком.",
+   "after": 1.6,
+   "sub": [
+    1,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Девятый день: щенок вернулся один. Один — оставить его в деревне. Два — пустить по его следу собак.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    5,
+    6
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Два! Собаки-ищейки пошли по следу. Через три дня девочку нашли в высокой траве.",
+   "after": 1.6,
+   "sub": [
+    1,
+    4,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Двенадцать дней в тайге! Она ела ягоды, пила речную воду, а щенок грел её ночами.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "В Якутии теперь стоит памятник: девочка и собака. Ребёнок пропал — сразу звони сто двенадцать. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    5,
+    3,
+    2,
+    4,
+    1
+   ]
+  }
+ ]
+}
