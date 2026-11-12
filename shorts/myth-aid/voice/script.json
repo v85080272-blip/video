@@ -1,0 +1,107 @@
+{
+ "note": "Narration for «Правда или миф», №8 «Первая помощь» — Искра and the cat Факт again, now in an ElevenLabs voice (Elen Kuragina from the voice library, «characters/animation, excited», chosen by the owner 11.11), to compare with №7 in the synthetic voice №2: the same hosts and format, only the voice differs. Three tips, «правда» last. Facts: nosebleed — sit, lean forward, pinch the soft part of the nose for 10–15 minutes, do not tilt the head back (NHS; healthdirect). Burn — cool running water for 20 minutes, no butter or oil: oils hold the heat against the skin (NHS «Burns and scalds»; British Red Cross). Fainting — lie the person down and raise the legs; if they do not come round within a minute, call 112 (NHS «Fainting»; NHS-linked leaflets). tts: what ElevenLabs reads, with stress marks (U+0301) on the name and the risky words. Subtitle groups (sub) are counted without the dash. Elen reads slowly even at ElevenLabs speed 1.08: every line also at tempo 1.1 here (atempo, the pitch stays), the gaps a little shorter — 46.9 s instead of 51.3, no extra credits.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Кровь из носа, ожог, обморок. Три совета — два из них навредят. Угадаешь, какой правда?",
+   "at": 0.12,
+   "sub": [
+    3,
+    2,
+    2,
+    4,
+    3
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L1",
+   "text": "Первый: пошла кровь из носа — запрокинь голову назад.",
+   "after": 0.6,
+   "sub": [
+    1,
+    4,
+    3
+   ],
+   "tts": "Первый: пошла кровь из носа — запроки́нь голову назад.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Так кровь стечёт в горло. Наклонись вперёд и зажми нос на десять минут.",
+   "after": 1.4,
+   "sub": [
+    1,
+    5,
+    4,
+    4
+   ],
+   "tts": "Миф! Так кровь стечёт в горло. Наклони́сь вперёд и зажми́ нос на десять минут.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L3",
+   "text": "Второй: обжёгся — намажь ожог маслом.",
+   "after": 0.8,
+   "sub": [
+    1,
+    1,
+    3
+   ],
+   "tts": "Второй: обжёгся — нама́жь ожог маслом.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L4",
+   "text": "Миф! Масло держит жар в коже. Подставь ожог под прохладную воду на двадцать минут.",
+   "after": 1.4,
+   "sub": [
+    1,
+    5,
+    4,
+    4
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L5",
+   "text": "Третий: человек упал в обморок — уложи его и подними ему ноги.",
+   "after": 0.8,
+   "sub": [
+    1,
+    4,
+    3,
+    3
+   ],
+   "tts": "Третий: человек упал в обморок — уложи́ его и подними́ ему ноги.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L6",
+   "text": "Правда! Так кровь вернётся к голове. Не очнулся за минуту — звони сто двенадцать.",
+   "after": 1.4,
+   "sub": [
+    1,
+    5,
+    4,
+    3
+   ],
+   "tts": "Правда! Так кровь вернётся к голове. Не очну́лся за минуту — звони́ сто двенадцать.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Я Искра, а это мой кот Факт. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ],
+   "tts": "Сколько угадал? Пиши́ в комментариях. Я И́скра, а это мой кот Факт. Подписывайся!",
+   "tempo": 1.1
+  }
+ ]
+}
