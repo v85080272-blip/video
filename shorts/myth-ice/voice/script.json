@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Правда или миф», №10 «Гололёд» — Искра and the cat Факт in the ElevenLabs voice Elen (the owner asked 12.11 for a couple more in her voice). A safe topic for the season: no blood, no death (rule of 12.11). Three tips, «правда» second. Facts: falling, do not throw your straight arms out — wrists are what breaks most often in such falls; tuck in and land on your side (trauma doctors in the Russian press: e1.ru, АиФ, sport24; reminders of schools and regional services). On ice walk slowly with small steps, the whole foot down, hands out of the pockets — they help keep the balance (the same reminders; «walk like a penguin» is the US National Safety Council wording). A noise up on the roof — do not stop, look up or run away from the building: press yourself against the wall, the canopy covers you (МЧС России, regional offices: Тула, Свердловская область, Марий Эл). tts: what ElevenLabs reads, with stress marks. Subtitle groups (sub) are counted without the dash. Every line at tempo 1.1.",
+ "note": "Narration for «Правда или миф», №10 «Гололёд» — Искра and the cat Факт in the ElevenLabs voice Elen (the owner asked 12.11 for a couple more in her voice). A safe topic for the season: no blood, no death (rule of 12.11). Three tips, «правда» second. Facts: falling, do not throw your straight arms out — wrists are what breaks most often in such falls; tuck in and land on your side (trauma doctors in the Russian press: e1.ru, АиФ, sport24; reminders of schools and regional services). On ice walk slowly with small steps, the whole foot down, hands out of the pockets — they help keep the balance (the same reminders; «walk like a penguin» is the US National Safety Council wording). A noise up on the roof — do not stop, look up or run away from the building: press yourself against the wall, the canopy covers you (МЧС России, regional offices: Тула, Свердловская область, Марий Эл). tts: what ElevenLabs reads, with stress marks. Subtitle groups (sub) are counted without the dash. Every line at tempo 1.1. «отбеги от дома» → «отбеги от здания»: in the first take ElevenLabs read «от домА» despite the stress mark.",
  "tail": 0.35,
  "lines": [
   {
@@ -63,14 +63,14 @@
   },
   {
    "id": "L5",
-   "text": "Третий: на крыше что-то трещит — отбеги от дома.",
+   "text": "Третий: на крыше что-то трещит — отбеги от здания.",
    "after": 0.8,
    "sub": [
     1,
     4,
     3
    ],
-   "tts": "Тре́тий: на кры́ше что-то трещи́т — отбеги́ от до́ма.",
+   "tts": "Тре́тий: на кры́ше что-то трещи́т — отбеги́ от зда́ния.",
    "tempo": 1.1
   },
   {
