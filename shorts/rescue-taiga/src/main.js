@@ -55,8 +55,8 @@ function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < 
 function hookScene(t) {
   taiga(t, { scroll: t * 30 });
   grass(t, GROUND + 120, 300, { n: 50, color: '#76ab43', color2: '#8fc152' });
-  child(560, GROUND + 230, 1.05, t, { walk: true });
-  drawDog({ x: 380, y: GROUND + 240, s: 0.34, face: 1, t, walk: 1, ph: t * 3, look: 0.2, ears: 0.6 });
+  child(560, GROUND + 30, 1.05, t, { walk: true });
+  drawDog({ x: 380, y: GROUND + 40, s: 0.34, face: 1, t, walk: 1, ph: t * 3, look: 0.2, ears: 0.6 });
   grass(t, 1920, 420, { n: 40, color: '#5f9636', color2: '#73aa45' });
 }
 function searchScene(t) {
@@ -65,39 +65,40 @@ function searchScene(t) {
   if (t > A.L1w8 - 0.3) helicopter(lerp(-260, 1300, (heli * 0.6 + (t - A.L1w8) * 0.08) % 1.4), 330 + 10 * Math.sin(t * 3), 0.9, t);
   // the helicopter's view: a cone that shows only the tops of the grass
   if (t > T.v0 && t < A.L2w8) { g.save(); g.globalAlpha = 0.18 * seg(T.v0, T.v0 + 0.3, t); poly([[540, 380], [160, GROUND + 100], [920, GROUND + 100]], '#ffffff'); g.restore(); }
-  grass(t, GROUND + 160, 560, { n: 60 });
+  grass(t, GROUND + 60, 520, { n: 60 });
   // the girl, hidden: only a red ribbon of her dress between the blades, and a «?»
-  if (t > T.v0 && t < A.L2w8) { ell(560, GROUND - 120, 14, 10, '#f48fb1'); text('?', 600, GROUND - 200, 90, '#ffffff', { fam: FONTS.block }); }
+  if (t > T.v0 && t < A.L2w8) { ell(560, GROUND - 200, 14, 10, '#f48fb1'); text('?', 600, GROUND - 280, 90, '#ffffff', { fam: FONTS.block }); }
   // the chain of searchers walking through
   const chain = seg(A.L1w12 - 0.2, A.L1w15, t);
-  if (chain > 0) for (let i = 0; i < 6; i++) { const x = lerp(-160, 1240, (i + 0.5) / 6) + (t > T.v0 ? (t - T.v0) * 30 : 0); searcher(x, GROUND + 260 + 10 * (i % 2), 1.1 * chain, t, { ph: i }); }
-  grass(t, 1920, 600, { n: 44, color: '#5f9636', color2: '#73aa45' });                     // waist-deep: taller than a man
+  if (chain > 0) for (let i = 0; i < 6; i++) { const x = lerp(-160, 1240, (i + 0.5) / 6) + (t > T.v0 ? (t - T.v0) * 30 : 0); searcher(x, GROUND + 60 + 10 * (i % 2), 1.1 * chain, t, { ph: i }); }
+  grass(t, GROUND + 200, 380, { n: 50, color: '#5f9636', color2: '#73aa45' });              // waist-deep: taller than a man
+  grass(t, 1920, 420, { n: 40, color: '#5f9636', color2: '#73aa45' });
 }
 function puppyScene(t) {
   taiga(t, {});
   village(t);
   // the puppy comes out of the taiga, alone, to the gate
   const come = seg(A.L3w2 - 0.2, A.L3w4 + 0.4, t), go = t > T.v1 ? seg(A.L4w1, T.cf, t, x => x) : 0;
-  const path = Array.from({ length: 16 }, (_, i) => [lerp(980, 160, i / 15), GROUND + 260 + 30 * Math.sin(i)]);
+  const path = Array.from({ length: 16 }, (_, i) => [lerp(980, 160, i / 15), GROUND + 80 + 30 * Math.sin(i)]);
   trail(path, t > T.v1 ? seg(T.v1, A.L4w2, t) : come * 0.6);
-  if (go <= 0) drawDog({ x: lerp(1000, 520, come), y: GROUND + 260, s: 0.5, face: -1, t, walk: come > 0 && come < 1 ? 1 : 0, ph: t * 3, look: -0.2, ears: 0.5 });
+  if (go <= 0) drawDog({ x: lerp(1000, 520, come), y: GROUND + 70, s: 0.5, face: -1, t, walk: come > 0 && come < 1 ? 1 : 0, ph: t * 3, look: -0.2, ears: 0.5 });
   // the tracker dogs and a handler on the trail, back into the taiga
   if (go > 0) {
-    for (let i = 0; i < 2; i++) drawDog({ x: lerp(500, 1300, go) - i * 160, y: GROUND + 270 + i * 20, s: 0.55, face: 1, t, walk: 1, ph: t * 4 + i, look: 0.3, ears: 0.9 });
-    searcher(lerp(260, 1080, go), GROUND + 300, 1.2, t, {});
+    for (let i = 0; i < 2; i++) drawDog({ x: lerp(500, 1300, go) - i * 160, y: GROUND + 80 + i * 20, s: 0.55, face: 1, t, walk: 1, ph: t * 4 + i, look: 0.3, ears: 0.9 });
+    searcher(lerp(260, 1080, go), GROUND + 110, 1.2, t, {});
   }
   if (t > A.L4w5 - 0.1) { const k = clamp(sp(t, A.L4w5 - 0.1, 2.6, 8)); g.save(); g.translate(540, 300); g.scale(k, k); rrect(-170 + 6, -60 + 8, 340, 120, 24, INK); rrect(-170, -60, 340, 120, 24, GOLD); text('+3 ДНЯ', 0, 24, 70, INK, { shadow: false }); g.restore(); }
 }
 function foundScene(t) {
   const k = seg(T.cf, T.cf + 0.8, t);
   taiga(t, {});
-  stream(t, GROUND + 40);
-  berries(170, GROUND + 60, 1.0);
-  grass(t, GROUND + 260, 380, { n: 30, x0: -60, x1: 300 }); grass(t, GROUND + 260, 380, { n: 30, x0: 780, x1: 1140 });
+  stream(t, GROUND - 60);
+  berries(170, GROUND - 20, 1.0);
+  grass(t, GROUND + 120, 380, { n: 30, x0: -60, x1: 300 }); grass(t, GROUND + 120, 380, { n: 30, x0: 780, x1: 1140 });
   // the grass parts: she sits there with the puppy curled at her side; a rescuer kneels
-  child(560, GROUND + 330, 1.1, t, { sit: true, wave: t > A.L5w0 });
-  drawDog({ x: 760, y: GROUND + 330, s: 0.32, face: -1, t, sit: 1, look: -0.4, mouth: 0.6, tongue: 1, wag: 1, wagPh: t * 4 });
-  searcher(lerp(1150, 900, k), GROUND + 340, 1.2, t, { flip: true });
+  child(560, GROUND + 110, 1.1, t, { sit: true, wave: t > A.L5w0 });
+  drawDog({ x: 760, y: GROUND + 110, s: 0.32, face: -1, t, sit: 1, look: -0.4, mouth: 0.6, tongue: 1, wag: 1, wagPh: t * 4 });
+  searcher(lerp(1150, 900, k), GROUND + 120, 1.2, t, { flip: true });
   if (t > A.L5w0 - 0.1) { const kk = clamp(sp(t, A.L5w0 - 0.1, 2.6, 8)); g.save(); g.translate(540, 300); g.scale(kk, kk); rrect(-230 + 6, -66 + 8, 460, 132, 26, INK); rrect(-230, -66, 460, 132, 26, '#2f8f4e'); text('12 ДНЕЙ', 0, 28, 84, '#ffffff', { shadow: false }); g.restore(); }
   grass(t, 1920, 320, { n: 34, color: '#5f9636', color2: '#73aa45' });
 }
@@ -106,7 +107,7 @@ function endScene(t) {
   // a plane over the airport and the statue
   const px = lerp(-200, 1300, ((t - T.c6) * 0.12) % 1);
   g.save(); g.translate(px, 260); ell(0, 0, 120, 22, '#eceff1'); poly([[-20, -6], [30, -6], [-50, -70]], '#cfd8dc'); poly([[-20, 6], [30, 6], [-50, 70]], '#cfd8dc'); g.restore();
-  statue(540, GROUND + 60, 1.4, t);
+  statue(540, GROUND - 120, 1.3, t);
 }
 
 // —— the 2D layer ——
@@ -165,8 +166,8 @@ function plaques(t) {
   if (sc === 'puppy' && t > T.v1 + 1.2) P(A.L4w1, T.cf - 0.05, 440, { icon: 'check', title: 'СОБАКИ-ИЩЕЙКИ ПО СЛЕДУ ЩЕНКА', color: OK, size: 36 });
   if (sc === 'found') { P(A.L5w5, T.c6 - 0.05, 470, { icon: 'check', title: 'ЯГОДЫ И РЕЧНАЯ ВОДА', color: OK, size: 40 }); P(A.L5w11, T.c6 - 0.05, 590, { icon: 'check', title: 'ЩЕНОК ГРЕЛ ЕЁ НОЧАМИ', color: OK, size: 40 }); }
   if (sc === 'end') {
-    P(A.L6w0, DUR + 1, 380, { icon: 'clock', title: 'ЯКУТИЯ, 2014 — ПРАВДИВАЯ ИСТОРИЯ', color: GOLD, size: 36 });
-    P(A.L6w8, DUR + 1, 500, { icon: 'phone', title: 'РЕБЁНОК ПРОПАЛ — СРАЗУ 112', color: DANGER, size: 42 });
+    P(A.L6w0, A.L6w15 - 0.25, 380, { icon: 'clock', title: 'ЯКУТИЯ, 2014 — ПРАВДИВАЯ ИСТОРИЯ', color: GOLD, size: 36 });
+    P(A.L6w8, A.L6w15 - 0.25, 500, { icon: 'phone', title: 'РЕБЁНОК ПРОПАЛ — СРАЗУ 112', color: DANGER, size: 42 });
   }
 }
 
