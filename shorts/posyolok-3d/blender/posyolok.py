@@ -364,6 +364,10 @@ Z = {'skin': mat('z_skin', (0.36, 0.39, 0.35), rough=0.75), 'shirt': mat('z_shir
      'hair': mat('z_hair', (0.05, 0.05, 0.05), rough=0.9), 'dress': mat('z_dress', (0.2, 0.17, 0.2), rough=0.9),
      'eye': mat('z_eye', (0.8, 0.82, 0.72), emit=0.5)}
 import rig
+import looks
+H2 = looks.heroine_mats(mat)
+Z.update({'skin': looks.grey_skin('z_skin2'), 'shirt': looks.cloth('z_shirt2', (0.13, 0.15, 0.17)), 'coat': looks.cloth('z_coat2', (0.09, 0.08, 0.07)),
+          'pants': looks.cloth('z_pants2', (0.06, 0.06, 0.07)), 'dress': looks.cloth('z_dress2', (0.2, 0.17, 0.2))})
 def skin_chain(pts, radii, m, parent=None, name='body', subd=2):
     """a smooth organic tube through the points (the Skin modifier, then subdivision): a ponytail, rags"""
     me = bpy.data.meshes.new(name); me.from_pydata([tuple(p) for p in pts], [(i, i + 1) for i in range(len(pts) - 1)], [])
@@ -393,20 +397,16 @@ def rigged(name, mats, h, slim=1.0, hipw=1.0):
              arms=[pb['upperarm.L'], pb['upperarm.R']], elbows=[pb['forearm.L'], pb['forearm.R']], spine=pb['spine'], chest=pb['chest'], head=pb['head'])
     return P, head_mount(arm, h)
 def heroine(x, y, rot=0.0):
-    """she: 1.68 m, slim; a fitted black jacket, dark jeans, white sneakers; a long dark ponytail, bangs swept aside"""
-    P, hm = rigged('heroine', {'top': H['jacket'], 'legs': H['jeans'], 'shoes': H['sneak'], 'skin': H['skin']}, 1.68, slim=0.95, hipw=1.06)
-    smooth_ball((0, -0.012, 0.1), (0.082, 0.096, 0.112), H['skin'], parent=hm, name='h_skull')
-    smooth_ball((0, 0.016, 0.125), (0.089, 0.097, 0.1), H['hair'], parent=hm, name='h_hair')              # the back and the top
-    smooth_ball((0.02, -0.06, 0.185), (0.078, 0.06, 0.035), H['hair'], parent=hm, name='h_bangs')          # swept to one side
-    for dx in (-0.031, 0.031):
-        ico((dx, -0.086, 0.105), 0.0105, H['eye'], sub=2, parent=hm, name='h_eye')
-        skin_chain([(dx - 0.017, -0.088, 0.128), (dx + 0.017, -0.089, 0.131)], [0.004, 0.003], H['hair'], parent=hm, name='h_brow', subd=1)
-    smooth_ball((0, -0.1, 0.082), (0.011, 0.018, 0.022), H['skin'], parent=hm, name='h_nose')
-    skin_chain([(-0.017, -0.095, 0.045), (0.017, -0.095, 0.045)], [0.0075, 0.0075], H['lips'], parent=hm, name='h_lips', subd=1)
-    smooth_ball((0, -0.004, 0.235 - 0.25), (0.06, 0.05, 0.03), H['jacket'], parent=hm, name='h_collar')
+    """she: 1.68 m, slim; a fitted black leather jacket over a dark red top, dark jeans with a belt, white sneakers; long
+    dark-brown hair in a high ponytail, two strands framing the face (the details and the textures: blender/looks.py)"""
+    P, hm = rigged('heroine', {'top': H2['jacket'], 'legs': H2['jeans'], 'shoes': H2['sneak'], 'skin': H2['skin'], 'belt': H2['belt']}, 1.68, slim=0.95, hipw=1.06)
+    looks.fit_generated([H2['jacket'], H2['jeans'], H2['sneak']], P['body'])
+    sk_ = smooth_ball((0, -0.014, 0.095), (0.074, 0.092, 0.11), H2['skin'], parent=hm, name='h_skull'); sk_.rotation_euler = (math.radians(-12), 0, 0)   # an egg, narrower at the chin
+    smooth_ball((0, 0.016, 0.125), (0.087, 0.095, 0.098), H2['hair'], parent=hm, name='h_hair')            # under the locks
+    smooth_ball((0, -0.1, 0.082), (0.011, 0.018, 0.022), H2['skin'], parent=hm, name='h_nose')
+    smooth_ball((0, 0.05, 0.075), (0.083, 0.058, 0.088), H2['hair'], parent=hm, name='h_nape')
     tl = empty((0, 0.09, 0.19), 'h_tail', parent=hm); P['tail'] = tl
-    skin_chain([(0, 0, 0), (0, 0.045, -0.05), (0, 0.04, -0.18), (0, 0.03, -0.32), (0, 0.015, -0.46), (0, 0.0, -0.54)], [0.028, 0.036, 0.032, 0.024, 0.014, 0.004], H['hair'], parent=tl, name='h_ponytail')
-    smooth_ball((0, 0.05, 0.075), (0.085, 0.06, 0.09), H['hair'], parent=hm, name='h_nape')
+    looks.dress_heroine(P, hm, H2, kit, skin_chain, smooth_ball, C())
     P['root'].location = (x, y, 0); P['root'].rotation_euler = (0, 0, rot)
     return P
 def infected(x, y, rot=0.0, kind=0, seed=0):
@@ -614,6 +614,17 @@ elif SHOT == 'G':                                 # by the open wicket she looks
     for P, (pa, pb) in zip(INF, spots): shuffle(P, 0, E, pa, (*pb, 0), step=3)
     for P in INF[2:]: hide(P['root'])
     FOG_BOX = ((-14, -30, 0), (14, 60, 10))
+elif SHOT in ('LF', 'LB', 'LH'):                  # look development: she alone under a lamp, front, back, the face
+    for P in INF: hide(P['root'])
+    HER['root'].location = (-0.6, 95.6, 0); HER['root'].rotation_euler = (0, 0, math.radians(-30)); stand_pose(HER, 0, hip=0.05); breathe(HER, 0, E)
+    head_key(HER, 0, math.radians(-4), math.radians(8))
+    tgt = Vector((-0.6, 95.6, 1.3))
+    if SHOT == 'LF': cam_data.lens = 50; camkeys([(0, (-2.2, 92.6, 1.45), tuple(tgt)), (E, (-2.2, 92.6, 1.45), tuple(tgt))]); dof(3.4, 2.8, target=HER['spine'])
+    if SHOT == 'LB': cam_data.lens = 50; camkeys([(0, (1.6, 98.4, 1.5), tuple(tgt)), (E, (1.6, 98.4, 1.5), tuple(tgt))]); dof(3.4, 2.8, target=HER['spine'])
+    if SHOT == 'LH': cam_data.lens = 85; camkeys([(0, (-1.25, 94.55, 1.6), (-0.6, 95.6, 1.56)), (E, (-1.25, 94.55, 1.6), (-0.6, 95.6, 1.56))]); dof(1.2, 2.0, target=HER['head'])
+    bpy.ops.object.light_add(type='AREA', location=(-2.6, 93.4, 2.6)); K = bpy.context.object; K.data.size = 1.0; K.data.energy = 60; K.data.color = (1.0, 0.7, 0.45); kit.aim(K, HER['root'])
+    bpy.ops.object.light_add(type='AREA', location=(1.0, 98.6, 2.4)); R = bpy.context.object; R.data.size = 0.8; R.data.energy = 45; R.data.color = (0.6, 0.75, 1.0); kit.aim(R, HER['root'])
+    FOG_BOX = ((-14, 60, 0), (14, 130, 10))
 else:
     raise SystemExit(f'unknown shot {SHOT}')
 

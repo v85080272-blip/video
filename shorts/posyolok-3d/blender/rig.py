@@ -10,7 +10,7 @@ def skeleton(h=1.68, slim=1.0, stoop=0.0, hipw=1.0):
     k = h / 1.68
     J = {
         'pelvis': ((0, 0, 0.93), (0.155 * hipw, 0.115)), 'waist': ((0, 0, 1.06), (0.118 * slim, 0.088)), 'chest': ((0, -0.006, 1.22), (0.148, 0.105)),
-        'shoulders': ((0, 0.0, 1.36), (0.13, 0.085)), 'neck': ((0, 0.005, 1.45), (0.046, 0.044)), 'headbase': ((0, 0.005, 1.5), (0.05, 0.05)),
+        'shoulders': ((0, 0.0, 1.36), (0.13, 0.085)), 'neck': ((0, 0.005, 1.45), (0.04, 0.038)), 'headbase': ((0, 0.005, 1.5), (0.037, 0.036)),
     }
     for s, x in (('L', -1), ('R', 1)):
         J.update({f'hip{s}': ((x * 0.088 * hipw, 0, 0.88), (0.088, 0.088)), f'thigh{s}': ((x * 0.086, 0, 0.68), (0.068, 0.07)), f'knee{s}': ((x * 0.082, 0, 0.48), (0.05, 0.052)),
@@ -69,7 +69,7 @@ def build(name, mats, h=1.68, slim=1.0, hipw=1.0, subd=2):
         eb[bn] = e
     bpy.ops.object.mode_set(mode='OBJECT')
     # materials by region, then the binding by heat
-    order = ['top', 'legs', 'shoes', 'skin']
+    order = ['top', 'legs', 'shoes', 'skin'] + (['belt'] if 'belt' in mats else [])
     for k in order: body.data.materials.append(mats[k])
     segs = [(bn, J[a][0], (J[b][0] if b else J[a][0] + Vector((0, 0, 0.2)))) for bn, a, b, _ in BONES]
     def nearest(p):
@@ -82,6 +82,7 @@ def build(name, mats, h=1.68, slim=1.0, hipw=1.0, subd=2):
         c = poly.center; bn = nearest(c)
         reg = REGION[bn]
         if bn in ('hips',) and c.z > 0.98 * h / 1.68: reg = 'top'                         # the jacket comes down over the hips
+        elif 'belt' in mats and reg == 'legs' and 0.945 * h / 1.68 < c.z <= 0.98 * h / 1.68: reg = 'belt'   # a belt below the jacket
         poly.material_index = order.index(reg)
     bpy.ops.object.select_all(action='DESELECT'); body.select_set(True); arm.select_set(True); bpy.context.view_layer.objects.active = arm
     bpy.ops.object.parent_set(type='ARMATURE_AUTO')
