@@ -365,7 +365,7 @@ Z = {'skin': mat('z_skin', (0.36, 0.39, 0.35), rough=0.75), 'shirt': mat('z_shir
      'eye': mat('z_eye', (0.8, 0.82, 0.72), emit=0.5)}
 import rig
 import looks
-H2 = looks.heroine_mats(mat)
+H2 = looks.iskra_mats(mat)                     # she is Искра now (13.11): her face, her hair, her orange jacket
 Z.update({'skin': looks.grey_skin('z_skin2'), 'shirt': looks.cloth('z_shirt2', (0.13, 0.15, 0.17)), 'coat': looks.cloth('z_coat2', (0.09, 0.08, 0.07)),
           'pants': looks.cloth('z_pants2', (0.06, 0.06, 0.07)), 'dress': looks.cloth('z_dress2', (0.2, 0.17, 0.2))})
 def skin_chain(pts, radii, m, parent=None, name='body', subd=2):
@@ -401,12 +401,10 @@ def heroine(x, y, rot=0.0):
     dark-brown hair in a high ponytail, two strands framing the face (the details and the textures: blender/looks.py)"""
     P, hm = rigged('heroine', {'top': H2['jacket'], 'legs': H2['jeans'], 'shoes': H2['sneak'], 'skin': H2['skin'], 'belt': H2['belt']}, 1.68, slim=0.95, hipw=1.06)
     looks.fit_generated([H2['jacket'], H2['jeans'], H2['sneak']], P['body'])
-    sk_ = smooth_ball((0, -0.014, 0.095), (0.074, 0.092, 0.11), H2['skin'], parent=hm, name='h_skull'); sk_.rotation_euler = (math.radians(-12), 0, 0)   # an egg, narrower at the chin
-    smooth_ball((0, 0.016, 0.125), (0.087, 0.095, 0.098), H2['hair'], parent=hm, name='h_hair')            # under the locks
-    smooth_ball((0, -0.1, 0.082), (0.011, 0.018, 0.022), H2['skin'], parent=hm, name='h_nose')
-    smooth_ball((0, 0.05, 0.075), (0.083, 0.058, 0.088), H2['hair'], parent=hm, name='h_nape')
+    looks.iskra_head(P, hm, H2, kit, skin_chain, smooth_ball, C())
     tl = empty((0, 0.09, 0.19), 'h_tail', parent=hm); P['tail'] = tl
     looks.dress_heroine(P, hm, H2, kit, skin_chain, smooth_ball, C())
+    looks.iskra_outfit(P, H2, kit, C())
     P['root'].location = (x, y, 0); P['root'].rotation_euler = (0, 0, rot)
     return P
 def infected(x, y, rot=0.0, kind=0, seed=0):
@@ -605,6 +603,8 @@ elif SHOT == 'G':                                 # by the open wicket she looks
     t_look = int(E * 0.66)
     head_key(HER, 0, math.radians(-4), 0); head_key(HER, t_look, math.radians(-4), 0)
     head_key(HER, t_look + 12, math.radians(4), math.radians(34)); head_key(HER, E, math.radians(4), math.radians(34))
+    SM = H2['face'].node_tree.nodes['smile'].outputs[0]                                         # «сделаю, как скажешь» — she smiles
+    SM.default_value = 0.0; SM.keyframe_insert('default_value', frame=t_look + 6); SM.default_value = 1.0; SM.keyframe_insert('default_value', frame=t_look + 12)
     key(HER['spine'], 'rotation_euler', t_look, (0, 0, 0)); key(HER['spine'], 'rotation_euler', t_look + 12, (0, math.radians(22), 0)); key(HER['spine'], 'rotation_euler', E, (0, math.radians(22), 0))
     camkeys([(0, (5.95, 9.5, 1.62), (5.4, 6.6, 1.5)), (E, (5.85, 9.15, 1.6), (5.4, 6.6, 1.5))])
     dof(2.8, 2.0, target=HER['head'])

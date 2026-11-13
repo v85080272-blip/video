@@ -201,6 +201,8 @@ def dress_heroine(P, hm, H, kit, skin_chain, smooth_ball, col):
         skin_chain([(x - s * 0.006, -0.02, 0.82), (x - s * 0.004, -0.034, 0.795), (x - s * 0.002, -0.04, 0.775)], [0.008, 0.007, 0.0055], H['skin'], parent=hd, name='h_thumb', subd=1)
         o = kit.box((s * 0.077, -0.05, 0.011), (0.088, 0.27, 0.022), H['sole'], name='h_sole'); o.parent = ft
         o = kit.box((s * 0.077, -0.05, 0.03), (0.082, 0.2, 0.004), H['lace'], name='h_stripe'); o.parent = ft
+    if 'face' in H:                                     # Искра: her drawn face and her bob come from iskra_head()
+        return
     # the face: eyes (whites, irises, a glint), lashes, brows, lips
     for x in (-0.031, 0.031):
         smooth_ball((x, -0.092, 0.105), (0.012, 0.007, 0.0085), H['sclera'], parent=hm, name='h_white')
@@ -244,3 +246,85 @@ def heroine_mats(kit_mat):
          'glint': plain('h_glint', (1.0, 1.0, 1.0), 0.1, emit=4.0), 'lash': plain('h_lash', (0.01, 0.008, 0.008), 0.5),
          'brow': plain('h_brow', (0.05, 0.03, 0.02), 0.7), 'lips': plain('h_lips2', (0.56, 0.16, 0.18), 0.3, coat=0.4), 'tie': plain('h_tie', (0.3, 0.03, 0.04), 0.5)}
     return H
+
+
+# —— Искра in 3D (the owner, 13.11: «лицо всё равно страшное — срисуй с нашей девочки»): her own drawn face from the
+# character sheet as a decal on the front of the head (blender/tex/iskra_neutral.png and iskra_smile.png, cut round the
+# eyes), her purple bob with the teal lock and the lightning hair clip, her orange jacket with the lightning on the back ——
+TEX = __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'tex')
+ISKRA_SKIN = (0.982, 0.604, 0.418)
+
+
+def face_decal(name='iskra_face'):
+    """the head's material: her skin, and over the front of the head her drawn face (neutral, or smiling as `smile` goes
+    to 1 — a Value node, keyed in the shot). The projection runs along the head's own −y (the front)"""
+    m, N, L, b = _nodes(name)
+    b.inputs['Roughness'].default_value = 0.55
+    b.inputs['Subsurface Weight'].default_value = 0.08; b.inputs['Subsurface Radius'].default_value = (1.0, 0.45, 0.28); b.inputs['Subsurface Scale'].default_value = 0.01
+    tc = N.new('ShaderNodeTexCoord'); sep = N.new('ShaderNodeSeparateXYZ'); L.new(tc.outputs['Object'], sep.inputs[0])
+    def lin(src, k, c):
+        mm = N.new('ShaderNodeMath'); mm.operation = 'MULTIPLY_ADD'; mm.inputs[1].default_value = k; mm.inputs[2].default_value = c
+        L.new(src, mm.inputs[0]); return mm.outputs[0]
+    uv = N.new('ShaderNodeCombineXYZ'); L.new(lin(sep.outputs['X'], 0.5556, 0.5), uv.inputs['X']); L.new(lin(sep.outputs['Z'], 0.5714, 0.5429), uv.inputs['Y'])
+    imgs = []
+    for k in ('neutral', 'smile'):
+        it = N.new('ShaderNodeTexImage'); it.image = bpy.data.images.load(f'{TEX}/iskra_{k}.png', check_existing=True); it.extension = 'CLIP'
+        it.interpolation = 'Cubic'; L.new(uv.outputs['Vector'], it.inputs['Vector']); imgs.append(it)
+    sm = N.new('ShaderNodeValue'); sm.name = 'smile'; sm.outputs[0].default_value = 0.0
+    col = _mix(N, L, sm.outputs[0], imgs[0].outputs['Color'], imgs[1].outputs['Color'])
+    am = N.new('ShaderNodeMix'); am.data_type = 'FLOAT'; L.new(sm.outputs[0], am.inputs['Factor'])
+    L.new(imgs[0].outputs['Alpha'], am.inputs['A']); L.new(imgs[1].outputs['Alpha'], am.inputs['B'])
+    front = N.new('ShaderNodeMapRange'); front.inputs['From Min'].default_value = -0.15; front.inputs['From Max'].default_value = -0.45
+    L.new(sep.outputs['Y'], front.inputs['Value'])
+    a = N.new('ShaderNodeMath'); a.operation = 'MULTIPLY'; L.new(am.outputs['Result'], a.inputs[0]); L.new(front.outputs['Result'], a.inputs[1])
+    L.new(_mix(N, L, a.outputs[0], ISKRA_SKIN, col), b.inputs['Base Color'])
+    return m
+
+
+def iskra_mats(kit_mat):
+    H = heroine_mats(kit_mat)
+    H.update({'skin': skin('i_skin', ISKRA_SKIN, 0.12), 'face': face_decal(), 'hair': hair('i_hair', (0.035, 0.008, 0.06), (0.09, 0.025, 0.16)),
+              'teal': hair('i_teal', (0.0, 0.28, 0.26), (0.02, 0.5, 0.45)), 'bolt': plain('i_bolt', (1.0, 0.78, 0.05), 0.35, emit=0.6),
+              'jacket': leather('i_leather', (0.26, 0.055, 0.008)), 'trim': plain('i_trim', (0.85, 0.72, 0.5), 0.5)})
+    return H
+
+
+def bolt(parent, at, size, m, rot=(0, 0, 0), name='bolt', depth=0.006):
+    """her lightning: the classic bolt outline in the x–z plane, a little thickness along y"""
+    import bmesh
+    pts = [(0.22, 1.0), (-0.34, 0.06), (0.04, 0.06), (-0.22, -1.0), (0.36, -0.08), (-0.02, -0.08)]
+    bm = bmesh.new()
+    front = [bm.verts.new((x * size * 0.5, -depth / 2, z * size * 0.5)) for x, z in pts]
+    back = [bm.verts.new((x * size * 0.5, depth / 2, z * size * 0.5)) for x, z in pts]
+    bm.faces.new(front); bm.faces.new(list(reversed(back)))
+    for i in range(len(pts)):
+        j = (i + 1) % len(pts); bm.faces.new((front[i], front[j], back[j], back[i]))
+    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(m)
+    o = bpy.data.objects.new(name, me); bpy.context.scene.collection.objects.link(o)
+    o.parent = parent; o.location = at; o.rotation_euler = rot
+    return o
+
+
+def iskra_head(P, hm, H, kit, skin_chain, smooth_ball, col):
+    """her head: the face decal on the egg of the head, the purple bob, the teal lock on her right, the clip on her left"""
+    sk = smooth_ball((0, -0.014, 0.095), (0.074, 0.092, 0.11), H['face'], parent=hm, name='i_head'); sk.rotation_euler = (math.radians(-6), 0, 0)
+    smooth_ball((0, 0.02, 0.13), (0.086, 0.094, 0.095), H['hair'], parent=hm, name='i_hair_cap')
+    smooth_ball((0, 0.035, 0.065), (0.096, 0.086, 0.118), H['hair'], parent=hm, name='i_hair_back')        # the bob, down to the nape
+    for s in (-1, 1):                                   # the bob's sides: locks falling to the jaw, flaring a little at the ends
+        for k, y0 in enumerate((-0.045, -0.012, 0.022, 0.055)):
+            skin_chain([(s * 0.066, y0, 0.17), (s * 0.088, y0, 0.09), (s * 0.09, y0 + 0.008, 0.01), (s * (0.094 + 0.006 * k), y0 + 0.014, -0.03)],
+                       [0.02, 0.024, 0.02, 0.008], H['hair'], parent=hm, name='i_side_lock')
+    for k in range(7):                                                                                     # locks over the top
+        x0 = -0.06 + 0.02 * k
+        skin_chain([(x0, -0.072, 0.17 - 0.1 * abs(x0)), (x0 * 0.95, -0.02, 0.213), (x0 * 0.7, 0.05, 0.205), (x0 * 0.5, 0.1, 0.12)], [0.016, 0.019, 0.019, 0.016], H['hair'], parent=hm, name='i_lock')
+    for k in range(4):                                                                                     # the fringe, swept
+        z0 = 0.2 - 0.008 * k
+        skin_chain([(-0.035 + 0.013 * k, -0.07, z0), (0.01 + 0.01 * k, -0.092, z0 - 0.03), (0.05 + 0.006 * k, -0.086, z0 - 0.07)], [0.006, 0.0075, 0.003], H['hair'], parent=hm, name='i_fringe')
+    skin_chain([(0.04, -0.07, 0.2), (0.074, -0.072, 0.15), (0.088, -0.056, 0.07), (0.092, -0.04, 0.0)], [0.007, 0.01, 0.009, 0.004], H['teal'], parent=hm, name='i_teal_lock')
+    bolt(hm, (-0.083, -0.045, 0.16), 0.05, H['bolt'], rot=(0, math.radians(-15), math.radians(-80)), name='i_clip')
+
+
+def iskra_outfit(P, H, kit, col):
+    """her lightning on the back of the jacket, a cream trim at the collar"""
+    arm = P['root']; ch = mount(arm, 'chest', col)
+    bolt(ch, (0, 0.112, 1.24), 0.16, H['bolt'], rot=(0, 0, math.radians(180)), name='i_back_bolt')
