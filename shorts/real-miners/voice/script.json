@@ -1,0 +1,137 @@
+{
+ "note": "Narration for «69 дней под землёй» — «Реальные истории», 2 (viewers chose it under episode 1). The San José copper-gold mine near Copiapó, Atacama desert, Chile: on 5 August 2010 the mine collapsed and 33 miners were trapped about 700 m down (some reports: 720 m), some 5 km along the ramp from the portal. They reached the emergency refuge, stocked for only a few days; shift foreman Luis Urzúa organised the rationing — about two teaspoons of tuna, a sip of milk and half a biscuit (and a bite of peach) every 48 hours. For 17 days nobody on the surface knew whether anyone was alive; boreholes were drilled one after another, and on 22 August one broke through near them; they taped a note to the drill bit: «Estamos bien en el refugio los 33» (we are fine in the refuge, the 33). Food, water, medicine and letters from home went down the narrow borehole in tubes the miners called «palomas». A wider rescue shaft (Plan B) reached them on 9 October; from 12–13 October they were winched up one by one in the Fénix 2 capsule (about 54 cm across), the first Florencio Ávalos, the last — after about 22 hours — foreman Urzúa; all 33 survived, 69 days after the collapse (Britannica «Chile mine rescue of 2010»; AP, 22.08.2010; History.com «This Day in History: October 13»; CNN «2010 Chilean Mine Rescue Fast Facts»; 13.cl on the note). Names that the voice may stress wrongly (Сан-Хосе, Урсуа, Феникс) are left out; «дели еду» became «растягивай еду» (дЕли / делИ); «письма из дома» became «записки от родных» (five takes of six read «письмА»). Next vote (catastrophes, which the audience likes best): the tsunami on the beach (Tilly Smith, 10, Phuket, 26.12.2004 — she knew from a geography lesson that the sea running out means a tsunami, and her beach was cleared in time) or the boys in the flooded cave (Tham Luang, Thailand, 2018: 12 boys and their coach, 18 days). at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Тридцать три человека. Семьсот метров под землёй. Шестьдесят девять дней. И все выжили.",
+   "at": 0.12,
+   "sub": [
+    3,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Чили, август две тысячи десятого. В шахте обрушилась скала и закрыла выход наверх.",
+   "after": 0.45,
+   "sub": [
+    5,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Тридцать три шахтёра — в ловушке, в маленьком убежище.",
+   "after": 0.4,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Еды там на пару дней. Бригадир делит её поровну: две ложки тунца и глоток молока раз в двое суток.",
+   "after": 0.4,
+   "sub": [
+    5,
+    4,
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Семнадцать дней наверху не знают, живы ли они.",
+   "after": 0.45,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Сверху пробивают скважину за скважиной. И одна выходит прямо к ним!",
+   "after": 0.4,
+   "sub": [
+    5,
+    6
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Они привязывают к буру записку: «Мы в порядке, в убежище, все тридцать три».",
+   "after": 0.35,
+   "sub": [
+    5,
+    3,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Теперь через узкую дыру им спускают еду, воду и записки от родных.",
+   "after": 0.45,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "А потом делают широкий проход и по одному поднимают их в узкой капсуле.",
+   "after": 0.4,
+   "sub": [
+    5,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Последним поднимается бригадир. Живы все тридцать три.",
+   "after": 0.4,
+   "sub": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L10",
+   "text": "Запомни: застрял и ждёшь помощи — растягивай еду надолго и держитесь вместе.",
+   "after": 0.5,
+   "sub": [
+    1,
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L11",
+   "text": "Следующая история: цунами на пляже или дети в затопленной пещере? Пиши 1 или 2.",
+   "tts": "Следующая история: цунами на пляже или дети в затопленной пещере? Пиши один или два.",
+   "after": 0.5,
+   "sub": [
+    2,
+    3,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L12",
+   "text": "И подписывайся, чтобы не пропустить.",
+   "after": 0.4,
+   "sub": [
+    5
+   ]
+  }
+ ]
+}

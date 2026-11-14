@@ -1,0 +1,100 @@
+{
+ "note": "Narration for «Цунами» — a standalone 2D short (≤45 s) after the YouTube Studio report of 10.11: a real danger here and now, the hook on screen from 0 s, «situation? + DON'T» title; listed as «Реальные истории» №4 (the viewers' vote: tsunami or volcano). You on a beach, the sea suddenly pulls back → it is a tsunami, minutes left → run inland and up, leave things → STOP: no hills, 1 along the shore or 2 up a concrete hotel (2 s countdown) → 2: reinforced concrete, 4th floor and higher; along the shore the wave catches you → do not go down after the first wave, more come, sometimes bigger → 2004, a ten-year-old girl in Thailand recognised it from a geography lesson and raised the alarm; about a hundred people left the beach in time → share with whoever you go to the sea with (loops to the first line). Facts: natural warnings — a strong earthquake, the ocean suddenly falling back and exposing the sea floor, a loud roar; move to high ground or inland at once, do not wait for an official warning (NOAA/NWS ITIC «Sensing a tsunami»; American Geosciences Institute). If you cannot get inland, the upper floors of a tall reinforced-concrete building are a refuge: 4th floor or higher (NOAA ITIC TsuFacts, Oahu); waves keep coming for hours, the first wave may not be the largest, do not return until the all clear (NOAA ITIC TsuFacts; NTHMP/Carpinteria fact sheet). Tilly Smith, 10, Mai Khao beach, Phuket, 26 Dec 2004: had learned the signs in a geography lesson two weeks before (teacher Andrew Kearney, Danes Hill School), told her parents, her father alerted the hotel staff, the beach was cleared; about 100 people, no deaths on that beach (Wikipedia «Tilly Smith»; Irish Examiner; Fox News citing The Sun). The name is not voiced (stress risk), «холма» (холмА/хОлма) avoided → «Холмов рядом нет». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты на пляже, и вдруг море уходит от берега.",
+   "at": 0.12,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Рыба бьётся на песке, люди идут посмотреть.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Не ходи! Это цунами. До волны — минуты.",
+   "after": 0.3,
+   "sub": [
+    2,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Беги наверх, подальше от моря. Вещи бросай.",
+   "after": 0.25,
+   "sub": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Стоп. Холмов рядом нет. Куда бежишь? Один — вдоль берега. Два — в бетонный отель, наверх.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Два! Бетонный отель, четвёртый этаж и выше. Вдоль берега волна догонит.",
+   "after": 2.0,
+   "sub": [
+    1,
+    6,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "И не спускайся после первой волны: за ней придут ещё, иногда сильнее.",
+   "after": 0.3,
+   "sub": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "В две тысячи четвёртом десятилетняя девочка увидела это в Таиланде, вспомнила урок географии и подняла тревогу.",
+   "after": 0.45,
+   "sub": [
+    6,
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Около ста человек успели уйти с пляжа.",
+   "after": 0.25,
+   "sub": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Подписывайся и перешли тому, с кем поедешь на море.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6
+   ]
+  }
+ ]
+}

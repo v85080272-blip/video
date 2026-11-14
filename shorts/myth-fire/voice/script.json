@@ -1,0 +1,88 @@
+{
+ "note": "Narration for «Правда или миф», №5 «Пожар дома». Three tips, the viewer guesses before each verdict; «правда» in the middle. Facts: never pour water on burning oil — it sinks, turns to steam and throws the burning oil out in a fireball; slide a lid over the pan and turn the burner off (State Farm; NFPA and USFA via safety summaries). Smoke and poisonous gases rise with the heat, the air is cleaner near the floor — get low and go under the smoke (fire department handouts citing NFPA). Use the stairs, never the elevator during a fire; the shaft draws smoke like a chimney and the lift can stop (Amarillo and Crystal Lake fire departments, citing NFPA). «ползи» avoided (пОлзи risk) → «держись пониже». at/after/tail/sub as in the blackout season; tts = what the voice reads. Rewritten after the takes: «залей водой» (five takes «зАлей») → «плесни водой»; «в дыму держись пониже, у самого пола» (most takes «дЫму», «самогО») → «когда кругом дым, держись пониже, у пола». Then «плесни водой» (all six takes «плЕсни») → «лей на него воду». And «кто готовит дома» (the voice said дОма — right — but the check reads домА) → «кто любит готовить».",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Три совета при пожаре. Два из них могут убить. Угадай, какой правда.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первый: загорелось масло на сковороде — лей на него воду.",
+   "after": 0.35,
+   "sub": [
+    1,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Вода взорвётся паром и раскидает горящее масло. Накрой крышкой и выключи плиту.",
+   "after": 1.6,
+   "sub": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второй: когда кругом дым, держись пониже, у пола.",
+   "after": 0.35,
+   "sub": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Правда! Дым и жар поднимаются вверх, а внизу воздух чище.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третий: пожар в доме — спускайся на лифте, так быстрее.",
+   "after": 0.35,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Миф! Лифт может застрять, а шахта тянет дым, как труба. Только лестница.",
+   "after": 1.6,
+   "sub": [
+    1,
+    3,
+    6,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. И перешли тому, кто любит готовить. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    6,
+    1
+   ]
+  }
+ ]
+}
