@@ -80,7 +80,7 @@ function title(s, y, size, k = 1, color = '#ffffff', rule = RED) {
 function cover() {
   g.setTransform(1, 0, 0, 1, 0, 0);
   const grd = g.createLinearGradient(0, 0, 0, 760); grd.addColorStop(0, 'rgba(0,0,0,0.75)'); grd.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = grd; g.fillRect(0, 0, W, 760);
-  title('ДО МАШИНЫ 20 МЕТРОВ', 250, 104);
+  title('ДО МАШИНЫ 20 МЕТРОВ', 250, 92);
   g.save(); g.translate(540, 420); g.rotate(-0.02);
   const s = 'НЕ ЖМИ НА БРЕЛОК!', w = measure(s, 112, FONTS.cond) + 70;
   rect(-w / 2, -82, w, 128, RED); text(s, 0, 30, 112, '#ffffff', { fam: FONTS.cond, shadow: false }); g.restore();
@@ -88,11 +88,11 @@ function cover() {
 function button(n, s, x, y, k, state) {                    // state: 'q' asking, 'right', 'wrong'
   if (k <= 0.01) return;
   g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(x, y); g.scale(k, k);
-  const w = 430, h = 150, c = state === 'right' ? 'rgba(40,140,90,0.92)' : state === 'wrong' ? 'rgba(90,30,32,0.75)' : 'rgba(10,14,22,0.82)';
+  const w = Math.max(430, measure(s, 42, FONTS.cond) + 180), h = 150, c = state === 'right' ? 'rgba(40,140,90,0.92)' : state === 'wrong' ? 'rgba(90,30,32,0.75)' : 'rgba(10,14,22,0.82)';
   fill(rrPath(-w / 2, -h / 2, w, h, 24), c);
   g.save(); g.lineWidth = 3; g.strokeStyle = state === 'q' ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.25)'; g.stroke(rrPath(-w / 2 + 1.5, -h / 2 + 1.5, w - 3, h - 3, 23)); g.restore();
   text(n, -w / 2 + 62, 26, 74, state === 'wrong' ? '#c98a8a' : WARM, { fam: FONTS.cond, shadow: false });
-  text(s, 40, 20, 42, state === 'wrong' ? '#c9b0b0' : '#ffffff', { fam: FONTS.cond, shadow: false });
+  text(s, 37, 20, 42, state === 'wrong' ? '#c9b0b0' : '#ffffff', { fam: FONTS.cond, shadow: false });
   if (state === 'wrong') { g.lineWidth = 6; g.strokeStyle = 'rgba(229,72,77,0.9)'; g.beginPath(); g.moveTo(-w / 2 + 30, 0); g.lineTo(w / 2 - 30, 0); g.stroke(); }
   g.restore();
 }
