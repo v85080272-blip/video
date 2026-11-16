@@ -1,0 +1,102 @@
+{
+ "note": "Narration for «Правда или миф», №11 «Застрял в метель» — Искра and the cat Факт in the ElevenLabs voice Elen. The season's topic (winter roads), no blood, no death (rule of 12.11). From 16.11 (the owner): no count at the start («два из трёх — ошибка» was a hint) and the mix varies — here 1 myth, 2 truths. Facts (CDC «Winter Weather: Staying Safe in a Car»; Ready.gov «Winter Storms»; US National Weather Service winter safety; МЧС России, reminders for drivers stuck in snow): 1 leave the car and walk for help — myth: in a blizzard you lose your way in minutes; the car is a shelter and is found sooner; stay in it, call 112. 2 running the engine for warmth — first clear the exhaust pipe of snow — truth: a blocked pipe lets carbon monoxide into the car; run the engine about ten minutes an hour, open a window a little. 3 tie a bright cloth to the antenna — truth: rescuers see the car in the snow; at night switch the inside light on while the engine runs. tts: what ElevenLabs reads, with stress marks. Subtitle groups (sub) are counted without the dash. Every line at tempo 1.1.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Машина застряла в метель. Правда или миф — угадаешь все три?",
+   "tts": "Маши́на застря́ла в мете́ль. Пра́вда и́ли миф — угада́ешь все три?",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    3
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L1",
+   "text": "Первый: застрял — иди пешком за помощью.",
+   "tts": "Пе́рвый: застря́л — иди́ пешко́м за по́мощью.",
+   "after": 0.6,
+   "sub": [
+    2,
+    4
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L2",
+   "text": "Миф! В метель теряются за минуты. Машина — укрытие, её найдут быстрее. Звони сто двенадцать.",
+   "tts": "Миф! В мете́ль теря́ются за мину́ты. Маши́на — укры́тие, её найду́т быстре́е. Звони́ сто двена́дцать.",
+   "after": 1.4,
+   "sub": [
+    1,
+    5,
+    5,
+    3
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L3",
+   "text": "Второй: греешься мотором — сначала откопай выхлопную трубу.",
+   "tts": "Второ́й: гре́ешься мото́ром — снача́ла откопа́й выхлопну́ю трубу́.",
+   "after": 0.8,
+   "sub": [
+    1,
+    2,
+    4
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L4",
+   "text": "Правда! Иначе угарный газ пойдёт в салон. Заводи на десять минут в час.",
+   "tts": "Пра́вда! Ина́че уга́рный газ пойдёт в сало́н. Заводи́ на де́сять мину́т в час.",
+   "after": 1.4,
+   "sub": [
+    1,
+    6,
+    6
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L5",
+   "text": "Третий: привяжи яркую тряпку к антенне.",
+   "tts": "Тре́тий: привяжи́ я́ркую тря́пку к анте́нне.",
+   "after": 0.8,
+   "sub": [
+    1,
+    5
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L6",
+   "text": "Правда! Так спасатели заметят машину в снегу. А ночью включай свет в салоне.",
+   "tts": "Пра́вда! Так спаса́тели заме́тят маши́ну в снегу́. А но́чью включа́й свет в сало́не.",
+   "after": 1.4,
+   "sub": [
+    1,
+    6,
+    6
+   ],
+   "tempo": 1.1
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Я Искра, а это мой кот Факт. Подписывайся!",
+   "tts": "Ско́лько угада́л? Пиши́ в коммента́риях. Я И́скра, а э́то мой кот Факт. Подпи́сывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ],
+   "tempo": 1.1
+  }
+ ]
+}

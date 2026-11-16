@@ -1,0 +1,105 @@
+{
+ "note": "Narration for «Правда или миф», №12 «Печка и угарный газ» — Искра and the cat Факт in the ElevenLabs voice Elen. The season's topic (stove heating), no blood, no death (rule of 12.11). From 16.11 no count at the start; here 2 myths, 1 truth. Facts (МЧС России, reminders on stove heating and carbon monoxide; CDC «Carbon Monoxide Poisoning: Frequently Asked Questions»; WHO): 1 the stove has burnt down — shut the damper early to keep the heat — myth: while the coals still burn (blue flames) they give carbon monoxide, and a shut damper drives it into the house; shut it only when there are no blue flames left. 2 carbon monoxide can be smelled — myth: it has no colour and no smell; a carbon monoxide detector beeps. 3 everyone at home has a headache and feels sick at once — go out into fresh air — truth: these are the signs of carbon monoxide; take everyone outside and call 112. tts: what ElevenLabs reads, with stress marks. Subtitle groups (sub) are counted without the dash. Every line at tempo 1.2 and the guess windows 1.25 s (the take ran 49 s at 1.1).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Зима, дома топится печка. Правда или миф — угадаешь все три?",
+   "tts": "Зима́, до́ма то́пится пе́чка. Пра́вда и́ли миф — угада́ешь все три?",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    3
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L1",
+   "text": "Первый: печь протопилась — закрой заслонку пораньше, чтобы тепло не ушло.",
+   "tts": "Пе́рвый: печь протопи́лась — закро́й засло́нку пора́ньше, что́бы тепло́ не ушло́.",
+   "after": 0.6,
+   "sub": [
+    3,
+    3,
+    4
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Пока горят угли, идёт угарный газ — и заслонка загонит его в дом. Закрывай, когда нет синих огоньков.",
+   "tts": "Миф! Пока́ горя́т у́гли, идёт уга́рный газ — и засло́нка заго́нит его́ в дом. Закрыва́й, когда́ нет си́них огонько́в.",
+   "after": 1.25,
+   "sub": [
+    1,
+    6,
+    6,
+    5
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L3",
+   "text": "Второй: угарный газ можно учуять по запаху.",
+   "tts": "Второ́й: уга́рный газ мо́жно учу́ять по за́паху.",
+   "after": 0.65,
+   "sub": [
+    1,
+    6
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L4",
+   "text": "Миф! У него нет ни цвета, ни запаха. Поставь датчик угарного газа — он запищит.",
+   "tts": "Миф! У него́ нет ни цве́та, ни за́паха. Поста́вь да́тчик уга́рного га́за — он запищи́т.",
+   "after": 1.25,
+   "sub": [
+    1,
+    7,
+    4,
+    2
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L5",
+   "text": "Третий: у всех дома болит голова и тошнит — выходи на свежий воздух.",
+   "tts": "Тре́тий: у всех до́ма боли́т голова́ и тошни́т — выходи́ на све́жий во́здух.",
+   "after": 0.65,
+   "sub": [
+    1,
+    7,
+    4
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L6",
+   "text": "Правда! Так проявляется угарный газ. Выведи всех на улицу и звони сто двенадцать.",
+   "tts": "Пра́вда! Так проявля́ется уга́рный газ. Вы́веди всех на у́лицу и звони́ сто двена́дцать.",
+   "after": 1.25,
+   "sub": [
+    1,
+    4,
+    5,
+    3
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Я Искра, а это мой кот Факт. Подписывайся!",
+   "tts": "Ско́лько угада́л? Пиши́ в коммента́риях. Я И́скра, а э́то мой кот Факт. Подпи́сывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ],
+   "tempo": 1.2
+  }
+ ]
+}
