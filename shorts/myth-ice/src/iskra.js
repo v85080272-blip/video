@@ -13,7 +13,8 @@ const POSES = ['hi', 'explain', 'left', 'right', 'truth', 'myth'];
 const P = {};
 for (const p of POSES) {
   const k = 'i_' + p, m = MOUTHS[k];
-  P[p] = { img: await load(k + '.png'), closed: m ? await load(k + '_closed.png') : null, bare: m?.line ? await load(k + '_bare.png') : null, m };
+  P[p] = { img: await load(k + '.png'), closed: m ? await load(k + '_closed.png') : null, bare: m?.line ? await load(k + '_bare.png') : null,
+           mopen: m?.art ? await load(k + '_mopen.png') : null, m };
 }
 const CATS = ['front', 'profile', 'back', 'sure', 'doubt', 'wow'];
 const C = {};
@@ -44,42 +45,24 @@ export function iskra(t, pose, x, y, h, o = {}) {
   const bob = 5 * Math.sin(t * 2.2), sway = 0.012 * Math.sin(t * 1.3);
   g.save(); g.translate(x, y + bob); g.rotate(sway); g.scale(pop * (o.flip ? -1 : 1), pop);
   // speaking: the mouth shuts between syllables and opens with the voice; silent: her own smile from the sheet
-  const op = openAt(t);
+  // the anime lip flap: three mouths — her closed lips, half open, open — changing 15 times a second (16.11)
+  const op = openAt(Math.floor(t * 15) / 15);
   if (o.speaking && s.closed) {
-    if (op < 0.12 || !s.bare) g.drawImage(s.closed, -w / 2, -h, w, h);           // between syllables: her own closed lips
-    else { g.drawImage(s.bare, -w / 2, -h, w, h); vmouth(s.m, k, w, h, op); }    // open: the drawn mouth on the bare face
+    if (op < 0.15 || !s.bare || !s.mopen) g.drawImage(s.closed, -w / 2, -h, w, h);
+    else {
+      const [t0, t1] = s.m.art, sy = op < 0.5 ? 0.55 : 1;
+      g.drawImage(s.bare, -w / 2, -h, w, h);
+      g.drawImage(s.mopen, 0, t0, img.width, t1 - t0, -w / 2, -h + t0 * k, w, (t1 - t0) * sy * k);
+    }
   } else g.drawImage(img, -w / 2, -h, w, h);
   g.restore();
 }
-// the mouth while she speaks (16.11, the owner: «ужасно открывается рот — там усы»). The old way pasted the sheet's own
-// open mouth — a 31×25 px cut with a feathered oval of skin — stretched to the sprite's size, and its edge read as a grey
-// ring round the mouth. Now the closed sprite's own lip line stays between syllables; while the voice is loud the line is
-// gone (img/i_<pose>_bare.png, tools/bare_mouth.py) and an open mouth is drawn along it — tilted like her face, in the
-// sheet's colours: a dark outline, the upper teeth, the coral inside, the tongue; it opens downwards with the voice.
-const INK_M = '#2b0d0a', TEETH = '#fffaf6', TONGUE = '#f2876f';
-function vmouth(m, k, w, h, op) {
-  const [lx, ly, lhw, ang] = m.line;
-  g.save(); g.translate(-w / 2 + lx * k, -h + ly * k); g.rotate(ang);
-  g.lineCap = 'round'; g.lineJoin = 'round';
-  const hw = lhw * k * (0.98 + 0.12 * op), lift = hw * 0.12, up = -hw * 0.04;
-  const d = hw * (0.2 + 0.6 * op);                                         // how far the lower lip drops
-  const path = () => {
-    g.beginPath(); g.moveTo(-hw, up - lift);
-    g.quadraticCurveTo(0, up + hw * 0.08, hw, up - lift);                  // the upper edge, nearly straight
-    g.bezierCurveTo(hw * 0.78, up + d * 1.33, -hw * 0.78, up + d * 1.33, -hw, up - lift);   // the lower lip
-    g.closePath();
-  };
-  const grd = g.createLinearGradient(0, up, 0, up + d); grd.addColorStop(0, '#7d1d14'); grd.addColorStop(1, '#d4503b');
-  path(); g.fillStyle = grd; g.fill();
-  g.save(); path(); g.clip();
-  g.fillStyle = TONGUE; g.beginPath(); g.ellipse(0, up + d * 1.02, hw * 0.58, d * 0.4, 0, 0, Math.PI * 2); g.fill();
-  const tb = Math.min(d * 0.34, hw * 0.24);                               // the upper teeth: a band under the upper edge
-  g.fillStyle = TEETH; g.beginPath(); g.moveTo(-hw, up - lift - 3 * k); g.lineTo(hw, up - lift - 3 * k);
-  g.lineTo(hw, up - lift + tb * 0.5); g.quadraticCurveTo(0, up + hw * 0.08 + tb, -hw, up - lift + tb * 0.5); g.closePath(); g.fill();
-  g.restore();
-  path(); g.strokeStyle = INK_M; g.lineWidth = Math.max(1.4, 1.05 * k); g.stroke();
-  g.restore();
-}
+// the mouth while she speaks (16.11, the owner: «ужасно открывается рот — там усы»; then «реалистичнее, с языком,
+// миленько, как в аниме»). The old way pasted the sheet's open mouth as a 31×25 px cut with a feathered oval of skin,
+// stretched to the sprite's size — its edge read as a grey ring. Now: her closed lips from the closed sprite; open — the
+// artist's own open mouth of this pose cut along its outline (img/i_<pose>_mopen.png, tools/mouth_art.py, with a pinker
+// tongue) on the face with the lip line painted out (img/i_<pose>_bare.png, tools/bare_mouth.py); half open — the same
+// mouth squashed towards the upper lip.
 // the cat: pose, bottom centre (x, y), height h; hop: a little jump at that time
 export function cat(t, pose, x, y, h, o = {}) {
   const img = C[pose] ?? C.front;
