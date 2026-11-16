@@ -26,11 +26,19 @@
 
 ## Голос
 Elen, один дубль на весь текст: 650 символов. При темпе 1,1 вышло 49,2 с. Поэтому темп 1,2, а окна «угадай» сокращены
-до 1,25 с — итог 44,9 с.
+до 1,25 с. Проверка нашла в L6 «звОни»: фраза перечитана двумя дублями (88 символов), взят s3 — ошибок нет. Итог
+45,6 с.
+
+`qa/check_clip.py`: ошибок нет, −14,0 LUFS, пик −2,1 dBTP. Замечания ложные:
+- «дома» здесь «у себя дома» — дОма верно;
+- «у́гли» — допустимое ударение;
+- «или» — сомнение только под музыкой;
+- «кот» распознаватель пишет «код».
 
 ```bash
 python3 tools/el_takes.py /home/user/work/myth-stove 1
 EPS=myth-stove /home/user/work/myth-pick.sh
-cd tools && python3 voice.py ../voice/script.json ../build/voice.wav "*=/home/user/work/myth-stove/c_s1" && cd ..
+ONLY="L6" python3 tools/el_takes.py /home/user/work/myth-stove-b 2 3      # L6 заново
+cd tools && python3 voice.py ../voice/script.json ../build/voice.wav "*=/home/user/work/myth-stove/c_s1" "L6=/home/user/work/myth-stove-b/c_s3" && cd ..
 EPS=myth-stove /home/user/work/myth-build.sh
 ```
