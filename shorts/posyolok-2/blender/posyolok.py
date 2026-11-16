@@ -727,6 +727,15 @@ if SHOT == 'C_AERIAL':                           # (№1's aerial marks; not use
         views.append({k: ([proj(p) for p in v] if isinstance(v, list) else proj(v)) for k, v in pts.items()})
     os.makedirs(OUT, exist_ok=True); json.dump(views, open(os.path.join(OUT, 'screen.json'), 'w'))
 
+if os.environ.get('PBR'):                          # photo scans from Poly Haven (CC0) over the scene (blender/pbr.py)
+    import pbr
+    pbr.set_pbr(ASPH, 'asph', 0.35, rough=0.5); pbr.set_pbr(GRASS, 'grass', 0.3); pbr.set_pbr(SOIL, 'soil', 0.4); pbr.set_pbr(CONC, 'conc', 0.5)
+    pbr.set_pbr(BRICK, 'brick', 0.9); pbr.set_pbr(BRICK_Y, 'brick', 0.9, tint=(1.6, 1.4, 1.0)); pbr.set_pbr(BARK, 'bark', 1.5)
+    for m_ in PROF + PROFY: pbr.overlay(m_, 'corrug', 0.5, amount=0.55, normal=0.0, ao=0.4)
+    for m_ in SIDING: pbr.overlay(m_, 'plaster', 0.5, amount=0.45, normal=0.4, ao=0.4)
+    for m_ in ROOF: pbr.overlay(m_, 'roof', 0.6, amount=0.4, normal=0.5, ao=0.5)
+    pbr.overlay(PLANK, 'planks', 0.6, amount=0.6, normal=0.6)
+    pbr.overlay(GRAVEL, 'soil', 0.6, amount=0.5, normal=0.6)
 TESTF = os.environ.get('TESTF')
 if TESTF is not None:
     f = int(TESTF); kit.render(sc, OUT, f, f, PCT, SAMPLES, 1, vol=True)

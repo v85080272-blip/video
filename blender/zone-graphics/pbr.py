@@ -21,7 +21,7 @@ def _vec(N, L, scale):
     L.new(geo.outputs['Position'], mp.inputs['Vector']); return mp.outputs['Vector']
 
 
-def set_pbr(m, key, scale=0.5, tint=None, normal=1.0):
+def set_pbr(m, key, scale=0.5, tint=None, normal=1.0, rough=1.0):
     """rebuild material m in place (it stays on its objects) from the scan `key`; scale: repeats per metre"""
     nt = m.node_tree; N = nt.nodes; L = nt.links
     for n in list(N): N.remove(n)
@@ -35,7 +35,8 @@ def set_pbr(m, key, scale=0.5, tint=None, normal=1.0):
         L.new(col, mx.inputs['A']); mx.inputs['B'].default_value = (*tint, 1); col = mx.outputs['Result']
     ao = N.new('ShaderNodeMix'); ao.data_type = 'RGBA'; ao.blend_type = 'MULTIPLY'; ao.inputs['Factor'].default_value = 0.8
     L.new(col, ao.inputs['A']); L.new(sep.outputs['Red'], ao.inputs['B'])
-    L.new(ao.outputs['Result'], b.inputs['Base Color']); L.new(sep.outputs['Green'], b.inputs['Roughness']); L.new(sep.outputs['Blue'], b.inputs['Metallic'])
+    L.new(ao.outputs['Result'], b.inputs['Base Color']); rg = N.new('ShaderNodeMath'); rg.operation = 'MULTIPLY'; rg.inputs[1].default_value = rough; L.new(sep.outputs['Green'], rg.inputs[0])   # rough < 1: wet
+    L.new(rg.outputs[0], b.inputs['Roughness']); L.new(sep.outputs['Blue'], b.inputs['Metallic'])
     nm = N.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = normal; L.new(nor.outputs['Color'], nm.inputs['Color']); L.new(nm.outputs['Normal'], b.inputs['Normal'])
     return m
 
@@ -64,3 +65,31 @@ def hdri(sc, path=None, strength=1.0, rot=0.0):
     L.new(tc.outputs['Generated'], mp.inputs['Vector']); L.new(mp.outputs['Vector'], env.inputs['Vector']); L.new(env.outputs['Color'], bg.inputs['Color'])
     bg.inputs['Strength'].default_value = strength
     return bg
+
+
+def overlay(m, key, scale=0.5, amount=0.6, normal=0.6, ao=0.6):
+    """keep the material's own design (its colours, its bands and bricks) and lay the scan over it: the grime of the scan
+    (its brightness around the middle multiplies the colour), its ambient occlusion and its relief (normal map, chained
+    under the material's own bump if it has one)"""
+    nt = m.node_tree; N = nt.nodes; L = nt.links
+    b = next(n for n in N if n.type == 'BSDF_PRINCIPLED')
+    v = _vec(N, L, scale)
+    d = _tex(N, L, key, 'diff', 'sRGB', v); arm = _tex(N, L, key, 'arm', 'Non-Color', v); nor = _tex(N, L, key, 'nor', 'Non-Color', v)
+    bw = N.new('ShaderNodeRGBToBW'); L.new(d.outputs['Color'], bw.inputs[0])
+    k = N.new('ShaderNodeMath'); k.operation = 'MULTIPLY'; k.inputs[1].default_value = 2.0; L.new(bw.outputs[0], k.inputs[0])   # ≈1 on average
+    sep = N.new('ShaderNodeSeparateColor'); L.new(arm.outputs['Color'], sep.inputs[0])
+    base = b.inputs['Base Color']
+    src = base.links[0].from_socket if base.is_linked else None
+    g1 = N.new('ShaderNodeMix'); g1.data_type = 'RGBA'; g1.blend_type = 'MULTIPLY'; g1.inputs['Factor'].default_value = amount
+    if src: L.new(src, g1.inputs['A'])
+    else: g1.inputs['A'].default_value = base.default_value
+    L.new(k.outputs[0], g1.inputs['B'])
+    g2 = N.new('ShaderNodeMix'); g2.data_type = 'RGBA'; g2.blend_type = 'MULTIPLY'; g2.inputs['Factor'].default_value = ao
+    L.new(g1.outputs['Result'], g2.inputs['A']); L.new(sep.outputs['Red'], g2.inputs['B'])
+    L.new(g2.outputs['Result'], base)
+    if normal > 0:
+        nm = N.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = normal; L.new(nor.outputs['Color'], nm.inputs['Color'])
+        nin = b.inputs['Normal']
+        if nin.is_linked and nin.links[0].from_node.type == 'BUMP': L.new(nm.outputs['Normal'], nin.links[0].from_node.inputs['Normal'])
+        else: L.new(nm.outputs['Normal'], nin)
+    return m
