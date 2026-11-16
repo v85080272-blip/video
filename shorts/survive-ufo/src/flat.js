@@ -1,7 +1,7 @@
 // Flat drawing on one shared 2D context: solid fills only (no outlines, no gradients), smooth shapes through control points,
 // outlines that can grow fur spikes, round-capped limbs and tapered tubes.
 // MONO.on paints every shape in one colour: that is how a character becomes its own shadow on the wall.
-import { Path2D } from '@napi-rs/canvas';
+import { Path2D, DOMMatrix } from '@napi-rs/canvas';
 import { TAU, lerp } from './lib.js';
 
 export const W = 1080, H = 1920;
@@ -101,10 +101,24 @@ export function rrPath(x, y, w, h, r) {
   p.moveTo(x + r, y); p.arcTo(x + w, y, x + w, y + h, r); p.arcTo(x + w, y + h, x, y + h, r);
   p.arcTo(x, y + h, x, y, r); p.arcTo(x, y, x + w, y, r); p.closePath(); return p;
 }
+// —— textures over the flat colours (16.11, the owner: «накинуть текстур на наши мультики»): a grey detail map from a
+// free photo scan (Poly Haven, CC0; img/tex/<name>.png, mid-grey = no change) laid over a shape in «overlay» mode, so
+// the cartoon colour stays and only the relief and the grime come in. TEX.map: fill colour → { name, scale, a };
+// a shape of that colour gets its texture by itself. texArea() lays one over a region drawn some other way (gradients).
+export const TEX = { map: {}, pats: {}, on: true };
+export function texPattern(name, img) { TEX.pats[name] = g.createPattern(img, 'repeat'); }
+function texOver(path, t) {
+  const p = TEX.pats[t.name]; if (!p) return;
+  const s = t.scale ?? 1, m = new DOMMatrix(); m.a = s; m.d = s; p.setTransform(m);
+  g.save(); g.globalCompositeOperation = t.mode ?? 'overlay'; g.globalAlpha *= t.a ?? 0.55; g.fillStyle = p; g.fill(path); g.restore();
+}
+export function texArea(path, name, scale = 1, a = 0.55, mode = 'overlay') { if (TEX.on && !MONO.on) texOver(path, { name, scale, a, mode }); }
 export function fill(path, color, a = 1) {
   if (a <= 0) return;
   if (a < 1) { g.save(); g.globalAlpha *= a; }
   g.fillStyle = col(color); g.fill(path);
+  const t = TEX.on && !MONO.on && TEX.map[color];
+  if (t) texOver(path, t);
   if (a < 1) g.restore();
 }
 export const blob = (pts, color, a) => fill(smoothPath(pts), color, a);

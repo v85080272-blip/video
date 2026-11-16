@@ -13,6 +13,7 @@ import { night, saucer, heli, drone, house, ticket, phoneAlert, walker } from '.
 import { livingRoom, charging, roadBlock, waterTable, evacRoad, gauge, bubble, FLOOR } from './scenes.js';
 import { iskra, cat, sprite } from './iskra.js';
 import { text, measure, FONTS, INK } from './type.js';
+import { initTex } from './tex.js';
 
 const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
 const SCRIPT = JSON.parse(fs.readFileSync(new URL('../voice/script.json', import.meta.url)));
@@ -203,7 +204,19 @@ function cover(t) {
   sprite('c_wow', 840, 1905, 470);
 }
 
-export function init() { Hd.initHud(); }
+// which flat colours get which texture (scale: repeats are 512 px × 1/scale; a: how strong)
+const TEXMAP = {
+  '#1f3a2a': { name: 'grass', scale: 0.55, a: 0.7 }, '#22382a': { name: 'grass', scale: 0.55, a: 0.7 }, '#1b2a20': { name: 'grass', scale: 0.55, a: 0.6 },
+  '#e9e4d8': { name: 'planks', scale: 0.5, a: 0.5 }, '#3d2f2a': { name: 'roof', scale: 0.45, a: 0.7 },
+  '#4f6b8a': { name: 'fabric', scale: 0.7, a: 0.55 }, '#5d7c9e': { name: 'fabric', scale: 0.7, a: 0.55 },
+  '#6b3f2a': { name: 'planks', scale: 0.6, a: 0.55 }, '#5a3422': { name: 'planks', scale: 0.6, a: 0.55 }, '#7a3b2a': { name: 'planks', scale: 0.6, a: 0.55 },
+  '#8a5a3a': { name: 'floor', scale: 0.7, a: 0.55 }, '#6b4a33': { name: 'floor', scale: 0.7, a: 0.55 },
+  '#4b5a3a': { name: 'rust', scale: 0.6, a: 0.5 }, '#3e4b30': { name: 'rust', scale: 0.6, a: 0.5 }, '#8a8f99': { name: 'concrete', scale: 0.6, a: 0.6 },
+  '#4a5a7a': { name: 'fabric', scale: 0.9, a: 0.5 }, '#38465f': { name: 'fabric', scale: 0.9, a: 0.5 }, '#c0392b': { name: 'fabric', scale: 0.9, a: 0.4 },
+  '#962d22': { name: 'fabric', scale: 0.9, a: 0.4 }, '#2c3a2c': { name: 'grass', scale: 0.6, a: 0.6 }, '#e8e2d6': { name: 'plaster', scale: 0.8, a: 0.35 },
+  '#3a3d44': { name: 'rust', scale: 0.8, a: 0.4 }, '#9aa4b2': { name: 'concrete', scale: 0.8, a: 0.5 },
+};
+export function init() { Hd.initHud(); initTex(TEXMAP); }
 export function frame(t) {
   g.setTransform(1, 0, 0, 1, 0, 0);
   if (t < COVER) { cover(t); Hd.finish(t, 0.5); return; }

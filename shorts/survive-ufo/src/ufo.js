@@ -4,7 +4,7 @@
 // quadcopter; a green laser line; a two-storey house with a porch and lit windows; cards: a fine, a prison term, a phone
 // with the emergency alert, rumours from social media crossed out, the «no drones» ring.
 import { lerp, clamp, TAU, hash } from './lib.js';
-import { g, ell, limb, rect, rrect, fill, poly, smoothPath } from './flat.js';
+import { g, ell, limb, rect, rrect, fill, poly, smoothPath, texArea, rrPath } from './flat.js';
 import { text, FONTS, INK } from './type.js';
 export { walker } from './ice.js';
 
@@ -23,6 +23,7 @@ export function night(t, o = {}) {
   }
   rect(-400, FLOOR - 70, 1880, 90, '#1f3a2a');                                                 // lawns
   grad([[0, '#2c2f38'], [1, '#1b1d24']], FLOOR + 20, 1920);                                    // the street
+  texArea(rrPath(-400, FLOOR + 20, 1880, 1900, 0), 'asphalt', 0.7, 0.75);
   for (let i = 0; i < 8; i++) rect(-300 + i * 220, FLOOR + 160, 110, 12, '#e8d38a');
   rect(-400, FLOOR + 10, 1880, 14, '#8a8f99');                                                 // the kerb
 }

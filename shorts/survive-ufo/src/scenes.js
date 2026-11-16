@@ -4,7 +4,7 @@
 // through, the kitchen table with water for three days, the evacuation road with the blue US sign, the knock at the door.
 // The street, the saucer, the helicopters, the drone, the phone alert come from ufo.js.
 import { lerp, clamp, TAU, hash } from './lib.js';
-import { g, ell, limb, rect, rrect, fill, poly, smoothPath } from './flat.js';
+import { g, ell, limb, rect, rrect, fill, poly, smoothPath, texArea, rrPath } from './flat.js';
 import { text, FONTS, INK } from './type.js';
 import { saucer, heli, drone } from './ufo.js';
 
@@ -15,8 +15,10 @@ function grad(stops, y0, y1, x0 = -400, x1 = 1480) { const gr = g.createLinearGr
 // silhouette behind the frosted pane (two antennae, a soft green glow) ——
 export function livingRoom(t, o = {}) {
   grad([[0, '#3b3550'], [1, '#2a2638']], 0, FLOOR);                                         // the wall in the lamp-light
+  texArea(rrPath(-400, 0, 1880, FLOOR, 0), 'plaster', 0.7, 0.45);
   for (let i = 0; i < 9; i++) rect(-300 + i * 180, 0, 4, FLOOR, 'rgba(255,255,255,0.03)');
   grad([[0, '#5a4030'], [1, '#3a281d']], FLOOR, 1920);                                     // the floor
+  texArea(rrPath(-400, FLOOR, 1880, 920, 0), 'floor', 0.8, 0.7);
   for (let i = 0; i < 10; i++) rect(-400 + i * 190, FLOOR, 5, 920, 'rgba(0,0,0,0.18)');
   rect(-400, FLOOR - 14, 1880, 18, '#d9d2c4');                                            // the skirting
   // the window on the left: the night, the saucer's green glow
@@ -70,6 +72,7 @@ export function roadBlock(t, o = {}) {
   for (let i = 0; i < 40; i++) ell(hash(i) * 1300 - 100, hash(i + 3) * (FLOOR - 300), 2.5, 2.5, '#ffffff', 0, 0.5);
   rect(-400, FLOOR - 140, 1880, 40, '#1b2a20');
   grad([[0, '#34373f'], [1, '#1b1d24']], FLOOR - 100, 1920);
+  texArea(rrPath(-400, FLOOR - 100, 1880, 1020, 0), 'asphalt', 0.7, 0.75);
   for (let i = 0; i < 6; i++) rect(500 - 20 + 0, FLOOR - 60 + i * 140, 40, 80, '#e8d38a');           // the centre line, towards us
   const blink = Math.sin(t * 10) > 0;
   g.save(); g.globalAlpha = 0.25; ell(300, FLOOR - 180, 260, 160, blink ? '#ff3b30' : '#2f6bff'); ell(780, FLOOR - 180, 260, 160, blink ? '#2f6bff' : '#ff3b30'); g.restore();
@@ -92,8 +95,8 @@ export function roadBlock(t, o = {}) {
 
 // —— the kitchen table: n 0…3 water jugs have come (one a day), plus a torch, a first-aid box, cans ——
 export function waterTable(t, n, extra = 0) {
-  grad([[0, '#4a3f5a'], [1, '#33293f']], 0, FLOOR);
-  grad([[0, '#6b4a33'], [1, '#4a3324']], FLOOR, 1920);
+  grad([[0, '#4a3f5a'], [1, '#33293f']], 0, FLOOR); texArea(rrPath(-400, 0, 1880, FLOOR, 0), 'plaster', 0.7, 0.45);
+  grad([[0, '#6b4a33'], [1, '#4a3324']], FLOOR, 1920); texArea(rrPath(-400, FLOOR, 1880, 920, 0), 'floor', 0.8, 0.7);
   rect(-400, 700, 1880, 40, '#8a5a3a'); rect(-400, 740, 1880, 260, '#6b4a33');                     // the table
   for (let i = 0; i < 3; i++) {
     const k = clamp(n - i); if (k <= 0.01) continue;
@@ -119,6 +122,7 @@ export function evacRoad(t, go = 0) {
   grad([[0, '#1a2a52'], [1, '#4a5f8f']], 0, FLOOR - 100);
   rect(-400, FLOOR - 130, 1880, 40, '#22382a');
   grad([[0, '#3a3d46'], [1, '#22252c']], FLOOR - 90, 1920);
+  texArea(rrPath(-400, FLOOR - 90, 1880, 1010, 0), 'asphalt', 0.7, 0.75);
   for (let i = 0; i < 8; i++) rect(-300 + i * 220, FLOOR + 120, 110, 12, '#e8d38a');
   // the sign on its post
   rect(760, FLOOR - 400, 16, 310, '#9aa4b2');

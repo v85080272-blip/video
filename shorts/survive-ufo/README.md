@@ -71,3 +71,35 @@ ONLY="L2" python3 tools/el_takes.py /home/user/work/survive-ufo-c 4 5
 cd tools && python3 voice.py ../voice/script.json ../build/voice.wav "*=/home/user/work/survive-ufo/c_s1" "L0=/home/user/work/survive-ufo-b/c_s2" "L2=/home/user/work/survive-ufo-c/c_s4" && cd ..
 EPS=survive-ufo /home/user/work/myth-build.sh
 ```
+
+## Текстуры на 2D (16.11)
+
+Владелец: «Seedance дорого — может, у нас получится накинуть текстур на наши мультики?». Получилось, бесплатно.
+
+Как работает:
+- В каждую плоскую фигуру вписывается серая «карта фактуры» из фото-скана Poly Haven (CC0) в режиме overlay.
+- Средне-серый не меняет цвет, поэтому мультяшные цвета остаются, а приходят только рельеф и грязь.
+- Код: `src/flat.js` (`TEX`, `texArea`) и `src/tex.js` (загрузка `img/tex/*.png`).
+- В `src/main.js` таблица `TEXMAP` задаёт, какой цвет фигуры получает какую текстуру. Градиентным поверхностям
+  (улица, стены, пол) текстура накладывается отдельно, через `texArea`.
+
+Карты (512 px, серые, `img/tex/`):
+
+| Карта | Скан Poly Haven |
+|---|---|
+| asphalt | asphalt_02 |
+| concrete | concrete_wall_006 |
+| rust | rusty_metal_02 |
+| bark | bark_brown_02 |
+| fabric | denim_fabric |
+| floor | wood_floor |
+| grass | aerial_grass_rock |
+| planks | wood_planks |
+| plaster | beige_wall_001 |
+| roof | roof_tiles |
+
+Чтобы сделать новую карту: скачать Diffuse 1k, перевести в серое, среднее 128, разброс 38.
+
+Без текстур — `NOTEX=1 node render.mjs …`. Сравнение «было / стало» — `texture_before_after.jpg`.
+
+С текстурами файл вырос с 32 до 62 МБ: деталей больше. Для YouTube и Reels это не проблема.
