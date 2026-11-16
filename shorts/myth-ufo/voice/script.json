@@ -1,0 +1,104 @@
+{
+ "note": "Narration for «Правда или миф», №13 «Прилетели инопланетяне» — Искра and the cat Факт in the ElevenLabs voice Elen. The owner (16.11): a hype topic — the sky over the US was closed and helicopters patrol; make «what to do if aliens came, when you are in the US». Checked: on 13–14.11.2026 the FAA held all departures nationwide for about half a day (a communications failure at the air route traffic control centers, not an attack; over 6,000 flights cancelled); no reliable report of helicopter patrols — so the clip is a «what if» (the hook says «ты в США, над городом — тарелка»), the aliens are fiction, the advice is real. No count at the start (16.11); here 2 myths, 1 truth. Facts: 1 fly a drone to film it closer — myth: in a temporary flight restriction a drone is a violation (FAA civil fines in recent cases 14–20 thousand dollars, the ceiling tens of thousands; criminal cases for flying in national defense airspace), and it endangers the helicopters (FAA, «Temporary Flight Restrictions»; FAA enforcement news 2024–2026). 2 shine a laser at the helicopter so they see you — myth: aiming a laser at an aircraft is a federal crime, up to five years in prison and a 250,000-dollar fine (18 U.S.C. 39A; FBI, FAA «Laser strikes»), it blinds the pilot. 3 stay home and watch the alerts on your phone — truth: Wireless Emergency Alerts come to the phone by themselves; trust official alerts, not rumours (FEMA, Ready.gov «Shelter in place», IPAWS). No blood, no death (12.11). tts: what ElevenLabs reads, with stress marks; США read as «сэ-шэ-а́». Subtitle groups (sub) are counted without the dash. Every line at tempo 1.2 and the guess windows 1.25 s (the take ran 48 s at 1.1). One take s1 (599 characters), no stress errors.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты в США, над городом — тарелка. Правда или миф — угадаешь все три?",
+   "tts": "Ты в сэ-шэ-а́, над го́родом — таре́лка. Пра́вда и́ли миф — угада́ешь все три?",
+   "at": 0.12,
+   "sub": [
+    6,
+    3,
+    3
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L1",
+   "text": "Первый: запусти дрон и сними её поближе.",
+   "tts": "Пе́рвый: запусти́ дрон и сними́ её побли́же.",
+   "after": 0.6,
+   "sub": [
+    1,
+    6
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Небо закрыто: за дрон — штраф в десятки тысяч долларов. И он мешает вертолётам.",
+   "tts": "Миф! Не́бо закры́то: за дрон — штраф в деся́тки ты́сяч до́лларов. И он меша́ет вертолётам.",
+   "after": 1.25,
+   "sub": [
+    1,
+    2,
+    7,
+    4
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L3",
+   "text": "Второй: посвети на вертолёт лазером — пусть тебя заметят.",
+   "tts": "Второ́й: посвети́ на вертолёт ла́зером — пусть тебя́ заме́тят.",
+   "after": 0.65,
+   "sub": [
+    1,
+    4,
+    3
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L4",
+   "text": "Миф! Это федеральное преступление — до пяти лет тюрьмы. А лазер слепит пилота.",
+   "tts": "Миф! Э́то федера́льное преступле́ние — до пяти́ лет тюрьмы́. А ла́зер слепи́т пило́та.",
+   "after": 1.25,
+   "sub": [
+    1,
+    3,
+    4,
+    4
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L5",
+   "text": "Третий: сиди дома и следи за оповещениями на телефоне.",
+   "tts": "Тре́тий: сиди́ до́ма и следи́ за оповеще́ниями на телефо́не.",
+   "after": 0.65,
+   "sub": [
+    1,
+    3,
+    5
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L6",
+   "text": "Правда! В США тревога приходит прямо на телефон. Верь ей, а не слухам из соцсетей.",
+   "tts": "Пра́вда! В сэ-шэ-а́ трево́га прихо́дит пря́мо на телефо́н. Верь ей, а не слу́хам из соцсете́й.",
+   "after": 1.25,
+   "sub": [
+    1,
+    7,
+    7
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Я Искра, а это мой кот Факт. Подписывайся!",
+   "tts": "Ско́лько угада́л? Пиши́ в коммента́риях. Я И́скра, а э́то мой кот Факт. Подпи́сывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ],
+   "tempo": 1.2
+  }
+ ]
+}
