@@ -135,8 +135,8 @@ function overlays(t) {
   series(120, clamp(t / 0.3));
   const kh = 1 - seg(T.c1 - 0.25, T.c1 + 0.05, t);
   if (kh > 0.01) {
-    title('ШЛАГБАУМ ЗАКРЫТ', 300, 92, kh);
-    title('ЗНАЧИТ — ТАРАНЮ', 410, 64, kh * clamp(sp(t, A.L0w7 - 0.1, 2.6, 8)), WARM, 'rgba(0,0,0,0)');
+    title('ШЛАГБАУМ ЗАКРЫТ', 350, 92, kh);                        // under the КП stamp (y 220), not on it
+    title('ЗНАЧИТ — ТАРАНЮ', 460, 64, kh * clamp(sp(t, A.L0w7 - 0.1, 2.6, 8)), WARM, 'rgba(0,0,0,0)');
   }
   Hd.timeStamp(t, 0.35, T.c2 - 0.1, 'КП «СОСНОВЫЙ» · 03:14', { color: WARM, dot: RED, y: 220 });
   const P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);

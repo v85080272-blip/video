@@ -681,8 +681,17 @@ if SHOT == 'A':                                   # the hook: they are at her wi
     for i_ in range(2): key(Q['arms'][i_], 'rotation_euler', 0, (math.radians(-90), 0, math.radians(12 if i_ else -12))); key(Q['elbows'][i_], 'rotation_euler', 0, (math.radians(-25), 0, 0))
     for R_ in INF[2:]: hide(R_['root'])
     cam_data.lens = 32
-    camkeys([(0, (CARX + 0.25, CARY - 5.6, 1.5), (CARX + 0.2, CARY + 0.2, 1.1)), (E, (CARX + 0.4, CARY - 2.7, 1.42), (CARX + 0.42, CARY + 0.12, 1.28))])
+    # 17.11, second look: from the bonnet height the low beams lit the haze in front of the lens, the bonnet blew out
+    # white and the tinted windshield hid her — the camera goes up over the beams, the beams and lamps are dimmer here,
+    # the windshield clearer and the dash light stronger, so her face reads through the glass
+    camkeys([(0, (CARX + 0.25, CARY - 5.4, 2.15), (CARX + 0.2, CARY + 0.2, 1.15)), (E, (CARX + 0.4, CARY - 2.5, 1.62), (CARX + 0.42, CARY + 0.12, 1.24))])
     dof(2.4, 2.4, target=HER['head']); FOG = min(FOG, 0.0015)
+    bpy.data.materials['car_glass'].node_tree.nodes['Principled BSDF'].inputs['Alpha'].default_value = 0.22
+    HEAD_B.inputs['Emission Strength'].default_value = 8.0; HEAD_B.inputs['Emission Strength'].keyframe_insert('default_value', frame=-8)
+    for L_ in CARL['beams']: L_.data.energy = 350.0; L_.data.keyframe_insert('energy', frame=-8)
+    dl_ = [o for o in bpy.data.objects if o.type == 'LIGHT' and o.parent == CAR and abs(o.location.z - 1.2) < 1e-3]
+    for o in dl_: o.data.energy = 45
+    CAR_PAINT.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.36, 0.37, 0.39, 1)   # the bonnet fills the bottom: grey, not white, under the subtitles
     FOG_BOX = ((-14, -30, 0), (14, 40, 10))
 elif SHOT == 'B':                                 # inside, from the passenger seat: the belt pulled across — click; the lock pin goes down
     seat_local(HER, 0); seat_local(HER, E); breathe(HER, 0, E); ignite(-10); dash_glow()
