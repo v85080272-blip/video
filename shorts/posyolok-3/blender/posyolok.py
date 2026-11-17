@@ -338,6 +338,9 @@ cyl((4.2, -6, 2.8), 0.06, 5.6, METAL, verts=8, name='gate_pole'); slab((3.7, -6,
 CAR_GLASS = glassy('car_glass', (0.03, 0.035, 0.045), rough=0.04, alpha=0.6)
 SEAT = noisy('seat', (0.03, 0.03, 0.035), (0.07, 0.07, 0.075), scale=60, rough=0.7, bump=0.3)
 DASH = mat('dash', (0.02, 0.02, 0.022), rough=0.6)
+TRIM = noisy('trim', (0.05, 0.05, 0.055), (0.08, 0.08, 0.085), scale=40, rough=0.55, bump=0.15)   # door cards, console: dark plastic
+CARPET = noisy('carpet', (0.025, 0.025, 0.028), (0.05, 0.05, 0.055), scale=90, rough=0.95, bump=0.4)
+HEADLINER = noisy('headliner', (0.3, 0.29, 0.27), (0.36, 0.35, 0.33), scale=70, rough=0.9, bump=0.2)
 HEAD_M, HEAD_B = emit_mat('headlight', (0.95, 0.97, 1.0), 0.0)
 GAUGE_M, GAUGE_B = emit_mat('gauge', (0.35, 0.75, 1.0), 0.0)
 TAIL_M, TAIL_B = emit_mat('taillight', (0.9, 0.04, 0.03), 0.3)
@@ -351,7 +354,22 @@ def car(x, y, heading=0.0):
         o = slab(c, sz, m, name); o.parent = root
         if bev: b_ = o.modifiers.new('bevel', 'BEVEL'); b_.width = bev; b_.segments = 3
         return o
-    part((0, 0, 0.62), (1.85, 4.4, 0.6), CAR_PAINT, 'car_body', 0.12)
+    # 17.11 (owner: «она сидит в железе, это не по-человечески»): the body was one solid block from the sill to the belt
+    # line, and the seats stood inside it. Now it is a shell: the underbody, the engine bay and the boot are solid, the cabin
+    # between them is open — side walls and the door up to the glass, dark trim inside, carpet, a console, a headliner
+    part((0, 0, 0.38), (1.85, 4.4, 0.12), CAR_PAINT, 'car_body', 0.05)                       # the underbody, z 0.32–0.44
+    part((0, -1.49, 0.62), (1.85, 1.42, 0.6), CAR_PAINT, 'car_front', 0.12)                   # the engine bay to the firewall
+    part((0, 1.75, 0.62), (1.85, 0.9, 0.6), CAR_PAINT, 'car_rear', 0.12)                      # the boot
+    for c, sz in (((-0.895, 0.26, 0.73), (0.06, 2.08, 0.82)),                                 # the far side, front and rear doors
+                  ((0.895, 0.86, 0.73), (0.06, 0.88, 0.82)), ((0.895, -0.7, 0.73), (0.06, 0.16, 0.82))):   # behind and before her door
+        part(c, sz, CAR_PAINT, 'car_side', 0.02)
+    part((-0.85, 0.26, 0.74), (0.03, 2.0, 0.72), TRIM, 'trim_side')                           # the inside of the far doors
+    part((-0.8, -0.1, 0.84), (0.09, 0.6, 0.05), TRIM, 'armrest')
+    part((0.85, 0.86, 0.74), (0.03, 0.84, 0.72), TRIM, 'trim_rear_r')
+    part((0, 0.2, 0.455), (1.72, 2.1, 0.03), CARPET, 'carpet')
+    part((0, -0.25, 0.58), (0.24, 0.95, 0.24), TRIM, 'console', 0.03)
+    part((0, -0.5, 0.71), (0.05, 0.05, 0.08), DASH, 'gear_lever')
+    part((0, 0.35, 1.575), (1.56, 1.7, 0.02), HEADLINER, 'headliner')
     part((0, -1.6, 0.98), (1.82, 1.2, 0.2), CAR_PAINT, 'car_hood', 0.08)
     part((0, 1.75, 1.0), (1.82, 0.9, 0.3), CAR_PAINT, 'car_trunk', 0.08)
     part((0, 0.35, 1.62), (1.62, 1.75, 0.07), CAR_PAINT, 'car_roof', 0.03)
@@ -365,12 +383,12 @@ def car(x, y, heading=0.0):
     part((0.86, 0.85, 1.36), (0.03, 0.8, 0.44), CAR_GLASS, 'car_sideglass_r')
     # the driver's door on its hinge: the panel, its window, the handle and the lock
     hinge = empty((0.9, -0.62, 0), 'car_door_hinge', parent=root); CARL['door'] = hinge
-    for c, sz, m, nm in (((0.0, 0.52, 0.66), (0.06, 1.04, 0.62), CAR_PAINT, 'door_panel'), ((0.0, 0.52, 1.35), (0.03, 0.98, 0.42), CAR_GLASS, 'door_glass'),
+    for c, sz, m, nm in (((0.0, 0.52, 0.745), (0.06, 1.04, 0.79), CAR_PAINT, 'door_panel'), ((-0.045, 0.52, 0.76), (0.03, 0.98, 0.7), TRIM, 'door_trim'),
+                         ((-0.09, 0.45, 0.84), (0.09, 0.5, 0.05), TRIM, 'door_armrest'), ((0.0, 0.52, 1.35), (0.03, 0.98, 0.42), CAR_GLASS, 'door_glass'),
                          ((0.04, 0.9, 0.86), (0.03, 0.14, 0.035), METAL, 'door_handle'), ((0.04, 0.99, 0.86), (0.02, 0.022, 0.022), DARK, 'door_lock')):
         o = slab(c, sz, m, nm); o.parent = hinge
     CARL['lock'] = Vector((x + 0.94, y + 0.37, 0.86))
     # inside
-    part((0, 0.2, 0.36), (1.7, 2.6, 0.06), DASH, 'car_floor')
     for x_ in (-0.42, 0.42):
         part((x_, 0.15, 0.55), (0.5, 0.52, 0.14), SEAT, 'seat_cushion', 0.04)
         o = part((x_, 0.45, 0.9), (0.5, 0.12, 0.62), SEAT, 'seat_back', 0.04); o.rotation_euler = (math.radians(12), 0, 0)
