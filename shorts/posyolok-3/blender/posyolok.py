@@ -652,15 +652,19 @@ if SHOT == 'A':                                   # the hook: they are at her wi
     seat_local(HER, 0); seat_local(HER, E); breathe(HER, 0, E); ignite(-10); dash_glow()
     t_dec = int(E * ev(0, 0.7))
     head_key(HER, 0, 0, math.radians(45)); head_key(HER, t_dec - 4, 0, math.radians(45)); head_key(HER, t_dec + 4, math.radians(-4), 0)
+    # from the front, through the windshield (17.11: in the first take the one at her window stood outside the frame —
+    # the threat must be on screen from 0 s): wide — she is at the wheel, one at her window, one at the far one; a slow
+    # push to her face; she looks at him, then ahead — into the lens — «Значит — тараню»
     P = INF[0]; P['root'].rotation_euler = (0, 0, math.radians(90))
-    key(P['root'], 'location', 0, Vector((CARX + 1.72, CARY + 0.25, 0))); key(P['root'], 'location', E, Vector((CARX + 1.64, CARY + 0.25, 0)))
+    key(P['root'], 'location', 0, Vector((CARX + 1.45, CARY + 0.3, 0))); key(P['root'], 'location', E, Vector((CARX + 1.38, CARY + 0.3, 0)))
     for i_ in range(2): key(P['arms'][i_], 'rotation_euler', 0, (math.radians(-95), 0, math.radians(10 if i_ else -10))); key(P['elbows'][i_], 'rotation_euler', 0, (math.radians(-20), 0, 0))
-    Q = INF[1]; Q['root'].rotation_euler = (0, 0, math.radians(55)); shuffle(Q, 0, E, (CARX + 2.4, CARY - 1.9, 0), (CARX + 1.8, CARY - 1.6, 0), step=3)
+    Q = INF[1]; Q['root'].rotation_euler = (0, 0, math.radians(-90))
+    key(Q['root'], 'location', 0, Vector((CARX - 1.6, CARY + 0.55, 0))); key(Q['root'], 'location', E, Vector((CARX - 1.45, CARY + 0.5, 0)))
+    for i_ in range(2): key(Q['arms'][i_], 'rotation_euler', 0, (math.radians(-90), 0, math.radians(12 if i_ else -12))); key(Q['elbows'][i_], 'rotation_euler', 0, (math.radians(-25), 0, 0))
     for R_ in INF[2:]: hide(R_['root'])
-    cam_data.lens = 30
-    cam_data.lens = 34
-    camkeys([(0, (CARX + 1.75, CARY - 0.75, 1.5), (CARX + 0.4, CARY + 0.22, 1.33)), (E, (CARX + 1.66, CARY - 0.7, 1.49), (CARX + 0.4, CARY + 0.22, 1.33))])
-    dof(2.4, 2.4, target=HER['head'])
+    cam_data.lens = 32
+    camkeys([(0, (CARX + 0.25, CARY - 5.6, 1.5), (CARX + 0.2, CARY + 0.2, 1.1)), (E, (CARX + 0.4, CARY - 2.7, 1.42), (CARX + 0.42, CARY + 0.12, 1.28))])
+    dof(2.4, 2.4, target=HER['head']); FOG = min(FOG, 0.0015)
     FOG_BOX = ((-14, -30, 0), (14, 40, 10))
 elif SHOT == 'B':                                 # inside, from the passenger seat: the belt pulled across — click; the lock pin goes down
     seat_local(HER, 0); seat_local(HER, E); breathe(HER, 0, E); ignite(-10); dash_glow()
