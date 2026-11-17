@@ -398,9 +398,10 @@ def car(x, y, heading=0.0):
     for gx in (0.33, 0.5):
         o = part((gx, -0.6, 1.09), (0.12, 0.01, 0.07), GAUGE_M, 'gauge'); o.rotation_euler = (math.radians(-20), 0, 0)
     o = part((0, -0.62, 1.05), (0.18, 0.01, 0.1), GAUGE_M, 'screen'); o.rotation_euler = (math.radians(-20), 0, 0)
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.18, minor_radius=0.018, location=(0.42, -0.5, 1.03), rotation=(math.radians(-62), 0, 0))
+    # 17.11: the wheel 0.26 m nearer to her (was y −0.5) — the new Искра's arms are short, her hands now hold the rim
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.18, minor_radius=0.018, location=(0.42, -0.24, 1.0), rotation=(math.radians(-62), 0, 0))
     w = bpy.context.object; w.name = 'wheel_steer'; w.data.materials.append(DASH); w.parent = root
-    o = cyl((0.42, -0.6, 0.98), 0.03, 0.3, DASH, verts=8, rot=(math.radians(-62), 0, 0), name='column'); o.parent = root
+    o = cyl((0.42, -0.47, 0.88), 0.03, 0.56, DASH, verts=8, rot=(math.radians(-62), 0, 0), name='column'); o.parent = root
     # wheels and lights
     for dx in (-0.84, 0.84):
         for dy in (-1.4, 1.45):
@@ -626,12 +627,14 @@ def keys_in_hand(P):
 KEYS = keys_in_hand(HER)
 SEAT_W = Vector((CARX + 0.42, CARY + 0.12, 0.0))            # the driver's seat, in the world
 SEAT_L = Vector((0.42, 0.2, -0.2))                        # the same, in the car's own space (when she rides with it)
+GRIP_ARM, GRIP_ELBOW = (-1.239, 0.258, 0.196), -0.316       # both hands on the rim at 10 and 2 (SOLVE_GRIP=1, 17.11); for arm L, R mirrored
+def grip_arm(i): return (GRIP_ARM[0], GRIP_ARM[1] * (-1 if i else 1), GRIP_ARM[2] * (-1 if i else 1))
 def seat_local(P, f, grip=1.0):
-    """seat_pose for her parented to the moving car"""
+    """seat_pose for her parented to the moving car: hands on the wheel"""
     key(P['root'], 'location', f, SEAT_L); key(P['root'], 'rotation_euler', f, (0, 0, 0))
     for i in range(2):
         key(P['hips'][i], 'rotation_euler', f, (-1.5, 0, 0.04 * (1 if i else -1))); key(P['knees'][i], 'rotation_euler', f, (1.45, 0, 0))
-        key(P['arms'][i], 'rotation_euler', f, (-0.95 * grip - 0.2, 0, 0.12 * (1 if i else -1))); key(P['elbows'][i], 'rotation_euler', f, (-0.55 * grip, 0, 0))
+        key(P['arms'][i], 'rotation_euler', f, grip_arm(i)); key(P['elbows'][i], 'rotation_euler', f, (GRIP_ELBOW, 0, 0))
     key(P['spine'], 'rotation_euler', f, (-0.12, 0, 0))
 def ride(*objs):
     for o in objs: o.parent = CAR
@@ -701,8 +704,8 @@ elif SHOT == 'B':                                 # inside, from the passenger s
     strap = slab((0, 0, -d.length / 2), (0.065, 0.01, d.length), mat('belt', (0.32, 0.33, 0.36), rough=0.5), 'belt'); strap.parent = anc
     key(anc, 'scale', 0, (1, 1, 0.02)); key(anc, 'scale', t0, (1, 1, 0.02)); key(anc, 'scale', t_click, (1, 1, 1))
     slab(tuple(b), (0.05, 0.03, 0.045), METAL, 'buckle')
-    key(HER['arms'][0], 'rotation_euler', t0, (-0.95 - 0.2, 0, -0.12)); key(HER['arms'][0], 'rotation_euler', t0 + 6, (math.radians(-150), 0, math.radians(-55)))
-    key(HER['arms'][0], 'rotation_euler', t_click, (math.radians(-60), 0, math.radians(20))); key(HER['arms'][0], 'rotation_euler', t_click + 8, (-0.95 - 0.2, 0, -0.12))
+    key(HER['arms'][0], 'rotation_euler', t0, grip_arm(0)); key(HER['arms'][0], 'rotation_euler', t0 + 6, (math.radians(-150), 0, math.radians(-55)))
+    key(HER['arms'][0], 'rotation_euler', t_click, (math.radians(-60), 0, math.radians(20))); key(HER['arms'][0], 'rotation_euler', t_click + 8, grip_arm(0))
     pin = cyl((CARX + 0.86, CARY + 0.05, 1.12), 0.012, 0.07, METAL, verts=8, name='lock_pin')
     key(pin, 'location', t_lock, pin.location.copy()); key(pin, 'location', t_lock + 3, pin.location + Vector((0, 0, -0.04)))
     P = INF[0]; P['root'].rotation_euler = (0, 0, math.radians(90)); key(P['root'], 'location', 0, Vector((CARX + 1.66, CARY + 0.2, 0)))
@@ -917,6 +920,41 @@ if os.environ.get('PBR'):                          # photo scans from Poly Haven
     for m_ in ROOF: pbr.overlay(m_, 'roof', 0.6, amount=0.4, normal=0.5, ao=0.5)
     pbr.overlay(PLANK, 'planks', 0.6, amount=0.6, normal=0.6)
     pbr.overlay(GRAVEL, 'soil', 0.6, amount=0.5, normal=0.6)
+if os.environ.get('SOLVE_GRIP'):                   # one-off: arm angles that put her wrists on the wheel rim (printed, then hardcoded)
+    arm_ob = HER['arms'][0].id_data; sc.frame_set(0)
+    if arm_ob.animation_data: arm_ob.animation_data.action = None
+    print('BONES', [b.name for b in arm_ob.pose.bones])
+    W_ = bpy.data.objects['wheel_steer'].matrix_world
+    import numpy as np
+    hb_ = [arm_ob.pose.bones['hand.L'], arm_ob.pose.bones['hand.R']]
+    def wrist(i): return arm_ob.matrix_world @ ((hb_[i].head + hb_[i].tail) / 2)
+    def elbowp(i): return arm_ob.matrix_world @ HER['arms'][i].tail
+    for i in range(2):
+        for side in (1, -1):
+            tgt = W_ @ Vector((0.156 * side, -0.09, 0.0))
+            print('TGT', i, side, tuple(round(v, 3) for v in tgt))
+    res = {}
+    for i in range(2):
+        cands = [W_ @ Vector((0.156 * s_, -0.09, 0.0)) for s_ in (1, -1)]
+        HER['arms'][i].rotation_euler = (-1.15, 0, 0.12 * (1 if i else -1)); HER['elbows'][i].rotation_euler = (-0.55, 0, 0); bpy.context.view_layer.update()
+        w0 = wrist(i); tgt = min(cands, key=lambda c: (c - w0).length)
+        x = np.array([-1.15, 0.0, 0.12 * (1 if i else -1), -0.55])
+        def cost(x):
+            HER['arms'][i].rotation_euler = tuple(x[:3]); HER['elbows'][i].rotation_euler = (x[3], 0, 0); bpy.context.view_layer.update()
+            e = elbowp(i); sh = arm_ob.matrix_world @ HER['arms'][i].head
+            pen = max(0.0, e.z - sh.z + 0.05) ** 2 * 4         # the elbow stays below the shoulder
+            return (wrist(i) - tgt).length_squared + pen + 0.002 * float(x[1] ** 2)
+        c = cost(x); step = 0.3
+        while step > 0.002:
+            better = False
+            for k in range(4):
+                for d in (step, -step):
+                    y = x.copy(); y[k] += d; cy = cost(y)
+                    if cy < c: x, c, better = y, cy, True
+            if not better: step /= 2
+        cost(x); res[i] = [round(float(v), 3) for v in x]
+        print('GRIP', i, res[i], 'err', round((wrist(i) - tgt).length, 3), 'elbow', tuple(round(v, 2) for v in elbowp(i)), 'tgt', tuple(round(v, 2) for v in tgt))
+    import sys; sys.exit(0)
 TESTF = os.environ.get('TESTF')
 if TESTF is not None:
     f = int(TESTF); kit.render(sc, OUT, f, f, PCT, SAMPLES, 1, vol=True)
