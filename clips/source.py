@@ -1,4 +1,4 @@
-"""A stream to clip: a local file or a link (Twitch, YouTube, Kick, anything yt-dlp opens).
+"""A stream to clip: a local file or a link (Twitch or YouTube).
 
 For a link only the audio and the chat are downloaded to look for moments; then only the chosen pieces of video.
 """

@@ -6,6 +6,7 @@
   moments     горячие моменты в записи стрима (чат, крики, пересмотры)
   render      вертикальный ролик из куска стрима или из найденного момента
   auto        moments + render лучших моментов одной командой
+  youtube-top самые просматриваемые записи стримов YouTube за сутки -> лучшие моменты каждой
 
 Подробно: clips/README.md
 """
@@ -166,6 +167,9 @@ def render_moments(a, path, picks=None):
         name = slug(f'{s.channel or s.id}_{hms(m["start"]).replace(":", "-")}', 60)
         out = os.path.join(a.out, name + '.mp4')
         log(f'\n[{m["n"]}] {hms(m["start"])}–{hms(m["end"])} {m.get("title") or ""}')
+        if os.path.exists(out) and not getattr(a, 'force', False):
+            log('  уже есть, пропускаю')
+            continue
         piece, off = s.piece(m['start'], m['end'], f'piece_{m["n"]:02d}')
         R.render(piece, off, m['end'] - m['start'], out, os.path.join(s.work, 'render'),
                  **ropts(a, m.get('title') or '', credit, m.get('link') or s.url))
@@ -195,6 +199,24 @@ def cmd_auto(a):
     render_moments(a, path, set(range(1, a.render_top + 1)))
 
 
+def cmd_youtube_top(a):
+    from source import Source
+    log(f'YouTube: записи стримов «{a.yt_query}» за {a.hours:g} ч, по просмотрам')
+    vids = D.youtube_recent(a.yt_query, (langs(a.lang) or [''])[0], a.hours, a.streams)
+    if not vids:
+        die('Записей стримов не нашёл. Попробуй другой --query или --hours 72.')
+    for i, v in enumerate(vids, 1):
+        log(f'  {i}. {v["channel"]}: «{v["title"][:70]}» — {v["views"]} просмотров, {hms(v["duration"] or 0)}')
+    for i, v in enumerate(vids, 1):
+        log(f'\n===== [{i}/{len(vids)}] {v["channel"]}: {v["url"]}')
+        try:
+            s = Source(v['url'], a.work, None, a.no_chat)
+            path = find_moments(a, s)
+            render_moments(a, path, set(range(1, a.render_top + 1)))
+        except (Exception, SystemExit) as e:      # one broken stream must not stop the rest
+            log(f'  пропускаю: {e}')
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--work', default='clips_work', help='рабочая папка (звук, чат, куски видео)')
@@ -220,17 +242,25 @@ def main():
     render_opts(p)
     p.set_defaults(fn=cmd_top_clips)
 
-    for name, fn, hlp in (('moments', cmd_moments, 'найти моменты'), ('auto', cmd_auto, 'найти и нарезать')):
+    for name, fn, hlp in (('moments', cmd_moments, 'найти моменты'), ('auto', cmd_auto, 'найти и нарезать'),
+                          ('youtube-top', cmd_youtube_top, 'записи стримов YouTube за сутки -> лучшие моменты')):
         p = sub.add_parser(name, help=hlp)
-        p.add_argument('src', help='файл, ссылка на запись (Twitch/YouTube/Kick) или twitch:<канал>')
-        p.add_argument('--chat', help='файл чата (TwitchDownloader .json, YouTube .live_chat.json)')
+        if name == 'youtube-top':
+            p.add_argument('--yt-query', '--query', default='GTA 6', help='что искать на YouTube')
+            p.add_argument('--hours', type=float, default=24, help='записи не старше, ч (24 или 168)')
+            p.add_argument('--lang', default='ru', help='язык (точно работает только с ключом YouTube API)')
+            p.add_argument('--streams', type=int, default=3, help='сколько записей разобрать')
+            p.add_argument('--force', action='store_true', help='пересобрать уже готовые')
+        else:
+            p.add_argument('src', help='файл, ссылка на запись Twitch или YouTube, или twitch:<канал>')
+            p.add_argument('--chat', help='файл чата (TwitchDownloader .json, YouTube .live_chat.json)')
         p.add_argument('--no-chat', action='store_true', help='не качать чат, искать только по звуку')
         p.add_argument('--top', type=int, default=10, help='сколько моментов найти')
         p.add_argument('--len', type=float, default=35, help='длина ролика, с')
         p.add_argument('--lag', type=float, default=5, help='на сколько секунд чат отстаёт от стрима')
         p.add_argument('--skip-start', type=float, default=180, help='пропустить начало стрима (заставка), с')
-        if name == 'auto':
-            p.add_argument('--render-top', type=int, default=5, help='сколько лучших нарезать')
+        if name != 'moments':
+            p.add_argument('--render-top', type=int, default=5 if name == 'auto' else 3, help='сколько лучших нарезать')
             render_opts(p)
         p.set_defaults(fn=fn)
 

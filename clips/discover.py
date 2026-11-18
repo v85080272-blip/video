@@ -161,6 +161,56 @@ def twitch_vods(channel, n=1, api=None):
              'created': e.get('timestamp')} for e in pl.get('entries') or []]
 
 
+def _iso_dur(s):
+    import re
+    m = re.fullmatch(r'P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', s or '')
+    if not m:
+        return 0
+    d, h, mi, se = (int(x or 0) for x in m.groups())
+    return d * 86400 + h * 3600 + mi * 60 + se
+
+
+def youtube_recent(query='GTA 6', lang='', hours=24, limit=20, min_minutes=30, keys=None):
+    """Finished YouTube streams for the query from the last `hours`, most views first."""
+    keys = keys if keys is not None else load_keys()
+    rows = []
+    if keys.get('YOUTUBE_API_KEY'):
+        k = keys['YOUTUBE_API_KEY']
+        since = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=hours)).strftime('%Y-%m-%dT%H:%M:%SZ')
+        q = {'part': 'snippet', 'type': 'video', 'eventType': 'completed', 'q': query, 'order': 'viewCount',
+             'publishedAfter': since, 'maxResults': 50, 'key': k}
+        if lang:
+            q['relevanceLanguage'] = lang
+        items = http_json('https://www.googleapis.com/youtube/v3/search?' + urllib.parse.urlencode(q)).get('items', [])
+        ids = [i['id']['videoId'] for i in items]
+        if ids:
+            v = http_json('https://www.googleapis.com/youtube/v3/videos?' + urllib.parse.urlencode(
+                {'part': 'snippet,statistics,contentDetails', 'id': ','.join(ids), 'key': k}))
+            for it in v.get('items', []):
+                sn = it['snippet']
+                rows.append({'url': f'https://www.youtube.com/watch?v={it["id"]}', 'title': sn['title'],
+                             'channel': sn['channelTitle'], 'views': int(it['statistics'].get('viewCount') or 0),
+                             'duration': _iso_dur(it['contentDetails'].get('duration'))})
+    else:
+        # search page sorted by views, uploaded today / this week; streams are the "Streamed ..." results
+        sp = 'CAMSAggC' if hours <= 24 else 'CAMSAggD'
+        url = 'https://www.youtube.com/results?' + urllib.parse.urlencode({'search_query': query, 'sp': sp})
+        try:
+            pl = ytdlp_json(url, '--flat-playlist', '--playlist-end', str(limit * 4))
+        except RuntimeError as e:
+            log(f'  YouTube не ответил: {str(e)[:200]}')
+            return []
+        for e in pl.get('entries') or []:
+            if e.get('live_status') != 'was_live' or not e.get('id'):
+                continue
+            rows.append({'url': e.get('url') or f'https://www.youtube.com/watch?v={e["id"]}',
+                         'title': e.get('title') or '', 'channel': e.get('channel') or '',
+                         'views': e.get('view_count') or 0, 'duration': e.get('duration') or 0})
+    rows = [r for r in rows if not r['duration'] or r['duration'] >= min_minutes * 60]
+    rows.sort(key=lambda r: -r['views'])
+    return rows[:limit]
+
+
 def youtube_live(query='GTA 6', lang='', limit=30, keys=None):
     """Live YouTube streams for the query, most concurrent viewers first."""
     keys = keys if keys is not None else load_keys()
