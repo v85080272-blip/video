@@ -120,6 +120,8 @@ def build(words, dur, pos, title='', title_secs=None, credit='', mat=False):
     """ASS text. pos: {'sub_y', 'title_y', 'credit_y'} in 1080x1920 pixels."""
     ev = []
     sub_y, credit_y = pos['sub_y'], pos['credit_y']
+    # the font has no emoji: they would show as boxes on the video (they stay in the YouTube title)
+    title = re.sub(r'[\U0001F000-\U0001FAFF\u2600-\u27BF\uFE0F\u200D]', '', title or '').strip()
     if title:
         end = min(dur, title_secs) if title_secs else dur
         if end >= dur * 0.5:
