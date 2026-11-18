@@ -9,6 +9,9 @@ import os
 
 import numpy as np
 
+os.environ.setdefault('OPENCV_LOG_LEVEL', 'ERROR')          # no decoder chatter from cv2
+os.environ.setdefault('OPENCV_FFMPEG_LOGLEVEL', '-8')
+
 W, H = 1080, 1920
 
 
@@ -158,9 +161,13 @@ def _border(persist, cx, cy, fw, box):
         if b <= a:
             continue
         seg = prof[a:b]
-        i = int(np.argmax(seg))
-        if seg[i] > 0.55:                # an edge in more than half the frames along most of the side
-            out[side] = float(a + i)
+        best = float(seg.max())
+        if best <= 0.55:                 # no edge in more than half the frames along most of the side
+            continue
+        # the room behind the streamer is static too: of the strong lines take the one farthest from the face
+        idx = np.flatnonzero(seg >= max(0.55, 0.75 * best))
+        i = int(idx[0] if side in (0, 1) else idx[-1])
+        out[side] = float(a + i)
     return out
 
 

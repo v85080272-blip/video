@@ -2,13 +2,17 @@
 
 For a link only the audio and the chat are downloaded to look for moments; then only the chosen pieces of video.
 """
+import concurrent.futures as cf
 import glob
 import json
 import os
 import subprocess
+import time
+import urllib.parse
+import urllib.request
 
 import chat as C
-from common import log, probe, run, slug, ytdlp, ytdlp_json
+from common import UA, log, probe, run, slug, ytdlp, ytdlp_json
 
 VIDEO_FMT = 'bv*[height<=1080]+ba/b[height<=1080]/bv*+ba/b'
 
@@ -62,6 +66,11 @@ class Source:
         have = [h for h in have if not h.endswith(('.part', '.ytdl'))]
         if have:
             return have[0]
+        if self.recording:
+            log('Стрим ещё идёт: качаю звук записи с начала до текущего момента…')
+            out = os.path.join(self.work, 'audio.ts')
+            hls_fetch(hls_list(self._format_url('Audio_Only/audio_only/ba/worst')), out)
+            return out
         log('Качаю звук стрима (только звук, чтобы найти моменты)…')
         run(ytdlp() + ['-f', 'ba/bestaudio/worst', '-o', os.path.join(self.work, 'audio.%(ext)s'),
                        '--concurrent-fragments', '8', self.url])
@@ -98,13 +107,70 @@ class Source:
             log('Чата нет: ищу только по звуку' + (' и графику пересмотров' if self.heatmap else ''))
         return c
 
+    @property
+    def recording(self):
+        """A Twitch VOD of a stream that is still live: yt-dlp would download it from the live edge."""
+        return bool(self.url and self.platform == 'twitch' and self.info.get('is_live'))
+
+    def _format_url(self, fmt):
+        self._urls = getattr(self, '_urls', {})
+        if fmt not in self._urls:
+            r = run(ytdlp() + ['-f', fmt, '-g', self.url], stdout=subprocess.PIPE)
+            self._urls[fmt] = r.stdout.decode().strip().splitlines()[-1]
+        return self._urls[fmt]
+
     def piece(self, a, b, name):
         """A video file that holds [a, b]; returns (path, offset of a inside it)."""
         if not self.url:
             return self.src, a
+        if self.recording:
+            segs = [x for x in hls_list(self._format_url('best[height<=1080]/best')) if x[0] + x[1] > a and x[0] < b]
+            if not segs:
+                raise RuntimeError(f'в записи нет отрезка {a:.0f}–{b:.0f} с')
+            out = os.path.join(self.work, name + '.ts')
+            if not os.path.exists(out):
+                log(f'Качаю кусок видео {name}…')
+                hls_fetch(segs, out, quiet=True)
+            return out, a - segs[0][0]
         out = os.path.join(self.work, name + '.mp4')
         if not os.path.exists(out):
             log(f'Качаю кусок видео {name}…')
             run(ytdlp() + ['-f', VIDEO_FMT, '--download-sections', f'*{a:.2f}-{b:.2f}', '--force-keyframes-at-cuts',
                            '--merge-output-format', 'mp4', '--concurrent-fragments', '8', '-o', out, self.url])
         return out, 0.0
+
+
+def _get(url, tries=4):
+    for i in range(tries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': UA}), timeout=60) as r:
+                return r.read()
+        except Exception:
+            if i == tries - 1:
+                raise
+            time.sleep(1 + 2 * i)
+
+
+def hls_list(url):
+    """[(start, duration, segment url)] of an HLS media playlist."""
+    segs, t, dur = [], 0.0, None
+    for line in _get(url).decode('utf-8', 'replace').splitlines():
+        line = line.strip()
+        if line.startswith('#EXTINF:'):
+            dur = float(line[8:].split(',')[0])
+        elif line and not line.startswith('#') and dur is not None:
+            segs.append((t, dur, urllib.parse.urljoin(url, line)))
+            t += dur
+            dur = None
+    return segs
+
+
+def hls_fetch(segs, out, workers=12, quiet=False):
+    """Download the segments in order into one MPEG-TS file."""
+    tmp = out + '.part'
+    with open(tmp, 'wb') as f, cf.ThreadPoolExecutor(workers) as ex:
+        for i, data in enumerate(ex.map(_get, [x[2] for x in segs]), 1):
+            f.write(data)
+            if not quiet and (i % 200 == 0 or i == len(segs)):
+                log(f'  {i}/{len(segs)} кусков')
+    os.replace(tmp, out)

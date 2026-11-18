@@ -47,7 +47,13 @@ def ytdlp():
         import yt_dlp  # noqa: F401
     except ImportError:
         die('Нет yt-dlp: pip install -r clips/requirements.txt')
-    return [sys.executable, '-m', 'yt_dlp', '--no-warnings']
+    cmd = [sys.executable, '-m', 'yt_dlp', '--no-warnings']
+    # yt-dlp reads the proxy from the environment itself, but the ffmpeg it starts for HLS and
+    # --download-sections only gets it through --proxy
+    proxy = os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+    if proxy:
+        cmd += ['--proxy', proxy]
+    return cmd
 
 
 def ytdlp_json(url, *extra):

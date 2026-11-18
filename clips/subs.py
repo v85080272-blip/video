@@ -30,7 +30,8 @@ def transcribe(wav, model='small', lang=None):
         if _model is None or _model[0] != model:
             log(f'  Whisper {model}: загрузка (первый раз скачивается с Hugging Face)')
             _model = (model, WhisperModel(model, device='auto', compute_type='int8'))
-        segs, _info = _model[1].transcribe(wav, language=lang or None, word_timestamps=True, vad_filter=True,
+        audio = _read_wav(wav)          # an array, not a path: some PyAV versions break faster-whisper's decoder
+        segs, _info = _model[1].transcribe(audio, language=lang or None, word_timestamps=True, vad_filter=True,
                                            beam_size=5, condition_on_previous_text=False)
         segs = list(segs)
     except Exception as e:      # no model, no network: the clip is still worth making
@@ -46,6 +47,15 @@ def transcribe(wav, model='small', lang=None):
             if t and w.probability > 0.15:
                 words.append({'start': float(w.start), 'end': float(w.end), 'word': t})
     return words
+
+
+def _read_wav(path):
+    import wave
+
+    import numpy as np
+    with wave.open(path, 'rb') as w:
+        x = np.frombuffer(w.readframes(w.getnframes()), dtype='<i2').astype(np.float32) / 32768.0
+    return x
 
 
 def censor(word):
