@@ -6,6 +6,7 @@ import concurrent.futures as cf
 import glob
 import json
 import os
+import re
 import subprocess
 import time
 import urllib.parse
@@ -68,8 +69,9 @@ class Source:
             return have[0]
         if self.recording:
             log('Стрим ещё идёт: качаю звук записи с начала до текущего момента…')
-            out = os.path.join(self.work, 'audio.ts')
-            hls_fetch(hls_list(self._format_url('Audio_Only/audio_only/ba/worst')), out)
+            segs = hls_list(self._format_url('Audio_Only/audio_only/ba/worst'))
+            out = os.path.join(self.work, 'audio.mp4' if segs and segs[0][1] == 0 else 'audio.ts')
+            hls_fetch(segs, out)
             return out
         log('Качаю звук стрима (только звук, чтобы найти моменты)…')
         run(ytdlp() + ['-f', 'ba/bestaudio/worst', '-o', os.path.join(self.work, 'audio.%(ext)s'),
@@ -124,13 +126,15 @@ class Source:
         if not self.url:
             return self.src, a
         if self.recording:
-            segs = [x for x in hls_list(self._format_url('best[height<=1080]/best')) if x[0] + x[1] > a and x[0] < b]
+            allsegs = hls_list(self._format_url('best[height<=1080]/best'))
+            init = [x for x in allsegs[:1] if x[1] == 0]
+            segs = [x for x in allsegs if x[1] > 0 and x[0] + x[1] > a and x[0] < b]
             if not segs:
                 raise RuntimeError(f'в записи нет отрезка {a:.0f}–{b:.0f} с')
-            out = os.path.join(self.work, name + '.ts')
+            out = os.path.join(self.work, name + ('.mp4' if init else '.ts'))
             if not os.path.exists(out):
                 log(f'Качаю кусок видео {name}…')
-                hls_fetch(segs, out, quiet=True)
+                hls_fetch(init + segs, out, quiet=True)
             return out, a - segs[0][0]
         out = os.path.join(self.work, name + '.mp4')
         if not os.path.exists(out):
@@ -152,11 +156,16 @@ def _get(url, tries=4):
 
 
 def hls_list(url):
-    """[(start, duration, segment url)] of an HLS media playlist."""
+    """[(start, duration, segment url)] of an HLS media playlist. A fragmented-MP4 playlist starts with
+    (0, 0, init segment url) from #EXT-X-MAP, which hls_fetch keeps in front of any slice."""
     segs, t, dur = [], 0.0, None
     for line in _get(url).decode('utf-8', 'replace').splitlines():
         line = line.strip()
-        if line.startswith('#EXTINF:'):
+        if line.startswith('#EXT-X-MAP:') and not segs:
+            m = re.search(r'URI="([^"]+)"', line)
+            if m:
+                segs.append((0.0, 0.0, urllib.parse.urljoin(url, m.group(1))))
+        elif line.startswith('#EXTINF:'):
             dur = float(line[8:].split(',')[0])
         elif line and not line.startswith('#') and dur is not None:
             segs.append((t, dur, urllib.parse.urljoin(url, line)))
@@ -166,7 +175,7 @@ def hls_list(url):
 
 
 def hls_fetch(segs, out, workers=12, quiet=False):
-    """Download the segments in order into one MPEG-TS file."""
+    """Download the segments in order into one file (MPEG-TS, or fragmented MP4 after its init segment)."""
     tmp = out + '.part'
     with open(tmp, 'wb') as f, cf.ThreadPoolExecutor(workers) as ex:
         for i, data in enumerate(ex.map(_get, [x[2] for x in segs]), 1):
