@@ -134,7 +134,11 @@ def find_moments(a, s):
     frames = loudness(s.audio())
     n = int(max(s.duration, len(frames) * M.FRAME))
     sig, raw = signals(n, frames, c, s.heatmap, a.lag)
-    ms, _ = pick(n, sig, raw, a.top, a.len, skip_start=a.skip_start, frames=frames)
+    rr = a.rerank == 'on' or (a.rerank == 'auto' and 'chat' not in sig)
+    ms, _ = pick(n, sig, raw, a.top * 3 if rr else a.top, a.len, skip_start=a.skip_start, frames=frames)
+    if rr:
+        log(f'\nСлушаю речь в {len(ms)} кандидатах, чтобы выбрать, где стример реагирует…')
+        ms = M.rerank(s.audio(), ms, a.top, getattr(a, 'model', 'small'), 'ru', s.work)
     for m in ms:
         m['link'] = link_at(s.url, m['start'])
         m['title'] = ''
@@ -259,6 +263,9 @@ def main():
         p.add_argument('--len', type=float, default=35, help='длина ролика, с')
         p.add_argument('--lag', type=float, default=5, help='на сколько секунд чат отстаёт от стрима')
         p.add_argument('--skip-start', type=float, default=180, help='пропустить начало стрима (заставка), с')
+        p.add_argument('--rerank', default='auto', choices=['auto', 'on', 'off'],
+                       help='распознать речь в кандидатах и поднять те, где стример реагирует '
+                            '(auto: когда нет чата)')
         if name != 'moments':
             p.add_argument('--render-top', type=int, default=5 if name == 'auto' else 3, help='сколько лучших нарезать')
             render_opts(p)

@@ -6,6 +6,8 @@ Three signals, each turned into a robust z-score against its own local baseline:
            moved back by the chat lag;
   heatmap: YouTube "most replayed" graph, when the video has one.
 """
+import os
+import re
 import subprocess
 
 import numpy as np
@@ -149,6 +151,8 @@ def _snap(frames, t, radius):
 def explain(m):
     w = m['why']
     parts = []
+    if 'text_score' in m:
+        parts.append(f'реакция {m["text_score"]:+.0f}')
     if 'chat' in w:
         parts.append(f'чат ×{w["chat"]:g}')
     if 'voice_db' in w:
@@ -170,3 +174,45 @@ def report(moments, title, url_fn):
 def summary(moments):
     for m in moments:
         log(f'  {m["n"]:>2}. {hms(m["start"])}–{hms(m["end"])}  ({explain(m)})')
+
+
+# what a streamer says when something happens (game characters rarely laugh, swear or ask "что?!")
+LAUGH = re.compile(r'(?:а?ха){2,}|(?:х[ае]){2,}|(?:ах){2,}|(?:ха-?){2,}', re.I)
+REACT = re.compile(r'\b(?:что|чего|какого|как|офиг\w*|охуе\w*|ахуе\w*|ебать|ёбаный|ебан\w*|жесть|капец|пиздец|'
+                   r'нифига|ничего себе|бля\w*|блин|вау|смотри\w*|стой|бежим|давай|нет|да ладно|серьезно|'
+                   r'серьёзно|ору|ааа+|ооо+|эээ+|wow|what|bro|omg)\b', re.I)
+MAT = re.compile(r'\b\w*(?:ху[йеёяи]|пизд|бля|еба|ёб|ебн)\w*', re.I)
+
+
+def text_score(text, dur):
+    """How much the streamer reacts in this transcript."""
+    words = len(text.split())
+    if words < 12:                       # music, game noise or silence
+        return -3.0
+    sc = 3.0 * len(LAUGH.findall(text)) + 1.0 * len(REACT.findall(text)) + 0.8 * min(6, len(MAT.findall(text)))
+    sc += 0.6 * (text.count('!') + text.count('?'))
+    sc += 0.5 * min(3.5, words / max(dur, 1) )      # lively talk
+    return sc
+
+
+def rerank(audio, moments, keep, model='small', lang='ru', work='.'):
+    """Transcribe each candidate and put the ones where the streamer reacts first."""
+    import subs as S
+    wav = os.path.join(work, '_cand.wav')
+    for i, m in enumerate(moments, 1):
+        dur = m['end'] - m['start']
+        subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', str(m['start']), '-t', str(dur), '-i', audio, '-vn',
+                        '-ac', '1', '-ar', '16000', wav], check=True)
+        words = S.transcribe(wav, model, lang)
+        text = ' '.join(w['word'] for w in words)
+        m['text'] = text
+        m['text_score'] = round(text_score(text, dur), 1)
+        log(f'  {i}/{len(moments)} {hms(m["start"])}: {m["text_score"]:+.1f}  {text[:90]}')
+    if os.path.exists(wav):
+        os.remove(wav)
+    for m in moments:
+        m['rank'] = m['score'] + 0.5 * m.get('text_score', 0)
+    best = sorted(moments, key=lambda m: -m['rank'])[:keep]
+    for i, m in enumerate(best, 1):
+        m['n'] = i
+    return best
