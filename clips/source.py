@@ -23,8 +23,10 @@ def is_url(s):
 
 
 class Source:
-    def __init__(self, src, work_root, chat_file=None, no_chat=False):
+    def __init__(self, src, work_root, chat_file=None, no_chat=False, last_hours=None):
         self.src = src
+        self.last_hours = last_hours
+        self.audio_offset = 0.0         # where the analysed audio starts in the stream, s
         self.url = src if is_url(src) else ''
         if self.url:
             log('Смотрю ссылку…')
@@ -61,23 +63,42 @@ class Source:
 
     def audio(self):
         """Path of the audio to analyse (the file itself for a local video)."""
+        start = max(0.0, self.duration - self.last_hours * 3600) if self.last_hours else 0.0
         if not self.url:
+            self.audio_offset = start
             return self.src
-        have = glob.glob(os.path.join(self.work, 'audio.*'))
-        have = [h for h in have if not h.endswith(('.part', '.ytdl'))]
+        tag = f'audio_from{int(start)}' if start else 'audio'
+        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*')) if not h.endswith(('.part', '.ytdl'))]
         if have:
+            self.audio_offset = start if not self.recording else self._offset_cache(have[0], start)
             return have[0]
         if self.recording:
-            log('Стрим ещё идёт: качаю звук записи с начала до текущего момента…')
+            log('Стрим ещё идёт: качаю звук записи' + (f' за последние {self.last_hours:g} ч…' if start else
+                                                     ' с начала до текущего момента…'))
             segs = hls_list(self._format_url('Audio_Only/audio_only/ba/worst'))
-            out = os.path.join(self.work, 'audio.mp4' if segs and segs[0][1] == 0 else 'audio.ts')
-            hls_fetch(segs, out)
+            init = [x for x in segs[:1] if x[1] == 0]
+            body = [x for x in segs if x[1] > 0 and x[0] + x[1] > start]
+            out = os.path.join(self.work, tag + ('.mp4' if init else '.ts'))
+            hls_fetch(init + body, out)
+            self.audio_offset = body[0][0] if body else 0.0
+            with open(out + '.offset', 'w') as f:
+                f.write(str(self.audio_offset))
             return out
         log('Качаю звук стрима (только звук, чтобы найти моменты)…')
-        run(ytdlp() + ['-f', 'ba/bestaudio/worst', '-o', os.path.join(self.work, 'audio.%(ext)s'),
-                       '--concurrent-fragments', '8', self.url])
-        have = [h for h in glob.glob(os.path.join(self.work, 'audio.*')) if not h.endswith(('.part', '.ytdl'))]
+        sect = ['--download-sections', f'*{start:.0f}-inf'] if start else []
+        run(ytdlp() + ['-f', 'ba/bestaudio/worst', '-o', os.path.join(self.work, tag + '.%(ext)s'),
+                       '--concurrent-fragments', '8', *sect, self.url])
+        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*')) if not h.endswith(('.part', '.ytdl'))]
+        self.audio_offset = start
         return have[0]
+
+    @staticmethod
+    def _offset_cache(path, default):
+        try:
+            with open(path + '.offset') as f:
+                return float(f.read())
+        except (OSError, ValueError):
+            return default
 
     def chat(self):
         if self.no_chat:

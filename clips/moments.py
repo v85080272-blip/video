@@ -104,13 +104,13 @@ def signals(n, frames=None, chat=None, heatmap=None, lag=5.0):
 WEIGHTS = {'voice': 1.0, 'chat': 1.3, 'heat': 1.0}
 
 
-def pick(n, sig, raw, top=8, length=35.0, pre=0.65, skip_start=120, skip_end=30, frames=None):
+def pick(n, sig, raw, top=8, length=35.0, pre=0.65, skip_start=120, skip_end=30, frames=None, min_start=0.0):
     """Top non-overlapping windows around the score peaks."""
     if not sig:
         raise RuntimeError('нет ни звука, ни чата: искать моменты не по чему')
     score = sum(WEIGHTS[k] * v for k, v in sig.items()) / sum(WEIGHTS[k] for k in sig)
     score = _smooth(score, 4)
-    lo, hi = min(skip_start, n * 0.1), n - min(skip_end, n * 0.05)
+    lo, hi = max(min(skip_start, n * 0.1), min_start + length * pre), n - min(skip_end, n * 0.05)
     s = score.copy()
     s[:int(lo)] = -np.inf
     s[int(hi):] = -np.inf
@@ -195,13 +195,15 @@ def text_score(text, dur):
     return sc
 
 
-def rerank(audio, moments, keep, model='small', lang='ru', work='.'):
-    """Transcribe each candidate and put the ones where the streamer reacts first."""
+def rerank(audio, moments, keep, model='small', lang='ru', work='.', offset=0.0):
+    """Transcribe each candidate and put the ones where the streamer reacts first.
+    offset: where `audio` starts in the stream."""
     import subs as S
     wav = os.path.join(work, '_cand.wav')
     for i, m in enumerate(moments, 1):
         dur = m['end'] - m['start']
-        subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', str(m['start']), '-t', str(dur), '-i', audio, '-vn',
+        subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', str(max(0.0, m['start'] - offset)), '-t', str(dur),
+                        '-i', audio, '-vn',
                         '-ac', '1', '-ar', '16000', wav], check=True)
         words = S.transcribe(wav, model, lang)
         text = ' '.join(w['word'] for w in words)

@@ -16,6 +16,8 @@ import json
 import os
 import sys
 
+import numpy as np
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import discover as D            # noqa: E402
@@ -122,7 +124,7 @@ def _source(a):
             die(f'У канала {src} нет записей (или они скрыты).')
         log(f'Последняя запись: {vods[0]["title"]} — {vods[0]["url"]}')
         src = vods[0]['url']
-    return Source(src, a.work, a.chat, a.no_chat)
+    return Source(src, a.work, a.chat, a.no_chat, getattr(a, 'last_hours', None))
 
 
 def find_moments(a, s):
@@ -131,14 +133,19 @@ def find_moments(a, s):
     log(f'«{s.title}», {hms(s.duration)}')
     c = s.chat()
     log('Слушаю звук…')
-    frames = loudness(s.audio())
+    audio = s.audio()
+    frames = loudness(audio, start=s.audio_offset if not s.url else 0.0)
+    off = s.audio_offset
+    if off:                                     # only the tail was analysed: the timeline still starts at 0
+        frames = np.concatenate([np.full(int(off / M.FRAME), float(np.median(frames))), frames])
     n = int(max(s.duration, len(frames) * M.FRAME))
     sig, raw = signals(n, frames, c, s.heatmap, a.lag)
     rr = a.rerank == 'on' or (a.rerank == 'auto' and 'chat' not in sig)
-    ms, _ = pick(n, sig, raw, a.top * 3 if rr else a.top, a.len, skip_start=a.skip_start, frames=frames)
+    ms, _ = pick(n, sig, raw, a.top * 3 if rr else a.top, a.len, skip_start=a.skip_start, frames=frames,
+                 min_start=off)
     if rr:
         log(f'\nСлушаю речь в {len(ms)} кандидатах, чтобы выбрать, где стример реагирует…')
-        ms = M.rerank(s.audio(), ms, a.top, getattr(a, 'model', 'small'), 'ru', s.work)
+        ms = M.rerank(audio, ms, a.top, getattr(a, 'model', 'small'), 'ru', s.work, 0.0 if not s.url else off)
     for m in ms:
         m['link'] = link_at(s.url, m['start'])
         m['title'] = ''
@@ -263,6 +270,8 @@ def main():
         p.add_argument('--len', type=float, default=35, help='длина ролика, с')
         p.add_argument('--lag', type=float, default=5, help='на сколько секунд чат отстаёт от стрима')
         p.add_argument('--skip-start', type=float, default=180, help='пропустить начало стрима (заставка), с')
+        p.add_argument('--last-hours', type=float,
+                       help='искать только в последних N часах записи (для многочасовых марафонов)')
         p.add_argument('--rerank', default='auto', choices=['auto', 'on', 'off'],
                        help='распознать речь в кандидатах и поднять те, где стример реагирует '
                             '(auto: когда нет чата)')
