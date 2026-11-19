@@ -183,7 +183,7 @@ def render_moments(a, path, picks=None):
         if os.path.exists(out) and not getattr(a, 'force', False):
             log('  уже есть, пропускаю')
             continue
-        piece, off = s.piece(m['start'], m['end'], f'piece_{m["n"]:02d}')
+        piece, off = s.piece(m['start'], m['end'], f'piece_{int(m["start"])}_{int(m["end"])}')   # by time: numbers repeat
         R.render(piece, off, m['end'] - m['start'], out, os.path.join(s.work, 'render'),
                  **ropts(a, m.get('title') or '', credit, m.get('link') or s.url))
         outs.append(out)
