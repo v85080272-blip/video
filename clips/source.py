@@ -68,10 +68,18 @@ class Source:
             self.audio_offset = start
             return self.src
         tag = f'audio_from{int(start)}' if start else 'audio'
-        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*')) if not h.endswith(('.part', '.ytdl'))]
+        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*'))
+                if not h.endswith(('.part', '.ytdl', '.offset'))]
         if have:
-            self.audio_offset = start if not self.recording else self._offset_cache(have[0], start)
-            return have[0]
+            off = self._offset_cache(have[0], start)
+            # a snapshot of a stream that was still live: the VOD has grown since, fetch it again
+            if off + probe(have[0])['duration'] < self.duration - 600:
+                log('Звук в кэше короче записи (стрим тогда ещё шёл): качаю заново')
+                for h in have:
+                    os.remove(h)
+            else:
+                self.audio_offset = off
+                return have[0]
         if self.recording:
             log('Стрим ещё идёт: качаю звук записи' + (f' за последние {self.last_hours:g} ч…' if start else
                                                      ' с начала до текущего момента…'))
@@ -88,7 +96,8 @@ class Source:
         sect = ['--download-sections', f'*{start:.0f}-inf'] if start else []
         run(ytdlp() + ['-f', 'ba/bestaudio/worst', '-o', os.path.join(self.work, tag + '.%(ext)s'),
                        '--concurrent-fragments', '8', *sect, self.url])
-        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*')) if not h.endswith(('.part', '.ytdl'))]
+        have = [h for h in glob.glob(os.path.join(self.work, tag + '.*'))
+                if not h.endswith(('.part', '.ytdl', '.offset'))]
         self.audio_offset = start
         return have[0]
 
