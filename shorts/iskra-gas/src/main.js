@@ -51,7 +51,7 @@ const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
 const PUNCH = [T.gas, A.L1w1, T.flare, T.knock, T.win, T.out, T.siren];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 const shakeAt = t => (t >= T.flare ? 10 * Math.exp(-(t - T.flare) / 0.15) : 0);
-const gasAt = t => seg(T.gas - 0.3, T.gas + 0.5, t);
+const gasAt = t => 0.55 + 0.45 * seg(T.gas - 0.3, T.gas + 0.5, t);     // in the picture from 0 s (the hook)
 const zoomTo = (cx, cy, z, fn) => { g.save(); g.translate(cx, cy); g.scale(z, z); g.translate(-cx, -cy); fn(); g.restore(); };
 
 // —— the shots ——
@@ -157,7 +157,8 @@ function hosts(t) {
 
 // —— the 2D layer ——
 const SERIES = 'ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 4';
-function series(y = 110, k = 1) {                      // the series mark at the top
+function series(y = 110, k = 1) {                      // the series mark — off since 19.11 (newcomers swipe away «серия N»)
+  k = 0;
   if (k <= 0.01) return;
   const w = measure(SERIES, 40, FONTS.cond) + 56;
   g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = k;
@@ -184,8 +185,11 @@ function button(n, s, x, y, k) {
 function layer(t) {
   const P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);
   series(110);
+  // the hook (19.11): the question big from the first frame, the ban under it — then «КАК ВЫЖИТЬ?»
+  const hk = 1 - seg(A.L0w10 - 0.25, A.L0w10, t);
+  headline('ПАХНЕТ ГАЗОМ В ПОДЪЕЗДЕ?', 250, hk, '#ffd23f', 58);
+  headline('НЕ ВКЛЮЧАЙ СВЕТ!', 400, hk * clamp(sp(t, 0.05, 2.6, 8)), '#e53935', 84);
   headline('КАК ВЫЖИТЬ?', 360, clamp(sp(t, A.L0w10 - 0.1, 2.4, 8)) * (1 - seg(A.L1 - 0.15, A.L1 + 0.05, t)));
-  P(T.gas, A.L0w10 - 0.15, 330, { icon: 'x', title: 'ПАХНЕТ ГАЗОМ', color: DANGER, size: 50 });
   Hd.stepHeader(t, 1, 'НЕ ТРОГАЙ СВЕТ', A.L1 - 0.05, A.L2 - 0.3, 260);
   P(A.L1w7, A.L2 - 0.3, 400, { icon: 'x', title: 'ИСКРА = ВСПЫШКА', color: DANGER, size: 46 });
   Hd.stepHeader(t, 2, 'НЕ ЗВОНИ В ДВЕРЬ', A.L2 - 0.05, A.L3 - 0.3, 260);

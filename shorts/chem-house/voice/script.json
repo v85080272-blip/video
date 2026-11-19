@@ -1,0 +1,83 @@
+{
+ "note": "Narration for «Облако хлора, ты дома» (flat 2D, «Как выжить», the narrator of «Свет погас» and «Взрыв на станции, ты дома»). The owner, 19.11: views fell; YouTube Studio's advice — strong first 1–2 seconds, standalone, back to the proven themes (technogenic disasters, «что делать, если…»). Based on «Взрыв на станции, ты дома» (watched 78 %): the same house, hunter and narrator; the twist — here the cellar is wrong. Facts — EMERCOM-type memos on accidents with hazardous chemicals (АХОВ): shelter indoors, close doors and windows tightly, switch off ventilation, seal the gaps; chlorine is heavier than air — go as high as possible; ammonia is lighter than air (1.7 times) — go lower; protect breathing with a cloth soaked in water or 2 % baking-soda solution (chlorine) / citric acid (ammonia); turn on the radio or TV and follow the messages. No blood and no death. 30–40 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если рядом авария на химзаводе — и к дому ползёт облако хлора?",
+   "at": 0.12,
+   "sub": [
+    5,
+    2,
+    6
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — спрятаться в погреб. Нельзя: хлор тяжелее воздуха и стекает вниз.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: закрой окна, двери и заслонку печки, выключи вентиляцию.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: щели заткни мокрыми тряпками.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: поднимись повыше — на чердак или верхний этаж.",
+   "after": 0.35,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Четвёртое: дыши через ткань, смоченную раствором соды.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "И слушай радио: там скажут, когда и как уходить.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А с аммиаком — всё наоборот: он легче воздуха, от него прячутся внизу. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    5,
+    3,
+    4,
+    1
+   ]
+  }
+ ]
+}
