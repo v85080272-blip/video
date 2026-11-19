@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Облако хлора, ты дома» (flat 2D, «Как выжить», the narrator of «Свет погас» and «Взрыв на станции, ты дома»). The owner, 19.11: views fell; YouTube Studio's advice — strong first 1–2 seconds, standalone, back to the proven themes (technogenic disasters, «что делать, если…»). Based on «Взрыв на станции, ты дома» (watched 78 %): the same house, hunter and narrator; the twist — here the cellar is wrong. Facts — EMERCOM-type memos on accidents with hazardous chemicals (АХОВ): shelter indoors, close doors and windows tightly, switch off ventilation, seal the gaps; chlorine is heavier than air — go as high as possible; ammonia is lighter than air (1.7 times) — go lower; protect breathing with a cloth soaked in water or 2 % baking-soda solution (chlorine) / citric acid (ammonia); turn on the radio or TV and follow the messages. No blood and no death. 30–40 s.",
+ "note": "Narration for «Облако хлора, ты дома» (flat 2D, «Как выжить», the narrator of «Свет погас» and «Взрыв на станции, ты дома»). The owner, 19.11: views fell; YouTube Studio's advice — strong first 1–2 seconds, standalone, back to the proven themes (technogenic disasters, «что делать, если…»). Based on «Взрыв на станции, ты дома» (watched 78 %): the same house, hunter and narrator; the twist — here the cellar is wrong. Facts — EMERCOM-type memos on accidents with hazardous chemicals (АХОВ): shelter indoors, close doors and windows tightly, switch off ventilation, seal the gaps; chlorine is heavier than air — go as high as possible; ammonia is lighter than air (1.7 times) — go lower; protect breathing with a cloth soaked in water or 2 % baking-soda solution (chlorine) / citric acid (ammonia); turn on the radio or TV and follow the messages. No blood and no death. 30–40 s. L2 was «закрой окна, двери…» — the takes read «окнА» or «дверИ»; rewritten with the singular «окно, дверь» (no homographs) and re-read (/home/user/work/chemhouse-b).",
  "tail": 0.6,
  "lines": [
   {
@@ -24,7 +24,7 @@
   },
   {
    "id": "L2",
-   "text": "Первое: закрой окна, двери и заслонку печки, выключи вентиляцию.",
+   "text": "Первое: закрой окно, дверь и заслонку печки, выключи вентиляцию.",
    "after": 0.35,
    "sub": [
     4,

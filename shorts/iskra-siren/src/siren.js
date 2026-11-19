@@ -44,7 +44,7 @@ export function room(t, o = {}) {
   rect(WIN.x0 - 26, WIN.y0 - 26, WIN.x1 - WIN.x0 + 52, WIN.y1 - WIN.y0 + 52, '#f4f1ea');
   g.save(); g.beginPath(); g.rect(WIN.x0, WIN.y0, WIN.x1 - WIN.x0, WIN.y1 - WIN.y0); g.clip();
   g.translate(WIN.x0 - 40, WIN.y0 - 30); g.scale(0.5, 0.5);
-  street(t, { dusk: 1 }); siren(860, 1240, t, o.waves ?? 0);
+  street(t, { dusk: 1 }); siren(560, 1520, t, o.waves ?? 0);      // low in the window, under the hook titles
   g.restore();
   rect((WIN.x0 + WIN.x1) / 2 - 8, WIN.y0, 16, WIN.y1 - WIN.y0, '#f4f1ea'); rect(WIN.x0, (WIN.y0 + WIN.y1) / 2 - 8, WIN.x1 - WIN.x0, 16, '#f4f1ea');
   rect(WIN.x0 - 40, WIN.y1 + 26, WIN.x1 - WIN.x0 + 80, 28, '#ece7dc');
@@ -88,13 +88,15 @@ export function lift(t, o = {}) {
   // the cabin inside
   const cab = g.createLinearGradient(0, y0, 0, y1); cab.addColorStop(0, '#fff3d0'); cab.addColorStop(1, '#c9b68a'); g.fillStyle = cab; g.fillRect(x0, y0, x1 - x0, y1 - y0);
   rect(x0, y1 - 40, x1 - x0, 40, '#6b5a44');
-  // the stranger: a dark coat and hood, the face in shadow, one hand at the door
+  // the stranger: a dark coat with a raised collar, a cap pulled low, the face in shadow, one hand holding the door
   const cx = (x0 + x1) / 2 + 40, sway = 4 * Math.sin(t * 1.5);
-  fill(smoothPath([[cx - 150, y1 - 40], [cx - 130, y1 - 520], [cx - 70, y1 - 640], [cx + 70, y1 - 640], [cx + 130, y1 - 520], [cx + 150, y1 - 40]]), '#23262e');
-  fill(smoothPath([[cx - 90 + sway, y1 - 640], [cx - 80 + sway, y1 - 800], [cx + sway, y1 - 850], [cx + 80 + sway, y1 - 800], [cx + 90 + sway, y1 - 640]]), '#2b2f38');
-  ell(cx + sway, y1 - 720, 52, 62, '#121318');
-  if (o.eyes) { ell(cx - 18 + sway, y1 - 728, 6, 4, '#ffffff', 0, o.eyes); ell(cx + 18 + sway, y1 - 728, 6, 4, '#ffffff', 0, o.eyes); }
-  limb([[cx - 120, y1 - 560], [cx - 190, y1 - 470], [x0 + 10, y1 - 470]], 34, '#23262e');
+  fill(smoothPath([[cx - 150, y1 - 40], [cx - 130, y1 - 520], [cx - 70, y1 - 620], [cx + 70, y1 - 620], [cx + 130, y1 - 520], [cx + 150, y1 - 40]]), '#2b2f38');
+  poly([[cx - 80, y1 - 620], [cx - 40, y1 - 690], [cx, y1 - 640], [cx + 40, y1 - 690], [cx + 80, y1 - 620]], '#23262e');
+  ell(cx + sway, y1 - 720, 54, 64, '#8a6a52'); ell(cx + sway, y1 - 700, 50, 40, '#6e523e');
+  fill(smoothPath([[cx - 62 + sway, y1 - 750], [cx - 50 + sway, y1 - 800], [cx + 50 + sway, y1 - 800], [cx + 62 + sway, y1 - 750]]), '#1f2228');
+  rect(cx - 80 + sway, y1 - 756, 160, 16, '#1f2228');
+  if (o.eyes) { ell(cx - 18 + sway, y1 - 722, 6, 4, '#ffffff', 0, o.eyes); ell(cx + 18 + sway, y1 - 722, 6, 4, '#ffffff', 0, o.eyes); }
+  limb([[cx - 120, y1 - 540], [cx - 190, y1 - 470], [x0 + 10, y1 - 470]], 34, '#2b2f38');
   // the doors slide apart
   const half = (x1 - x0) / 2, gap = half * ease.inOut(open);
   for (const [dx, dir] of [[x0, -1], [x0 + half, 1]]) {
