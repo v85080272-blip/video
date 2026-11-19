@@ -152,6 +152,12 @@ def main():
         ok &= check(any(s['codec_type'] == 'audio' for s in pr['streams']), f'{lay}: есть звук')
         snap = os.path.join(d, f'clip_{lay}.jpg')
         subprocess.run(['ffmpeg', '-y', '-v', 'error', '-ss', '2.4', '-i', out, '-frames:v', '1', snap], check=True)
+    # the swear word (3rd made-up word, 1.70-2.00 s) is covered by the 1 kHz beep
+    pcm = subprocess.run(['ffmpeg', '-v', 'error', '-i', os.path.join(d, 'clip_split.mp4'), '-ac', '1', '-ar', '16000',
+                          '-f', 's16le', '-'], capture_output=True, check=True).stdout
+    x = np.frombuffer(pcm, '<i2').astype(float)[int(1.72 * 16000):int(1.98 * 16000)]
+    sp, fr = np.abs(np.fft.rfft(x)), np.fft.rfftfreq(len(x), 1 / 16000)
+    ok &= check(sp[(fr > 900) & (fr < 1100)].sum() / sp.sum() > 0.8, 'мат в звуке запикан')
     ass = open(os.path.join(d, 'work', 'clip_split.ass'), encoding='utf-8').read()
     ok &= check('Б***Ь' in ass and 'БЛЯТЬ' not in ass, 'мат в субтитрах замаскирован')
     print('\nфайлы:', d)

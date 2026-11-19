@@ -7,8 +7,9 @@ from common import FONT_NAME, log
 HALLUCINATIONS = re.compile(r'субтитр|dimatorzok|редактор|корректор|продолжение следует|подписывайтесь на канал|'
                             r'спасибо за просмотр|синецкая|егорова|amara\.org', re.I)
 
-MAT = re.compile(r'^(?:за|на|по|от|вы|у|при|до|раз|рас|недо|пере|съ|въ|подъ|объ|о)?'
-                 r'(?:ху[йеёяи]|пизд|бля|еба|ебн|еби|ебу|ёб|сук[аи]|суч|пид[оа]р|мудак|мудил|залуп|fuck|shit|bitch)',
+MAT = re.compile(r'^(?:за|на|по|от|вы|у|при|до|раз|рас|недо|пере|съ|въ|подъ|объ|о|а)?'
+                 r'(?:ху[йеёяи]|пизд|бля|еба|ебн|еби|ебу|ёб|сук[аи]|суч|пид[оа]р|мудак|мудил|залуп|шлюх|дроч|'
+                 r'г[ао]ндон|fuck|shit|bitch)',
                  re.I)
 
 _model = None
@@ -56,6 +57,24 @@ def _read_wav(path):
     with wave.open(path, 'rb') as w:
         x = np.frombuffer(w.readframes(w.getnframes()), dtype='<i2').astype(np.float32) / 32768.0
     return x
+
+
+def is_mat(word):
+    core = re.sub(r'[^\w]', '', word)
+    return len(core) >= 3 and bool(MAT.match(core))
+
+
+def bleeps(words, pad=0.04):
+    """Merged (start, end) spans of the swear words, for the beep."""
+    spans = []
+    for w in words:
+        if is_mat(w['word']):
+            a, b = max(0.0, w['start'] - pad), w['end'] + pad
+            if spans and a <= spans[-1][1]:
+                spans[-1] = (spans[-1][0], max(spans[-1][1], b))
+            else:
+                spans.append((a, b))
+    return spans
 
 
 def censor(word):

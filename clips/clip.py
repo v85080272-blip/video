@@ -62,7 +62,9 @@ def render_opts(p):
     p.add_argument('--no-subs', action='store_true', help='без субтитров')
     p.add_argument('--model', default='small', help='модель Whisper: tiny, base, small, medium, large-v3-turbo')
     p.add_argument('--speech', default='ru', help='язык речи для субтитров (ru, en, ... или auto)')
-    p.add_argument('--censor', action='store_true', help='маскировать мат в субтитрах (б**ть)')
+    p.add_argument('--censor', action='store_true',
+                   help='мат: звёздочки в субтитрах (б**ть) и писк в звуке поверх слова')
+    p.add_argument('--no-bleep', action='store_true', help='с --censor: не пикать в звуке, только звёздочки')
     p.add_argument('--title-secs', type=float, help='сколько секунд держать заголовок (по умолчанию весь ролик)')
     p.add_argument('--no-credit', action='store_true', help='не подписывать канал стримера')
     p.add_argument('--out', default='clips_out', help='куда класть ролики')
@@ -72,7 +74,7 @@ def ropts(a, title, credit, source_url=''):
     import layout as L
     return dict(layout=a.layout, cam=L.parse_box(a.cam) if a.cam else None, title=title, title_secs=a.title_secs,
                 credit='' if a.no_credit else credit, subtitles=not a.no_subs, model=a.model,
-                lang=None if a.speech == 'auto' else a.speech, mat=a.censor, zoom=a.zoom, game_x=a.game_x,
+                lang=None if a.speech == 'auto' else a.speech, mat=a.censor, bleep=not a.no_bleep, zoom=a.zoom, game_x=a.game_x,
                 source_url=source_url)
 
 
