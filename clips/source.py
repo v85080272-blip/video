@@ -81,8 +81,7 @@ class Source:
                 self.audio_offset = off
                 return have[0]
         if self.recording:
-            log('Стрим ещё идёт: качаю звук записи' + (f' за последние {self.last_hours:g} ч…' if start else
-                                                     ' с начала до текущего момента…'))
+            log('Качаю звук записи' + (f' за последние {self.last_hours:g} ч…' if start else '…'))
             segs = hls_list(self._format_url('Audio_Only/audio_only/ba/worst'))
             init = [x for x in segs[:1] if x[1] == 0]
             body = [x for x in segs if x[1] > 0 and x[0] + x[1] > start]
@@ -141,8 +140,9 @@ class Source:
 
     @property
     def recording(self):
-        """A Twitch VOD of a stream that is still live: yt-dlp would download it from the live edge."""
-        return bool(self.url and self.platform == 'twitch' and self.info.get('is_live'))
+        """A Twitch VOD: read straight from its HLS playlist. yt-dlp would download a VOD of a stream that is
+        still live from the live edge, and its --download-sections gives an empty file on fMP4 VODs."""
+        return bool(self.url and self.platform == 'twitch')
 
     def _format_url(self, fmt):
         self._urls = getattr(self, '_urls', {})
