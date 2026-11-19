@@ -9,7 +9,7 @@ from common import FONTS, hms, log, probe, run
 
 
 def render(src, start, dur, out, work, layout='auto', cam=None, title='', title_secs=None, credit='',
-           subtitles=True, model='small', lang=None, mat=False, zoom=1.0, game_x=0.5, source_url='', bleep=True):
+           subtitles=True, model='small', lang=None, mat=False, zoom=1.0, game_x=0.5, source_url='', bleep=True, trim=True):
     os.makedirs(work, exist_ok=True)
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     info = probe(src)
@@ -31,6 +31,14 @@ def render(src, start, dur, out, work, layout='auto', cam=None, title='', title_
              '-ar', '16000', wav])
         words = S.transcribe(wav, model, lang)
         os.remove(wav)
+        if words and trim:
+            # viewers swipe away in the first second: start right before the first word, end soon after the last
+            lead = max(0.0, words[0]['start'] - 0.3) if words[0]['start'] > 1.0 else 0.0
+            end = min(dur, words[-1]['end'] + 0.8)
+            if lead or end < dur - 0.5:
+                log(f'  обрезка: начало +{lead:.1f} с, длина {end - lead:.1f} с')
+                start, dur = start + lead, end - lead
+                words = [dict(w, start=w['start'] - lead, end=w['end'] - lead) for w in words]
     ass = S.build(words, dur, p, title, title_secs, credit, mat)
     with open(os.path.join(work, stem + '.ass'), 'w', encoding='utf-8') as f:
         f.write(ass)
