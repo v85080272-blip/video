@@ -289,3 +289,48 @@ export function clockCard(t, t0, cx, cy, k) {
   text('24 ЧАСА', 0, 30, 88, INK, { fam: FONTS.cond, shadow: false });
   g.restore();
 }
+
+// —— the house in section: where the gas goes and where you go. kind 'chlorine' (heavy: low, go up) or 'ammonia' (light:
+// high, go down); prog 0…1 draws the arrow and the tick ——
+export function chemCard(t, cx, cy, k, kind, prog = 1) {
+  if (k <= 0.01) return;
+  const heavy = kind === 'chlorine';
+  g.save(); g.setTransform(1, 0, 0, 1, cx, cy); g.scale(k, k); g.rotate(-0.02);
+  const w = 780, h = 640;
+  rrect(-w / 2 + 10, -h / 2 + 12, w, h, 30, INK); rrect(-w / 2, -h / 2, w, h, 30, '#1f2b3a');
+  // the house: the attic under the roof, the room, the cellar under the ground
+  const gy = 120;
+  rect(-w / 2 + 20, gy, w - 40, 6, '#8a6a44');
+  poly([[-190, -110], [0, -270], [190, -110]], '#6b4a33'); poly([[-150, -120], [0, -240], [150, -120]], '#3a4658');
+  rect(-170, -110, 340, 230, '#4a5a70'); rect(-150, -90, 300, 190, '#33404f');
+  rect(-150, gy + 10, 300, 130, '#2a2f38'); text('ПОГРЕБ', 0, gy + 90, 32, '#9aa6b6', { fam: FONTS.cond, shadow: false });
+  text('ЧЕРДАК', 0, -150, 30, '#c9d3e0', { fam: FONTS.cond, shadow: false });
+  // the gas
+  const c1 = heavy ? '#9cc23e' : '#cfe3f0', c2 = heavy ? '#c9dc6a' : '#eef6fb';
+  for (let i = 0; i < 14; i++) {
+    const x = -340 + i * 52 + 14 * Math.sin(t * 1.3 + i), y = heavy ? gy + 60 - 30 * hash(i) : -200 - 50 * hash(i);
+    ell(x, y + 6 * Math.sin(t * 2 + i), 46, 26, i % 2 ? c1 : c2, 0, 0.75);
+  }
+  if (heavy) for (let i = 0; i < 4; i++) ell(-110 + i * 70, gy + 100, 40, 22, c1, 0, 0.7);     // pooling in the cellar
+  text(heavy ? 'ХЛОР ТЯЖЕЛЕЕ ВОЗДУХА' : 'АММИАК ЛЕГЧЕ ВОЗДУХА', 0, h / 2 - 34, 40, heavy ? '#c9dc6a' : '#cfe3f0', { fam: FONTS.cond, shadow: false });
+  g.restore();
+  // the arrow and the tick (screen space: these helpers reset the transform): up to the attic for chlorine, down to the
+  // cellar for ammonia; the cross on the other end
+  const S = (x, y) => [cx + x * k, cy + y * k];
+  const from = S(230, heavy ? 60 : -150), to = S(230, heavy ? -170 : gy + 70);
+  if (prog > 0.01) arrow(from, [lerp(from[0], to[0], prog), lerp(from[1], to[1], prog)], 1, GREEN, 22 * k);
+  const ok = S(0, heavy ? -185 : gy + 60), no = S(0, heavy ? gy + 45 : -185);
+  if (prog > 0.6) tick(ok[0], ok[1], clamp((prog - 0.6) / 0.4) * k, 46);
+  redX(no[0], no[1], 74 * k, clamp(prog * 2));
+}
+// —— a glass of water, a spoon of soda, a rag: «ткань, смоченная раствором соды» ——
+export function sodaCard(t, cx, cy, k) {
+  if (k <= 0.01) return;
+  g.save(); g.setTransform(1, 0, 0, 1, cx, cy); g.scale(k, k); g.rotate(0.03);
+  rrect(-170 + 8, -180 + 10, 340, 360, 26, INK); rrect(-170, -180, 340, 360, 26, CREAM);
+  poly([[-120, -90], [-20, -90], [-34, 90], [-106, 90]], '#cfe6f5'); rect(-114, -40, 88, 126, '#9fd0ee', 0.8);
+  limb([[20, -110], [110, -20]], 12, '#9aa0a8'); ell(118, -12, 34, 22, '#9aa0a8'); ell(118, -18, 26, 14, '#ffffff');
+  rrect(0, 30, 130, 70, 12, '#e8eef2'); for (let i = 0; i < 4; i++) ell(20 + i * 30, 104, 5, 9, '#9fd0ee');
+  text('ВОДА + СОДА', 0, 160, 34, INK, { fam: FONTS.cond, shadow: false });
+  g.restore();
+}

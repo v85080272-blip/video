@@ -69,33 +69,24 @@ def score(M, dur):
     d = S['D'] = Sec(dur, gain=((c4, -2.0), (c5, -3.0)))
     for i, t in enumerate(grid(c4, M['desc0'], BEAT / 2)):
         d.dry.add(t, pizz(rng, pat[i % 8], 0.6), -6, -0.1)
-    for i, m in enumerate([83, 81, 79, 78, 76, 74]):
-        d.dry.add(M['desc0'] + (M['desc1'] - M['desc0']) * (i + 0.5) / 6, xylo(rng, m, 0.45), -11, 0.2 - i * 0.08)
-    d.wet.add(M['desc1'], saws(rng, [40, 47, 52], c5 - M['desc1'], attack=0.5, release=0.4, bright=600), -17, 0.0)
-    for i, t in enumerate(grid(M['desc1'] + 0.3, c5, BEAT)):
-        d.dry.add(t, pizz(rng, [40, 47][i % 2], 0.45), -9, -0.1)
-    for i, k in enumerate(('L3w13', 'L3w14', 'L3w15')):
-        d.dry.add(A[k], timp(rng, 40 - 2 * i, 0.7 - 0.12 * i), -6, 0.0)
+    d.dry.add(A['L3w4'], glock(rng, 83, 0.5, 1.2), -12, 0.2)          # the wet rag in place
 
     # E · step three, water and food: a lighter ostinato; a stab on the tap's cross; bells for the bottle, jars, fridge
     e = S['E'] = Sec(dur, gain=((c5, -2.0), (c6, -3.0)))
     for i, t in enumerate(grid(c5, c6, BEAT / 2)):
         e.dry.add(t, pizz(rng, [40, 52, 47, 52][i % 4], 0.55), -6, -0.1)
-    e.dry.add(A['L4w3'] + 0.1, brass(rng, [52, 53], 0.25, bright=1400), -8, 0.0)
-    for t, m in ((A['L4w5'] + 0.05, 83), (A['L4w10'], 86), (A['L4w12'] + 0.25, 88)):
-        e.dry.add(t, glock(rng, m, 0.5, 1.2), -12, 0.2)
+    for i, m in enumerate([74, 76, 78, 79, 81, 83]):                    # up: a rising xylophone, «поднимись… на чердак»
+        e.dry.add(M['desc0'] + (M['desc1'] - M['desc0']) * (i + 0.5) / 6, xylo(rng, m, 0.45), -11, 0.2 - i * 0.08)
+    e.dry.add(A['L4w5'] + 0.05, glock(rng, 88, 0.5, 1.2), -12, 0.2)
 
     # F · step four, the iodine: a darker ostinato, a stab on the cross; a hushed celesta for the tablets on a signal;
     # a bell on «щитовидку»
     f = S['F'] = Sec(dur, gain=((c6, -2.0), (c7, -3.0)))
     for i, t in enumerate(grid(c6, c7, BEAT / 2)):
         f.dry.add(t, pizz(rng, [40, 46, 40, 47][i % 4], 0.6), -6, -0.1)
-    f.dry.add(M['iodX'], brass(rng, [40, 46, 52], 0.4, bright=1800), -5, 0.0)
-    f.dry.add(M['iodX'], timp(rng, 40, 0.8), -5, 0.0)
-    f.wet.add(A['L5w7'], trem(rng, [76, 79], A['L5w16'] - A['L5w7'], grow=(0.3, 0.5), bright=2400), -20, 0.1)
+    f.wet.add(A['L5w1'], trem(rng, [76, 79], max(0.5, A['L5e'] - A['L5w1']), grow=(0.3, 0.5), bright=2400), -20, 0.1)
     for i, m in enumerate([76, 79, 83]):
-        f.dry.add(A['L5w7'] + 0.1 + i * 0.15, celesta(rng, m + 12, 0.4), -12, 0.2)
-    f.dry.add(A['L5w19'], glock(rng, 88, 0.55, 1.4), -11, 0.2)
+        f.dry.add(A['L5w5'] + 0.1 + i * 0.15, celesta(rng, m + 12, 0.4), -12, 0.2)
 
     # G · step five, the radio and a day: G major, a slow walking pizzicato, a celesta tune; the clock gets bells
     g = S['G'] = Sec(dur, gain=((c7, -3.0), (end0, -4.0)))
@@ -105,10 +96,12 @@ def score(M, dur):
     for i, (dt, m) in enumerate([(0.6, 79), (1.2, 83), (1.8, 81), (2.4, 79)]):
         g.dry.add(c7 + dt, celesta(rng, m + 12, 0.35), -14, 0.3 if i % 2 else -0.3)
     for i in range(4):
-        g.dry.add(A['L6w6'] + i * 0.3, glock(rng, [91, 88, 91, 88][i], 0.35, 0.8), -15, 0.1)
+        g.dry.add(A['L6w4'] + i * 0.3, glock(rng, [91, 88, 91, 88][i], 0.35, 0.8), -15, 0.1)
 
     # I · «Подписывайся…»: warm C with a celesta tune, then B7sus4 → B7 for the loop back into E minor
     end = S['I'] = Sec(dur, gain=((end0, -3.0), (dur, -6.0)))
+    end.dry.add(M['iodX'], brass(rng, [52, 59, 64], 0.4, bright=1800), -7, 0.0)     # the secret: «с аммиаком — наоборот»
+    end.dry.add(M['iodX'], timp(rng, 40, 0.7), -7, 0.0)
     mid = end0 + 0.55 * (dur - end0)
     end.wet.add(end0, saws(rng, [48, 55, 60, 64], mid - end0 + 0.3, attack=0.4, release=0.5, bright=1200), -14, 0.0)
     end.wet.add(mid, saws(rng, [47, 52, 54, 57], max(0.4, dur - mid - 0.6), attack=0.3, release=0.3, bright=1100), -15, 0.0)

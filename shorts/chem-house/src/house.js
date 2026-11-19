@@ -298,9 +298,9 @@ export function drawBoom(t, t0, x, y, k = 1, o = {}) {
     let r = (70 + 120 * v + 30 * Math.sin(u * 2 + i * 1.7)) * k * clamp(u / 0.9);
     if (v > 0.78) r *= 1 + (v - 0.78) * 3.5 * grow;
     const ox = (hash(i + 400) - 0.5) * r * 0.9, glow = (o.heat ?? Math.exp(-u * 0.5)) * (1 - v) * 0.8;
-    if (pass === 0) ell(cx + ox + 14 * k, cy + 16 * k, r, r * 0.78, '#2e2a35', 0, 0.95);
-    else if (pass === 1) ell(cx + ox, cy, r, r * 0.78, mix('#4c4754', '#b85a36', glow), 0, 1);
-    else ell(cx + ox - r * 0.22, cy - r * 0.24, r * 0.56, r * 0.42, mix('#6c6774', '#ffa65a', glow), 0, 0.9);
+    if (pass === 0) ell(cx + ox + 14 * k, cy + 16 * k, r, r * 0.78, '#3f4a22', 0, 0.95);
+    else if (pass === 1) ell(cx + ox, cy, r, r * 0.78, mix('#93a845', '#b85a36', glow * 0.6), 0, 1);
+    else ell(cx + ox - r * 0.22, cy - r * 0.24, r * 0.56, r * 0.42, mix('#c8d67a', '#ffa65a', glow * 0.6), 0, 0.9);
   }
   // the fireball: grows fast, cools from white to orange to smoke; the fire keeps burning at its foot
   for (let i = 0; i < 9; i++) {
@@ -424,4 +424,16 @@ export function drawFacade(t, o = {}) {
   for (let i = 1; i < 4; i++) rect(dx - dw / 2 + dw * i / 4 - 4, dt, 8, -dt, P.doorSh);
   ell(dx + dw / 2 - 30, dt * 0.48, 12, 12, '#d9b46a');
   rect(dx - dw / 2 - 60, -40, dw + 120, 40, P.floorHi); rect(dx - dw / 2 - 60, -40, dw + 120, 10, P.floorSh);
+}
+
+// a low yellow-green cloud of chlorine creeping along the ground, drifting with the wind (any layer, local units):
+// from x0 to x1, its bottom at yb, height h; k 0…1 how thick
+export function chemFog(t, x0, x1, yb, h, k = 1) {
+  if (k <= 0.01) return;
+  const n = Math.max(8, Math.round((x1 - x0) / 120));
+  for (let pass = 0; pass < 2; pass++) for (let i = 0; i < n; i++) {
+    const u = ((i / n - t * 0.03) % 1 + 1) % 1, x = lerp(x0, x1, u), r = h * (0.55 + 0.35 * hash(i + 77));
+    const y = yb - r * 0.55 - 10 * Math.sin(t * 0.8 + i);
+    ell(x, y, r * 1.6, r * 0.75, pass ? '#c9dc6a' : '#8fa63c', 0, (pass ? 0.22 : 0.3) * k);
+  }
 }

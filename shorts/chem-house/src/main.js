@@ -1,4 +1,4 @@
-// «Взрыв на станции, ты дома»: the whole short as pure functions of time t (seconds), so any frame or motion-blur
+// «Облако хлора, ты дома» (from «Взрыв на станции, ты дома»): the whole short as pure functions of time t (seconds), so any frame or motion-blur
 // sub-frame can be drawn in any order. Scene beats are anchored to the narrator's words (build/words.json from
 // tools/voice.py): another take moves the picture with it (STORYBOARD.md).
 import fs from 'node:fs';
@@ -17,8 +17,8 @@ const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build
 const SUBS = VOICE ? VOICE.lines.filter(l => l.id !== 'L0').flatMap(l => groupWords(l.words, Array.isArray(l.sub) ? l.sub : null)) : [];
 const LN = id => VOICE?.lines.find(l => l.id === id);
 // without a voice yet: [start, end, words] of each line, words spread evenly
-const FB = { L0: [0.12, 3.3, 10], L1: [3.65, 8.6, 15], L2: [9.0, 14.4, 14], L3: [14.8, 20.6, 16], L4: [21.0, 25.4, 13], L5: [25.8, 32.4, 20], L6: [32.8, 37.6, 14], L7: [38.05, 41.0, 10] };
-export const DUR = VOICE?.dur ?? 41.4;
+const FB = { L0: [0.12, 3.9, 14], L1: [4.25, 8.6, 13], L2: [9.0, 12.4, 9], L3: [12.8, 14.6, 5], L4: [15.0, 18.0, 9], L5: [18.4, 20.9, 7], L6: [21.3, 24.2, 9], L7: [24.6, 29.4, 14] };
+export const DUR = VOICE?.dur ?? 30.0;
 const A = {};
 for (const id of Object.keys(FB)) {
   const ws = LN(id)?.words, n = ws ? ws.length : FB[id][2];
@@ -28,19 +28,19 @@ for (const id of Object.keys(FB)) {
 // —— the shots ——
 const T = {
   cover: 0.3,                                    // the poster: the first frames
-  boom: A.L0w4 - 0.05,                           // «взорвалась»: the flash in the window
-  nope: A.L1w9,                                  // «Не надо»: the cross at the door
-  c2: A.L1w11 - 0.08,                            // «ветер несёт…»: outside, the plume and the dust
+  boom: A.L0w4 - 0.05,                           // «авария»: the flash and the cloud at the plant
+  nope: A.L1w6,                                  // «Нельзя»: the cross over the open cellar
+  c2: A.L1w7 - 0.08,                             // «хлор тяжелее воздуха…»: outside, the cloud flows along the ground
   c3: A.L2 - 0.05,                               // «Первое: закрой окна»: the window, close
   cd: A.L2w3 - 0.12,                             // «двери»: the door and its bolt
   cs: A.L2w5 - 0.12,                             // «заслонку печки»: the stove
   cf: A.L2w7 - 0.12,                             // «выключи вентиляцию»: the fan
-  cr: A.L2w9 - 0.1,                              // «Так пыль не затянет»: the whole room
-  c4: A.L3 - 0.05,                               // «Второе»: into the cellar
-  c5: A.L4 - 0.05,                               // «Третье»: water and jars
-  c6: A.L5 - 0.05,                               // «Четвёртое»: the iodine
-  c7: A.L6 - 0.05,                               // «Пятое»: the radio, a day
-  iodX: A.L5w3 - 0.05,                           // «йод»: the cross on the bottle at his mouth
+  cr: A.L2e + 0.05,                              // the whole room, shut
+  c4: A.L3 - 0.05,                               // «Второе: щели — мокрыми тряпками»: the window sill, a wet rag
+  c5: A.L4 - 0.05,                               // «Третье: поднимись повыше»: the house in section, up
+  c6: A.L5 - 0.05,                               // «Четвёртое: дыши через ткань»: the rag at his face
+  c7: A.L6 - 0.05,                               // «слушай радио»: the radio on the table
+  iodX: A.L7w2,                                  // «аммиаком»: the secret (the score's accent)
 };
 const PUT = { a: T.boom + 0.6, b: Math.max(T.boom + 1.0, A.L0w7 - 0.25) }, MUG_SILL = [Hs.WIN.x + 110, Hs.WIN.y + Hs.WIN.h / 2 + 22];
 export const CUTS = [T.cover, T.c2, T.c3, T.cd, T.cs, T.cf, T.cr, T.c4, T.c5, T.c6, T.c7];
@@ -91,13 +91,8 @@ function onFloor(t, o, x, y) {
   o.hip = [x, y - LEG - 12 * stepAt(t).up];
   return o;
 }
-const WALK_DOOR = { t0: A.L1w3 - 0.15, t1: A.L1w9 - 0.3, x0: Hs.WIN.x + 210, x1: Hs.DOOR.x - 190 };
-walk(WALK_DOOR.t0, WALK_DOOR.t1, WALK_DOOR.x0, WALK_DOOR.x1, FLOOR, 125, 'far');
-const DESC = { t0: A.L3w1 + 0.25, t1: A.L3w8 };                // down the ladder
-const WALK_JARS = { t0: A.L4 + 0.05, t1: A.L4w4 - 0.05, x0: 0, x1: 220 };
-walk(WALK_JARS.t0, WALK_JARS.t1, WALK_JARS.x0, WALK_JARS.x1, CFLOOR, 120, 'near');
-const WALK_CRATE = { t0: A.L5 - 0.1, t1: A.L5w1 + 0.05, x0: 220, x1: -120 };
-walk(WALK_CRATE.t0, WALK_CRATE.t1, WALK_CRATE.x0, WALK_CRATE.x1, CFLOOR, 130, 'near');
+const WALK_DOOR = { t0: 99, t1: 99, x0: Hs.WIN.x + 210, x1: Hs.WIN.x + 210 };   // (no walk to the door here)
+const DESC = { t0: A.L4w1, t1: A.L4w5 };                       // (the score's «up» run: «поднимись… на чердак»)
 
 // —— the hunter's acting ——
 const blinkAt = t => { const u = (t + 0.4) % 3.3; return u < 0.14 ? bump(u / 0.14) : 0; };
@@ -109,12 +104,7 @@ function swingArms(o, sw, k = 1) {
 }
 const shoulder = o => framesOf(o).T.p([-14, -192]);
 // the dose the meter shows (0 … 1) and its blinking lamp
-const dose = t => {
-  if (t < T.c2) return 0.1;
-  if (t < A.L3w1) return lerp(0.1, 0.85, seg(T.c2, A.L2, t));
-  if (t < A.L3w12) return lerp(0.85, 0.35, seg(A.L3w1, A.L3w8, t));
-  return lerp(0.35, 0.15, seg(A.L3w12, A.L3w15 + 0.3, t));
-};
+const dose = t => 0;
 const ledAt = t => { const r = 3 + 30 * dose(t); return ((t * r) % 1) < 0.35 ? 1 : 0; };
 // the fan: how far the blades have turned (they spin down after the switch)
 const FAN_OFF = A.L2w7 + 0.05;
@@ -122,158 +112,113 @@ Object.assign(MARKS, { fanOff: FAN_OFF, desc0: DESC.t0, desc1: DESC.t1 });
 const fanAngle = t => (t < FAN_OFF ? t * 9 : FAN_OFF * 9 + 3 * (1 - Math.exp(-(t - FAN_OFF) * 3)));
 // states of the room
 const winOpen = t => 1 - seg(A.L2w2 - 0.3, A.L2w2 + 0.05, t);
-const doorOpen = t => (t < WALK_DOOR.t1 - 0.05 ? 0 : t < T.cd ? 0.4 * seg(WALK_DOOR.t1 - 0.05, WALK_DOOR.t1 + 0.3, t) : 0.4 * (1 - seg(T.cd, T.cd + 0.12, t, ease.in)));
+const doorOpen = t => (t < T.cd ? 0.4 : 0.4 * (1 - seg(T.cd, T.cd + 0.12, t, ease.in)));
 const boltShut = t => seg(T.cd + 0.16, A.L2w3 + 0.3, t);
 const damper = t => seg(T.cs + 0.08, A.L2w6 + 0.1, t);
-const hatchOpen = t => seg(A.L3w1 - 0.1, A.L3w1 + 0.3, t);
+const hatchOpen = t => seg(A.L1w3 - 0.1, A.L1w4 + 0.1, t) * (1 - seg(A.L1w6 + 0.25, A.L1w6 + 0.55, t, ease.in));
 const radioOn = t => seg(A.L6w1 + 0.05, A.L6w1 + 0.3, t);
+const RAD = { x: Hs.TABLE.x - 40, y: Hs.TABLE.y, k: 0.7 };         // the radio on the table in the room
 
 export function hunterAt(t) {
-  // —— the opening and the first line: at the window with tea, then to the door with the phone ——
+  // —— the opening: at the window with tea; the flash at the plant; «и к дому…» — to us ——
   if (t < T.c2) {
-    const o = onFloor(t, base(t, { face: -1, lid: 0.55, look: [-0.7, -0.1], dosi: { led: 0, jump: 0 } }), t < WALK_DOOR.t0 ? WALK_DOOR.x0 : WALK_DOOR.x1, FLOOR);
+    const o = onFloor(t, base(t, { face: -1, lid: 0.55, look: [-0.7, -0.1] }), Hs.HATCH.x0 - 90, FLOOR);
     const sh = shoulder(o);
     o.prop = { kind: 'mug', p: [sh[0] - 46, sh[1] + 10 - 30 * bump(seg(0.6, 1.6, t))] };
     o.hands = { near: { p: [sh[0] - 50, sh[1] + 34 - 30 * bump(seg(0.6, 1.6, t))], shape: 'grip' } };
-    if (t > T.boom) {                                          // the flash: he jumps, tea flies, he stares
+    if (t > T.boom) {
       const k = sp(t, T.boom, 2.4, 6);
       o.hatJump = 40 * bump((t - T.boom) / 0.35); o.pop = clamp(k); o.brow = clamp(k); o.mouth = 0.6 * clamp(k); o.lid = 0.1; o.look = [-0.8, -0.3];
       o.lean = -0.12 * clamp(k);
       o.prop.p = [o.prop.p[0] + 10 * bump((t - T.boom) / 0.3), o.prop.p[1] - 30 * bump((t - T.boom) / 0.3)];
       o.prop.spill = t - T.boom;
     }
-    if (t > PUT.a) {                                           // the mug goes on the sill
+    if (t > PUT.a) {
       const k = seg(PUT.a, PUT.b, t), m = o.prop.p;
       o.prop.p = [lerp(m[0], MUG_SILL[0], k), lerp(m[1], MUG_SILL[1], k) - 50 * bump(k)];
       o.hands = { near: { p: [o.prop.p[0] - 4, o.prop.p[1] + 24], shape: 'grip' } }; o.lean = 0.15 * bump(k);
       if (t > PUT.b) { o.prop = null; o.hands = {}; }
     }
-    if (t > A.L0w7 - 0.1) {                                    // «а ты дома?»: to us, hands up
-      const k = sp(t, A.L0w7 - 0.1, 2.4, 7);
+    if (t > A.L0w8 - 0.1) {                                    // «и к дому ползёт облако хлора?»: to us, hands up
+      const k = sp(t, A.L0w8 - 0.1, 2.4, 7);
       o.face = 1; o.look = [0.7, 0]; o.mouth = 0.45; o.brow = 0.8; o.prop = null;
       o.hands = { near: { p: [o.hip[0] + 40 + 40 * k, o.hip[1] - 60 - 110 * k], shape: 'open' }, far: { p: [o.hip[0] - 30 - 30 * k, o.hip[1] - 70 - 110 * k], shape: 'open' } };
     }
-    // «Первая мысль…»: the mug goes on the sill, out comes the phone, off to the door
+    // «Первая мысль — спрятаться в погреб»: he bends to the hatch and lifts it; «Нельзя» — the cross, he drops it
     if (t > A.L1w0) {
-      o.prop = null; o.face = 1; o.brow = 0.6; o.pop = 0.3; o.mouth = 0.25; o.look = [0.6, -0.1];
-      const F1 = framesOf(o), s1 = F1.T.p([-14, -192]);
-      const sw = stepAt(t).sw;
-      o.hands = Math.abs(sw) > 0 ? { ...swingArms(o, sw, 0.6) } : {};
-      if (t > A.L1w3 - 0.3) { o.hands.far = { p: [s1[0] + 90, s1[1] - 40], shape: 'grip' }; o.prop = { kind: 'phone', lit: seg(A.L1w5 - 0.2, A.L1w5, t) }; o.lean = 0.12; }
-      if (t > WALK_DOOR.t1 - 0.15) { o.hands.near = { p: Hs.drawDoorInfo(doorOpen(t), 0).handle, shape: 'grip' }; }
-      if (t > T.nope) {                                        // the cross: he freezes, then looks at us, caught out
-        const k = sp(t, T.nope, 2.4, 7); o.pop = clamp(k); o.brow = 0.9; o.mouth = 0.1; o.hatJump = 20 * bump((t - T.nope) / 0.3);
-        if (t > A.L1w10) { o.look = [0.9, 0.1]; o.brow = -0.2; o.mouth = 0.2; o.headTilt = -0.12; }
-      }
+      o.prop = null; o.face = 1; o.brow = 0.6; o.pop = 0.3; o.mouth = 0.25; o.look = [0.6, 0.4]; o.hands = {};
+      const u = seg(A.L1w3 - 0.3, A.L1w3 + 0.1, t) * (1 - seg(A.L1w6 + 0.2, A.L1w6 + 0.5, t));
+      o.lean = 0.5 * u;
+      const L = Hs.HATCH.x1 - Hs.HATCH.x0, ang = -hatchOpen(t) * 1.65, lid = [Hs.HATCH.x0 + Math.cos(ang) * (L - 40), Math.sin(ang) * (L - 40)];
+      if (u > 0.05) o.hands = { near: { p: lid, shape: 'grip' } };
+      if (t > T.nope) { const k = sp(t, T.nope, 2.4, 7); o.pop = clamp(k); o.brow = 0.9; o.mouth = 0.1; o.hatJump = 20 * bump((t - T.nope) / 0.3); o.look = [0.9, 0.1]; }
     }
     return { o, where: 'room' };
   }
   if (t < T.c3) return { o: null, where: 'none' };
   // —— step 1: the close-ups; he is wherever the thing to shut is ——
   if (t < T.c4) {
-    const o = base(t, { brow: -0.5, look: [-0.6, 0], mouth: 0.15, dosi: { led: ledAt(t), jump: 0 } });
-    if (t < T.cd) {                                            // the window: both leaves, the near hand on the right one
+    const o = base(t, { brow: -0.5, look: [-0.6, 0], mouth: 0.15 });
+    if (t < T.cd) {
       onFloor(t, o, Hs.WIN.x + 230, FLOOR); o.face = -1; o.lean = 0.2;
       const op = winOpen(t), lw = (Hs.WIN.w / 2) * Math.cos(op * 1.35), ex = Hs.WIN.x + Hs.WIN.w / 2 - lw;
       o.hands = { near: { p: [ex, Hs.WIN.y + 10], shape: 'open' }, far: { p: [ex - 20, Hs.WIN.y - 40], shape: 'open' } };
-    } else if (t < T.cs) {                                     // the door: slam, bolt
+    } else if (t < T.cs) {
       onFloor(t, o, Hs.DOOR.x - 240, FLOOR); o.face = 1; o.lean = 0.15; o.look = [0.6, 0];
       const d = Hs.drawDoorInfo(doorOpen(t), boltShut(t));
       o.hands = { near: { p: t < T.cd + 0.15 ? d.handle : d.bolt, shape: 'grip' } };
-    } else if (t < T.cf) {                                     // the stove: the damper over the mouth
+    } else if (t < T.cf) {
       onFloor(t, o, Hs.STOVE.x + 300, FLOOR); o.face = -1; o.lean = 0.3; o.look = [-0.6, 0.4];
       const h = Hs.damperAt(damper(t)).handle;
       o.hands = { near: { p: [h[0] + 10, h[1]], shape: 'grip' }, far: { p: [h[0] + 40, h[1] - 10], shape: 'grip' } };
-    } else if (t < T.cr) {                                     // the fan: flick the switch
+    } else if (t < T.cr) {
       onFloor(t, o, Hs.SWITCH[0] - 130, FLOOR); o.face = 1; o.look = [0.5, -0.4];
       const k = seg(T.cf, FAN_OFF, t);
       o.hands = { near: { p: [lerp(Hs.SWITCH[0] - 40, Hs.SWITCH[0], k), lerp(Hs.SWITCH[1] + 40, Hs.SWITCH[1] - 6, k)], shape: 'point' } };
       if (t > FAN_OFF + 0.4) o.look = [-0.2, -0.8];
-    } else {                                                   // the room: hands on hips, pleased
+    } else {
       onFloor(t, o, 40, FLOOR); o.face = 1; o.look = [0.6, 0]; o.brow = 0.4; o.mouth = 0.2;
-      const sh = shoulder(o);
       o.hands = { near: { p: [o.hip[0] + 40, o.hip[1] - 10], shape: 'fist' }, far: { p: [o.hip[0] - 30, o.hip[1] - 20], shape: 'fist' } };
     }
     return { o, where: 'room' };
   }
-  // —— step 2: the hatch, down the ladder ——
+  // —— step 2: a wet rag pressed into the gap under the window ——
   if (t < T.c5) {
-    const o = base(t, { face: 1, look: [0.6, 0.4], brow: -0.3, dosi: { led: ledAt(t), jump: 0 } });
-    if (t < DESC.t0) {
-      onFloor(t, o, Hs.HATCH.x0 - 90, FLOOR);
-      const u = seg(A.L3w1 - 0.3, A.L3w1 + 0.1, t) * (1 - seg(A.L3w1 + 0.2, DESC.t0, t));
-      o.lean = 0.5 * u;
-      const L = Hs.HATCH.x1 - Hs.HATCH.x0, a = -hatchOpen(t) * 1.65, lid = [Hs.HATCH.x0 + Math.cos(a) * (L - 40), Math.sin(a) * (L - 40)];
-      o.hands = { near: { p: u > 0.05 ? lid : [o.hip[0] + 30, o.hip[1] + 20], shape: 'grip' } };
-      return { o, where: 'room' };
-    }
-    if (t < DESC.t1 + 0.35) {                                  // on the ladder, facing it, stepping down rung by rung
-      const u = seg(DESC.t0, DESC.t1, t, u => u), y0 = -LEG, y1 = CFLOOR - LEG;
-      const hy = lerp(y0, y1, u), footY = hy + LEG - 6, lx = Hs.ladderX(footY);
-      o.hip = [lx - 90, hy]; o.lean = -0.05; o.look = [0.3, 0.8];
-      const rung = y => Hs.RUNGS.reduce((b, r) => (Math.abs(r - y) < Math.abs(b - y) ? r : b), Hs.RUNGS[0]);
-      const ph = (u * 6) % 1, ry = Math.min(CFLOOR, rung(footY)), ry2 = Math.min(CFLOOR, rung(footY - 90));
-      o.feet = { near: [Hs.ladderX(ry) - 40, ry], far: [Hs.ladderX(ry2) - 40, ry2 - 20 * bump(ph)] };
-      if (t >= DESC.t1) { o.feet = { near: [lx - 100, CFLOOR], far: [lx - 70, CFLOOR] }; o.hip = [lx - 90, CFLOOR - LEG]; }
-      const hr = hy - 200;
-      o.hands = { near: { p: [Hs.ladderX(hr + 40) - 40, hr + 40], shape: 'grip' }, far: { p: [Hs.ladderX(hr - 10) - 30, hr - 10], shape: 'grip' } };
-      if (t >= DESC.t1) o.hands = {};
-      return { o, where: 'cellar' };
-    }
-    onFloor(t, o, Hs.ladderX(CFLOOR) - 90, CFLOOR);            // in the cellar, looking up at the floor over his head
-    o.face = -1; o.look = [0.3, -0.9]; o.brow = 0.3; o.mouth = 0.1;
-    if (t > A.L3w12) { o.face = 1; o.look = [0.7, -0.2]; o.brow = 0.5; }
-    return { o, where: 'cellar' };
+    const o = onFloor(t, base(t, { face: -1, brow: -0.3, look: [-0.6, 0.5], mouth: 0.1 }), Hs.WIN.x + 230, FLOOR);
+    const k = seg(A.L3w1 - 0.2, A.L3w2 + 0.2, t), sill = [Hs.WIN.x + Hs.WIN.w / 2 - 60, Hs.WIN.y + Hs.WIN.h / 2 + 10];
+    o.lean = 0.35 * k;
+    o.hands = { near: { p: [lerp(o.hip[0] - 60, sill[0], k), lerp(o.hip[1] - 40, sill[1], k)], shape: 'open' }, far: { p: [lerp(o.hip[0] - 20, sill[0] - 90, k), lerp(o.hip[1] - 30, sill[1] + 4, k)], shape: 'open' } };
+    return { o, where: 'room' };
   }
-  // —— step 3: water from bottles, food from jars ——
+  // —— step 3: up — he looks up to the ceiling (the house in section on the card) ——
   if (t < T.c6) {
-    const o = onFloor(t, base(t, { face: 1, look: [0.6, 0.2], dosi: { led: 0, jump: 0 } }), t < WALK_JARS.t0 ? WALK_JARS.x0 : WALK_JARS.x1, CFLOOR);
-    const sw = stepAt(t).sw;
-    if (Math.abs(sw) > 0) { o.lean = 0.12; o.hands = swingArms(o, sw, 0.8); }
-    const grab = seg(A.L4w4 - 0.15, A.L4w5 + 0.1, t);
-    if (t > A.L4w4 - 0.15) {
-      const sh = shoulder(o), bx = lerp(330, sh[0] + 70, grab), by = lerp(CFLOOR - 60, sh[1] + 10, grab);
-      o.hands = { near: { p: [bx - 10, by], shape: 'grip' } }; o.prop = { kind: 'bottle', p: [bx, by + 60] };
-      o.lean = 0.3 * bump(grab); o.look = [0.6, 0.5 - grab];
-    }
-    if (t > A.L4w9 - 0.2) { o.look = [0.5, -0.8]; o.brow = 0.5; o.mouth = 0.25; }
-    return { o, where: 'cellar' };
+    const o = onFloor(t, base(t, { face: 1, look: [0.2, -0.9], brow: 0.5, mouth: 0.15 }), 40, FLOOR);
+    const sh = shoulder(o), k = sp(t, A.L4w1 - 0.1, 2.4, 7);
+    o.hands = { near: { p: [sh[0] + 30, sh[1] - 120 * clamp(k)], shape: 'point' } };
+    return { o, where: 'room' };
   }
-  // —— step 4: the iodine: he reaches for it, the cross, he puts it back ——
+  // —— step 4: the rag soaked in soda water at his mouth and nose ——
   if (t < T.c7) {
-    const o = onFloor(t, base(t, { face: -1, look: [-0.6, 0.3], dosi: { led: 0, jump: 0 } }), t < WALK_CRATE.t0 ? WALK_CRATE.x0 : WALK_CRATE.x1, CFLOOR);
-    const sw = stepAt(t).sw;
-    if (Math.abs(sw) > 0) { o.lean = 0.12; o.hands = swingArms(o, sw, 0.8); }
-    const BOT = [IOD.x, IOD.y], up = seg(A.L5w1 + 0.05, A.L5w3, t) * (1 - seg(A.L5w6 - 0.1, A.L5w7, t));
-    if (t > A.L5w1 - 0.1) {
-      const sh = shoulder(o), mouth = framesOf(o).H.p([-60, 30]);
-      const p = t < A.L5w1 + 0.05 ? BOT : [lerp(BOT[0], mouth[0] - 10, up), lerp(BOT[1] - 30, mouth[1] + 30, up)];
-      o.hands = { near: { p: [p[0] + 14, p[1] - 30], shape: 'grip' } };
-      if (t < A.L5w7) o.prop = { kind: 'iodine', p, a: -0.9 * up };
-      o.look = [-0.7, 0.2 - 0.4 * up]; o.mouth = 0.3 * up;
-    }
-    if (t > T.iodX) { const k = sp(t, T.iodX, 2.4, 7); o.pop = clamp(k) * (1 - seg(A.L5w6, A.L5w7, t)); o.brow = 0.9; o.hatJump = 18 * bump((t - T.iodX) / 0.3); }
-    if (t > A.L5w7) { o.look = [0.6, -0.1]; o.brow = 0.3; o.pop = 0; o.mouth = 0.1; o.face = 1; o.hands = {}; }
-    return { o, where: 'cellar' };
+    const o = onFloor(t, base(t, { face: 1, look: [0.6, 0], brow: 0.3 }), -60, FLOOR);
+    const mouth = framesOf(o).H.p([-60, 30]), sh = shoulder(o), up = seg(A.L5w1 - 0.2, A.L5w2, t);
+    const p = [lerp(sh[0] + 40, mouth[0] + 30, up), lerp(sh[1] + 60, mouth[1] + 10, up)];
+    o.hands = { near: { p: [p[0] - 10, p[1] + 20], shape: 'grip' }, far: { p: [p[0] + 30, p[1] + 26], shape: 'grip' } };
+    o.prop = { kind: 'rag', p }; o.mouth = 0; o.lid = 0.3 * up;
+    return { o, where: 'room' };
   }
-  // —— step 5: the radio on, sit down for a day; the end: thumbs up ——
-  const o = base(t, { face: -1, look: [-0.6, 0.4], dosi: { led: 0, jump: 0 } });
-  const sit = seg(A.L6w4 - 0.2, A.L6w5 + 0.1, t);
-  const x = lerp(-120, Hs.STOOL.x + 6, sit), seatY = CFLOOR - Hs.STOOL.h;
-  o.hip = [x, lerp(CFLOOR - LEG, seatY - 8, sit) - 30 * bump(sit)];
-  o.feet = { near: [lerp(x - 12, x - 64, sit), CFLOOR], far: [lerp(x + 16, x - 30, sit), CFLOOR] };
-  const knob = [RADIO.x + 52 * RADIO.k, RADIO.y - 36 * RADIO.k];
-  if (t < A.L6w4) {
-    const k = seg(A.L6w1 - 0.35, A.L6w1, t) * (1 - seg(A.L6w2 + 0.1, A.L6w4, t));
-    if (k > 0.01) o.hands = { near: { p: [lerp(o.hip[0] - 40, knob[0] + 10, k), lerp(o.hip[1] + 20, knob[1], k)], shape: 'grip' } };
-    o.lean = 0.25 * k; o.look = [-0.7, 0.5];
-  } else { o.look = [-0.4, 0]; o.brow = 0.2; o.lid = 0.4; }
-  if (t > A.L7 - 0.1) {
+  // —— step 5: the radio on the table; the end: thumbs up ——
+  const o = onFloor(t, base(t, { face: 1, look: [0.6, 0.4] }), RAD.x - 170, FLOOR);
+  const knob = [RAD.x + 52 * RAD.k, RAD.y - 36 * RAD.k];
+  if (t < A.L7) {
+    const k = seg(A.L6w1 - 0.35, A.L6w1, t) * (1 - seg(A.L6w3 + 0.1, A.L6w5, t));
+    if (k > 0.01) o.hands = { near: { p: [lerp(o.hip[0] + 40, knob[0] - 10, k), lerp(o.hip[1] + 20, knob[1], k)], shape: 'grip' } };
+    o.lean = 0.25 * k; if (t > A.L6w5) { o.look = [0.4, -0.1]; o.brow = 0.2; o.lid = 0.4; }
+  } else {
     const u = sp(t, A.L7, 2.2, 7), F1 = framesOf(o), sh = F1.T.p([-14, -192]);
-    o.face = 1; o.look = [0.6, 0.1]; o.brow = 0.5; o.mouth = 0.3; o.lid = 0.2;
+    o.look = [0.6, 0.1]; o.brow = 0.5; o.mouth = 0.3; o.lid = 0.2;
     o.hands = { near: { p: [sh[0] + 50 + 32 * clamp(u), sh[1] + 40 - 50 * clamp(u)], shape: 'thumb', ang: -Math.PI / 2 }, far: { p: [o.hip[0] - 20, o.hip[1] - 10], shape: 'fist' } };
   }
-  return { o, where: 'cellar' };
+  return { o, where: 'room' };
 }
 // things on the crate in the cellar
 const RADIO = { x: Hs.CRATE.x + 70, y: CFLOOR - Hs.CRATE.h, k: 0.62 };
@@ -316,10 +261,10 @@ shot(T.cd, 'in', [IK(T.cd, Hs.DOOR.x - 120, -320, 1.85), IK(T.cs, Hs.DOOR.x - 11
 shot(T.cs, 'in', [IK(T.cs, Hs.STOVE.x + 160, -300, 1.75), IK(T.cf, Hs.STOVE.x + 150, -300, 1.85)]);
 shot(T.cf, 'in', [IK(T.cf, Hs.FAN.x + 40, -440, 1.75), IK(T.cr, Hs.FAN.x + 40, -440, 1.85)]);
 shot(T.cr, 'in', [IK(T.cr, 0, -360, 0.6), IK(T.c4, 0, -340, 0.64)]);
-shot(T.c4, 'in', [IK(T.c4, -20, -60, 1.0), IK(A.L3w1 + 0.2, 0, -20, 1.05), IK(DESC.t1, -10, 330, 1.1), IK(A.L3w12, -20, 330, 1.05), IK(T.c5, -20, 340, 1.08)]);
-shot(T.c5, 'in', [IK(T.c5, 140, 400, 1.45), IK(A.L4w5, 270, 420, 1.55), IK(A.L4w9, 330, 340, 1.5), IK(T.c6, 330, 350, 1.5)]);
-shot(T.c6, 'in', [IK(T.c6, -60, 420, 1.55), IK(A.L5w2, -150, 400, 1.7), IK(A.L5w7, -160, 400, 1.6), IK(T.c7, -160, 400, 1.6)]);
-shot(T.c7, 'in', [IK(T.c7, -190, 430, 1.6), IK(A.L6w4, -170, 440, 1.55), IK(A.L7, -160, 430, 1.55), IK(A.L7w5, -60, 120, 0.82), IK(DUR, 0, -260, 0.5)]);
+shot(T.c4, 'in', [IK(T.c4, Hs.WIN.x + 120, Hs.WIN.y + 130, 1.8), IK(T.c5, Hs.WIN.x + 110, Hs.WIN.y + 140, 1.95)]);
+shot(T.c5, 'in', [IK(T.c5, 0, -330, 0.62), IK(T.c6, 0, -320, 0.66)]);
+shot(T.c6, 'in', [IK(T.c6, -40, -300, 1.55), IK(T.c7, -40, -310, 1.7)]);
+shot(T.c7, 'in', [IK(T.c7, RAD.x - 110, -290, 1.45), IK(A.L7, RAD.x - 120, -290, 1.5), IK(A.L7w6, 0, -340, 0.66), IK(DUR, 0, -260, 0.5)]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
@@ -349,7 +294,7 @@ function farland(t, cam, fl) {
   view(cam, F.FAR); g.translate(fl.off[0], fl.off[1]); g.scale(fl.s, fl.s);
   Hs.farSun(-1100, -560);
   Hs.drawFarland(t, T.boom, { k: 0.5, ...fl.boom });
-  Hs.dust(t, T.boom + 2.2, -1800, 1400, -1200, -40, 50, 1.8, 420);
+  Hs.chemFog(t, -2600, 1400, 20, 160, seg(T.boom + 0.8, T.boom + 3.0, t));
 }
 
 // —— props drawn with the hunter ——
@@ -363,6 +308,10 @@ function hunterDraw(t, o) {
   if (p?.kind === 'phone') o.propFar = hf => Hs.phone(hf.p([30, 0])[0], hf.p([30, 0])[1] - 30, 0.1, 1.2, p.lit);
   if (p?.kind === 'bottle') o.propNear = () => Hs.waterBottle(p.p[0], p.p[1], 0.9);
   if (p?.kind === 'iodine') o.propNear = () => Hs.iodineBottle(p.p[0], p.p[1], p.a, 1.3);
+  if (p?.kind === 'rag') o.propNear = () => {                      // a wet rag: pale cloth, darker wet patches, drips
+    rrect(p.p[0] - 50, p.p[1] - 34, 100, 68, 16, '#dfe9f0'); ell(p.p[0] - 12, p.p[1] + 4, 30, 18, '#b9cdda', 0, 0.8);
+    for (let i = 0; i < 3; i++) { const ph = ((t * 1.5 + i / 3) % 1); ell(p.p[0] - 30 + i * 30, p.p[1] + 40 + ph * 60, 4, 7, '#9fd0ee', 0, 1 - ph); }
+  };
   return drawHunter(o);
 }
 
@@ -377,7 +326,7 @@ export function frame(t) {
   overlays(t, cam, hn);
   stepHeaders(t);
   if (t < A.L1 + 0.1) questionTitle(t);
-  O.endCard(t, A.L7 - 0.05, 0);
+  O.endCard(t, A.L7w13 - 0.05, 0);
   subtitles(t, SUBS);
   // the flash of the explosion
   if (t > T.boom && t < T.boom + 1.2) { g.setTransform(1, 0, 0, 1, 0, 0); rect(0, 0, W, H, '#fff8e0', 0.9 * Math.exp(-(t - T.boom) * 5)); }
@@ -388,7 +337,10 @@ function insideFrame(t, cam, hn) {
   Hs.drawGround(t);
   Hs.drawRoomBack(t);
   Hs.drawWindow(t, { open: winOpen(t) });
-  if (t > A.L2w2) Hs.dustAtWindow(t, A.L2w2 + 0.1, true, 1);
+  if (t > A.L3w3) {                                            // the wet rag along the sill
+    const sx = Hs.WIN.x - Hs.WIN.w / 2 + 20, sy = Hs.WIN.y + Hs.WIN.h / 2 + 4, k = seg(A.L3w3, A.L3w4 + 0.2, t);
+    rrect(sx, sy - 10, (Hs.WIN.w - 40) * k, 26, 10, '#dfe9f0'); for (let i = 0; i < 5; i++) ell(sx + 30 + i * 52, sy + 8, 14, 8, '#b9cdda', 0, 0.8 * k);
+  }
   Hs.drawStove(t, { shut: damper(t) });
   Hs.drawFan(t, { spinAngle: fanAngle(t), on: t < FAN_OFF ? 1 : 0 });
   Hs.drawDoor(t, { open: doorOpen(t), bolt: boltShut(t) });
@@ -398,7 +350,7 @@ function insideFrame(t, cam, hn) {
   // on the crate: the first-aid kit, the iodine (unless in his hand), the radio
   Hs.firstAidKit(KIT.x, KIT.y, KIT.k, 0);
   if (!(hn.o?.prop?.kind === 'iodine')) Hs.iodineBottle(IOD.x, IOD.y, 0, 1.3);
-  Hs.radio(RADIO.x, RADIO.y, RADIO.k, radioOn(t), t);
+  Hs.radio(RAD.x, RAD.y, RAD.k, radioOn(t), t);
   Hs.drawLadder(t);
   if (hn.o) hunterDraw(t, hn.o);
   Hs.drawFloor(t, { hatch: hatchOpen(t) });
@@ -408,7 +360,7 @@ function outsideFrame(t, cam) {
   view(cam, 1);
   Hs.drawFacade(t, { light: 0.3, open: winOpen(t) });
   Hs.wind(t, -2000, 2000, -2400, 0, 20, 2.4);
-  Hs.dust(t, T.c2 - 0.6, -2000, 2000, -2600, 120, 70, 2.4, 1000);
+  Hs.chemFog(t, -2400, 2400, 40, 420, 1);
 }
 
 function overlays(t, cam, hn) {
@@ -417,11 +369,8 @@ function overlays(t, cam, hn) {
   scr();
   // «Не надо»: the cross on him at the door
   if (t >= T.nope - 0.05 && t < T.c2) { const F0 = framesOf(hn.o), b = S2(F0.T.p([0, -150])); O.redX(b[0], b[1], 110, sp(t, T.nope + 0.03, 2.6, 8)); }
-  // the dose from the wind outside to the cellar
-  if (t >= T.c2 + 0.1 && t < A.L3e + 0.5) {
-    const k = sp(t, T.c2 + 0.1, 2.4, 7) * (1 - seg(A.L3e + 0.1, A.L3e + 0.5, t, ease.in));
-    O.doseHud(t, 880, 520, k, dose(t), ledAt(t));
-  }
+  // «хлор тяжелее воздуха и стекает вниз»: an arrow down along the cloud outside
+  if (t >= T.c2 + 0.1 && t < T.c3) { const k = sp(t, A.L1w11 - 0.1, 2.4, 7); O.arrow([880, 560], [880, 980], clamp(k), '#e53935', 26); }
   // step 1: a tick at each thing as it shuts; in the room, all four
   if (t >= T.c3 && t < T.c4) {
     const items = [[Hs.WIN.x + Hs.WIN.w / 2 + 60, Hs.WIN.y - Hs.WIN.h / 2, A.L2w2 + 0.05], [Hs.DOOR.x + 40, Hs.DOOR.top + 120, A.L2w3 + 0.32],
@@ -429,46 +378,26 @@ function overlays(t, cam, hn) {
     const out = 1 - seg(T.c4 - 0.15, T.c4, t);
     for (const [x, y, t0] of items) { const p = S2([x, y]); O.tick(p[0], p[1], sp(t, t0, 2.6, 8) * out, t >= T.cr ? 46 : 60); }
   }
-  // step 2: walls between you and the dust
-  if (t >= T.c4 && t < T.c5) {
-    const k = sp(t, A.L3w12 - 0.1, 2.4, 7) * (1 - seg(A.L3e + 0.05, A.L3e + 0.35, t, ease.in));
-    O.shieldCard(t, 540, 760, k, seg(A.L3w13 - 0.1, A.L3w15 + 0.2, t, u => u));
-  }
-  // step 3: the tap no, bottles yes, jars yes, the fridge yes
-  if (t >= T.c5 && t < T.c6) {
-    const out = 1 - seg(T.c6 - 0.15, T.c6, t);
-    const kt = sp(t, A.L4w3 - 0.1, 2.4, 7) * (1 - seg(A.L4w5 + 0.3, A.L4w5 + 0.6, t, ease.in));
-    O.tapInset(t, 250, 600, 150, kt); O.redX(250, 600, 80, sp(t, A.L4w3 + 0.1, 2.6, 8) * (1 - seg(A.L4w5 + 0.3, A.L4w5 + 0.6, t)));
-    const pb = S2([400, CFLOOR - 200]); O.tick(pb[0], pb[1], sp(t, A.L4w5 + 0.05, 2.6, 8) * out, 56);
-    for (const s of Hs.SHELVES) { const p = S2([s.x1 + 10, s.y - 60]); O.tick(p[0], p[1], sp(t, A.L4w10 + (s.y > 300 ? 0.12 : 0), 2.6, 8) * out, 50); }
-    const kf = sp(t, A.L4w12 - 0.1, 2.4, 7) * out;
-    O.fridgeInset(t, 250, 600, 150, kf); O.tick(340, 690, sp(t, A.L4w12 + 0.25, 2.6, 8) * out, 56);
-  }
-  // step 4: the cross on the iodine; the tablets only on a signal; they guard only the thyroid
-  if (t >= T.c6 && t < T.c7) {
-    if (hn.o?.prop?.kind === 'iodine') { const p = S2(hn.o.prop.p); O.redX(p[0], p[1] - 40, 90, sp(t, T.iodX, 2.6, 8) * (1 - seg(A.L5w6, A.L5w7, t))); }
-    const kp = sp(t, A.L5w7 - 0.1, 2.4, 7) * (1 - seg(A.L5w16 - 0.25, A.L5w16, t, ease.in));
-    O.pillsCard(t, 540, 720, kp);
-    const kth = sp(t, A.L5w16 - 0.1, 2.4, 7) * (1 - seg(A.L5e + 0.05, A.L5e + 0.35, t, ease.in));
-    O.thyroidInset(t, 540, 720, 220, kth);
-  }
-  // step 5: a whole day
-  if (t >= T.c7 && t < A.L7) {
-    const k = sp(t, A.L6w6 - 0.1, 2.4, 7) * (1 - seg(A.L6e + 0.05, A.L6e + 0.35, t, ease.in));
-    O.clockCard(t, A.L6w6, 290, 640, k);
-  }
+  // step 2: the wet rag along the sill — a tick
+  if (t >= T.c4 && t < T.c5) O.tick(760, 760, sp(t, A.L3w4 - 0.05, 2.6, 8) * (1 - seg(T.c5 - 0.15, T.c5, t)), 60);
+  // step 3: the house in section — chlorine low, you up; the cellar crossed
+  if (t >= T.c5 && t < T.c6) O.chemCard(t, 540, 700, sp(t, T.c5 + 0.05, 2.4, 7) * (1 - seg(T.c6 - 0.2, T.c6, t, ease.in)), 'chlorine', seg(A.L4w1 - 0.1, A.L4w5, t));
+  // step 4: a glass of water and a spoon of soda
+  if (t >= T.c6 && t < T.c7) O.sodaCard(t, 760, 560, sp(t, A.L5w5 - 0.15, 2.4, 7) * (1 - seg(T.c7 - 0.2, T.c7, t, ease.in)));
+  // the secret: ammonia — the other way round
+  if (t >= A.L7 && t < DUR) O.chemCard(t, 540, 700, sp(t, A.L7w1 - 0.1, 2.4, 7) * (1 - seg(A.L7w13 - 0.3, A.L7w13, t, ease.in)), 'ammonia', seg(A.L7w9, A.L7w12 + 0.2, t));
 }
 function stepHeaders(t) {
   O.stepHeader(t, 1, 'ЗАКРОЙ ВСЁ', A.L2 + 0.02, A.L2e - 0.05);
-  O.stepHeader(t, 2, 'В ПОГРЕБ', A.L3 + 0.02, A.L3e - 0.05);
-  O.stepHeader(t, 3, 'ВОДА И ЕДА', A.L4 + 0.02, A.L4e - 0.05);
-  O.stepHeader(t, 4, 'НЕ ПЕЙ ЙОД', A.L5 + 0.02, A.L5e - 0.05);
-  O.stepHeader(t, 5, 'ЖДИ СУТКИ', A.L6 + 0.02, A.L6e - 0.05);
+  O.stepHeader(t, 2, 'МОКРЫЕ ТРЯПКИ', A.L3 + 0.02, A.L3e - 0.05);
+  O.stepHeader(t, 3, 'НАВЕРХ', A.L4 + 0.02, A.L4e - 0.05);
+  O.stepHeader(t, 4, 'ТКАНЬ С СОДОЙ', A.L5 + 0.02, A.L5e - 0.05);
+  O.stepHeader(t, 5, 'СЛУШАЙ РАДИО', A.L6 + 0.02, A.L6e - 0.05);
 }
 
-// «Что делать, если рядом взорвалась атомная станция, а ты дома?»: a title word by word
+// «Что делать, если рядом авария на химзаводе — и к дому ползёт облако хлора?»: a title word by word
 function questionTitle(t) {
-  const k1 = sp(t, A.L0w0 - 0.05, 2.6, 7), k2 = sp(t, A.L0w2 - 0.05, 2.4, 7), k3 = sp(t, A.L0w7 - 0.05, 2.4, 7);
+  const k1 = sp(t, 0.02, 2.6, 7), k2 = sp(t, A.L0w2 - 0.05, 2.4, 7), k3 = sp(t, A.L0w8 - 0.05, 2.4, 7);
   const out = seg(A.L1 - 0.15, A.L1 + 0.1, t);
   if (k1 > 0.01) { g.save(); g.setTransform(1, 0, 0, 1, 540, 300); g.scale(k1 * (1 - out), k1 * (1 - out)); g.rotate(-0.03); text('ЧТО ДЕЛАТЬ,', 0, 0, 120, '#fff3d6'); g.restore(); }
   const plaque = (y, str, k, size, c = '#ffd23f') => {
@@ -479,8 +408,8 @@ function questionTitle(t) {
     text(str, 0, size * 0.36, size, INK, { fam: FONTS.cond, shadow: false });
     g.restore();
   };
-  plaque(440, 'ЕСЛИ РЯДОМ ВЗОРВАЛАСЬ АЭС,', k2, 72);
-  plaque(560, 'А ТЫ ДОМА?', k3, 80, '#ff7a4d');
+  plaque(440, 'ЕСЛИ АВАРИЯ НА ХИМЗАВОДЕ', k2, 70);
+  plaque(560, 'И К ДОМУ ПОЛЗЁТ ХЛОР?', k3, 76, '#b6e04a');
 }
 
 // —— the cover: his face lit by the flash, the window with the fireball; the words ——
@@ -501,8 +430,8 @@ function coverFrame(t) {
   drawHunter(o);
   g.save(); g.translate(540, 200); g.rotate(-0.03); rect(-170 + 6, -34 + 7, 340, 68, INK); rect(-170, -34, 340, 68, '#ff4d4d'); g.restore();
   text('КАК ВЫЖИТЬ', 540, 218, 50, '#fff3d6', { fam: FONTS.cond, shadow: false, rot: -0.03 });
-  fitText('ВЗРЫВ НА АЭС', 540, 380, 150, 980, '#ffd23f', { rot: -0.03 });
-  fitText('А ТЫ ДОМА?', 540, 530, 120, 900, '#fff3d6', { rot: -0.03 });
+  fitText('ОБЛАКО ХЛОРА?', 540, 380, 140, 980, '#c9e05a', { rot: -0.03 });
+  fitText('НЕ ЛЕЗЬ В ПОГРЕБ!', 540, 530, 110, 960, '#fff3d6', { rot: -0.03 });
 }
 
 // how far things move on screen around t (for the number of motion-blur sub-frames)
@@ -526,20 +455,17 @@ export function motion(t, h = 1 / 240) {
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  for (const w of ['L0w0', 'L0w2', 'L0w7']) add(A[w] - 0.03, 'pop_word', -8, 0);
+  for (const w of ['L0w2', 'L0w8']) add(A[w] - 0.03, 'pop_word', -8, 0);
+  add(0.02, 'pop_word', -8, 0);
   add(0.3, 'birds', -14, -0.2, { dur: T.boom - 0.3 });
-  add(T.boom, 'boom', -2, 0.3);
+  add(T.boom, 'boom', -4, 0.3);
   add(T.boom + 0.05, 'rattle', -8, -0.2, { dur: 1.2 });
   add(T.boom + 0.1, 'splash_small', -12, -0.1);
-  add(A.L1w3 - 0.3, 'phone_beep', -12, 0.1);
-  for (const f of ['near', 'far']) for (const p of PL[f]) add(p.t, 'step', -12, f === 'near' ? 0.05 : -0.05);
-  add(A.L1w8 - 0.1, 'creak', -10, 0.3);
+  add(A.L1w3 - 0.1, 'hatch', -8, 0);
   add(T.nope + 0.03, 'stamp', -2, 0);
+  add(A.L1w6 + 0.3, 'thud', -10, 0);
   add(T.c2 - 0.05, 'whoosh', -10, 0);
   add(T.c2, 'wind', -10, 0, { dur: T.c3 - T.c2 + 0.3 });
-  // the dosimeter from the wind outside to the cellar
-  const rate = [[0, 0], [T.c2 - 0.01, 0], [T.c2, 3], [A.L2, 22], [A.L3w1, 22], [A.L3w8, 8], [A.L3w15 + 0.3, 3], [A.L3e + 0.4, 0]];
-  add(T.c2, 'geiger', -8, 0.15, { dur: A.L3e - T.c2 + 0.5, rate });
   add(A.L2w2 - 0.05, 'window_slam', -6, -0.2);
   add(T.cd + 0.08, 'slam', -4, 0.2);
   add(A.L2w3 + 0.25, 'bolt', -6, 0.2);
@@ -547,27 +473,14 @@ export function cues() {
   add(FAN_OFF, 'switch', -8, 0.1);
   add(T.cf - 0.4, 'fan', -14, 0.1, { dur: FAN_OFF - T.cf + 1.6, off: FAN_OFF - T.cf + 0.4 });
   for (const t0 of [A.L2w2 + 0.05, A.L2w3 + 0.32, A.L2w6 + 0.12, FAN_OFF + 0.05]) add(t0, 'ding', -10, 0.2);
-  add(A.L2w9, 'ticks', -14, -0.2, { dur: A.L2e - A.L2w9 });
-  add(A.L3w1 - 0.1, 'hatch', -6, 0);
-  for (let i = 0; i < 6; i++) add(lerp(DESC.t0, DESC.t1, (i + 0.5) / 6), 'ladder', -10, 0);
-  add(A.L3w12 - 0.1, 'whoosh_in', -12, 0.2);
-  add(A.L3w13, 'thud', -10, 0); add(A.L3w14, 'thud', -12, 0); add(A.L3w15, 'thud', -14, 0);
-  add(A.L4w3 + 0.1, 'stamp', -4, -0.1);
-  add(A.L4w5 - 0.05, 'slosh', -8, 0.2);
-  add(A.L4w5 + 0.05, 'ding', -10, 0.2);
-  add(A.L4w10, 'jar', -8, 0.2); add(A.L4w10 + 0.12, 'jar', -10, 0.25);
-  add(A.L4w12 + 0.25, 'ding', -10, 0);
-  add(A.L5w1 + 0.05, 'clink', -10, -0.2);
-  add(T.iodX, 'stamp', -2, -0.1);
-  add(A.L5w6 + 0.1, 'clink', -12, -0.2);
-  add(A.L5w7 - 0.1, 'whoosh_in', -12, 0);
-  add(A.L5w8, 'pills', -10, 0);
-  add(A.L5w16 - 0.1, 'whoosh_in', -12, 0);
+  add(A.L3w2, 'slosh', -8, -0.2); add(A.L3w3 + 0.1, 'cloth', -10, -0.2); add(A.L3w4, 'ding', -10, 0.2);
+  add(T.c5 + 0.05, 'whoosh_in', -12, 0);
+  add(A.L4w1, 'whoosh_short', -12, 0); add(A.L4w5, 'ding', -10, 0);
+  add(A.L5w1 - 0.1, 'cloth', -10, 0); add(A.L5w5 - 0.1, 'whoosh_in', -12, 0.2); add(A.L5w5 + 0.1, 'slosh', -12, 0.2);
   add(A.L6w1 + 0.05, 'switch', -8, -0.2);
   add(A.L6w1 + 0.1, 'radio', -14, -0.2, { dur: DUR - A.L6w1 });
-  add(A.L6w4, 'creak', -12, 0);
-  add(A.L6w6 - 0.1, 'clock', -10, 0, { dur: 1.7 });
+  add(A.L7w1 - 0.1, 'whoosh_in', -10, 0); add(A.L7w12, 'ding', -10, 0);
   for (const t0 of [A.L2, A.L3, A.L4, A.L5, A.L6]) add(t0 + 0.04, 'pop_word', -8, 0);
-  add(A.L7 + 0.1, 'pop_word', -6, 0);
+  add(A.L7w13 + 0.05, 'pop_word', -6, 0);
   return c.sort((a, b) => a.t - b.t);
 }
