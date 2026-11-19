@@ -162,16 +162,29 @@ class Source:
             if not segs:
                 raise RuntimeError(f'в записи нет отрезка {a:.0f}–{b:.0f} с')
             out = os.path.join(self.work, name + ('.mp4' if init else '.ts'))
+            if os.path.exists(out) and not _usable(out):
+                os.remove(out)
             if not os.path.exists(out):
                 log(f'Качаю кусок видео {name}…')
                 hls_fetch(init + segs, out, quiet=True)
             return out, a - segs[0][0]
         out = os.path.join(self.work, name + '.mp4')
+        if os.path.exists(out) and not _usable(out):
+            os.remove(out)
         if not os.path.exists(out):
             log(f'Качаю кусок видео {name}…')
             run(ytdlp() + ['-f', VIDEO_FMT, '--download-sections', f'*{a:.2f}-{b:.2f}', '--force-keyframes-at-cuts',
                            '--merge-output-format', 'mp4', '--concurrent-fragments', '8', '-o', out, self.url])
         return out, 0.0
+
+
+def _usable(path):
+    """A cached piece that really holds video (an interrupted download can leave an empty file)."""
+    try:
+        p = probe(path)
+    except SystemExit:
+        return False
+    return p['width'] > 0 and p['duration'] > 1
 
 
 def _get(url, tries=4):
