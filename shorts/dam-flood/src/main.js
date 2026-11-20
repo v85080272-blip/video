@@ -1,0 +1,324 @@
+// «Прорвало дамбу, ты дома» (2D «ты»-ролик, the channel's narrator): the whole short as pure functions of time t. The
+// owner, 20.11: «продолжай делать мультики на будущее». On the formula of «Облако хлора». The flood climbs the block:
+// not the car — the stream overturns even cars → documents, water, phone and up → higher: the attic, the roof, 112 → by day
+// a light sheet, at night a torch → the secret: not onto trees and poles — the water washes them out → «Пиши!».
+// Facts: voice/script.json.
+import fs from 'node:fs';
+import { lerp, clamp, ease, spring, bump, hash, noise, TAU, mix, rgba } from './lib.js';
+import { g, W, H, ell, limb, rect, rrect, poly, fill, smoothPath, polyPath, rrPath, inside, MONO } from './flat.js';
+import { view, toScreen } from './camera.js';
+import * as Hd from './hud.js';
+import * as Sm from './smoke.js';
+import * as Fl from './flood.js';
+import { drawHunter, framesOf } from './hunter.js';
+import { drawDog } from './dog.js';
+import { text, measure, FONTS, INK } from './type.js';
+
+// —— the narration: line starts, ends and word starts (A.L2w5 = word 5 of line L2; dashes count as words) ——
+const VOICE = (() => { try { return JSON.parse(fs.readFileSync(new URL('../build/words.json', import.meta.url))); } catch { return null; } })();
+const SCRIPT = JSON.parse(fs.readFileSync(new URL('../voice/script.json', import.meta.url)));
+const LN = id => VOICE?.lines.find(l => l.id === id);
+const FB = {};
+{ let t = 0.12; for (const l of SCRIPT.lines) { const n = l.text.split(/\s+/).length; t += l.after ?? 0; FB[l.id] = [t, t + n * 0.38, n]; t += n * 0.38; } }
+const LAST = SCRIPT.lines[SCRIPT.lines.length - 1].id;
+export const DUR = VOICE?.dur ?? FB[LAST][1] + 0.6;
+const A = {};
+for (const id of Object.keys(FB)) {
+  const ws = LN(id)?.words, n = ws ? ws.length : FB[id][2];
+  A[id] = LN(id)?.at ?? FB[id][0]; A[id + 'e'] = LN(id)?.end ?? FB[id][1];
+  for (let i = 0; i < Math.max(n, FB[id][2]) + 20; i++) A[id + 'w' + i] = ws ? ws[Math.min(i, n - 1)].s : lerp(FB[id][0], FB[id][1], i / FB[id][2]);
+}
+const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
+const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
+const HOT = { ДАМБУ: DANGER, ВОДА: DANGER, ЗАЛИВАЕТ: DANGER, МАШИНЕ: DANGER, НЕЛЬЗЯ: DANGER, ОПРОКИДЫВАЕТ: DANGER,
+  ДОКУМЕНТЫ: OK, ТЕЛЕФОН: OK, НАВЕРХ: OK, ЧЕРДАК: OK, КРЫШУ: OK, ДВЕНАДЦАТЬ: OK, ТКАНЬ: OK, ФОНАРЁМ: OK, СЕКРЕТ: GOLD,
+  ДЕРЕВЬЯ: GOLD, СТОЛБЫ: GOLD, ПОДМЫВАЕТ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+
+// —— the shots ——
+const T = {
+  cover: 0.05,
+  flood: A.L0w7,                     // «вода заливает улицы»
+  c1: A.L1 - 0.06,                   // «уехать на машине… Нельзя»
+  nope: A.L1w6,
+  tip: A.L1w8,
+  c2: A.L2 - 0.06,                   // step 1: documents, water, phone; up
+  up: A.L2w8,
+  c3: A.L3 - 0.06,                   // step 2: the attic, the roof, 112
+  roof: A.L3w4,
+  dial: A.L3w12,
+  c4: A.L4 - 0.06,                   // step 3: the sheet by day, the torch at night
+  night: A.L4w5,
+  c5: A.L5 - 0.06,                   // the secret: trees and poles
+  wash: A.L5w5,
+  c6: A.L6 - 0.06,
+  sub: A.L6w8,
+};
+export const CUTS = [T.cover, T.c1, T.c2, T.c3, T.c4, T.c5, T.c6];
+export const SNAPS = [];
+export const MARKS = { ...T, A, ring: 0.3, peep: T.flood, two: T.nope - 0.5, c2: T.c2 - 0.3, c3: T.c2, c4: T.c3, c5: T.c4, dial: T.dial, c6: T.c5, growl: T.wash, c7: T.c6, end: T.c6 };
+const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
+const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
+const S = 0.6, LEG = 137, DS = 0.7;
+
+// —— the camera ——
+function hermite(keys, t) {
+  if (t <= keys[0][0]) return keys[0].slice(1);
+  const n = keys.length;
+  if (t >= keys[n - 1][0]) return keys[n - 1].slice(1);
+  let i = 0; while (keys[i + 1][0] < t) i++;
+  const k0 = keys[i], k1 = keys[i + 1], h = k1[0] - k0[0], u = (t - k0[0]) / h;
+  const tan = j => {
+    if (j === 0 || j === n - 1) return keys[j].slice(1).map(() => 0);
+    const a = keys[j - 1], b = keys[j + 1];
+    return a.slice(1).map((v, c) => (b[c + 1] - v) / (b[0] - a[0]));
+  };
+  const m0 = tan(i), m1 = tan(i + 1), u2 = u * u, u3 = u2 * u;
+  return k0.slice(1).map((p0, c) => (2 * u3 - 3 * u2 + 1) * p0 + (u3 - 2 * u2 + u) * h * m0[c] + (-2 * u3 + 3 * u2) * k1[c + 1] + (u3 - u2) * h * m1[c]);
+}
+const SHOTS = [];
+const shot = (t0, keys) => SHOTS.push({ t0, keys });
+shot(T.cover, [[T.cover, 60, 170, 0.75], [T.flood, 60, 190, 0.72], [T.c1, 60, 200, 0.72]]);
+shot(T.c1, [[T.c1, 0, 560, 0.9], [T.c2, 40, 570, 0.92]]);
+shot(T.c2, [[T.c2, -60, -140, 1.15], [T.c3, -60, -140, 1.18]]);
+shot(T.c3, [[T.c3, 60, -200, 0.8], [T.roof, 60, -1700, 0.85], [T.c4, 60, -2330, 1.0]]);
+shot(T.c4, [[T.c4, 60, -2330, 1.05], [T.c5, 60, -2330, 1.08]]);
+shot(T.c5, [[T.c5, 40, -60, 0.62], [T.c6, 40, -50, 0.64]]);
+shot(T.c6, [[T.c6, 60, -2330, 1.05], [DUR, 60, -2330, 1.08]]);
+export function camAt(t) {
+  let sh = SHOTS[0];
+  for (const s of SHOTS) if (t >= s.t0) sh = s;
+  const [x, y, z] = hermite(sh.keys, t);
+  let dx = 0, dy = 0;
+  for (const [t0, a] of [[T.flood, 5], [T.nope, 6], [T.tip, 6]]) if (t >= t0 && t < t0 + 0.5) { const e = Math.exp(-(t - t0) * 8); dx += a * e * noise(t * 40, 1); dy += a * e * noise(t * 37, 2); }
+  return { x, y, z, lens: 1, tx: 0, ty: 0, dx, dy, r: 0 };
+}
+
+// —— the people ——
+const blinkAt = t => { const u = (t + 0.4) % 3.3; return u < 0.14 ? bump(u / 0.14) : 0; };
+const dblink = t => { const u = (t + 1.7) % 2.9; return u < 0.12 ? bump(u / 0.12) : 0; };
+const base = (t, extra = {}) => ({ s: S, face: 1, lean: 0.04, headTilt: 0.04, brow: 0, pop: 0, lid: 0.25, blink: blinkAt(t), look: [0.5, 0], mouth: 0, jacket: false, boots: false, pack: false, hat: false, ...extra });
+function stand(o, x, y = 0) { const k = (o.s ?? S) / S; o.hip = [x, y - LEG * k]; o.feet = { near: [x - 12 * k, y], far: [x + 16 * k, y] }; return o; }
+const shoulder = o => framesOf(o).T.p([-14, -192]);
+
+// —— the water level (world y of the surface; our balcony slab is at y = 0, the street at y ≈ 1900) ——
+function levelAt(t) {
+  if (t < T.c1) return lerp(1100, 350, seg(0.2, T.c1, t));
+  if (t < T.c2) return 700;
+  if (t < T.c4) return lerp(600, -500, seg(T.c3, T.c4, t));
+  if (t < T.c5) return -700;
+  if (t < T.c6) return 520;                                                   // the street scene: its own water line
+  return -800;
+}
+export function actorsAt(t) {
+  if (t < T.c1) {                                                              // the hook: on the balcony, the water rising
+    const o = stand(base(t, { look: [0.4, 0.7], brow: t > T.flood ? 0.9 : 0.4, pop: t > T.flood ? 0.5 : 0 }), 0);
+    return { h: o, where: 'balcony' };
+  }
+  if (t < T.c2) return { where: 'street' };
+  if (t < T.c3) {                                                              // the room: the folder, the bottle, the phone; out
+    const w = seg(T.up - 0.3, T.c3, t, x => x);
+    const o = stand(base(t, { face: w > 0.02 ? -1 : 1, look: [w > 0.02 ? -0.6 : 0.5, 0.3], brow: 0.5 }), lerp(-60, -420, w));
+    const sh = shoulder(o);
+    o.hands = { near: { p: [sh[0] + 40, sh[1] + 60], shape: 'grip' }, far: { p: [sh[0] - 10, sh[1] + 70], shape: 'grip' } };
+    o.prop = { kind: 'kit', p: [sh[0] + 40, sh[1] + 60], items: [t > A.L2w2 - 0.2, t > A.L2w3 - 0.2, t > A.L2w4 - 0.2] };
+    return { h: o, where: 'room' };
+  }
+  if (t < T.c4) {                                                              // up the block to the roof; the phone
+    const o = stand(base(t, { look: [0.6, 0.3], brow: 0.6, headTilt: 0.12 }), 60, Fl.ROOF);
+    if (t > T.dial - 0.3) { const sh = shoulder(o); o.hands = { near: { p: [sh[0] + 30, sh[1] - 60], shape: 'grip' } }; o.prop = { kind: 'phone', p: [sh[0] + 28, sh[1] - 90] }; o.mouth = 0.3 * Math.abs(Math.sin(t * 12)); }
+    return { h: t > T.roof ? o : null, where: 'block' };
+  }
+  if (t < T.c5) {                                                              // the sheet by day; the torch at night
+    const o = stand(base(t, { look: [0.4, -0.4], brow: 0.7, mouth: 0.4 }), 60, Fl.ROOF);
+    const sh = shoulder(o), sw = Math.sin(t * 8);
+    o.hands = { near: { p: [sh[0] + 30 + 50 * sw, sh[1] - 200], shape: 'grip' } };
+    o.prop = t < T.night ? { kind: 'sheet', p: o.hands.near.p } : { kind: 'torch', p: o.hands.near.p };
+    return { h: o, where: 'block' };
+  }
+  if (t < T.c6) return { where: 'trees' };
+  const o = stand(base(t, { look: [0.6, 0], brow: 0.5, mouth: 0.3 }), 60, Fl.ROOF);   // the end: on the roof, thumbs up
+  const sh = shoulder(o), k = clamp(sp(t, T.c6 + 0.05, 2.4, 7));
+  o.hands = { near: { p: [sh[0] + 70 * k, sh[1] - 40 * k + 40], shape: 'thumb', ang: -Math.PI / 2 } };
+  return { h: o, where: 'block' };
+}
+function hunterDraw(t, o) {
+  o = { ...o };
+  const p = o.prop;
+  if (p?.kind === 'phone') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); g.rotate(0.2); rrect(-16, -30, 32, 60, 7, '#24232f'); rrect(-12, -25, 24, 48, 4, '#9fd8ff'); g.restore(); };
+  if (p?.kind === 'kit') o.propNear = () => { if (p.items[0]) Fl.folder([p.p[0] + 10, p.p[1]]); if (p.items[1]) Fl.bottle([p.p[0] + 60, p.p[1] - 10]); if (p.items[2]) { g.save(); g.translate(p.p[0] - 30, p.p[1] - 20); rrect(-14, -26, 28, 52, 6, '#24232f'); g.restore(); } };
+  if (p?.kind === 'sheet') o.propNear = () => Fl.sheet(p.p, t);
+  if (p?.kind === 'torch') o.propNear = () => { g.save(); g.translate(p.p[0], p.p[1]); rrect(-12, -40, 24, 60, 6, '#2b2f38'); g.restore(); };
+  return drawHunter(o);
+}
+
+// —— frame ——
+export function init() { Hd.initHud(); }
+export function frame(t) {
+  if (t < T.cover) { coverFrame(t); Hd.finish(t); return; }
+  const cam = camAt(t), a = actorsAt(t);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#26355a'; g.fillRect(0, 0, W, H);
+  view(cam, 1);
+  if (a.where === 'room') roomScene(t, a);
+  else if (a.where === 'street') streetScene(t);
+  else if (a.where === 'trees') treeScene(t);
+  else blockScene(t, a);
+  overlays(t, cam, a);
+  Hd.karaoke(t, SUBS, HOT);
+  Hd.finish(t, 1);
+}
+function blockScene(t, a) {
+  Sm.facade(t, { door: 0, calm: 1, day: 1 }); Fl.roof(t);
+  if (a.h) hunterDraw(t, a.h);
+  if (a.where === 'balcony') Sm.railing();
+  Fl.water(t, levelAt(t));
+  if (t < T.c1) Fl.car(lerp(-900, 900, seg(0, T.c1 + 2, t, x => x)), levelAt(t) + 60, 0.15 * Math.sin(t * 2));
+  // night: the sky dark, the torch flashing
+  if (t >= T.night && t < T.c5) {
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 0.55 * seg(T.night - 0.1, T.night + 0.3, t); g.fillStyle = '#060a18'; g.fillRect(0, 0, W, H); g.restore();
+    const cam = camAt(t); view(cam, 1);
+    if (a.h?.prop?.kind === 'torch') Fl.torchFlash(a.h.prop.p, t, 1);
+  }
+}
+function streetScene(t) {                                                      // the stream tips a car over
+  Sm.facade(t, { door: 0, calm: 1, day: 1 });
+  Fl.water(t, levelAt(t));
+  const tip = seg(T.tip - 0.2, T.tip + 0.8, t);
+  Fl.car(lerp(-200, 260, seg(T.c1, T.c2, t, x => x)), levelAt(t) + 40 + 60 * tip, -1.4 * tip);
+}
+function treeScene(t) {                                                        // the street: a tree and a pole washed out
+  Sm.facade(t, { door: 0, calm: 1, day: 1 });
+  Fl.water(t, levelAt(t) - 300);
+  Fl.treeAndPole(t, levelAt(t) - 300, seg(T.wash - 0.2, T.c6 - 0.2, t));
+  Fl.water(t, levelAt(t) - 300);
+}
+function roomScene(t, a) {
+  Sm.farRoom(t, { wisps: 0, smoke: 0 });
+  // muddy water seeping under the door and spreading over the floor
+  const D = Sm.ROOM2.door, k = seg(T.c2, T.c3, t, x => x);
+  g.save(); g.globalAlpha = 0.8; fill(smoothPath([[D.x0 - 40, 0], [D.x1 + 60 + 500 * k, -4], [D.x1 + 300 + 500 * k, 2], [D.x0 - 60, 6]]), '#8c6e46'); g.restore();
+  if (a.h) hunterDraw(t, a.h);
+}
+
+// —— everything over the picture ——
+function overlays(t, cam, a) {
+  const S2 = p => toScreen(cam, p);
+  const scr = () => g.setTransform(1, 0, 0, 1, 0, 0);
+  scr();
+  if (t < A.L1 + 0.1) questionTitle(t);
+  // «уехать на машине… Нельзя»
+  if (t >= T.c1 && t < T.c2) Hd.redX(540, 760, 120, sp(t, T.nope + 0.02, 2.6, 8) * (1 - seg(T.c2 - 0.25, T.c2, t)));
+  Hd.plaque(t, A.L1w7 - 0.05, T.c2 - 0.1, 540, 330, { icon: 'x', title: 'ПОТОК ОПРОКИДЫВАЕТ МАШИНЫ', color: DANGER, size: 42 });
+  // step 1
+  Hd.stepHeader(t, 1, 'ВОЗЬМИ ГЛАВНОЕ', A.L2 + 0.02, A.L2e - 0.05);
+  Hd.plaque(t, A.L2w2 - 0.05, T.c3 - 0.1, 540, 560, { icon: 'check', title: 'ДОКУМЕНТЫ · ВОДА · ТЕЛЕФОН', color: OK, size: 40 });
+  Hd.plaque(t, T.up - 0.05, T.c3 - 0.1, 540, 1040, { icon: 'stairs', title: 'НАВЕРХ', color: OK, size: 50 });
+  // step 2
+  Hd.stepHeader(t, 2, 'ЧЕРДАК · КРЫША', A.L3 + 0.02, A.L3e - 0.05);
+  if (t >= T.dial - 0.1 && t < T.c4) dialCard(t, 760, 660);
+  // step 3
+  Hd.stepHeader(t, 3, 'ПОДАВАЙ СИГНАЛ', A.L4 + 0.02, A.L4e - 0.05);
+  Hd.plaque(t, A.L4w1 - 0.05, T.night - 0.1, 540, 560, { icon: 'check', title: 'ДНЁМ — СВЕТЛАЯ ТКАНЬ', color: OK, size: 46 });
+  Hd.plaque(t, T.night - 0.05, T.c5 - 0.1, 540, 560, { icon: 'torch', title: 'НОЧЬЮ — ФОНАРЬ', color: GOLD, size: 46 });
+  // the secret
+  Hd.plaque(t, A.L5 + 0.02, T.c6 - 0.1, 540, 200, { icon: 'check', title: 'СЕКРЕТ', color: GOLD, size: 54 });
+  Hd.plaque(t, A.L5w4 - 0.05, T.c6 - 0.1, 540, 330, { icon: 'x', title: 'НЕ НА ДЕРЕВЬЯ И СТОЛБЫ', sub: 'их подмывает вода', color: DANGER, size: 44 });
+  // the end
+  Hd.plaque(t, A.L6 + 0.02, DUR + 1, 540, 700, { icon: 'comment', title: 'ЗНАЛ ПРО СИГНАЛ С ТКАНЬЮ?', sub: 'пиши в комментариях', color: GOLD, size: 42 });
+  Hd.endCard(t, T.sub - 0.05, 0, 300);
+}
+// the hook: «ЧТО ДЕЛАТЬ,» from the first frame, then the question word by word
+function questionTitle(t) {
+  const k1 = sp(t, 0.02, 2.6, 7), k2 = sp(t, A.L0w2 - 0.05, 2.4, 7), k3 = sp(t, A.L0w6 - 0.05, 2.4, 7);
+  const out = seg(A.L1 - 0.15, A.L1 + 0.1, t);
+  if (k1 > 0.01) { g.save(); g.setTransform(1, 0, 0, 1, 540, 300); g.scale(k1 * (1 - out), k1 * (1 - out)); g.rotate(-0.03); text('ЧТО ДЕЛАТЬ,', 0, 0, 120, '#fff3d6'); g.restore(); }
+  const plq = (y, str, k, size, c = '#ffd23f') => {
+    if (k <= 0.01) return;
+    const w = measure(str, size, FONTS.cond) + 70, h = size * 1.45;
+    g.save(); g.setTransform(1, 0, 0, 1, 540, y); g.rotate(-0.03); g.scale(k * (1 - out), k * (1 - out));
+    rect(-w / 2 + 10, -h / 2 + 12, w, h, INK); rect(-w / 2, -h / 2, w, h, c);
+    text(str, 0, size * 0.36, size, INK, { fam: FONTS.cond, shadow: false });
+    g.restore();
+  };
+  plq(440, 'ЕСЛИ ПРОРВАЛО ДАМБУ', k2, 76, '#ffd23f');
+  plq(560, 'И ВОДА ЗАЛИВАЕТ УЛИЦЫ?', k3, 72, '#c9a06a');
+}
+function speech(t, t0, t1, x, y, str) {
+  if (t < t0 || t > t1 + 0.2) return;
+  const k = clamp(sp(t, t0, 2.6, 8)) * (1 - clamp((t - t1) / 0.2));
+  if (k <= 0.01) return;
+  const size = 40, w = measure(str, size, FONTS.cond) + 60, h = 90;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(clamp(x, w / 2 + 20, W - w / 2 - 20), y); g.scale(k, k); g.globalAlpha = clamp(k * 2);
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.5)'; g.shadowBlur = 20; g.shadowOffsetY = 6; rrect(-w / 2, -h / 2, w, h, 24, '#fff8e6'); poly([[-w / 2 + 50, h / 2 - 2], [-w / 2 + 90, h / 2 - 2], [-w / 2 + 30, h / 2 + 34]], '#fff8e6'); g.restore();
+  text(str, 0, 14, size, INK, { fam: FONTS.cond, shadow: false });
+  g.restore();
+}
+function dialCard(t, cx, cy) {
+  const k = clamp(sp(t, T.dial - 0.1, 2.4, 8)) * (1 - seg(T.c4 - 0.25, T.c4 - 0.02, t));
+  if (k <= 0.01) return;
+  const w = 360, h = 560;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(cx, cy); g.scale(lerp(0.9, 1, k), lerp(0.9, 1, k)); g.globalAlpha = clamp(k * 2);
+  g.save(); g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 40; g.shadowOffsetY = 14; rrect(-w / 2, -h / 2, w, h, 46, '#1b1e29'); g.restore();
+  rrect(-w / 2 + 16, -h / 2 + 16, w - 32, h - 32, 34, '#16233a');
+  const num = '112', t0 = T.dial, n = Math.min(3, Math.floor((t - t0) / 0.15) + 1);
+  Hd.label(num.slice(0, Math.max(1, n)), 0, -120, 96, '#ffffff', { shadow: false, stroke: false });
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ell(-90 + c * 90, -10 + r * 80, 30, 30, 'rgba(255,255,255,0.12)');
+  ell(0, 220, 40, 40, '#2f8f4e');
+  g.restore();
+}
+
+function fitText(str, x, y, size, maxW, color, o = {}) { const w = measure(str, size, o.fam); text(str, x, y, size * Math.min(1, maxW / w), color, o); }
+// —— the cover: the block standing in the flood, a car swept along; the question and the ban ——
+function coverFrame(t) {
+  const cam = { x: 60, y: 300, z: 0.7, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
+  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#26355a'; g.fillRect(0, 0, W, H);
+  view(cam, 1);
+  Sm.facade(3, { calm: 1, day: 1 }); Fl.water(3, 500); Fl.car(200, 560, -0.4);
+  const o = stand(base(3, { look: [0.3, 0.8], brow: 1, pop: 1, mouth: 0.6 }), 0); drawHunter(o); Sm.railing();
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  const grd = g.createLinearGradient(0, 0, 0, 640); grd.addColorStop(0, 'rgba(0,0,0,0.7)'); grd.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = grd; g.fillRect(0, 0, W, 640);
+  g.save(); g.translate(540, 200); g.rotate(-0.03); rect(-170 + 6, -34 + 7, 340, 68, INK); rect(-170, -34, 340, 68, '#ff4d4d'); g.restore();
+  text('КАК ВЫЖИТЬ', 540, 218, 50, '#fff3d6', { fam: FONTS.cond, shadow: false, rot: -0.03 });
+  fitText('ПРОРВАЛО ДАМБУ?', 540, 380, 130, 980, '#ffd23f', { rot: -0.03 });
+  fitText('НЕ САДИСЬ В МАШИНУ!', 540, 530, 110, 960, '#ff5a4a', { rot: -0.03 });
+}
+
+// how far things move on screen around t (for the number of motion-blur sub-frames)
+export function motion(t, h = 1 / 240) {
+  if (t < T.cover) return 0;
+  let t0 = t - h, t1 = t + h;
+  for (const c of [...CUTS, ...SNAPS]) { if (t >= c && t0 < c) { t0 = c; t1 = c + 2 * h; } else if (t < c && t1 >= c) { t1 = c - 1e-6; t0 = t1 - 2 * h; } }
+  const pts = tt => {
+    const cam = camAt(tt), { h: o } = actorsAt(tt), d = null, out = [];
+    if (o) out.push(...[o.hip, [o.hip[0], o.hip[1] - 200 * S], o.hands?.near?.p].filter(Boolean).map(p => toScreen(cam, p)));
+    if (d) out.push(toScreen(cam, [d.x, d.y - 150 * DS]));
+    out.push(toScreen(cam, [cam.x, cam.y - 400]), toScreen(cam, [cam.x + 300, cam.y + 400]));
+    return out;
+  };
+  const a = pts(t0), b = pts(t1), on = ([x, y]) => x > -200 && x < W + 200 && y > -200 && y < H + 200;
+  let m = 0;
+  for (let i = 0; i < Math.min(a.length, b.length); i++) if (on(a[i]) || on(b[i])) m = Math.max(m, Math.hypot(a[i][0] - b[i][0], a[i][1] - b[i][1]));
+  return Math.min(m * (0.5 / (2 * h * 60)), 40);
+}
+
+// sound cues for the mix (seconds, name, level dB, pan −1…1); the mixer holds each under the narrator
+export function cues() {
+  const c = [];
+  const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
+  add(0.05, 'tap_run', -20, 0, { dur: T.c2 - 0.1 });
+  add(0.05, 'city', -24, 0, { dur: T.c2 });
+  add(T.flood - 0.1, 'drain', -12, 0, { dur: 1.2 });
+  add(T.c1, 'whoosh', -12, 0);
+  add(T.nope, 'stamp', -8, 0); add(T.tip, 'whoosh_down', -10, 0.2);
+  add(T.c2, 'whoosh', -12, 0); add(T.c2, 'amb_flat', -22, 0, { dur: T.c3 - T.c2 });
+  for (let i = 0; i < 3; i++) add(A.L2w2 + i * 0.4, 'paper', -14, 0.1, { dur: 0.2 });
+  add(T.c3, 'whoosh', -12, 0); add(T.c3, 'tap_run', -22, 0, { dur: T.c5 - T.c3 });
+  for (let i = 0; i < 3; i++) add(T.dial + i * 0.15, 'click', -10, 0.1);
+  add(T.c4, 'whoosh', -12, 0);
+  add(T.night, 'toggle', -8, 0);
+  add(T.c5, 'whoosh_in', -14, 0); add(T.wash, 'squeak_dry', -10, 0); add(T.wash + 0.8, 'whoosh_down', -12, 0);
+  for (const t0 of [A.L2, A.L3, A.L4]) add(t0 + 0.04, 'pop_word', -8, 0);
+  add(A.L5 + 0.04, 'pop_word', -6, 0);
+  add(T.c6, 'blip', -8, 0);
+  add(T.sub, 'pop_word', -6, 0);
+  return c.sort((a, b) => a.t - b.t);
+}

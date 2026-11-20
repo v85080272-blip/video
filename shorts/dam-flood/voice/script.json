@@ -1,0 +1,72 @@
+{
+ "note": "Narration for «Прорвало дамбу, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «продолжай делать мультики на будущее». On the formula of «Облако хлора» (1.2K, 107 % average view): «ты» at home, a technogenic danger, the question from frame 0, three steps, a secret, «Пиши!». Facts — EMERCOM (МЧС) and district memos on a sudden flood: warnings of a dam breach can come late; take documents, valuables and essentials; do not try to swim across the flood water and do not drive on — the stream overturns cars; go to the upper floors or the attic, call 112; if the water rises fast — onto the roof; by day hang a light or coloured cloth up high, at night give light signals; stay on the upper floors and roofs until help comes; do not climb trees, poles or weak structures — the water can wash them out. No blood and no death. 25–35 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если прорвало дамбу — и вода заливает улицы, а ты дома?",
+   "at": 0.12,
+   "sub": [
+    5,
+    7
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — уехать на машине. Нельзя: поток опрокидывает даже машины.",
+   "after": 0.35,
+   "sub": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: возьми документы, воду, телефон — и поднимайся наверх.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: вода выше? Лезь на чердак, потом на крышу — и звони сто двенадцать.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: днём повесь светлую ткань, ночью мигай фонарём.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: не лезь на деревья и столбы — их подмывает вода.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А ты знал про сигнал с тканью? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    7,
+    1,
+    2
+   ]
+  }
+ ]
+}
