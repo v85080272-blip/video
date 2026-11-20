@@ -420,7 +420,7 @@ vidIQ — удалить после проверки. Сравнить прос�
 - 15:00 «Прилетели инопланетяне? НЕ ЗАПУСКАЙ ДРОН!» — https://www.youtube.com/watch?v=7i83lGX1Xlw;
 - 16:00 «Загорелась розетка: тушить водой?» — https://www.youtube.com/watch?v=rHAHe7zAv00 (загрузилась, когда лимит YouTube обнулился);
 - 17:00 «Разбился градусник — пылесосить? НЕТ!» — https://www.youtube.com/watch?v=SIYEmpWv2vI;
-- 18:00 — свободно;
+- 18:00 «Треск над головой? НЕ СМОТРИ ВВЕРХ!» (новый, сосульки) — https://www.youtube.com/watch?v=9vV0SxZIkBo;
 - 19:00 «Запах газа» — https://www.youtube.com/watch?v=cl06cgjfqsk;
 - 20:00 «Сирена» — https://www.youtube.com/watch?v=V4l7Ucjh34M;
 - 21:00 «Незнакомец в лифте» — https://www.youtube.com/watch?v=zFqVE6ERUJU.

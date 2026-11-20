@@ -179,21 +179,21 @@ function overlays(t, cam) {
   if (t < A.L1 + 0.1) questionTitle(t);
   // «поднять голову… Нельзя»
   if (t >= T.c1 && t < T.c2) { const h = actorsAt(t).h; if (h) { const b = S2([h.hip[0], h.hip[1] - 200]); Hd.redX(b[0], b[1], 100, sp(t, T.nope + 0.02, 2.6, 8) * (1 - seg(T.c2 - 0.25, T.c2, t))); } }
-  Hd.plaque(t, A.L1w8 - 0.05, T.c2 - 0.1, 540, 330, { icon: 'x', title: 'НЕ ЗАДИРАЙ ГОЛОВУ', sub: 'может падать снег или лёд', color: DANGER, size: 48 });
+  Hd.plaque(t, A.L1w8 - 0.05, T.c2 - 0.1, 540, 330, { icon: 'x', title: 'НЕ ЗАДИРАЙ ГОЛОВУ', sub: 'оттуда летят снег и лёд', color: DANGER, size: 48 });
   // step 1: the arrow away from the house crossed out
   Hd.stepHeader(t, 1, 'НЕ БЕГИ ОТ ЗДАНИЯ', A.L2 + 0.02, A.L2e - 0.05);
   if (t >= T.c2 && t < T.c3) {
     const h = actorsAt(t).h, k = seg(A.L2w1 - 0.1, A.L2w2 + 0.2, t);
     if (h && k > 0.01) { const p0 = S2([h.hip[0] + 60, h.hip[1] - 60]), p1 = S2([h.hip[0] + 460, h.hip[1] - 60]); g.save(); g.globalAlpha = k; g.lineWidth = 16; g.strokeStyle = '#ff5a4a'; g.beginPath(); g.moveTo(p0[0], p0[1]); g.lineTo(lerp(p0[0], p1[0], k), p1[1]); g.stroke(); poly([[lerp(p0[0], p1[0], k) + 30, p1[1]], [lerp(p0[0], p1[0], k) - 10, p1[1] - 30], [lerp(p0[0], p1[0], k) - 10, p1[1] + 30]], '#ff5a4a'); g.restore(); Hd.redX((p0[0] + p1[0]) / 2, p0[1], 80, sp(t, A.L2w3, 2.6, 8)); }
   }
-  Hd.plaque(t, T.stop - 0.05, T.c3 - 0.1, 540, 330, { icon: 'x', title: 'И НЕ ОСТАНАВЛИВАЙСЯ', color: DANGER, size: 48 });
+  Hd.plaque(t, T.stop - 0.05, T.c3 - 0.1, 540, 560, { icon: 'x', title: 'И НЕ ОСТАНАВЛИВАЙСЯ', color: DANGER, size: 48 });
   // step 2
   Hd.stepHeader(t, 2, 'ПРИЖМИСЬ К СТЕНЕ', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.c3 && t < T.c4) { const b = S2([Ic.WALL + 70, -520]); Hd.tick(b[0], b[1], sp(t, A.L3w9 - 0.05, 2.6, 8), 60); }
-  Hd.plaque(t, A.L3w6 - 0.05, T.c4 - 0.1, 540, 330, { icon: 'house', title: 'КОЗЫРЁК КРЫШИ ПРИКРОЕТ', color: OK, size: 44 });
+  Hd.plaque(t, A.L3w6 - 0.05, T.c4 - 0.1, 540, 560, { icon: 'house', title: 'КОЗЫРЁК КРЫШИ ПРИКРОЕТ', color: OK, size: 44 });
   // step 3
   Hd.stepHeader(t, 3, 'ОБХОДИ ХОЛМИКИ', A.L4 + 0.02, A.L4e - 0.05);
-  Hd.plaque(t, A.L4w8 - 0.05, T.c5 - 0.1, 540, 330, { icon: 'x', title: 'СЮДА УЖЕ ПАДАЛО', color: GOLD, size: 48 });
+  Hd.plaque(t, A.L4w8 - 0.05, T.c5 - 0.1, 540, 560, { icon: 'x', title: 'СЮДА УЖЕ ПАДАЛО', color: GOLD, size: 48 });
   // the secret
   Hd.plaque(t, A.L5 + 0.02, T.c6 - 0.1, 540, 200, { icon: 'check', title: 'СЕКРЕТ', color: GOLD, size: 54 });
   Hd.plaque(t, T.pipe - 0.05, T.c6 - 0.1, 540, 330, { icon: 'x', title: 'НЕ ХОДИ ПОД ВОДОСТОКАМИ', color: DANGER, size: 44 });
