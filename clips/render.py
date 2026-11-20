@@ -79,3 +79,39 @@ def render(src, start, dur, out, work, layout='auto', cam=None, title='', title_
     with open(os.path.splitext(out)[0] + '.json', 'w', encoding='utf-8') as f:
         json.dump(meta, f, ensure_ascii=False, indent=1)
     return meta
+
+
+def render_with_teaser(src, start, dur, out, work, teaser_len=2.0, **kw):
+    """The loudest ~2 s of the clip first, then the clip from its start: a viewer swiping through the feed sees
+    the payoff at once and stays for the setup. Without a clear peak after the first seconds it is a plain render."""
+    import subprocess
+    import moments as M
+    meta = render(src, start, dur, out, work, **kw)
+    s, d = meta['start'], meta['duration']                     # after the silence trim
+    frames = M.loudness(src, start=s, dur=d)
+    n = int(round(teaser_len / M.FRAME))
+    if len(frames) < 3 * n:
+        return meta
+    win = [frames[i:i + n].mean() for i in range(len(frames) - n)]
+    i = max(range(len(win)), key=win.__getitem__)
+    t = i * M.FRAME
+    if t < 3.0:                                                # the peak is already at the start
+        return meta
+    stem = os.path.splitext(os.path.basename(out))[0]
+    teaser = os.path.join(work, stem + '.teaser.mp4')
+    main = os.path.join(work, stem + '.main.mp4')
+    os.replace(out, main)
+    kw2 = dict(kw, cam=meta['cam'], trim=False, layout=meta['layout'])
+    render(src, s + t, teaser_len, teaser, work, **kw2)
+    log(f'  крючок: {teaser_len:.1f} с с {t:.1f} с в начало')
+    run(['ffmpeg', '-y', '-v', 'error', '-i', teaser, '-i', main, '-filter_complex',
+         '[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[v][a]', '-map', '[v]', '-map', '[a]',
+         '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
+         '-movflags', '+faststart', os.path.abspath(out)], stdout=subprocess.DEVNULL)
+    for f in (teaser, main, os.path.splitext(teaser)[0] + '.json', os.path.splitext(main)[0] + '.json'):
+        if os.path.exists(f):
+            os.remove(f)
+    meta.update({'teaser_from': round(t, 2), 'duration': round(d + teaser_len, 2)})
+    with open(os.path.splitext(out)[0] + '.json', 'w', encoding='utf-8') as f:
+        json.dump(meta, f, ensure_ascii=False, indent=1)
+    return meta

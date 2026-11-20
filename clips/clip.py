@@ -65,6 +65,8 @@ def render_opts(p):
     p.add_argument('--censor', action='store_true',
                    help='мат: звёздочки в субтитрах (б**ть) и писк в звуке поверх слова')
     p.add_argument('--no-bleep', action='store_true', help='с --censor: не пикать в звуке, только звёздочки')
+    p.add_argument('--teaser', action='store_true',
+                   help='крючок: самые громкие 2 с ролика в начало, потом ролик с начала')
     p.add_argument('--title-secs', type=float, help='сколько секунд держать заголовок (по умолчанию весь ролик)')
     p.add_argument('--no-credit', action='store_true', help='не подписывать канал стримера')
     p.add_argument('--out', default='clips_out', help='куда класть ролики')
@@ -108,7 +110,7 @@ def cmd_top_clips(a):
         if not os.path.exists(src):
             run(ytdlp() + ['-f', 'best[height<=1080]/best', '-o', src, c['url']])
         title = '' if a.no_title else c['title']
-        meta = R.render(src, 0, 600, out, os.path.join(dl, 'work'),
+        meta = (R.render_with_teaser if getattr(a, 'teaser', False) else R.render)(src, 0, 600, out, os.path.join(dl, 'work'),
                         **ropts(a, title, credit_for(c['channel'], 'twitch'), c['url']))
         meta.update({'views': c['views'], 'clip_title': c['title'], 'channel': c['channel']})
         with open(os.path.splitext(out)[0] + '.json', 'w', encoding='utf-8') as f:
@@ -184,7 +186,7 @@ def render_moments(a, path, picks=None):
             log('  уже есть, пропускаю')
             continue
         piece, off = s.piece(m['start'], m['end'], f'piece_{int(m["start"])}_{int(m["end"])}')   # by time: numbers repeat
-        R.render(piece, off, m['end'] - m['start'], out, os.path.join(s.work, 'render'),
+        (R.render_with_teaser if getattr(a, 'teaser', False) else R.render)(piece, off, m['end'] - m['start'], out, os.path.join(s.work, 'render'),
                  **ropts(a, m.get('title') or '', credit, m.get('link') or s.url))
         outs.append(out)
     log(f'\nГотово, роликов: {len(outs)}, папка {a.out}')
@@ -202,7 +204,7 @@ def cmd_render(a):
     start, length = parse_time(a.start), a.len
     piece, off = s.piece(start, start + length, slug(f'piece_{a.start}'))
     name = a.name or slug(f'{s.channel or s.id}_{a.start.replace(":", "-")}', 60)
-    R.render(piece, off, length, os.path.join(a.out, name + '.mp4'), os.path.join(s.work, 'render'),
+    (R.render_with_teaser if getattr(a, 'teaser', False) else R.render)(piece, off, length, os.path.join(a.out, name + '.mp4'), os.path.join(s.work, 'render'),
              **ropts(a, a.title or '', credit_for(s.channel, s.platform), link_at(s.url, start)))
 
 
