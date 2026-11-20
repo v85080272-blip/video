@@ -39,6 +39,30 @@
 
 Рассказчик канала (Qwen3-TTS Base), четыре дубля: `/home/user/work/mercury`. ElevenLabs не тратился.
 
+Взяты фразы:
+- L0 — s2;
+- L1 — было «Первая мысль — пропылесосить…»: во всех дублях «пропылесосИть». Переписано «взять пылесос» и перечитано
+  (`/home/user/work/mercury-b`), взят s2;
+- L2 — s2;
+- L3 — s2;
+- L4 — s4;
+- L5 — было «посвети на пол фонариком…»: «посвЕти», «фонарикОм», «ртутИ». Переписано «в луче фонарика шарики ртути
+  сразу заблестят» и перечитано, взят s3;
+- L6 — s3.
+
+```bash
+PAR=2 bash voice/takes.sh 1 2 3 4
+ONLY="L1 L5" OUT=/home/user/work/mercury-b PAR=2 bash voice/takes.sh 1 2 3 4
+WD=mercury EPS=mercury-flat bash /home/user/work/myth-pick.sh
+WD=mercury-b EPS=mercury-flat ONLY="L1 L5" bash /home/user/work/myth-pick.sh
+cd tools && W=/home/user/work/mercury && B=/home/user/work/mercury-b && python3 voice.py ../voice/script.json ../build/voice.wav L0=$W/c_s2 L1=$B/c_s2 L2=$W/c_s2 L3=$W/c_s2 L4=$W/c_s4 L5=$B/c_s3 L6=$W/c_s3 && cd ..
+bash /home/user/work/mercury-build.sh     # cues, музыка, сведение, видео, обложка, check_clip
+```
+
 ## Статус
 
-Сборка идёт.
+Готово 20.11. Проверка `qa/check_clip.py`:
+- ошибок нет, замечаний нет;
+- 36,5 с;
+- громкость −14,1 LUFS, пик −2,0 dBTP;
+- 52 слова из двух и более слогов с верным ударением.

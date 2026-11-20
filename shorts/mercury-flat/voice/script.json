@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Разбился градусник, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «в течение дня дропать каждый час». On the formula of «Облако хлора»: «ты» at home, the question from frame 0, three steps, a secret, «Пиши!». Competitors' everyday-danger hits include the thermometer. Facts — restatements of the EMERCOM (МЧС) instruction on a broken mercury thermometer (Известия, Мел, district memos): no broom and no vacuum cleaner — the mercury scatters into tiny beads; take people and pets out, open the window without a draught (the door shut); collect the beads with a damp paper towel into a jar of water together with the glass; if you cannot collect it — call 112, the mercury is handed over to specialists; a torch shone along the floor makes the beads glint. One thermometer is hardly a poisoning risk — no scare. No blood and no death. 25–35 s.",
+ "note": "Narration for «Разбился градусник, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «в течение дня дропать каждый час». On the formula of «Облако хлора»: «ты» at home, the question from frame 0, three steps, a secret, «Пиши!». Competitors' everyday-danger hits include the thermometer. Facts — restatements of the EMERCOM (МЧС) instruction on a broken mercury thermometer (Известия, Мел, district memos): no broom and no vacuum cleaner — the mercury scatters into tiny beads; take people and pets out, open the window without a draught (the door shut); collect the beads with a damp paper towel into a jar of water together with the glass; if you cannot collect it — call 112, the mercury is handed over to specialists; a torch shone along the floor makes the beads glint. One thermometer is hardly a poisoning risk — no scare. No blood and no death. 25–35 s. L1 was «…пропылесосить»: all four takes read «пропылесосИть» — rewritten «взять пылесос». L5 was «посвети на пол фонариком…»: «посвЕти», «фонарикОм» — rewritten «в луче фонарика шарики ртути сразу заблестят». Both re-read (/home/user/work/mercury-b).",
  "tail": 0.6,
  "lines": [
   {
@@ -13,10 +13,10 @@
   },
   {
    "id": "L1",
-   "text": "Первая мысль — пропылесосить. Нельзя: ни пылесосом, ни веником — ртуть разлетится на мелкие шарики.",
+   "text": "Первая мысль — взять пылесос. Нельзя: ни пылесосом, ни веником — ртуть разлетится на мелкие шарики.",
    "after": 0.35,
    "sub": [
-    3,
+    4,
     5,
     5
    ]
@@ -50,12 +50,12 @@
   },
   {
    "id": "L5",
-   "text": "А секрет такой: посвети на пол фонариком — шарики ртути заблестят.",
+   "text": "А секрет такой: в луче фонарика шарики ртути сразу заблестят.",
    "after": 0.35,
    "sub": [
     3,
-    4,
-    3
+    3,
+    4
    ]
   },
   {

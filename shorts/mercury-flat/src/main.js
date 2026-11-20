@@ -30,9 +30,9 @@ for (const id of Object.keys(FB)) {
 }
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { РАЗБИЛСЯ: DANGER, ГРАДУСНИК: DANGER, РТУТЬ: DANGER, ПРОПЫЛЕСОСИТЬ: DANGER, НЕЛЬЗЯ: DANGER, ПЫЛЕСОСОМ: DANGER,
+const HOT = { РАЗБИЛСЯ: DANGER, ГРАДУСНИК: DANGER, РТУТЬ: DANGER, ПЫЛЕСОС: DANGER, НЕЛЬЗЯ: DANGER, ПЫЛЕСОСОМ: DANGER,
   ВЕНИКОМ: DANGER, ШАРИКИ: GOLD, УВЕДИ: OK, ОКНО: OK, ДВЕРЬ: OK, ЗАКРОЙ: OK, ВЛАЖНОЙ: OK, САЛФЕТКОЙ: OK, БАНКУ: OK, ВОДОЙ: OK,
-  ДВЕНАДЦАТЬ: OK, СДАТЬ: OK, СЕКРЕТ: GOLD, ФОНАРИКОМ: GOLD, ЗАБЛЕСТЯТ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  ДВЕНАДЦАТЬ: OK, СДАТЬ: OK, СЕКРЕТ: GOLD, ФОНАРИКА: GOLD, ЗАБЛЕСТЯТ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // —— the shots ——
 const T = {
@@ -41,8 +41,8 @@ const T = {
   roll: A.L0w7,                      // «ртуть раскатилась»
   c1: A.L1 - 0.06,                   // «пропылесосить… Нельзя»
   vac: A.L1w3,
-  nope: A.L1w4,
-  split: A.L1w11,
+  nope: A.L1w5,
+  split: A.L1w12,
   c2: A.L2 - 0.06,                   // step 1: the dog out, the window open, the door shut
   out: A.L2w1,
   win: A.L2w7,
@@ -51,7 +51,7 @@ const T = {
   wipe: A.L3w1,
   intoJar: A.L3w8,
   c4: A.L4 - 0.06,                   // step 3: the lid, 112
-  lid: A.L4w1,
+  lid: A.L4w2,
   dial: A.L4w5,
   c5: A.L5 - 0.06,                   // the secret: the torch
   torch: A.L5w3,
@@ -83,13 +83,13 @@ function hermite(keys, t) {
 }
 const SHOTS = [];
 const shot = (t0, keys) => SHOTS.push({ t0, keys });
-shot(T.cover, [[T.cover, -20, -230, 1.45], [T.drop, 20, -200, 1.55], [T.c1, 50, -170, 1.7]]);
-shot(T.c1, [[T.c1, 0, -220, 1.45], [T.split, 40, -170, 1.7], [T.c2, 50, -160, 1.75]]);
-shot(T.c2, [[T.c2, -60, -300, 1.15], [T.c3, -60, -300, 1.18]]);
-shot(T.c3, [[T.c3, 60, -150, 1.8], [T.c4, 70, -150, 1.85]]);
-shot(T.c4, [[T.c4, 0, -210, 1.5], [T.c5, 0, -210, 1.52]]);
-shot(T.c5, [[T.c5, 20, -170, 1.6], [T.c6, 40, -150, 1.7]]);
-shot(T.c6, [[T.c6, -60, -240, 1.45], [DUR, -60, -240, 1.5]]);
+shot(T.cover, [[T.cover, -20, -80, 1.45], [T.drop, 20, -70, 1.55], [T.c1, 50, -60, 1.7]]);
+shot(T.c1, [[T.c1, 0, -90, 1.45], [T.split, 40, -70, 1.7], [T.c2, 50, -70, 1.75]]);
+shot(T.c2, [[T.c2, -60, -115, 1.15], [T.c3, -60, -115, 1.18]]);
+shot(T.c3, [[T.c3, 60, -60, 1.8], [T.c4, 70, -60, 1.85]]);
+shot(T.c4, [[T.c4, 0, -90, 1.5], [T.c5, 0, -90, 1.52]]);
+shot(T.c5, [[T.c5, 20, -75, 1.6], [T.c6, 40, -70, 1.7]]);
+shot(T.c6, [[T.c6, -60, -110, 1.45], [DUR, -60, -110, 1.5]]);
 export function camAt(t) {
   let sh = SHOTS[0];
   for (const s of SHOTS) if (t >= s.t0) sh = s;
@@ -220,22 +220,22 @@ function overlays(t, cam) {
   if (t < A.L1 + 0.1) questionTitle(t);
   // «пропылесосить… Нельзя»
   if (t >= T.c1 && t < T.c2) { const b = S2([-20, -60]); Hd.redX(b[0], b[1], 110, sp(t, T.nope + 0.02, 2.6, 8) * (1 - seg(T.c2 - 0.25, T.c2, t))); }
-  Hd.plaque(t, A.L1w5 - 0.05, T.c2 - 0.1, 540, 560, { icon: 'x', title: 'НИ ПЫЛЕСОСОМ, НИ ВЕНИКОМ', sub: 'ртуть разлетится на мелкие шарики', color: DANGER, size: 44 });
+  Hd.plaque(t, A.L1w6 - 0.05, T.c2 - 0.1, 540, 560, { icon: 'x', title: 'НИ ПЫЛЕСОСОМ, НИ ВЕНИКОМ', sub: 'ртуть разлетится на мелкие шарики', color: DANGER, size: 44 });
   // step 1
   Hd.stepHeader(t, 1, 'ОКНО ОТКРОЙ', A.L2 + 0.02, A.L2e - 0.05);
-  Hd.plaque(t, A.L2w1 - 0.05, T.win - 0.1, 540, 1040, { icon: 'check', title: 'ДЕТЕЙ И ЖИВОТНЫХ — ИЗ КОМНАТЫ', color: OK, size: 38 });
+  Hd.plaque(t, A.L2w1 - 0.05, T.win - 0.1, 540, 560, { icon: 'check', title: 'ДЕТЕЙ И ЖИВОТНЫХ — ИЗ КОМНАТЫ', color: OK, size: 38 });
   // step 2
   Hd.stepHeader(t, 2, 'ВЛАЖНАЯ САЛФЕТКА', A.L3 + 0.02, A.L3e - 0.05);
   Hd.plaque(t, T.intoJar - 0.05, T.c4 - 0.1, 540, 560, { icon: 'drop', title: 'В БАНКУ С ВОДОЙ', color: OK, size: 48 });
   // step 3
   Hd.stepHeader(t, 3, 'ЗАКРОЙ · ЗВОНИ 112', A.L4 + 0.02, A.L4e - 0.05);
   if (t >= T.dial - 0.1 && t < T.c5) dialCard(t, 620, 700);
-  Hd.plaque(t, A.L4w10 - 0.05, T.c5 - 0.1, 540, 1040, { icon: 'check', title: 'РТУТЬ СДАЮТ СПЕЦИАЛИСТАМ', color: OK, size: 42 });
+  Hd.plaque(t, A.L4w10 - 0.05, T.c5 - 0.1, 540, 330, { icon: 'check', title: 'РТУТЬ СДАЮТ СПЕЦИАЛИСТАМ', color: OK, size: 42 });
   // the secret
   Hd.plaque(t, A.L5 + 0.02, T.c6 - 0.1, 540, 300, { icon: 'check', title: 'СЕКРЕТ', color: GOLD, size: 54 });
-  Hd.plaque(t, T.glint - 0.05, T.c6 - 0.1, 540, 1040, { icon: 'torch', title: 'ШАРИКИ БЛЕСТЯТ В ЛУЧЕ', color: GOLD, size: 46 });
+  Hd.plaque(t, T.glint - 0.05, T.c6 - 0.1, 540, 480, { icon: 'torch', title: 'ШАРИКИ БЛЕСТЯТ В ЛУЧЕ', color: GOLD, size: 46 });
   // the end
-  Hd.plaque(t, A.L6 + 0.02, DUR + 1, 540, 560, { icon: 'comment', title: 'ЕСТЬ РТУТНЫЙ ГРАДУСНИК?', sub: 'пиши в комментариях', color: GOLD, size: 44 });
+  Hd.plaque(t, A.L6 + 0.02, DUR + 1, 540, 700, { icon: 'comment', title: 'ЕСТЬ РТУТНЫЙ ГРАДУСНИК?', sub: 'пиши в комментариях', color: GOLD, size: 44 });
   Hd.endCard(t, T.sub - 0.05, 0, 300);
 }
 // the hook: «ЧТО ДЕЛАТЬ,» from the first frame, then the question word by word
