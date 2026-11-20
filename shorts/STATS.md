@@ -417,7 +417,9 @@ vidIQ — удалить после проверки. Сравнить прос�
 - 13:00 «Подъезд в дыму, а ты дома — бежать вниз?» — https://www.youtube.com/watch?v=C4UppvG92Rs;
 - 14:00 «Свет дали после блэкаута» — https://www.youtube.com/watch?v=G3rwZDvCGUw;
 - 15:00 «Прилетели инопланетяне? НЕ ЗАПУСКАЙ ДРОН!» — https://www.youtube.com/watch?v=7i83lGX1Xlw;
-- 16:00–18:00 — новые ролики по мере готовности («Загорелась проводка» и следующие);
+- 16:00 «Загорелась розетка: тушить водой?» — новый, загрузка через vidIQ упёрлась в лимит YouTube (rateLimitExceeded), vidIQ повторяет;
+- 17:00 «Разбился градусник — пылесосить? НЕТ!» — новый, отправлен через vidIQ;
+- 18:00 — свободно;
 - 19:00 «Запах газа» — https://www.youtube.com/watch?v=cl06cgjfqsk;
 - 20:00 «Сирена» — https://www.youtube.com/watch?v=V4l7Ucjh34M;
 - 21:00 «Незнакомец в лифте» — https://www.youtube.com/watch?v=zFqVE6ERUJU.
