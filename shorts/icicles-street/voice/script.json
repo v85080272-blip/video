@@ -1,0 +1,72 @@
+{
+ "note": "Narration for «Сосульки, ты на улице» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «сделай ещё мультов, чтоб сегодня выпустить». On the formula of «Облако хлора» (1.2K, 107 % average view): «ты», a real everyday danger, the question from frame 0, three steps, a secret, «Пиши!». Seasonal (late November). Facts — EMERCOM (МЧС) memos «Сход снега с крыш и падение сосулек» (csoor, ngc and district memos): hearing a suspicious noise from above, do not stop, do not lift your head to look — it may be snow or a block of ice coming down; do not run away from the building — press against the wall as fast as you can, the eave of the roof will cover you; ice mounds and traces of fallen snow on the pavement mark a dangerous place; icicles grow most of all over the drainpipes. No blood and no death. 25–35 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если идёшь вдоль здания — и сверху раздался треск?",
+   "at": 0.12,
+   "sub": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — поднять голову и посмотреть. Нельзя: это может падать снег или глыба льда.",
+   "after": 0.35,
+   "sub": [
+    6,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: не беги от здания и не останавливайся.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: быстро прижмись к стене — козырёк крыши тебя прикроет.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: видишь на тротуаре ледяные холмики? Обходи — сюда уже падало.",
+   "after": 0.35,
+   "sub": [
+    6,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: больше всего сосулек над водостоками — там не ходи.",
+   "after": 0.35,
+   "sub": [
+    3,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А ты ходишь под сосульками? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    5,
+    1,
+    2
+   ]
+  }
+ ]
+}
