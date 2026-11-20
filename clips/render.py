@@ -1,0 +1,117 @@
+"""One vertical clip: layout, subtitles, title, loudness."""
+import json
+import os
+import shutil
+
+import layout as L
+import subs as S
+from common import FONTS, hms, log, probe, run
+
+
+def render(src, start, dur, out, work, layout='auto', cam=None, title='', title_secs=None, credit='',
+           subtitles=True, model='small', lang=None, mat=False, zoom=1.0, game_x=0.5, source_url='', bleep=True, trim=True):
+    os.makedirs(work, exist_ok=True)
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+    info = probe(src)
+    dur = min(dur, max(0.5, info['duration'] - start)) if info['duration'] else dur
+    stem = os.path.splitext(os.path.basename(out))[0]
+
+    if cam is None and layout in ('auto', 'split'):
+        cam = L.detect_cam(src, start, start + dur, debug_jpg=os.path.join(work, stem + '.cam.jpg'))
+        if cam:
+            log(f'  вебка: x={cam[0]} y={cam[1]} {cam[2]}×{cam[3]} (проверка: {stem}.cam.jpg в рабочей папке)')
+        elif layout == 'auto':
+            log('  вебку не нашёл: кадр по центру на размытом фоне')
+    p = L.plan(layout, info['width'], info['height'], cam, zoom, game_x)
+
+    words = []
+    if subtitles and info['has_audio']:
+        wav = os.path.join(work, stem + '.wav')
+        run(['ffmpeg', '-y', '-v', 'error', '-ss', str(start), '-t', str(dur), '-i', src, '-vn', '-ac', '1',
+             '-ar', '16000', wav])
+        words = S.transcribe(wav, model, lang)
+        os.remove(wav)
+        if words and trim:
+            # viewers swipe away in the first second: start right before the first word, end soon after the last
+            lead = max(0.0, words[0]['start'] - 0.3) if words[0]['start'] > 1.0 else 0.0
+            end = min(dur, words[-1]['end'] + 0.8)
+            if lead or end < dur - 0.5:
+                log(f'  обрезка: начало +{lead:.1f} с, длина {end - lead:.1f} с')
+                start, dur = start + lead, end - lead
+                words = [dict(w, start=w['start'] - lead, end=w['end'] - lead) for w in words]
+    ass = S.build(words, dur, p, title, title_secs, credit, mat)
+    with open(os.path.join(work, stem + '.ass'), 'w', encoding='utf-8') as f:
+        f.write(ass)
+    fonts = os.path.join(work, 'fonts')
+    if not os.path.isdir(fonts):
+        shutil.copytree(FONTS, fonts)
+
+    # run inside the work folder: the subtitles filter gets plain relative names (no Windows drive colons)
+    vf = p['filter'][:-3] + f'[v0];[v0]subtitles={stem}.ass:fontsdir=fonts[v]'
+    af = (f'loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=in:d=0.12,afade=t=out:st={max(0, dur - 0.35):.2f}:d=0.35,'
+          f'aresample=48000')
+    fps = min(60.0, info['fps'] or 30)
+    spans = S.bleeps(words) if (mat and bleep) else []
+    if info['has_audio']:
+        if spans:
+            # the swear words are muted and a 1 kHz beep plays over them
+            on = '+'.join(f'between(t,{a:.2f},{b:.2f})' for a, b in spans)
+            vf += (f";[0:a]volume=0:enable='{on}',{af}[a0];"
+                   f"sine=frequency=1000:sample_rate=48000:duration={dur:.2f},volume=0.2,"
+                   f"volume=0:enable='not({on})'[bp];[a0][bp]amix=inputs=2:normalize=0:duration=first[a]")
+        else:
+            vf += f';[0:a:0]{af}[a]'
+    cmd = ['ffmpeg', '-y', '-v', 'error', '-stats', '-ss', f'{start:.3f}', '-t', f'{dur:.3f}', '-i', os.path.abspath(src),
+           '-filter_complex', vf, '-map', '[v]']
+    if info['has_audio']:
+        cmd += ['-map', '[a]', '-c:a', 'aac', '-b:a', '160k']
+        if spans:
+            log(f'  запикано слов: {len(spans)}')
+    cmd += ['-r', f'{fps:.3f}', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p',
+            '-movflags', '+faststart', os.path.abspath(out)]
+    log(f'  рендер {os.path.basename(out)} ({hms(dur)}, {p["layout"]})')
+    run(cmd, cwd=work)
+
+    text = ' '.join(w['word'] for w in words)
+    meta = {'file': os.path.basename(out), 'source': source_url or src, 'start': round(start, 2),
+            'duration': round(dur, 2), 'layout': p['layout'], 'cam': cam, 'title': title, 'credit': credit,
+            'transcript': text}
+    with open(os.path.splitext(out)[0] + '.json', 'w', encoding='utf-8') as f:
+        json.dump(meta, f, ensure_ascii=False, indent=1)
+    return meta
+
+
+def render_with_teaser(src, start, dur, out, work, teaser_len=2.0, **kw):
+    """The loudest ~2 s of the clip first, then the clip from its start: a viewer swiping through the feed sees
+    the payoff at once and stays for the setup. Without a clear peak after the first seconds it is a plain render."""
+    import subprocess
+    import moments as M
+    meta = render(src, start, dur, out, work, **kw)
+    s, d = meta['start'], meta['duration']                     # after the silence trim
+    frames = M.loudness(src, start=s, dur=d)
+    n = int(round(teaser_len / M.FRAME))
+    if len(frames) < 3 * n:
+        return meta
+    win = [frames[i:i + n].mean() for i in range(len(frames) - n)]
+    i = max(range(len(win)), key=win.__getitem__)
+    t = i * M.FRAME
+    if t < 3.0:                                                # the peak is already at the start
+        return meta
+    stem = os.path.splitext(os.path.basename(out))[0]
+    teaser = os.path.join(work, stem + '.teaser.mp4')
+    main = os.path.join(work, stem + '.main.mp4')
+    os.replace(out, main)
+    kw2 = dict(kw, cam=meta['cam'], trim=False, layout=meta['layout'])
+    render(src, s + t, teaser_len, teaser, work, **kw2)
+    log(f'  крючок: {teaser_len:.1f} с с {t:.1f} с в начало')
+    run(['ffmpeg', '-y', '-v', 'error', '-i', teaser, '-i', main, '-filter_complex',
+         '[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[v][a]', '-map', '[v]', '-map', '[a]',
+         '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k',
+         '-movflags', '+faststart', os.path.abspath(out)], stdout=subprocess.DEVNULL)
+    for f in (teaser, main, os.path.splitext(teaser)[0] + '.json', os.path.splitext(main)[0] + '.json'):
+        if os.path.exists(f):
+            os.remove(f)
+    meta.update({'teaser_from': round(t, 2), 'duration': round(d + teaser_len, 2)})
+    with open(os.path.splitext(out)[0] + '.json', 'w', encoding='utf-8') as f:
+        json.dump(meta, f, ensure_ascii=False, indent=1)
+    return meta
