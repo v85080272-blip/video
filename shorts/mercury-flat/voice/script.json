@@ -1,0 +1,72 @@
+{
+ "note": "Narration for «Разбился градусник, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «в течение дня дропать каждый час». On the formula of «Облако хлора»: «ты» at home, the question from frame 0, three steps, a secret, «Пиши!». Competitors' everyday-danger hits include the thermometer. Facts — restatements of the EMERCOM (МЧС) instruction on a broken mercury thermometer (Известия, Мел, district memos): no broom and no vacuum cleaner — the mercury scatters into tiny beads; take people and pets out, open the window without a draught (the door shut); collect the beads with a damp paper towel into a jar of water together with the glass; if you cannot collect it — call 112, the mercury is handed over to specialists; a torch shone along the floor makes the beads glint. One thermometer is hardly a poisoning risk — no scare. No blood and no death. 25–35 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если разбился градусник — и ртуть раскатилась по полу?",
+   "at": 0.12,
+   "sub": [
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — пропылесосить. Нельзя: ни пылесосом, ни веником — ртуть разлетится на мелкие шарики.",
+   "after": 0.35,
+   "sub": [
+    3,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: уведи из комнаты детей и животных, открой окно, а дверь закрой.",
+   "after": 0.35,
+   "sub": [
+    7,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: собери шарики влажной бумажной салфеткой — и в банку с водой.",
+   "after": 0.35,
+   "sub": [
+    6,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: банку закрой и звони сто двенадцать — там скажут, куда сдать ртуть.",
+   "after": 0.35,
+   "sub": [
+    7,
+    5
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: посвети на пол фонариком — шарики ртути заблестят.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А у тебя дома ещё есть ртутный градусник? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    8,
+    1,
+    2
+   ]
+  }
+ ]
+}
