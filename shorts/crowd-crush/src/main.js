@@ -10,6 +10,7 @@ import { view, toScreen } from './camera.js';
 import * as Hd from './hud.js';
 import * as Sm from './smoke.js';
 import * as Cr from './crowd.js';
+import * as B from './bait.js';
 import { drawHunter, framesOf } from './hunter.js';
 import { drawDog } from './dog.js';
 import { text, measure, FONTS, INK } from './type.js';
@@ -202,20 +203,30 @@ function speech(t, t0, t1, x, y, str) {
   g.restore();
 }
 function fitText(str, x, y, size, maxW, color, o = {}) { const w = measure(str, size, o.fam); text(str, x, y, size * Math.min(1, maxW / w), color, o); }
-// —— the cover: you squeezed in the crowd; the question and the ban ——
+// —— the cover (the «bait»): close up, his scared face squeezed between two big people, red arrows pressing from
+// both sides, the stadium glow behind; «ТОЛПА ДАВИТ!». Also saved as the thumbnail JPEG ——
 function coverFrame(t) {
-  const cam = { x: 0, y: -290, z: 1.6, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
-  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#1d2847'; g.fillRect(0, 0, W, H);
-  view(cam, 1);
-  Cr.street(3); Cr.row(3, -60, 0.78, -1600, 1600, 1); Cr.row(3, 0, 0.9, -1600, 1600, 2, 40, [HX, 120]);
-  const o = stand(base(3, { look: [0.6, -0.2], brow: 1, pop: 1, mouth: 0.6, jacket: true, boots: true }), HX); drawHunter(o);
-  Cr.row(3, 90, 1.08, -1600, 1600, 3, 40, [HX, 140]); Cr.squeeze(3.2, HX, -230, 1);
   g.setTransform(1, 0, 0, 1, 0, 0);
-  const grd = g.createLinearGradient(0, 0, 0, 640); grd.addColorStop(0, 'rgba(0,0,0,0.65)'); grd.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = grd; g.fillRect(0, 0, W, 640);
-  g.save(); g.translate(540, 200); g.rotate(-0.03); rect(-170 + 6, -34 + 7, 340, 68, INK); rect(-170, -34, 340, 68, '#ff4d4d'); g.restore();
-  text('КАК ВЫЖИТЬ', 540, 218, 50, '#fff3d6', { fam: FONTS.cond, shadow: false, rot: -0.03 });
-  fitText('ТОЛПА СДАВИЛА?', 540, 380, 130, 980, '#ffd23f', { rot: -0.03 });
-  fitText('НЕ ИДИ ПРОТИВ!', 540, 530, 120, 960, '#ff5a4a', { rot: -0.03 });
+  const bg = g.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#ffb347'); bg.addColorStop(0.5, '#e0563a'); bg.addColorStop(1, '#5a1f4a');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  B.rays(540, 700, '#fff3c4', 16, 0.16);
+  const cam = { x: 0, y: -300, z: 2.3, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
+  view(cam, 1);
+  Cr.row(3, -70, 0.8, -900, 900, 1, 0); Cr.row(3, -20, 0.88, -900, 900, 2, 0, [0, 150]);
+  const o = stand(base(3, { look: [0, -0.25], brow: 1, pop: 1, mouth: 0.4, jacket: true, boots: true }), 0);
+  o.feet = { near: [o.hip[0] - 22, 0], far: [o.hip[0] + 22, 0] };
+  const sh = shoulder(o); o.hands = { near: { p: [sh[0] + 40, sh[1] + 40], shape: 'fist' }, far: { p: [sh[0] - 30, sh[1] + 44], shape: 'fist' } };
+  drawHunter(o);
+  Cr.person(-170, 40, 1.02, 4, 3); Cr.person(178, 40, 1.05, 9, 3);
+  const hd = toScreen(cam, [o.hip[0] - 10, o.hip[1] - 245]);
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  for (const [dx, dy, r] of [[-20, 20, 20], [160, -10, 18], [230, 70, 15]]) { const x = hd[0] + dx, y = hd[1] + dy; poly([[x, y - r * 1.8], [x - r, y], [x + r, y]], '#bfe9ff'); ell(x, y, r, r, '#bfe9ff'); }
+  B.vignette(0.45);
+  B.arrow([-30, 1180], [250, 1180], 52); B.arrow([1110, 1180], [830, 1180], 52);
+  B.arrow([-30, 1420], [210, 1420], 44); B.arrow([1110, 1420], [870, 1420], 44);
+  B.plate('КАК ВЫЖИТЬ', 540, 120, 44, '#ff2d2d');
+  B.outlined('ТОЛПА', 540, 370, 230, '#ffffff');
+  B.outlined('ДАВИТ!', 540, 570, 200, '#ffd23f');
 }
 
 // how far things move on screen around t (for the number of motion-blur sub-frames)

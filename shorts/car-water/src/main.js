@@ -10,6 +10,7 @@ import { view, toScreen } from './camera.js';
 import * as Hd from './hud.js';
 import * as Sm from './smoke.js';
 import * as Cw from './carwater.js';
+import * as B from './bait.js';
 import { drawHunter, framesOf } from './hunter.js';
 import { drawDog } from './dog.js';
 import { text, measure, FONTS, INK } from './type.js';
@@ -207,20 +208,32 @@ function speech(t, t0, t1, x, y, str) {
   g.restore();
 }
 function fitText(str, x, y, size, maxW, color, o = {}) { const w = measure(str, size, o.fam); text(str, x, y, size * Math.min(1, maxW / w), color, o); }
-// —— the cover: the car in the river, the driver inside; the question and the ban ——
+// —— the cover (the «bait»): under water, his scared face in the window, the water inside up to the chin, the door
+// handle ringed and crossed out; «ДВЕРЬ НЕ ОТКРОЕТСЯ!». Also saved as the thumbnail JPEG ——
 function coverFrame(t) {
-  const cam = { x: 80, y: -170, z: 0.95, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 };
-  g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = '#9fbcd6'; g.fillRect(0, 0, W, H);
-  view(cam, 1);
-  Cw.riverBack(3);
-  Cw.carFrame(0, 20, 0.1, CS, () => { const o = base(3, { s: 0.45, look: [0.4, -0.5], brow: 1, pop: 1, mouth: 0.6 }); o.hip = [...Cw.SEAT]; o.feet = { near: [Cw.SEAT[0] + 150, -30], far: [Cw.SEAT[0] + 170, -30] }; drawHunter(o); Cw.car(3, { inside: 0.3 }); });
-  Cw.river(3, { splash: 0.8 });
   g.setTransform(1, 0, 0, 1, 0, 0);
-  const grd = g.createLinearGradient(0, 0, 0, 640); grd.addColorStop(0, 'rgba(0,0,0,0.65)'); grd.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = grd; g.fillRect(0, 0, W, 640);
-  g.save(); g.translate(540, 200); g.rotate(-0.03); rect(-170 + 6, -34 + 7, 340, 68, INK); rect(-170, -34, 340, 68, '#ff4d4d'); g.restore();
-  text('КАК ВЫЖИТЬ', 540, 218, 50, '#fff3d6', { fam: FONTS.cond, shadow: false, rot: -0.03 });
-  fitText('МАШИНА В ВОДЕ?', 540, 380, 130, 980, '#6fc3ff', { rot: -0.03 });
-  fitText('НЕ ОТКРЫВАЙ ДВЕРЬ!', 540, 530, 110, 960, '#ff5a4a', { rot: -0.03 });
+  const bg = g.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#3fb4d8'); bg.addColorStop(0.45, '#1b6f93'); bg.addColorStop(1, '#08283b');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  B.rays(540, -260, '#e8fbff', 10, 0.13);
+  const cam = { x: 130, y: -222, z: 2.5, lens: 1, tx: 0, ty: 0, dx: 0, dy: 0, r: 0 }, A0 = 0.06;
+  view(cam, 1);
+  Cw.carFrame(0, 0, A0, CS, () => {
+    const o = base(3, { s: 0.45, look: [0.15, -0.2], brow: 1, pop: 1, mouth: 0.95 });
+    o.hip = [...Cw.SEAT]; o.feet = { near: [Cw.SEAT[0] + 150, -30], far: [Cw.SEAT[0] + 170, -30] };
+    o.hands = { near: { p: [235, -262], shape: 'open' }, far: { p: [40, -275], shape: 'open' } };
+    drawHunter(o); Cw.car(3, { inside: 0.42 });
+  });
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.save(); g.globalAlpha = 0.16; g.fillStyle = '#2a8fb8'; g.fillRect(0, 0, W, H); g.restore();
+  B.bubbles(3, 22, 620, 1900);
+  B.vignette(0.5);
+  const lp = ([x, y]) => [CS * (x * Math.cos(A0) - y * Math.sin(A0)), CS * (x * Math.sin(A0) + y * Math.cos(A0))];
+  const hp = toScreen(cam, lp([60, -103]));
+  B.redMark(hp[0], hp[1], 105);
+  B.arrow([hp[0] + 380, hp[1] + 300], [hp[0] + 120, hp[1] + 100]);
+  B.plate('КАК ВЫЖИТЬ', 540, 120, 44, '#ff4d4d');
+  B.outlined('ДВЕРЬ', 540, 370, 220, '#ffffff');
+  B.outlined('НЕ ОТКРОЕТСЯ!', 540, 560, 150, '#ffd23f', { maxW: 1000 });
 }
 
 // how far things move on screen around t (for the number of motion-blur sub-frames)

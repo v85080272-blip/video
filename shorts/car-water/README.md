@@ -45,4 +45,4 @@ bash /home/user/work/car-build.sh
 
 ## Статус
 
-Готово 21.11.
+Готово 21.11. Обложка-приманка (`src/bait.js`) стоит превью. Выход 21.11 в 12:00 МСК: https://www.youtube.com/watch?v=iMWvDdAaMuw.
