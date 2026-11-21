@@ -33,7 +33,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СЕНТЯБРЬ: GOLD, ТАЙГОЙ: GOLD, ЭЛЕКТРИЧЕСТВО: DANGER, ПОГАСЛИ: DANGER, НАСОСЫ: DANGER, ТРИДЦАТЬ: DANGER,
-  ВОСЕМЬДЕСЯТ: GOLD, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, ВДРУГ: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, ИСТОРИЮ: GOLD,
+  ВОСЬМИДЕСЯТИ: GOLD, ОДНОГО: OK, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, ВДРУГ: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, ИСТОРИЮ: GOLD,
   ЗАКРЫЛКОВ: DANGER, СКОРОСТИ: DANGER, БЕРЕЗНЯК: GOLD, ОСТАНАВЛИВАЕТСЯ: OK, ЖИВЫ: OK, ПОСТРАДАЛ: OK, СЕКРЕТ: GOLD,
   СОТНИКОВ: GOLD, ДВЕНАДЦАТЬ: GOLD, ЗАРОСЛА: GOLD, НАГРАДИЛИ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
