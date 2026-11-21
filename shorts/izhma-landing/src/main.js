@@ -35,7 +35,7 @@ const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = H
 const HOT = { СЕНТЯБРЬ: GOLD, ТАЙГОЙ: GOLD, ЭЛЕКТРИЧЕСТВО: DANGER, ПОГАСЛИ: DANGER, НАСОСЫ: DANGER, ТРИДЦАТЬ: DANGER,
   ВОСЕМЬДЕСЯТ: GOLD, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, СТОП: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, СЕЛ: GOLD,
   ЗАКРЫЛКОВ: DANGER, СКОРОСТИ: DANGER, БЕРЕЗНЯК: GOLD, ОСТАНАВЛИВАЕТСЯ: OK, ЖИВЫ: OK, ПОСТРАДАЛ: OK, СЕКРЕТ: GOLD,
-  СОТНИКОВ: GOLD, ДВЕНАДЦАТЬ: GOLD, КУСТЫ: GOLD, НАГРАДИЛИ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+  СОТНИКОВ: GOLD, ДВЕНАДЦАТЬ: GOLD, ЗАРОСЛА: GOLD, НАГРАДИЛИ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
 const IMG = {};
@@ -51,7 +51,7 @@ const LABEL = { '01': 'самолёт над тайгой', '02': 'прибор�
 
 // L4: Стоп(0) Впереди(1) —(2) заброшенная(3) полоса(4) почти(5) вдвое(6) короче(7) нужной(8) Ты(9) бы(10) сел(11)
 // L5: Садятся(0) —(1) без(2) закрылков(3) на(4) огромной(5) скорости(6)
-// L8: А(0) секрет(1) такой(2) аэропорт(3) давно(4) закрыли(5) Но(6) Сергей(7) Сотников(8) двенадцать(9) лет(10) сам(11) вырубал(12) кусты(13) …
+// L8: А(0) секрет(1) такой(2) аэропорт(3) давно(4) закрыли(5) Но(6) Сергей(7) Сотников(8) двенадцать(9) лет(10) сам(11) следил(12) чтобы(13) полоса(14) не(15) заросла(16) …
 // L9: Позже(0) его(1) наградили(2) А(3) ты(4) бы(5) стал(6) так(7) делать(8) Пиши(9) И(10) подписывайся(11)
 const T = { cover: 0.05, cS: A.L4 - 0.06, ans: A.L5w0 - 0.05, gone: A.L5w3, sub: A.L9w11 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]
@@ -191,7 +191,7 @@ export function cues() {
   add(T.ans, 'ding', -8, 0); add(A.L5 - 0.06, 'whoosh_down', -10, 0); add(A.L5, 'rumble', -12, 0, { dur: A.L6 - A.L5 + 0.5 });
   add(A.L6 - 0.06, 'thud', -8, 0); add(A.L6w5, 'scrape', -8, 0); add(A.L6w7, 'wood_clack', -10, 0.2); add(A.L6w9, 'thud', -10, 0);
   add(A.L7 - 0.06, 'ding', -10, 0); add(A.L7, 'crowd_murmur', -20, 0, { dur: A.L8 - A.L7 });
-  add(A.L8 - 0.06, 'whoosh_in', -14, 0); add(A.L8w12, 'cloth', -12, 0); add(A.L8, 'morning', -18, 0, { dur: DUR - A.L8 });
+  add(A.L8 - 0.06, 'whoosh_in', -14, 0); add(A.L8w16, 'cloth', -12, 0); add(A.L8, 'morning', -18, 0, { dur: DUR - A.L8 });
   add(A.L9, 'tweet', -18, 0.3, { dur: 2.0 });
   add(T.sub - 0.1, 'pop_word', -8, 0);
   return c.sort((a, b) => a.t - b.t);
