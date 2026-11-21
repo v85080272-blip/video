@@ -1,0 +1,94 @@
+{
+ "note": "Narration for «Кит проглотил дайвера» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–08), like «Трое под реактором». Facts: 11 June 2021, off Provincetown (Cape Cod), lobster diver Michael Packard, 56, about 45 ft (14 m) down; a bump and darkness, he first thought of a shark, felt no teeth — inside a humpback's mouth; his regulator still in, he could breathe; he struggled; after about 30–40 s the whale surfaced and spat him out; crewmate Josiah Mayo pulled him out; bruises, no broken bones (NPR, CBS, NBC, Smithsonian). A humpback's throat is about the size of a fist — it cannot swallow a person. No blood, no death words.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Июнь двадцать первого года. Ловец лобстеров ныряет у берегов Америки.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Он опускается на дно — на четырнадцать метров.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Вдруг толчок — и вокруг темно. Первая мысль: акула.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Но зубов нет. Он во рту у горбатого кита.",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Стоп. Загубник во рту, воздух есть. Ты бы стал вырываться?",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Он толкается изо всех сил. Через полминуты кит всплывает — и выплёвывает его.",
+   "after": 0.6,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Напарник затаскивает его в лодку. Синяки — и больше ничего.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А секрет такой: горло горбатого кита — размером с кулак. Проглотить человека он не может.",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    2,
+    5
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "А ты бы не растерялся? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    2
+   ]
+  }
+ ]
+}

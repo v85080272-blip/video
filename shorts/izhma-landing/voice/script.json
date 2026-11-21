@@ -1,0 +1,107 @@
+{
+ "note": "Narration for «Полоса в тайге» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–10), like «Трое под реактором». The owner, 21.11: «хочу, чтоб ещё с Кодексом что-нибудь нагенерили интересное». Facts: Alrosa flight 514, Tu-154M, 7 Sept 2010, Polyarny → Moscow, 72 passengers + 9 crew; total electrical failure at cruise, fuel pumps off, about 30 min of fuel; landed on the closed Izhma airfield (about 1300 m, nearly half what the plane needs) without flaps at high speed, overran into young forest, nobody hurt; Sergey Sotnikov, head of the helipad, kept the closed strip clear for 12 years on his own; a medal in 2012; the plane flew out in March 2011 (rg.ru, kp.ru, techinsider.ru, Wikipedia). No blood, no death words.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Сентябрь две тысячи десятого. Над тайгой у пассажирского самолёта отказало всё электричество.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Погасли приборы, встали топливные насосы. Топлива — минут на тридцать.",
+   "after": 0.3,
+   "sub": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "На борту восемьдесят один человек. Лётчики снижаются сквозь облака вслепую.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Под облаками — только лес и река. Аэропорта нет.",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Стоп. Впереди — заброшенная полоса, почти вдвое короче нужной. Ты бы сел?",
+   "after": 0.4,
+   "sub": [
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Садятся — без закрылков, на огромной скорости.",
+   "after": 0.6,
+   "sub": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Самолёт не успевает затормозить и въезжает в березняк — но останавливается.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Все восемьдесят один человек живы. Никто не пострадал.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "А секрет такой: аэропорт давно закрыли. Но Сергей Сотников двенадцать лет сам вырубал кусты на полосе — на всякий случай.",
+   "after": 0.3,
+   "sub": [
+    3,
+    3,
+    4,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "Позже его наградили. А ты бы стал так делать? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    2,
+    3
+   ]
+  }
+ ]
+}
