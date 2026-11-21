@@ -33,6 +33,8 @@
 
 Рассказчик канала (Qwen3-TTS Base), четыре дубля: `/home/user/work/whale-diver`.
 
+Взяты: L0 s4, L1 s4, L2 s2, L3 s3, L4 s4, L6 s2, L7 s4, L8 s4; L5 переписана («Изо всех сил», «пОлминуты» во всех дублях) и перечитана: s3 из `/home/user/work/whale-diver-b`.
+
 ```bash
 PAR=2 bash voice/takes.sh 1 2 3 4
 cd /home/user/work && WD=whale-diver EPS=whale-diver bash myth-pick.sh
@@ -41,4 +43,4 @@ bash /home/user/work/whale-build.sh
 
 ## Статус
 
-В работе.
+Готово 21.11, 38,0 с, проверка `qa/check_clip.py` без ошибок (одно сомнение: «Но» под музыкой похоже на «На»). Обложка-приманка стоит превью. Черновик в vidIQ на 22.11 19:00 МСК — опубликовать после 11:00 МСК.

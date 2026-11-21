@@ -39,6 +39,8 @@
 
 Рассказчик канала (Qwen3-TTS Base), четыре дубля: `/home/user/work/izhma-landing`.
 
+Взяты: L0 s2, L1 s1, L2 s3, L3 s1, L4 s4, L5 s1, L6 s1, L7 s4, L9 s3; L8 переписана («вЫрубал» во всех дублях) и перечитана: s3 из `/home/user/work/izhma-landing-b`.
+
 ```bash
 PAR=2 bash voice/takes.sh 1 2 3 4
 cd /home/user/work && WD=izhma-landing EPS=izhma-landing bash myth-pick.sh
@@ -47,4 +49,4 @@ bash /home/user/work/izhma-build.sh
 
 ## Статус
 
-В работе.
+Готово 21.11, 49,5 с, проверка `qa/check_clip.py` без ошибок. Обложка-приманка стоит превью. Черновик в vidIQ на 22.11 12:00 МСК — опубликовать после 11:00 МСК (лимит 3 загрузки в сутки).
