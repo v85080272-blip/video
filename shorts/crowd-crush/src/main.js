@@ -162,7 +162,7 @@ function overlays(t, cam, o) {
   Hd.plaque(t, A.L1w6 - 0.05, T.c2 - 0.1, 540, 330, { icon: 'x', title: 'ПРОТИВ ПОТОКА НЕ ПРОЙТИ', color: DANGER, size: 44 });
   // step 1
   Hd.stepHeader(t, 1, 'РУКИ ПЕРЕД ГРУДЬЮ', A.L2 + 0.02, A.L2e - 0.05);
-  Hd.plaque(t, A.L2w8 - 0.05, T.c3 - 0.1, 540, 1040, { icon: 'check', title: 'ЛОКТИ ЧУТЬ В СТОРОНЫ', sub: 'чтобы не сдавило грудь', color: OK, size: 44 });
+  Hd.plaque(t, A.L2w8 - 0.05, T.c3 - 0.1, 540, 470, { icon: 'check', title: 'ЛОКТИ ЧУТЬ В СТОРОНЫ', sub: 'чтобы не сдавило грудь', color: OK, size: 44 });
   // step 2: the map card
   Hd.stepHeader(t, 2, 'С ТОЛПОЙ — К КРАЮ', A.L3 + 0.02, A.L3e - 0.05);
   if (t >= T.c3 && t < T.c4) Cr.mapCard(t, 540, 720, clamp(sp(t, T.c3 + 0.05, 2.4, 8)) * (1 - seg(T.c4 - 0.25, T.c4 - 0.02, t)), seg(A.L3w6, A.L3e + 0.2, t, x => x), seg(A.L3w1 - 0.1, A.L3w1 + 0.2, t));
