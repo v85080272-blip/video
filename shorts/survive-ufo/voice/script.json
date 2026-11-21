@@ -1,0 +1,103 @@
+{
+ "note": "Narration for «Как выжить, если прилетели инопланетяне» (2D, the plain «what to do» format, not the quiz — the owner, 16.11: «не правда или миф, а просто что делать, как выжить, если прилетели инопланетяне, в 2D»; the hype: the sky over the US was closed). A «what if»: the aliens are fiction, the steps are real US emergency rules. Voice: Elen (ElevenLabs), the voice of Искра. Studio rules: real danger here and now, 35–45 s, a bright first frame (the cover), a choice in the middle, a cliffhanger at the end; no blood, no death. Facts: 1 do not go out to look — go inside and keep away from the windows (Ready.gov / FEMA «Shelter in place»: go indoors, a room with few windows). 2 charge the phone and a power bank — US emergency alerts (Wireless Emergency Alerts, FEMA IPAWS) come to the phone by themselves. 3 the choice: a neighbour calls you to drive to the saucer and film it with a drone — stay (2): the sky is closed, a drone in a temporary flight restriction means big fines (FAA), and the roads are needed for the military and ambulances (Ready.gov: stay off the roads so emergency vehicles can get through). 4 water: about a gallon (~4 l) per person per day, for at least three days (Ready.gov «Water»). 5 if they announce an evacuation — leave only by the route they give (Ready.gov «Evacuation»: follow the recommended routes, shortcuts may be blocked). End: a knock at the door — open or not? (a question for the comments). tts: what ElevenLabs reads, with stress marks; the first take read «США» letter by letter with pauses («сэ… шэ… а»), so L0 says «Ты в Америке» (re-read in two takes); tempo 1.2 and shorter pauses (the take ran 48.6 s at 1.1). Subtitle groups (sub) are counted without the dash. L2 re-read with «пауэрба́нк» (the dictionary stress of the check; the first take had «па́уэрбанк»).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Ты в Америке. Ночью над городом зависла тарелка, по небу кружат вертолёты. Как выжить?",
+   "tts": "Ты в Аме́рике. Но́чью над го́родом зави́сла таре́лка, по не́бу кру́жат вертолёты. Как вы́жить?",
+   "at": 0.12,
+   "sub": [
+    3,
+    5,
+    4,
+    2
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L1",
+   "text": "Первое: не выходи смотреть. Зайди в дом и встань подальше от окон.",
+   "tts": "Пе́рвое: не выходи́ смотре́ть. Зайди́ в дом и встань пода́льше от о́кон.",
+   "after": 0.35,
+   "sub": [
+    4,
+    8
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L2",
+   "text": "Второе: заряди телефон и пауэрбанк. Тревога придёт прямо на телефон.",
+   "tts": "Второ́е: заряди́ телефо́н и пауэрба́нк. Трево́га придёт пря́мо на телефо́н.",
+   "after": 0.35,
+   "sub": [
+    5,
+    5
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L3",
+   "text": "Сосед зовёт: поехали к тарелке, снимем на дрон! Один — едешь. Два — остаёшься. Решай.",
+   "tts": "Сосе́д зовёт: пое́хали к таре́лке, сни́мем на дрон! Оди́н — е́дешь. Два — остаёшься. Реша́й.",
+   "after": 0.35,
+   "sub": [
+    2,
+    6,
+    2,
+    2,
+    1
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L4",
+   "text": "Два! Небо закрыто: за дрон — огромный штраф. А дороги нужны военным и скорой.",
+   "tts": "Два! Не́бо закры́то: за дрон — огро́мный штраф. А доро́ги нужны́ вое́нным и ско́рой.",
+   "after": 1.4,
+   "sub": [
+    1,
+    2,
+    4,
+    6
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L5",
+   "text": "Третье: набери воды — около четырёх литров на человека в день, на три дня.",
+   "tts": "Тре́тье: набери́ воды́ — о́коло четырёх ли́тров на челове́ка в день, на три дня.",
+   "after": 0.35,
+   "sub": [
+    3,
+    7,
+    3
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L6",
+   "text": "Объявят эвакуацию — уезжай только по их маршруту.",
+   "tts": "Объя́вят эвакуа́цию — уезжа́й то́лько по их маршру́ту.",
+   "after": 0.35,
+   "sub": [
+    2,
+    5
+   ],
+   "tempo": 1.2
+  },
+  {
+   "id": "L7",
+   "text": "А теперь в дверь стучат… Откроешь? Пиши: один — да, два — нет.",
+   "tts": "А тепе́рь в дверь стуча́т… Откро́ешь? Пиши́: оди́н — да, два — нет.",
+   "after": 0.5,
+   "sub": [
+    5,
+    1,
+    5
+   ],
+   "tempo": 1.2
+  }
+ ]
+}

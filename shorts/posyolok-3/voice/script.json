@@ -1,0 +1,103 @@
+{
+ "note": "Narration for «Посёлок» №3 «Тараню шлагбаум» (3D, Искра, the voice Sweetie Fox, ElevenLabs v3 with tags). Nobody voted in the comments of №2 (the owner, 17.11: «1000 просмотров, но никто не проголосовал»), so we chose the more dynamic way: ram the barrier. From 17.11 the choice is only at the end — no buttons in the middle. Standalone: no «вы выбрали». She is in the car at the closed barrier, they are at the windows: the seat belt and the door locks; hit the far end of the barrier arm, not the post (the arm is light and breaks off there; the post is a steel or concrete pillar); do not speed — a hard hit can break the radiator and the car stops a kilometre later; one of them hangs on the door — no sudden braking, steady, he falls off; the high beams, the forest road — and someone waving on the road ahead: stop? (the question for the comments). Rule of 12.11: no blood, no death — «они». Homographs marked: замо́к (the lock), на двери́ (locative). Subtitle groups (sub) are counted without the dash. L4 was «Удар! Палка улетела…» — both takes read «палкА»; rewritten «Удар! Её снесло…» and re-read. Takes: L0 s1, L1 s1, L2 s1, L3 s2, L4 s3 (new), L5 s2 (s1: «двЕри»), L6 s2, L7 s1; inner pauses cut (tools/tighten.py 0.3/0.18) into one take sF, tempo 1.18 — the take ran 56.7 s.",
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Они уже у окон… а шлагбаум закрыт. Значит — тараню.",
+   "tts": "[whispers] Они́ уже́ у о́кон… а шлагба́ум закры́т. [sighs] Зна́чит — тара́ню.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    2
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L1",
+   "text": "Ремень — щёлк. Двери — на замок.",
+   "tts": "Реме́нь — щёлк. Две́ри — на замо́к.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L2",
+   "text": "Бью не в столб, а в самый конец палки — там она ломается легче.",
+   "tts": "Бью не в столб, а в са́мый коне́ц па́лки — там она́ лома́ется ле́гче.",
+   "after": 0.35,
+   "sub": [
+    4,
+    5,
+    4
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L3",
+   "text": "И не разгоняюсь: разобью радиатор — машина встанет через километр.",
+   "tts": "И не разгоня́юсь: разобью́ радиа́тор — маши́на вста́нет че́рез киломе́тр.",
+   "after": 0.35,
+   "sub": [
+    3,
+    2,
+    4
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L4",
+   "text": "Удар! Её снесло… мы на трассе.",
+   "tts": "[gasps] Уда́р! Её снесло́… мы на тра́ссе.",
+   "after": 0.35,
+   "sub": [
+    1,
+    2,
+    3
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L5",
+   "text": "Один повис на двери. Не торможу резко — ровно, и он сорвался.",
+   "tts": "Оди́н пови́с на двери́. [whispers] Не торможу́ ре́зко — ро́вно, и он сорва́лся.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    4
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L6",
+   "text": "Дальний свет. Лес, тишина… и впереди на дороге кто-то машет.",
+   "tts": "Да́льний свет. Лес, тишина́… и впереди́ на доро́ге кто́-то ма́шет.",
+   "after": 0.4,
+   "sub": [
+    2,
+    2,
+    6
+   ],
+   "tempo": 1.18
+  },
+  {
+   "id": "L7",
+   "text": "Остановиться? Один — да. Два — мимо. Напиши. Сделаю, как скажешь.",
+   "tts": "[softly] Останови́ться? Оди́н — да. Два — ми́мо. Напиши́. [laughs softly] Сде́лаю, как ска́жешь.",
+   "after": 0.3,
+   "sub": [
+    1,
+    2,
+    2,
+    1,
+    3
+   ],
+   "tempo": 1.18
+  }
+ ],
+ "tail": 0.6
+}

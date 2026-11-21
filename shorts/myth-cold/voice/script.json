@@ -1,0 +1,86 @@
+{
+ "note": "Narration for «Правда или миф», №2 «Мифы про холод» — the short 2D quiz on the rules of the Studio export of 10.11: a bright first frame (a snowy day, «ПРАВДА ИЛИ МИФ?», three cards, «2 ИЗ 3 — ОПАСНЫЙ МИФ»), ≈40 s, the answer «правда» in the middle this time. Three tips against the cold, each: the tip → 1.6 s for the viewer to guess (two buttons, a countdown, the music drops out) → the verdict and what to do instead; «Сколько угадал?» at the end. Facts: alcohol widens the blood vessels of the skin — you feel warm while the body loses heat faster and the risk of hypothermia grows; give warm sweet non-alcoholic drinks (archived CDC «Winter weather: outdoor safety»; Mayo Clinic Care Network «Hypothermia»; Indiana «Recognizing hypothermia and frostbite»). Layers: several loose light layers trap warm air between them and can be taken off before you sweat — wet clothes stop keeping you warm (archived CDC «Winter weather: outdoor safety» — several loose layers, take one off before you sweat; Indiana state guide). Frostbite: do not rub the skin, never with snow; no direct heat (stove, heating pad); rewarm in warm, not hot water — Mayo gives about 40–43 °C, tested with an unhurt hand; the number is not voiced or shown (Mayo Clinic «Frostbite: first aid»). Alcohol: avoid it, drink something warm and non-alcoholic — tea, cocoa, soup (Mayo «Frostbite: first aid», Mayo Clinic Care Network «Hypothermia»). Stress-safe wording: no «станет» (станЕт in earlier takes); «пиши» passed in №1. at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Три совета, как не замёрзнуть. Два из них только навредят. Угадай, какой правда.",
+   "at": 0.12,
+   "sub": [
+    5,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первый: замёрз — выпей водки.",
+   "after": 0.35,
+   "sub": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Тебе только кажется, что тепло, а тело остывает быстрее. Лучше горячий сладкий чай.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второй: несколько тонких слоёв греют лучше одной толстой куртки.",
+   "after": 0.35,
+   "sub": [
+    1,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Правда! Между слоями держится тёплый воздух. Жарко — снял один и не вспотеешь.",
+   "after": 1.6,
+   "sub": [
+    1,
+    5,
+    6
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Третий: обморозил руки — разотри снегом.",
+   "after": 0.35,
+   "sub": [
+    3,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Миф! Снег царапает кожу и морозит ещё сильнее. Грей в тёплой воде и не три.",
+   "after": 1.6,
+   "sub": [
+    1,
+    7,
+    7
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. И перешли тому, кто мёрзнет. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    5,
+    1
+   ]
+  }
+ ]
+}

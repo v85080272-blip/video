@@ -1,0 +1,102 @@
+{
+ "note": "Narration for «Приключения Искры» №5 «Сирена» (2D). The owner, 18.11: «продолжай делать мульты на будущее и улучшать их качество, проведи хороший ресерч конкурентов, давай делать хорошее удержание и новых подписчиков». The new formula from the competitor teardown (STATS.md, 18.11): the first line is the question-title («Почему мне нельзя…?»), live lines of other people, three short steps, a secret at the end, «Пиши!». №4 ended on a siren in the evening: 1 go out and look / 2 turn on the TV — the answer is 2. Rules: the cover in the first 3 frames, the series mark («ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 5»), the choice only at the end, no blood and no death. Voice: Elen (ElevenLabs). Facts — EMERCOM (МЧС) and district memos on the warning signals: the sirens mean «Внимание всем!» — the signal that an important message follows; turn on the radio and TV, check the SMS messages, listen and act on the instructions, keep the radio/TV on; the warning systems are checked regularly — then the message says it is a check. The end: a stranger in the lift calls «Заходи!» — 1 get in / 2 wait for the next one (the next episode: do not ride alone with a stranger; wait, call family).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Почему мне нельзя выйти, когда воет сирена? Сосед уже зовёт: «Пошли, глянем!»",
+   "tts": "Почему́ мне нельзя́ вы́йти, когда́ во́ет сире́на? Сосе́д уже́ зовёт: «Пошли́, гля́нем!»",
+   "at": 0.12,
+   "sub": [
+    7,
+    3,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Сирена — это сигнал «Внимание всем!». Сейчас скажут, что случилось.",
+   "tts": "Сире́на — э́то сигна́л «Внима́ние всем!». Сейча́с ска́жут, что случи́лось.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "Поэтому не на улицу и не на балкон. Включаю телевизор и радио.",
+   "tts": "Поэ́тому не на у́лицу и не на балко́н. Включа́ю телеви́зор и ра́дио.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "И смотрю телефон: туда тоже придёт сообщение.",
+   "tts": "И смотрю́ телефо́н: туда́ то́же придёт сообще́ние.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "Слушаю до конца и делаю, как скажут. Телевизор не выключаю.",
+   "tts": "Слу́шаю до конца́ и де́лаю, как ска́жут. Телеви́зор не выключа́ю.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Стучу соседу: «Не выходи — включи новости!»",
+   "tts": "Стучу́ сосе́ду: «Не выходи́ — включи́ но́вости!»",
+   "after": 0.35,
+   "sub": [
+    2,
+    2,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "А секрет такой: если после сирены говорят «Внимание, проверка» — это учения. Но дослушай.",
+   "tts": "А секре́т тако́й: е́сли по́сле сире́ны говоря́т «Внима́ние, прове́рка» — э́то уче́ния. Но дослу́шай.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А утром в лифте незнакомец зовёт: «Заходи!» Один — зайти? Два — ждать следующий? Пиши!",
+   "tts": "А у́тром в ли́фте незнако́мец зовёт: «Заходи́!» Оди́н — зайти́? Два — ждать сле́дующий? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    6,
+    1,
+    2,
+    3,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}

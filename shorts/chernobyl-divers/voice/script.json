@@ -1,0 +1,106 @@
+{
+ "note": "Narration for «Трое под реактором» — a picture story (photorealistic frames drawn in Codex on the owner's computer, pushed as img/01.png … 10.png), like «Корабль раздавило льдом», «Княгиня Ольга» and «2018 Тайланд». The owner, 20.11: «продолжай делать мультики на будущее… как раньше про Чернобыль: я картинки через Codex, ты сюжет». ≈40 s: the hook on frame 01, a STOP with two buttons in the middle, the outcome at the end. Facts: in May 1986 (4 or 6 May in the sources) ChNPP staff Alexei Ananenko, Valery Bespalov and Boris Baranov volunteered to open the valves and drain the water from the pools under Unit 4 — the fear was that the molten mass would reach the water and cause a steam explosion; Baranov's lamp failed, the valves were found by touch along a pipe; firefighters then pumped the water out. The myth that all three soon died of radiation sickness is false: Baranov died in 2005 of heart disease, Ananenko and Bespalov lived into the 2020s; in 2018 they were awarded (Baranov posthumously) — History.co.uk «The real story of the Chernobyl divers», Wikipedia «Boris Baranov», fb.ru, TerraDaily/AFP. No words of death on the channel (rule 12.11): the outcome is told as «вышли сами и прожили ещё много лет». at/after/tail/sub as in the blackout season. «полные водЫ» (genitive) and «АнанЕнко» are right in the voice — the author's marks «вод+ы», «Анан+енко» in `text`, the clean words in `tts`. L8 was «…и прожили ещё много лет»: «прожИли» in every take — rewritten «и жили ещё много лет» and re-read (/home/user/work/chernobyl-divers-b).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Чернобыль, май восемьдесят шестого. Под разрушенным реактором — бассейны, полные вод+ы.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    3
+   ],
+   "tts": "Чернобыль, май восемьдесят шестого. Под разрушенным реактором — бассейны, полные воды."
+  },
+  {
+   "id": "L1",
+   "text": "Раскалённое топливо прожигает бетон. Дойдёт до воды — может быть паровой взрыв.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Воду надо слить. Но задвижки — в тёмном подвале, в радиоактивной воде.",
+   "after": 0.3,
+   "sub": [
+    3,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Стоп. Кто-то должен спуститься туда. А ты бы пошёл?",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Вызвались трое сотрудников станции: Алексей Анан+енко, Валерий Беспалов и Борис Баранов.",
+   "after": 0.4,
+   "sub": [
+    4,
+    2,
+    2,
+    3
+   ],
+   "tts": "Вызвались трое сотрудников станции: Алексей Ананенко, Валерий Беспалов и Борис Баранов."
+  },
+  {
+   "id": "L5",
+   "text": "Защитные костюмы, фонари — и вниз. У одного гаснет фонарь.",
+   "after": 0.3,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Задвижки ищут на ощупь, вдоль трубы — и открывают.",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Воду откачивают. Парового взрыва не будет.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Все трое вышли сами — и жили ещё много лет.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L9",
+   "text": "В две тысячи восемнадцатом их наградили. Пиши: ты бы пошёл? И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    6,
+    4,
+    2
+   ]
+  }
+ ]
+}

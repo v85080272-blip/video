@@ -1,0 +1,74 @@
+{
+ "note": "Narration for «Загорелась проводка, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «делай и го выкладывать больше роликов», then «в течение дня дропать каждый час». On the formula of «Облако хлора» and «Дым в подъезде»: «ты» at home, the question from frame 0, three steps, a secret, «Пиши!». Facts — EMERCOM (МЧС) regional materials on electrical fires: when an appliance or its cord burns — unplug it or switch off the power at the switchboard; never put water on it while it is live (water conducts the current); a small fire at its start can be put out with what is at hand — cover it with a thick cloth, not a synthetic one, or use an extinguisher; if it does not go out — leave, shut the door behind you, call 101 or 112; once the power is off, water may be used. No blood and no death. 25–35 s. L0 was «…и загорелся провод?»: three takes read «провОд», the fourth «зАискрила» — rewritten «…загорелся шнур?» and re-read (/home/user/work/socket-b).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если розетка заискрила — и загорелся шнур?",
+   "at": 0.12,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — плеснуть водой. Нельзя: провод под током, а вода проводит ток.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: выдерни вилку из розетки или выключи автоматы в щитке.",
+   "after": 0.35,
+   "sub": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: огонь маленький? Накрой его плотной тканью — не синтетикой.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: не гаснет? Уходи, закрой за собой дверь и звони сто один.",
+   "after": 0.35,
+   "sub": [
+    3,
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: когда ток выключен, тушить водой уже можно.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А у тебя дома есть огнетушитель? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    6,
+    1,
+    2
+   ]
+  }
+ ]
+}

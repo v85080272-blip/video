@@ -1,0 +1,96 @@
+{
+ "note": "Narration for «Корабль раздавило льдом» — a picture story (realistic images generated in Codex by the channel's owner, like «Княгиня Ольга» and «2018 Тайланд», the best-held clips of the channel), ≈42 s, on the rules of the Studio export: the hook from 0 s on a bright frame (the ship crushed in white ice, «ЛЁД РАЗДАВИЛ КОРАБЛЬ», «ВЫЖИЛИ ВСЕ 28»), a STOP with two buttons in the middle. Facts: Endurance was crushed by the pack ice and sank on 21 November 1915; all 28 men survived; the boats reached Elephant Island; Shackleton and five others sailed about 1,300 km (800 miles) in the James Caird to South Georgia, three crossed the island on foot to the Stromness whaling station; the men on Elephant Island were taken off on 30 August 1916 at the fourth attempt; the wreck was found in March 2022 at 3,008 m (Wikipedia «Endurance (1912 ship)»; MercoPress; Baird Maritime; History Hit). «Шеклтон» is not voiced (stress risk) — «командир». at/after/tail/sub as in the blackout season; tts = what the voice reads.",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Их корабль раздавило льдом у берегов Антарктиды. Помощи ждать неоткуда.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Двадцать восемь человек месяцами живут на льдине.",
+   "after": 0.3,
+   "sub": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Лёд тает. На шлюпках они добираются до пустого острова из скал.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Стоп. Что бы сделал ты: ждать на острове или плыть за помощью по самому бурному морю?",
+   "after": 0.4,
+   "sub": [
+    1,
+    4,
+    3,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Никто не знает, где они. Командир берёт пятерых и плывёт тысячу триста километров.",
+   "after": 2.0,
+   "sub": [
+    5,
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Шестнадцать дней шторма, потом пешком через ледяные горы — к китобоям.",
+   "after": 0.3,
+   "sub": [
+    3,
+    5,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "С четвёртой попытки он пробивается сквозь лёд и забирает всех.",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Выжили все двадцать восемь. А корабль нашли на дне только через сто семь лет.",
+   "after": 0.4,
+   "sub": [
+    4,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "Перешли тому, кто любит такие истории. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    6,
+    1
+   ]
+  }
+ ]
+}

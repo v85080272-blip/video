@@ -1,0 +1,104 @@
+{
+ "note": "Narration for «Правда или миф», №9 «Собака» — Искра and the cat Факт in the ElevenLabs voice Elen (the owner asked 12.11 for a couple more in her voice: №8 «Первая помощь» got almost no views, the owner thinks because of the blood, so the voice could not be judged). A safe topic: no blood, no death (rule of 12.11). Three tips, «правда» second. Facts: a dog runs at you — do not run, running excites the dog; stay still like a tree (CDC «Staying safe around dogs»: remain motionless when an unfamiliar dog approaches; AVMA via DVM360: don't run past a dog, running can make it excited or aggressive). Do not disturb a dog that is eating or sleeping (CDC Healthy Pets «Dogs»). Avoid direct eye contact; once the dog loses interest, slowly back away (CDC). tts: what ElevenLabs reads, with stress marks (U+0301) on the name and the risky words. Subtitle groups (sub) are counted without the dash. Every line at tempo 1.1 (Elen reads slowly).",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Собака бежит на тебя. Два совета из трёх — ошибка. Какой правда?",
+   "at": 0.12,
+   "sub": [
+    4,
+    5,
+    2
+   ],
+   "tts": "Соба́ка бежи́т на тебя́. Два сове́та из трёх — оши́бка. Како́й пра́вда?",
+   "tempo": 1.1
+  },
+  {
+   "id": "L1",
+   "text": "Первый: собака бежит на тебя — убегай!",
+   "after": 0.6,
+   "sub": [
+    1,
+    4,
+    1
+   ],
+   "tts": "Первый: соба́ка бежи́т на тебя́ — убега́й!",
+   "tempo": 1.1
+  },
+  {
+   "id": "L2",
+   "text": "Миф! Бег её только раззадорит. Замри, как дерево.",
+   "after": 1.4,
+   "sub": [
+    1,
+    4,
+    3
+   ],
+   "tts": "Миф! Бег её то́лько раззадо́рит. Замри́, как де́рево.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L3",
+   "text": "Второй: собака ест — не подходи и не гладь её.",
+   "after": 0.8,
+   "sub": [
+    1,
+    2,
+    6
+   ],
+   "tts": "Второй: соба́ка ест — не подходи́ и не гладь её.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L4",
+   "text": "Правда! Свою миску собака защищает. Не трогай чужую собаку, когда она ест или спит.",
+   "after": 1.4,
+   "sub": [
+    1,
+    4,
+    4,
+    5
+   ],
+   "tts": "Пра́вда! Свою́ ми́ску соба́ка защища́ет. Не тро́гай чужу́ю соба́ку, когда́ она ест и́ли спит.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L5",
+   "text": "Третий: посмотри собаке прямо в глаза — она испугается.",
+   "after": 0.8,
+   "sub": [
+    1,
+    5,
+    2
+   ],
+   "tts": "Тре́тий: посмотри́ соба́ке пря́мо в глаза́ — она испуга́ется.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L6",
+   "text": "Миф! Для собаки это вызов. Смотри в сторону и медленно отходи.",
+   "after": 1.4,
+   "sub": [
+    1,
+    4,
+    6
+   ],
+   "tts": "Миф! Для соба́ки э́то вы́зов. Смотри́ в сто́рону и ме́дленно отходи́.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L7",
+   "text": "Сколько угадал? Пиши в комментариях. Я Искра, а это мой кот Факт. Подписывайся!",
+   "after": 0.4,
+   "sub": [
+    2,
+    3,
+    7,
+    1
+   ],
+   "tts": "Сколько угадал? Пиши́ в комментариях. Я И́скра, а это мой кот Факт. Подписывайся!",
+   "tempo": 1.1
+  }
+ ]
+}

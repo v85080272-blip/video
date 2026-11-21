@@ -1,0 +1,100 @@
+{
+ "note": "Narration for «Приключения Искры» №6 «Незнакомец в лифте» (2D), the new formula (STATS.md 18–19.11): the question-title first, a stranger's line, three short steps, a secret, «Пиши!»; no series mark. №5 ended on a stranger in the lift calling «Заходи!» — 1 get in / 2 wait for the next one; the answer is 2. Facts — school and district memos on safety in the stairwell and the lift (gosuslugi.ru pages): do not get into the lift with a stranger, wait for the next one or refuse; if you are already inside with one, do not turn your back to him, watch him; if threatened — press the dispatcher button or the nearest floor and get out; call for help, shout, knock on the walls of the lift; call your family. No blood, no violence on screen. The end: at night a knock — «Откройте, полиция!» — 1 open / 2 call 102 (the next episode: do not open, check by calling 102).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Почему мне нельзя в этот лифт? Незнакомец держит дверь: «Заходи, мне на девятый!»",
+   "tts": "Почему́ мне нельзя́ в э́тот лифт? Незнако́мец де́ржит дверь: «Заходи́, мне на девя́тый!»",
+   "at": 0.12,
+   "sub": [
+    6,
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Из лифта не убежишь. Поэтому с чужим я не еду.",
+   "tts": "Из ли́фта не убежи́шь. Поэ́тому с чужи́м я не е́ду.",
+   "after": 0.35,
+   "sub": [
+    4,
+    6
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "Первое: говорю «Езжайте, я подожду» — и жду следующий.",
+   "tts": "Пе́рвое: говорю́ «Езжа́йте, я подожду́» — и жду сле́дующий.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "Второе: он не уезжает? Выхожу на улицу и звоню своим.",
+   "tts": "Второ́е: он не уезжа́ет? Выхожу́ на у́лицу и звоню́ свои́м.",
+   "after": 0.35,
+   "sub": [
+    4,
+    6
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "Третье: если уже еду с чужим — стою лицом к нему, у кнопок.",
+   "tts": "Тре́тье: е́сли уже́ е́ду с чужи́м — стою́ лицо́м к нему́, у кно́пок.",
+   "after": 0.35,
+   "sub": [
+    6,
+    6
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Страшно? Жму ближайший этаж и кнопку диспетчера — и выхожу.",
+   "tts": "Стра́шно? Жму ближа́йший эта́ж и кно́пку диспе́тчера — и выхожу́.",
+   "after": 0.35,
+   "sub": [
+    1,
+    6,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "А секрет такой: в лифте кричи и стучи по стен+ам — в подъезде слышно всё.",
+   "tts": "А секре́т тако́й: в ли́фте кричи́ и стучи́ по стена́м — в подъе́зде слы́шно всё.",
+   "after": 0.35,
+   "sub": [
+    3,
+    7,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А ночью в дверь стучат: «Откройте, полиция!» Один — открыть? Два — позвонить в сто два? Пиши!",
+   "tts": "А но́чью в дверь стуча́т: «Откро́йте, поли́ция!» Оди́н — откры́ть? Два — позвони́ть в сто два? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    5,
+    2,
+    2,
+    5,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}

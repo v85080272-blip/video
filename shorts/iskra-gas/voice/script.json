@@ -1,0 +1,100 @@
+{
+ "note": "Narration for «Приключения Искры» №4 «Запах газа» (2D). The owner, 18.11: «начинай делать ещё новые и анализируй, что нравится людям, а что не нравится» — YouTube Analytics (STATS.md, 18.11): danger at home or in the city here and now, bright 2D, 40–45 s, standalone hold best. №3 ended on a gas smell in the stairwell: 1 turn on the light / 2 touch nothing — the answer is 2. Rules: the cover in the first 3 frames, the series mark («ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 4»), the choice only at the end (17.11), no blood and no death (12.11). Voice: Elen (ElevenLabs), the voice of Искра. Facts — municipal memos «Газ в быту» (gosuslugi.ru pages of district administrations and schools): with a gas smell do not switch electric lights or appliances on or off, do not use the electric door bell, no open fire, no smoking; open windows to ventilate; call the gas emergency service (04 / 112) from outside the gassed area; a smell in the stairwell — tell the services. The end: an outdoor siren in the evening — 1 go out and look / 2 turn on the TV (the next episode: the «Внимание всем!» signal — turn on TV or radio and listen). Homographs: на ру́ки. L6 «внутрь не возвращаюсь» was heard as «Внутренне» with «не» lost — rewritten «в подъезд не захожу» and re-read (/home/user/work/iskra-gas-b).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Мы с Фактом заходим в подъезд… а тут пахнет газом. Как выжить?",
+   "tts": "Мы с Фа́ктом захо́дим в подъе́зд… а тут па́хнет га́зом. Как вы́жить?",
+   "at": 0.12,
+   "sub": [
+    6,
+    4,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Первое: свет не включаю и не выключаю. Одна искра — и вспыхнет.",
+   "tts": "Пе́рвое: свет не включа́ю и не выключа́ю. Одна́ и́скра — и вспы́хнет.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "К соседям в звонок не звоню — он тоже искрит. Стучу кулаком.",
+   "tts": "К сосе́дям в звоно́к не звоню́ — он то́же искри́т. Стучу́ кулако́м.",
+   "after": 0.35,
+   "sub": [
+    6,
+    3,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "Ни зажигалки, ни спичек. И телефон пока не трогаю.",
+   "tts": "Ни зажига́лки, ни спи́чек. И телефо́н пока́ не тро́гаю.",
+   "after": 0.35,
+   "sub": [
+    4,
+    5
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "Открываю окна на лестнице — пусть газ уходит.",
+   "tts": "Открыва́ю о́кна на ле́стнице — пусть газ ухо́дит.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Факта — на руки, и выходим на улицу.",
+   "tts": "Фа́кта — на ру́ки, и выхо́дим на у́лицу.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "Уже на улице звоню сто двенадцать. И жду газовиков — в подъезд не захожу.",
+   "tts": "Уже́ на у́лице звоню́ сто двена́дцать. И жду газовико́в — в подъе́зд не захожу́.",
+   "after": 0.35,
+   "sub": [
+    6,
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А вечером на улице завыла сирена. Один — выйти посмотреть? Два — включить телевизор? Пиши!",
+   "tts": "А ве́чером на у́лице завы́ла сире́на. Оди́н — вы́йти посмотре́ть? Два — включи́ть телеви́зор? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    6,
+    3,
+    3,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}
