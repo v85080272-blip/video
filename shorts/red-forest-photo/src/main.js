@@ -30,7 +30,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { АВАРИИ: DANGER, ОСЕНЬ: GOLD, СОСНЫ: GOLD, ЗЕЛЁНЫЙ: OK, РАДИОАКТИВНЫЕ: DANGER, НЕ: DANGER, ОГРОМНЫЕ: DANGER,
-  РЫЖЕЙ: DANGER, БУЛЬДОЗЕРАМИ: GOLD, ТРАНШЕЯХ: GOLD, МОЛОДЫЕ: OK, БЕРЁЗЫ: OK, ГРЯЗНЫХ: DANGER, ДЕРЕВЬЯМ: GOLD, ПИШИ: GOLD,
+  ПОРЫЖЕЛИ: DANGER, БУЛЬДОЗЕРАМИ: GOLD, ТРАНШЕЯХ: GOLD, МОЛОДЫЕ: OK, БЕРЁЗЫ: OK, ГРЯЗНЫХ: DANGER, ДЕРЕВЬЯМ: GOLD, ПИШИ: GOLD,
   ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
@@ -62,7 +62,7 @@ export const SNAPS = [];
 export const MARKS = { ...T, A, c3: A.L2 - 0.06, ans: A.L3w0 - 0.05, hit0: A.L0w16, pulse: A.L1w0, stop: A.L2w2, stopE: A.L2e, go: A.L3w0, climax: A.L4w0, win: A.L5w0, calm: A.L7 };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
-const PUNCH = [A.L0w16, A.L2w2, A.L3w8, A.L4w3, A.L6w5, A.L7w9];
+const PUNCH = [A.L0w16, A.L2w2, A.L3w9, A.L4w3, A.L6w5, A.L7w9];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 
 // one image filling the frame (cover), zoomed and drifting
@@ -99,7 +99,7 @@ function plaques(t) {
   Hd.timeStamp(t, A.L1, A.L4 - 0.1, 'ВЕСНА 1986 · У ЧАЭС', { color: WARM, y: 200 });
   P(A.L1w0, A.L2 - 0.05, 320, { icon: 'check', title: 'ОБЫЧНЫЙ СОСНОВЫЙ БОР', color: OK, size: 44 });
   P(A.L2w4, A.L3 - 0.05, 320, { icon: 'x', title: 'ЧАСТИЦЫ НЕ ВИДНО', color: DANGER, size: 48 });
-  stampBig(t, A.L3w8 - 0.05, A.L4 - 0.05, 'ХВОЯ ПОРЫЖЕЛА', '#c0561f');
+  stampBig(t, A.L3w9 - 0.05, A.L4 - 0.05, 'ХВОЯ ПОРЫЖЕЛА', '#c0561f');
   P(A.L4w0, A.L5 - 0.05, 320, { icon: 'x', title: 'СРЕЗАЛИ И ЗАКОПАЛИ', color: DANGER, size: 46 });
   P(A.L5w0, A.L6 - 0.05, 320, { icon: 'check', title: 'МОЛОДОЙ ЛЕС', color: OK, size: 50 });
   P(A.L6w4, A.L7 - 0.05, 320, { icon: 'x', title: 'ЗЕМЛЯ ВСЁ ЕЩЁ ГРЯЗНАЯ', color: DANGER, size: 44 });
@@ -149,7 +149,7 @@ export function cues() {
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0, 'roof_wind', -16, 0, { dur: A.L2 }); add(0.2, 'tweet', -22, 0.3, { dur: A.L1 - 0.4 }); add(A.L0w16, 'whoosh_in', -12, 0);
   add(A.L1 - 0.06, 'whoosh', -14, 0); add(A.L2 - 0.06, 'rumble', -12, 0, { dur: 1.6 }); add(A.L2w4, 'whine', -20, 0, { dur: A.L3 - A.L2w4 });
-  add(A.L3 - 0.06, 'whoosh', -14, 0); add(A.L3w8, 'stamp', -8, 0);
+  add(A.L3 - 0.06, 'whoosh', -14, 0); add(A.L3w9, 'stamp', -8, 0);
   add(A.L4 - 0.06, 'rumble', -10, 0, { dur: A.L5 - A.L4 }); add(A.L4w2, 'scrape', -10, 0);
   add(A.L5 - 0.06, 'whoosh_in', -14, 0); add(A.L5, 'morning', -18, 0, { dur: A.L6 - A.L5 });
   add(A.L6 - 0.06, 'click', -10, 0); add(A.L6w4, 'alert', -16, 0);
