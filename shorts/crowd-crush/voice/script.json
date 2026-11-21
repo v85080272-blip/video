@@ -1,0 +1,71 @@
+{
+ "note": "Narration for «Давка в толпе, ты внутри» (flat 2D, «Как выжить», the channel's narrator). The owner, 21.11: «выходные — самое лучшее потребление нашего контента». On the formula of «Облако хлора»: «ты», the question from frame 0, three steps, a secret, «Пиши!». Facts — EMERCOM (МЧС) and school/district memos «Правила действий в толпе» (via the press service of ГУ МЧС, the МЧС psychological centre, Лайфхакер, РИАМО): bend your arms at the elbows and spread them a little so the chest is not squeezed; move with the crowd and gradually work from the centre to the edge, never against or across the stream; if you fall, get up as fast as you can; take off a scarf, tie, chains, bags on long straps — they can choke you (said softly: «их может затянуть»). No blood and no death. 25–35 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если толпа понесла тебя — и сдавила со всех сторон?",
+   "at": 0.12,
+   "sub": [
+    6,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — пробиваться назад. Нельзя: против потока не пройти.",
+   "after": 0.35,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: согни руки в локтях и чуть разведи — чтобы не сдавило грудь.",
+   "after": 0.35,
+   "sub": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: иди вместе с толпой и понемногу смещайся к краю.",
+   "after": 0.35,
+   "sub": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: упал? Вставай как можно быстрее.",
+   "after": 0.35,
+   "sub": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: спрячь шарф и сумку на длинном ремне — их может затянуть.",
+   "after": 0.35,
+   "sub": [
+    3,
+    7,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А ты был в такой давке? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    6,
+    1,
+    2
+   ]
+  }
+ ]
+}
