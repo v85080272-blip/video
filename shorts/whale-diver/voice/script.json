@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Кит проглотил дайвера» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–08), like «Трое под реактором». Facts: 11 June 2021, off Provincetown (Cape Cod), lobster diver Michael Packard, 56, about 45 ft (14 m) down; a bump and darkness, he first thought of a shark, felt no teeth — inside a humpback's mouth; his regulator still in, he could breathe; he struggled; after about 30–40 s the whale surfaced and spat him out; crewmate Josiah Mayo pulled him out; bruises, no broken bones (NPR, CBS, NBC, Smithsonian). A humpback's throat is about the size of a fist — it cannot swallow a person. No blood, no death words.",
+ "note": "Narration for «Кит проглотил дайвера» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–08), like «Трое под реактором». Facts: 11 June 2021, off Provincetown (Cape Cod), lobster diver Michael Packard, 56, about 45 ft (14 m) down; a bump and darkness, he first thought of a shark, felt no teeth — inside a humpback's mouth; his regulator still in, he could breathe; he struggled; after about 30–40 s the whale surfaced and spat him out; crewmate Josiah Mayo pulled him out; bruises, no broken bones (NPR, CBS, NBC, Smithsonian). A humpback's throat is about the size of a fist — it cannot swallow a person. No blood, no death words. 22.11 (the owner): read by an ElevenLabs narrator, no «Стоп» choice and no «а ты бы…» — «это наоборот ухудшает видео».",
  "tail": 0.35,
  "lines": [
   {
@@ -42,20 +42,18 @@
   },
   {
    "id": "L4",
-   "text": "Стоп. Загубник во рту, воздух есть. Ты бы стал вырываться?",
-   "after": 0.4,
+   "text": "Загубник во рту — воздух есть. Он толкается и бьётся.",
+   "after": 0.3,
    "sub": [
-    4,
-    2,
+    5,
     4
    ]
   },
   {
    "id": "L5",
-   "text": "Он толкается и бьётся. Секунд через тридцать кит всплывает — и выплёвывает его.",
-   "after": 0.6,
+   "text": "Секунд через тридцать кит всплывает — и выплёвывает его.",
+   "after": 0.3,
    "sub": [
-    4,
     4,
     4
    ]
@@ -82,12 +80,11 @@
   },
   {
    "id": "L8",
-   "text": "А ты бы не растерялся? Пиши! И подписывайся!",
+   "text": "Слышал эту историю? Пиши! И подписывайся!",
    "after": 0.3,
    "sub": [
-    4,
-    2,
-    2
+    3,
+    3
    ]
   }
  ]

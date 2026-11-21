@@ -1,5 +1,5 @@
 {
- "note": "Narration for «Полоса в тайге» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–10), like «Трое под реактором». The owner, 21.11: «хочу, чтоб ещё с Кодексом что-нибудь нагенерили интересное». Facts: Alrosa flight 514, Tu-154M, 7 Sept 2010, Polyarny → Moscow, 72 passengers + 9 crew; total electrical failure at cruise, fuel pumps off, about 30 min of fuel; landed on the closed Izhma airfield (about 1300 m, nearly half what the plane needs) without flaps at high speed, overran into young forest, nobody hurt; Sergey Sotnikov, head of the helipad, kept the closed strip clear for 12 years on his own; a medal in 2012; the plane flew out in March 2011 (rg.ru, kp.ru, techinsider.ru, Wikipedia). No blood, no death words.",
+ "note": "Narration for «Полоса в тайге» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–10), like «Трое под реактором». The owner, 21.11: «хочу, чтоб ещё с Кодексом что-нибудь нагенерили интересное». Facts: Alrosa flight 514, Tu-154M, 7 Sept 2010, Polyarny → Moscow, 72 passengers + 9 crew; total electrical failure at cruise, fuel pumps off, about 30 min of fuel; landed on the closed Izhma airfield (about 1300 m, nearly half what the plane needs) without flaps at high speed, overran into young forest, nobody hurt; Sergey Sotnikov, head of the helipad, kept the closed strip clear for 12 years on his own; a medal in 2012; the plane flew out in March 2011 (rg.ru, kp.ru, techinsider.ru, Wikipedia). No blood, no death words. 22.11 (the owner): read by an ElevenLabs narrator, no «Стоп» choice and no «а ты бы…» — «это наоборот ухудшает видео».",
  "tail": 0.35,
  "lines": [
   {
@@ -44,18 +44,17 @@
   },
   {
    "id": "L4",
-   "text": "Стоп. Впереди — заброшенная полоса, почти вдвое короче нужной. Ты бы сел?",
-   "after": 0.4,
+   "text": "И вдруг впереди — заброшенная полоса. Почти вдвое короче нужной.",
+   "after": 0.3,
    "sub": [
-    4,
-    4,
-    3
+    5,
+    4
    ]
   },
   {
    "id": "L5",
    "text": "Садятся — без закрылков, на огромной скорости.",
-   "after": 0.6,
+   "after": 0.3,
    "sub": [
     3,
     3
@@ -95,12 +94,11 @@
   },
   {
    "id": "L9",
-   "text": "Позже его наградили. А ты бы стал так делать? Пиши! И подписывайся!",
+   "text": "Позже его наградили. Знал эту историю? Пиши! И подписывайся!",
    "after": 0.3,
    "sub": [
     3,
-    4,
-    2,
+    3,
     3
    ]
   }

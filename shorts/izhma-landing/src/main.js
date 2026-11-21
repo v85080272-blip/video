@@ -1,7 +1,7 @@
 // «Полоса в тайге» — a picture story: ten photorealistic frames drawn in Codex on the owner's computer (img/01.png …
 // img/10.png, 1080×1920) with a slow camera over each, the narrator, karaoke subtitles, plaques, ≈40 s. Komi, 7 Sept 2010:
-// a Tu-154 loses all its electrics over the taiga, the instruments and fuel pumps die, half an hour of fuel → STOP: an
-// abandoned strip, nearly half the length needed — would you land? → they land without flaps, overrun into the birches and
+// a Tu-154 loses all its electrics over the taiga, the instruments and fuel pumps die, half an hour of fuel → an abandoned
+// strip, nearly half the length needed → they land without flaps, overrun into the birches and
 // stop; all 81 alive → the secret: Sergey Sotnikov kept the closed strip clear for 12 years on his own. Built on «Трое под
 // реактором» (chernobyl-divers). The cover (the first frames and the thumbnail) is the «bait»: src/bait.js. Facts:
 // voice/script.json.
@@ -33,7 +33,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СЕНТЯБРЬ: GOLD, ТАЙГОЙ: GOLD, ЭЛЕКТРИЧЕСТВО: DANGER, ПОГАСЛИ: DANGER, НАСОСЫ: DANGER, ТРИДЦАТЬ: DANGER,
-  ВОСЕМЬДЕСЯТ: GOLD, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, СТОП: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, СЕЛ: GOLD,
+  ВОСЕМЬДЕСЯТ: GOLD, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, ВДРУГ: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, ИСТОРИЮ: GOLD,
   ЗАКРЫЛКОВ: DANGER, СКОРОСТИ: DANGER, БЕРЕЗНЯК: GOLD, ОСТАНАВЛИВАЕТСЯ: OK, ЖИВЫ: OK, ПОСТРАДАЛ: OK, СЕКРЕТ: GOLD,
   СОТНИКОВ: GOLD, ДВЕНАДЦАТЬ: GOLD, ЗАРОСЛА: GOLD, НАГРАДИЛИ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
@@ -49,11 +49,11 @@ for (let i = 1; i <= 10; i++) {
 const LABEL = { '01': 'самолёт над тайгой', '02': 'приборы погасли', '03': 'салон без света', '04': 'тайга внизу', '05': 'заброшенная полоса',
   '06': 'заход на посадку', '07': 'в березняке', '08': 'все живы', '09': 'Сотников и кусты', '10': 'полоса на закате' };
 
-// L4: Стоп(0) Впереди(1) —(2) заброшенная(3) полоса(4) почти(5) вдвое(6) короче(7) нужной(8) Ты(9) бы(10) сел(11)
+// L4: И(0) вдруг(1) впереди(2) —(3) заброшенная(4) полоса(5) Почти(6) вдвое(7) короче(8) нужной(9)
 // L5: Садятся(0) —(1) без(2) закрылков(3) на(4) огромной(5) скорости(6)
 // L8: А(0) секрет(1) такой(2) аэропорт(3) давно(4) закрыли(5) Но(6) Сергей(7) Сотников(8) двенадцать(9) лет(10) сам(11) следил(12) чтобы(13) полоса(14) не(15) заросла(16) …
-// L9: Позже(0) его(1) наградили(2) А(3) ты(4) бы(5) стал(6) так(7) делать(8) Пиши(9) И(10) подписывайся(11)
-const T = { cover: 0.05, cS: A.L4 - 0.06, ans: A.L5w0 - 0.05, gone: A.L5w3, sub: A.L9w11 };
+// L9: Позже(0) его(1) наградили(2) Знал(3) эту(4) историю(5) Пиши(6) И(7) подписывайся(8)
+const T = { cover: 0.05, sub: A.L9w8 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]
 const SHOTS = [
   ['01', 0, A.L1 - 0.06, 1.06, 1.18, [40, 0]],
@@ -69,10 +69,10 @@ const SHOTS = [
 ];
 export const CUTS = SHOTS.slice(1).map(s => s[1]);
 export const SNAPS = [];
-export const MARKS = { ...T, A, c3: T.cS, hit0: A.L0w9, pulse: A.L2w0, stop: A.L4w0, stopE: A.L4e, go: A.L5w0, climax: A.L6w9, win: A.L7w0, calm: A.L8 };
+export const MARKS = { ...T, A, c3: A.L4 - 0.06, ans: A.L5w0 - 0.05, hit0: A.L0w9, pulse: A.L2w0, stop: A.L4w1, stopE: A.L4e, go: A.L5w0, climax: A.L6w9, win: A.L7w0, calm: A.L8 };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
-const PUNCH = [A.L0w9, A.L1w0, A.L4w0, A.L5w0, A.L6w9, A.L7w0, A.L8w1];
+const PUNCH = [A.L0w9, A.L1w0, A.L4w1, A.L5w0, A.L6w9, A.L7w0, A.L8w1];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 
 // one image filling the frame (cover), zoomed and drifting
@@ -99,30 +99,6 @@ function headline(t) {
   g.restore();
   Hd.ribbon(t, -1, A.L1 - 0.1, 'ГДЕ САДИТЬСЯ В ТАЙГЕ?', { y: 520, size: 72 });
 }
-function choice(t) {
-  if (t < T.cS || t >= T.gone) return;
-  const done = t >= T.ans;
-  [['1', 'САДИТЬСЯ', -1, A.L4w9], ['2', 'ИСКАТЬ ДАЛЬШЕ', 1, A.L4w11]].forEach(([n, s, side, t0]) => {
-    const k = clamp(sp(t, t0 - 0.08, 2.6, 8)) * (1 - seg(T.gone - 0.4, T.gone, t)); if (k <= 0.01) return;
-    const pick = side < 0, c = done ? (pick ? '#2f8f4e' : 'rgba(80,80,90,0.85)') : '#fff3d6', tc = done ? '#ffffff' : INK;
-    g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540 + side * 240, 1180); g.scale(k * (done && pick ? 1 + 0.1 * bump(clamp((t - T.ans) / 0.3)) : 1), k);
-    rrect(-220 + 6, -100 + 8, 440, 200, 30, INK); rrect(-220, -100, 440, 200, 30, c);
-    text(n, 0, -10, 80, done ? '#ffffff' : '#c0392b', { fam: FONTS.block, shadow: false });
-    text(s, 0, 62, 40, tc, { fam: FONTS.cond, shadow: false });
-    if (done && pick) Hd.label('ОНИ СЕЛИ', 0, -130, 34, '#ffffff', { fam: FONTS.mono });
-    g.restore();
-  });
-  if (t >= A.L4e && t < A.L5 - 0.05) {
-    const u = clamp((t - A.L4e) / Math.max(0.6, A.L5 - A.L4e));
-    g.setTransform(1, 0, 0, 1, 0, 0); fill(rrPath(190, 1320, 700, 26, 13), 'rgba(255,255,255,0.25)'); fill(rrPath(190, 1320, 700 * (1 - u), 26, 13), GOLD);
-    Hd.label('ДУМАЙ', 540, 1400, 44, '#ffffff', { fam: FONTS.mono });
-  }
-  if (t < A.L4w1) {
-    const k = clamp(sp(t, A.L4w0 - 0.05, 3, 7));
-    g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 700); g.rotate(-0.12); g.scale(lerp(1.8, 1, Math.min(1, k)), lerp(1.8, 1, Math.min(1, k))); g.globalAlpha = Math.min(1, k * 3) * (1 - seg(A.L4w1 - 0.15, A.L4w1 + 0.1, t));
-    rrect(-250 + 10, -100 + 10, 500, 200, 26, INK); rrect(-250, -100, 500, 200, 26, '#d62828'); text('СТОП', 0, 50, 140, '#fff3d6', { shadow: false }); g.restore();
-  }
-}
 function stampBig(t, t0, t1, str, color) {
   if (t < t0 || t > t1) return;
   const k = clamp(sp(t, t0, 2.6, 8)) * (1 - seg(t1 - 0.25, t1, t)); g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 420); g.rotate(-0.06); g.scale(k, k);
@@ -134,14 +110,14 @@ function plaques(t) {
   P(A.L1w5, A.L2 - 0.05, 320, { icon: 'clock', title: 'ТОПЛИВА — НА 30 МИНУТ', color: DANGER, size: 46 });
   P(A.L2w0, A.L3 - 0.05, 320, { icon: 'check', title: '81 ЧЕЛОВЕК НА БОРТУ', color: GOLD, size: 46 });
   P(A.L3w7, A.L4 - 0.05, 320, { icon: 'x', title: 'АЭРОПОРТА НЕТ', color: DANGER, size: 50 });
-  P(A.L4w3, A.L5 - 0.05, 320, { icon: 'x', title: 'ПОЛОСА 1300 М — ВДВОЕ КОРОЧЕ', color: DANGER, size: 40 });
+  P(A.L4w4, A.L5 - 0.05, 320, { icon: 'x', title: 'ПОЛОСА 1300 М — ВДВОЕ КОРОЧЕ', color: DANGER, size: 40 });
   P(A.L5w2, A.L6 - 0.05, 320, { icon: 'x', title: 'БЕЗ ЗАКРЫЛКОВ', color: DANGER, size: 50 });
   stampBig(t, A.L6w9 - 0.05, A.L7 - 0.05, 'ОСТАНОВИЛСЯ', '#2f8f4e');
   stampBig(t, A.L7w0 - 0.05, A.L8 - 0.05, 'ВСЕ 81 ЖИВЫ', '#2f8f4e');
   P(A.L8w1 - 0.05, A.L9 - 0.05, 200, { icon: 'check', title: 'СЕКРЕТ', color: GOLD, size: 54 });
   P(A.L8w7, A.L9 - 0.05, 330, { icon: 'check', title: 'СЕРГЕЙ СОТНИКОВ · 12 ЛЕТ', color: GOLD, size: 42 });
   P(A.L9w0, DUR + 1, 320, { icon: 'check', title: 'МЕДАЛЬ В 2012-М', color: GOLD, size: 46 });
-  P(A.L9w3, DUR + 1, 440, { icon: 'comment', title: 'А ТЫ БЫ СТАЛ? ПИШИ', color: GOLD, size: 40 });
+  P(A.L9w3, DUR + 1, 440, { icon: 'comment', title: 'ЗНАЛ ЭТУ ИСТОРИЮ? ПИШИ', color: GOLD, size: 40 });
 }
 // the «bait» cover on the first frames: the plane over the taiga, «ГДЕ САДИТЬСЯ? / ВНИЗУ ТАЙГА!»
 function coverFrame() {
@@ -173,7 +149,7 @@ export function frame(t) {
   let dip = 0;
   for (const c of CUTS) if (t >= c && t < c + 0.14) dip = Math.max(dip, 1 - ease.out(clamp((t - c) / 0.12)));
   if (dip > 0.002) { g.globalAlpha = dip * 0.8; rect(0, 0, W, H, '#000000'); g.globalAlpha = 1; }
-  headline(t); plaques(t); choice(t);
+  headline(t); plaques(t);
   Hd.endCard(t, T.sub - 0.1, 0, 560);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, 0.2);
@@ -186,9 +162,8 @@ export function cues() {
   add(0, 'roof_wind', -16, 0, { dur: A.L2 }); add(0.1, 'rumble', -18, 0, { dur: A.L1 });
   add(A.L0w9, 'power_down', -8, 0); add(A.L1 - 0.06, 'hum_stop', -10, 0); add(A.L1w0, 'click', -8, 0);
   add(A.L2 - 0.06, 'heartbeat', -16, 0, { dur: A.L4 - A.L2 }); add(A.L2 - 0.06, 'roof_wind', -20, 0, { dur: A.L4 - A.L2 });
-  add(A.L4w0 - 0.05, 'stamp', -6, 0); add(A.L4w9 - 0.08, 'pop_word', -10, -0.3); add(A.L4w11 - 0.08, 'pop_word', -10, 0.3);
-  add(A.L4e, 'ticks_up', -14, 0, { dur: Math.max(0.6, A.L5 - A.L4e - 0.05) });
-  add(T.ans, 'ding', -8, 0); add(A.L5 - 0.06, 'whoosh_down', -10, 0); add(A.L5, 'rumble', -12, 0, { dur: A.L6 - A.L5 + 0.5 });
+  add(A.L4 - 0.06, 'whoosh_in', -12, 0); add(A.L4w1, 'stamp', -10, 0); add(A.L4w6, 'heartbeat', -14, 0, { dur: A.L5 - A.L4w6 });
+  add(A.L5 - 0.06, 'whoosh_down', -10, 0); add(A.L5, 'rumble', -12, 0, { dur: A.L6 - A.L5 + 0.5 });
   add(A.L6 - 0.06, 'thud', -8, 0); add(A.L6w5, 'scrape', -8, 0); add(A.L6w7, 'wood_clack', -10, 0.2); add(A.L6w9, 'thud', -10, 0);
   add(A.L7 - 0.06, 'ding', -10, 0); add(A.L7, 'crowd_murmur', -20, 0, { dur: A.L8 - A.L7 });
   add(A.L8 - 0.06, 'whoosh_in', -14, 0); add(A.L8w16, 'cloth', -12, 0); add(A.L8, 'morning', -18, 0, { dur: DUR - A.L8 });

@@ -1,7 +1,7 @@
 // «Кит проглотил дайвера» — a picture story: eight photorealistic frames drawn in Codex on the owner's computer (img/01.png …
 // img/08.png, 1080×1920) with a slow camera over each, the narrator, karaoke subtitles, plaques, ≈35 s. Cape Cod, June 2021:
-// a lobster diver at 14 m, a bump and darkness, a shark? no teeth — he is inside a humpback's mouth → STOP: the mouthpiece
-// in, air — would you fight? → he pushes, after half a minute the whale surfaces and spits him out; bruises only → the
+// a lobster diver at 14 m, a bump and darkness, a shark? no teeth — he is inside a humpback's mouth → the mouthpiece in,
+// air → he pushes, after half a minute the whale surfaces and spits him out; bruises only → the
 // secret: a humpback's throat is about the size of a fist. Built on «Трое под реактором» (chernobyl-divers). The cover (the
 // first frames and the thumbnail) is the «bait»: src/bait.js. Facts: voice/script.json.
 import fs from 'node:fs';
@@ -32,8 +32,8 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ИЮНЬ: GOLD, ЛОБСТЕРОВ: GOLD, ДНО: GOLD, ЧЕТЫРНАДЦАТЬ: GOLD, ТОЛЧОК: DANGER, ТЕМНО: DANGER, АКУЛА: DANGER,
-  ЗУБОВ: GOLD, РТУ: DANGER, КИТА: DANGER, СТОП: GOLD, ВОЗДУХ: OK, ВЫРЫВАТЬСЯ: GOLD, БЬЁТСЯ: GOLD, ТРИДЦАТЬ: GOLD,
-  ВЫПЛЁВЫВАЕТ: OK, ЛОДКУ: OK, СИНЯКИ: OK, СЕКРЕТ: GOLD, ГОРЛО: GOLD, КУЛАК: GOLD, НЕ: DANGER, РАСТЕРЯЛСЯ: GOLD, ПИШИ: GOLD,
+  ЗУБОВ: GOLD, РТУ: DANGER, КИТА: DANGER, ВОЗДУХ: OK, ТОЛКАЕТСЯ: GOLD, БЬЁТСЯ: GOLD, ТРИДЦАТЬ: GOLD,
+  ВЫПЛЁВЫВАЕТ: OK, ЛОДКУ: OK, СИНЯКИ: OK, СЕКРЕТ: GOLD, ГОРЛО: GOLD, КУЛАК: GOLD, НЕ: DANGER, ИСТОРИЮ: GOLD, ПИШИ: GOLD,
   ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
@@ -48,11 +48,11 @@ for (let i = 1; i <= 8; i++) {
 const LABEL = { '01': 'кит с открытой пастью', '02': 'дайвер ныряет', '03': 'пасть снизу', '04': 'темнота внутри', '05': 'загубник',
   '06': 'кит выплёвывает', '07': 'напарник в лодке', '08': 'спокойный кит' };
 
-// L4: Стоп(0) Загубник(1) во(2) рту(3) воздух(4) есть(5) Ты(6) бы(7) стал(8) вырываться(9)
-// L5: Он(0) толкается(1) и(2) бьётся(3) Секунд(4) через(5) тридцать(6) кит(7) всплывает(8) —(9) и(10) выплёвывает(11) его(12)
+// L4: Загубник(0) во(1) рту(2) —(3) воздух(4) есть(5) Он(6) толкается(7) и(8) бьётся(9)
+// L5: Секунд(0) через(1) тридцать(2) кит(3) всплывает(4) —(5) и(6) выплёвывает(7) его(8)
 // L7: А(0) секрет(1) такой(2) горло(3) горбатого(4) кита(5) —(6) размером(7) с(8) кулак(9) Проглотить(10) человека(11) он(12) не(13) может(14)
-// L8: А(0) ты(1) бы(2) не(3) растерялся(4) Пиши(5) И(6) подписывайся(7)
-const T = { cover: 0.05, cS: A.L4 - 0.06, ans: A.L5w1 - 0.05, gone: A.L5w5, sub: A.L8w7 };
+// L8: Слышал(0) эту(1) историю(2) Пиши(3) И(4) подписывайся(5)
+const T = { cover: 0.05, sub: A.L8w5 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]
 const SHOTS = [
   ['01', 0, A.L1 - 0.06, 1.06, 1.18, [30, 0]],
@@ -66,10 +66,10 @@ const SHOTS = [
 ];
 export const CUTS = SHOTS.slice(1).map(s => s[1]);
 export const SNAPS = [];
-export const MARKS = { ...T, A, c3: T.cS, hit0: A.L2w1, pulse: A.L2w0, stop: A.L4w0, stopE: A.L4e, go: A.L5w1, climax: A.L5w8, win: A.L5w11, calm: A.L7 };
+export const MARKS = { ...T, A, c3: A.L3 - 0.06, ans: A.L4w6 - 0.05, hit0: A.L2w1, pulse: A.L2w0, stop: A.L3w3, stopE: A.L3e, go: A.L4w6, climax: A.L5w4, win: A.L5w7, calm: A.L7 };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
-const PUNCH = [A.L0w0, A.L2w1, A.L3w5, A.L4w0, A.L5w11, A.L6w5, A.L7w1];
+const PUNCH = [A.L0w0, A.L2w1, A.L3w5, A.L4w7, A.L5w7, A.L6w5, A.L7w1];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 
 // one image filling the frame (cover), zoomed and drifting
@@ -96,30 +96,6 @@ function headline(t) {
   g.restore();
   Hd.ribbon(t, -1, A.L1 - 0.1, 'ЧТО БЫЛО ВНУТРИ?', { y: 500, size: 76 });
 }
-function choice(t) {
-  if (t < T.cS || t >= T.gone) return;
-  const done = t >= T.ans;
-  [['1', 'ВЫРЫВАТЬСЯ', -1, A.L4w8], ['2', 'ЖДАТЬ', 1, A.L4w9]].forEach(([n, s, side, t0]) => {
-    const k = clamp(sp(t, t0 - 0.08, 2.6, 8)) * (1 - seg(T.gone - 0.4, T.gone, t)); if (k <= 0.01) return;
-    const pick = side < 0, c = done ? (pick ? '#2f8f4e' : 'rgba(80,80,90,0.85)') : '#fff3d6', tc = done ? '#ffffff' : INK;
-    g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540 + side * 240, 1180); g.scale(k * (done && pick ? 1 + 0.1 * bump(clamp((t - T.ans) / 0.3)) : 1), k);
-    rrect(-220 + 6, -100 + 8, 440, 200, 30, INK); rrect(-220, -100, 440, 200, 30, c);
-    text(n, 0, -10, 80, done ? '#ffffff' : '#c0392b', { fam: FONTS.block, shadow: false });
-    text(s, 0, 62, 40, tc, { fam: FONTS.cond, shadow: false });
-    if (done && pick) Hd.label('ОН ВЫРЫВАЛСЯ', 0, -130, 34, '#ffffff', { fam: FONTS.mono });
-    g.restore();
-  });
-  if (t >= A.L4e && t < A.L5 - 0.05) {
-    const u = clamp((t - A.L4e) / Math.max(0.6, A.L5 - A.L4e));
-    g.setTransform(1, 0, 0, 1, 0, 0); fill(rrPath(190, 1320, 700, 26, 13), 'rgba(255,255,255,0.25)'); fill(rrPath(190, 1320, 700 * (1 - u), 26, 13), GOLD);
-    Hd.label('ДУМАЙ', 540, 1400, 44, '#ffffff', { fam: FONTS.mono });
-  }
-  if (t < A.L4w1) {
-    const k = clamp(sp(t, A.L4w0 - 0.05, 3, 7));
-    g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 700); g.rotate(-0.12); g.scale(lerp(1.8, 1, Math.min(1, k)), lerp(1.8, 1, Math.min(1, k))); g.globalAlpha = Math.min(1, k * 3) * (1 - seg(A.L4w1 - 0.15, A.L4w1 + 0.1, t));
-    rrect(-250 + 10, -100 + 10, 500, 200, 26, INK); rrect(-250, -100, 500, 200, 26, '#d62828'); text('СТОП', 0, 50, 140, '#fff3d6', { shadow: false }); g.restore();
-  }
-}
 function stampBig(t, t0, t1, str, color) {
   if (t < t0 || t > t1) return;
   const k = clamp(sp(t, t0, 2.6, 8)) * (1 - seg(t1 - 0.25, t1, t)); g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.translate(540, 420); g.rotate(-0.06); g.scale(k, k);
@@ -131,13 +107,13 @@ function plaques(t) {
   P(A.L1w0, A.L2 - 0.05, 320, { icon: 'check', title: 'МАЙКЛ ПАККАРД, 56 ЛЕТ', sub: 'ловец лобстеров', color: GOLD, size: 44 });
   P(A.L2w6, A.L3 - 0.05, 320, { icon: 'x', title: 'АКУЛА?', color: DANGER, size: 56 });
   stampBig(t, A.L3w3 - 0.05, A.L4 - 0.05, 'ВО РТУ У КИТА', '#d62828');
-  P(A.L4w1, A.L5 - 0.05, 320, { icon: 'check', title: 'ВОЗДУХ ЕСТЬ', color: OK, size: 50 });
-  P(A.L5w5, A.L5w11 - 0.12, 320, { icon: 'clock', title: '30–40 СЕКУНД ВНУТРИ', color: GOLD, size: 46 });
-  stampBig(t, A.L5w11 - 0.05, A.L6 - 0.05, 'ВЫПЛЮНУЛ!', '#2f8f4e');
+  P(A.L4w0, A.L5 - 0.05, 320, { icon: 'check', title: 'ВОЗДУХ ЕСТЬ', color: OK, size: 50 });
+  P(A.L5w0, A.L5w7 - 0.12, 320, { icon: 'clock', title: '30–40 СЕКУНД ВНУТРИ', color: GOLD, size: 46 });
+  stampBig(t, A.L5w7 - 0.05, A.L6 - 0.05, 'ВЫПЛЮНУЛ!', '#2f8f4e');
   P(A.L6w5, A.L7 - 0.05, 320, { icon: 'check', title: 'СИНЯКИ — И ВСЁ', color: OK, size: 50 });
   P(A.L7w1 - 0.05, DUR + 1, 200, { icon: 'check', title: 'СЕКРЕТ', color: GOLD, size: 54 });
   P(A.L7w3, A.L8 - 0.05, 330, { icon: 'x', title: 'ГОРЛО КИТА — С КУЛАК', color: GOLD, size: 46 });
-  P(A.L8w0, DUR + 1, 330, { icon: 'comment', title: 'А ТЫ БЫ НЕ РАСТЕРЯЛСЯ? ПИШИ', color: GOLD, size: 38 });
+  P(A.L8w0, DUR + 1, 330, { icon: 'comment', title: 'СЛЫШАЛ ЭТУ ИСТОРИЮ? ПИШИ', color: GOLD, size: 40 });
 }
 // the «bait» cover on the first frames: the whale bursting up with its mouth open, «КИТ ПРОГЛОТИЛ / ДАЙВЕРА?!»
 function coverFrame() {
@@ -168,7 +144,7 @@ export function frame(t) {
   let dip = 0;
   for (const c of CUTS) if (t >= c && t < c + 0.14) dip = Math.max(dip, 1 - ease.out(clamp((t - c) / 0.12)));
   if (dip > 0.002) { g.globalAlpha = dip * 0.8; rect(0, 0, W, H, '#000000'); g.globalAlpha = 1; }
-  headline(t); plaques(t); choice(t);
+  headline(t); plaques(t);
   Hd.endCard(t, T.sub - 0.1, 0, 560);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, 0.2);
@@ -179,13 +155,11 @@ export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
   add(0, 'surf', -16, 0, { dur: A.L1 }); add(0.05, 'wave_crash', -10, 0); add(0.3, 'gulls', -22, 0.4, { dur: A.L1 - 0.4 });
-  add(A.L1 - 0.06, 'splash', -10, 0); add(A.L1, 'ice_water', -18, 0, { dur: A.L4 - A.L1 }); add(A.L1, 'breath', -16, 0, { dur: A.L2 - A.L1 });
+  add(A.L1 - 0.06, 'splash', -10, 0); add(A.L1, 'ice_water', -18, 0, { dur: A.L5 - A.L1 }); add(A.L1, 'breath', -16, 0, { dur: A.L2 - A.L1 });
   add(A.L2w1, 'thud', -6, 0); add(A.L2w4, 'whoosh_down', -10, 0); add(A.L2w6, 'heartbeat', -14, 0, { dur: A.L5 - A.L2w6 });
-  add(A.L3w3, 'stamp', -8, 0);
-  add(A.L4w0 - 0.05, 'stamp', -6, 0); add(A.L4w8 - 0.08, 'pop_word', -10, -0.3); add(A.L4w9 - 0.08, 'pop_word', -10, 0.3);
-  add(A.L4e, 'ticks_up', -14, 0, { dur: Math.max(0.6, A.L5 - A.L4e - 0.05) });
-  add(T.ans, 'ding', -8, 0); add(A.L5w1, 'wall_hit', -10, 0); add(A.L5w3, 'wall_hit', -12, 0.2);
-  add(A.L5w8, 'whoosh_in', -10, 0); add(A.L5w11 - 0.05, 'wave_crash', -6, 0); add(A.L5w11, 'splash', -8, 0);
+  add(A.L3w3, 'stamp', -8, 0); add(A.L4w0, 'breath', -14, 0, { dur: A.L4w6 - A.L4w0 });
+  add(A.L4w7, 'wall_hit', -10, 0); add(A.L4w9, 'wall_hit', -12, 0.2);
+  add(A.L5w4, 'whoosh_in', -10, 0); add(A.L5w7 - 0.05, 'wave_crash', -6, 0); add(A.L5w7, 'splash', -8, 0);
   add(A.L6 - 0.06, 'surf', -18, 0, { dur: DUR - A.L6 }); add(A.L6w0, 'wood_clack', -12, -0.2); add(A.L6w5, 'ding', -10, 0);
   add(A.L7 - 0.06, 'whoosh_in', -14, 0); add(A.L7, 'ice_water', -22, 0, { dur: DUR - A.L7 });
   add(T.sub - 0.1, 'pop_word', -8, 0);
