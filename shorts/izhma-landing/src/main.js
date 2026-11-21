@@ -30,10 +30,10 @@ for (const id of Object.keys(FB)) {
   for (let i = 0; i < Math.max(n, FB[id][2]) + 20; i++) A[id + 'w' + i] = ws ? ws[Math.min(i, n - 1)].s : lerp(FB[id][0], FB[id][1], i / FB[id][2]);
 }
 Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
-const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words, 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
+const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СЕНТЯБРЬ: GOLD, ТАЙГОЙ: GOLD, ЭЛЕКТРИЧЕСТВО: DANGER, ПОГАСЛИ: DANGER, НАСОСЫ: DANGER, ТРИДЦАТЬ: DANGER,
-  ВОСЬМИДЕСЯТИ: GOLD, ОДНОГО: OK, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, ВДРУГ: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, ИСТОРИЮ: GOLD,
+  ЭКИПАЖ: GOLD, ОДНОГО: OK, ВСЛЕПУЮ: DANGER, ЛЕС: GOLD, НЕТ: DANGER, ВДРУГ: GOLD, ЗАБРОШЕННАЯ: GOLD, ВДВОЕ: DANGER, ИСТОРИЮ: GOLD,
   ЗАКРЫЛКОВ: DANGER, СКОРОСТИ: DANGER, БЕРЕЗНЯК: GOLD, ОСТАНАВЛИВАЕТСЯ: OK, ЖИВЫ: OK, ПОСТРАДАЛ: OK, СЕКРЕТ: GOLD,
   СОТНИКОВ: GOLD, ДВЕНАДЦАТЬ: GOLD, ЗАРОСЛА: GOLD, НАГРАДИЛИ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
