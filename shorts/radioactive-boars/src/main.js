@@ -31,7 +31,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { ГЕРМАНИИ: GOLD, РАДИОАКТИВНЫХ: DANGER, КАБАНОВ: GOLD, НЕЛЬЗЯ: DANGER, ЦЕЗИЯ: DANGER, НОРМЫ: DANGER, ЧЕРНОБЫЛЯ: GOLD,
-  ОЛЕНЕЙ: OK, МЕНЬШЕ: OK, НЕТ: DANGER, СТАРШЕ: GOLD, ЯДЕРНЫЕ: DANGER, ИСПЫТАНИЯ: DANGER, ШЕСТИДЕСЯТЫХ: GOLD, ТРЕТЕЙ: GOLD,
+  ОЛЕНЕЙ: OK, МЕНЬШЕ: OK, НЕТ: DANGER, СТАРШЕ: GOLD, ЯДЕРНЫЕ: DANGER, ИСПЫТАНИЯ: DANGER, ШЕСТИДЕСЯТЫХ: GOLD, ПОЛОВИНЫ: GOLD,
   ТРЮФЕЛИ: GOLD, ПОДЗЕМНЫХ: GOLD, ДЕСЯТКИ: GOLD, РАДИОАКТИВНЫ: DANGER, ИСТОРИЮ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
@@ -45,7 +45,7 @@ for (let i = 1; i <= 8; i++) {
 }
 const LABEL = { '01': 'кабан в лесу', '02': 'кабан роет', '03': 'тучи 1986', '04': 'испытание 1960-х', '05': 'трюфели', '06': 'лаборатория', '07': 'лесник', '08': 'кабаниха с поросятами' };
 
-// L4: Это(0) ядерные(1) испытания(2) шестидесятых(3) В(4) некоторых(5) пробах(6) —(7) до(8) двух(9) третей(10) всего(11) цезия(12)
+// L4: Это(0) ядерные(1) испытания(2) шестидесятых(3) В(4) некоторых(5) пробах(6) —(7) больше(8) половины(9) всего(10) цезия(11)
 // L7: Поэтому(0) кабаны(1) радиоактивны(2) до(3) сих(4) пор(5) Знал(6) эту(7) историю(8) Пиши(9) И(10) подписывайся(11)
 const T = { cover: 0.05, sub: A.L7w11 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]

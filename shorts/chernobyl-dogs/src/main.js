@@ -30,7 +30,7 @@ Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
 const HOT = { СОБАКИ: GOLD, ЧЕРНОБЫЛЬСКОЙ: GOLD, ЭВАКУАЦИИ: DANGER, СТАНЦИИ: DANGER, ЧЕРНОБЫЛЬ: GOLD, ПЯТНАДЦАТИ: GOLD,
-  ТРЁХСОТ: GOLD, ДНК: GOLD, РАЗНЫЕ: DANGER, ПОПУЛЯЦИИ: DANGER, ГЕНАМ: GOLD, РОДСТВЕННИКОВ: OK, ОБОИХ: OK, РАДИАЦИЯ: DANGER,
+  СОТЕН: GOLD, ДНК: GOLD, РАЗНЫЕ: DANGER, ПОПУЛЯЦИИ: DANGER, ГЕНАМ: GOLD, РОДСТВЕННИКОВ: OK, ОБОИХ: OK, РАДИАЦИЯ: DANGER,
   НЕИЗВЕСТНО: GOLD, ЗАГАДКА: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
