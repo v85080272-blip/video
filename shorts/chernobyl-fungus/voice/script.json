@@ -1,0 +1,85 @@
+{
+ "note": "«Грибок из реактора» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы» (the owner, 22.11). Facts: Dadachova et al., PLoS ONE 2(5): e457 (2007): melanized fungi colonize the walls of the damaged Chernobyl reactor (cited as background); in the lab, melanized Wangiella dermatitidis and Cryptococcus neoformans (and Cladosporium sphaerospermum per Nature news) under ionizing radiation about 500× background grew faster; radiation changed melanin's electronic properties. NOT claimed: that they feed on radiation alone. Sources: plosone.org/doi/pone.0000457, Nature news 2007.",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Внутри разрушенного реактора в Чернобыле, где человеку находиться нельзя, на стенах растёт чёрная плесень.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Радиация там огромная. А грибок живёт и разрастается.",
+   "after": 0.3,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Учёные из Нью-Йорка решили проверить такие грибы в лаборатории.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "У этих грибов есть тёмный пигмент — меланин.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Их облучили — в пятьсот раз сильнее обычного фона.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "И грибы с меланином стали расти быстрее.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Учёные считают, что меланин помогает им использовать энергию излучения. Как именно — ещё изучают.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "А секрет такой: этот же пигмент есть и в твоей коже. Знал об этом? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    3,
+    4,
+    4,
+    3,
+    3
+   ]
+  }
+ ]
+}
