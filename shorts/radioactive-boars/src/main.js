@@ -118,7 +118,7 @@ function coverFrame() {
   B.plate('ГЕРМАНИЯ', 540, 150, 42, '#ff2d2d');
   B.outlined('РАДИОАКТИВНЫЕ', 540, 370, 170, '#ffffff', { maxW: 1000 });
   B.outlined('КАБАНЫ?!', 540, 550, 150, '#ffd23f', { maxW: 1000 });
-  B.plate('ЧЕРНОБЫЛЬ НИ ПРИ ЧЁМ?', 540, 1450, 60, '#ffd23f', INK, -0.03);
+  B.plate('НЕ ТОЛЬКО ЧЕРНОБЫЛЬ', 540, 1450, 60, '#ffd23f', INK, -0.03);
 }
 function grade(t) {
   // a cool cinematic grade and a soft vignette over every picture, so they sit together
