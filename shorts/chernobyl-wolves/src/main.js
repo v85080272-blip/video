@@ -140,7 +140,7 @@ export function frame(t) {
   if (dip > 0.002) { g.globalAlpha = dip * 0.8; rect(0, 0, W, H, '#000000'); g.globalAlpha = 1; }
   headline(t); plaques(t);
   Hd.label('ИИ-РЕКОНСТРУКЦИЯ', 175, 1880, 24, 'rgba(255,255,255,0.6)', { fam: FONTS.mono });
-  Hd.endCard(t, T.sub - 0.1, 0, 560);
+  Hd.endCard(t, T.sub - 0.1, 0, 660);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, 0.2);
 }
