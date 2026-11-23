@@ -318,3 +318,40 @@ export function cover() {
   g.fillStyle = '#ffd400'; g.fillRect(0, 0, 860, 130); g.font = '700 86px Oswald'; g.fillStyle = '#111'; g.textAlign = 'left'; g.textBaseline = 'middle';
   g.fillText('ВЕРНУЛИСЬ ВСЕ 28', 34, 68); g.restore();
 }
+
+// —— thumbnail variants for YouTube «Тестировать и сравнивать» ——
+function thumbBg(v, sc = 1.08, dx = 0, dy = 0) {
+  g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+  if (v) { g.save(); g.translate(W / 2, H / 2); g.scale(sc, sc); g.drawImage(v, -W / 2 + dx, -H / 2 + dy, W, H); g.restore(); }
+}
+function bigText(lines, x) {
+  for (const [str, y, size, col] of lines) {
+    g.font = `700 ${size}px Oswald`; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+    g.lineWidth = size * 0.15; g.strokeStyle = '#000'; g.strokeText(str, x, y); g.fillStyle = col; g.fillText(str, x, y);
+  }
+}
+function tplate(str, x, y, size, bg = '#ffd400', fg = '#111', rot = -0.03) {
+  g.save(); g.translate(x, y); g.rotate(rot);
+  g.font = `700 ${size}px Oswald`; const w = g.measureText(str).width + size * 0.8;
+  g.fillStyle = bg; g.fillRect(0, 0, w, size * 1.6); g.fillStyle = fg; g.textAlign = 'left'; g.textBaseline = 'middle';
+  g.fillText(str, size * 0.4, size * 0.86); g.restore();
+}
+function shade(kind) {
+  const v = kind === 'left' ? g.createLinearGradient(0, 0, W, 0) : g.createLinearGradient(0, H, 0, 0);
+  v.addColorStop(0, 'rgba(0,0,0,0.8)'); v.addColorStop(0.55, 'rgba(0,0,0,0.15)'); v.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = v; g.fillRect(0, 0, W, H);
+}
+export const COVER_IMGS = { a: [1], b: [42], c: [60] };
+export function coverVariant(k) {
+  if (k === 'b') {
+    thumbBg(IMG.get(42), 1.12, 160, 0);
+    shade('left');
+    bigText([['1300 КМ', 330, 250, '#ffd400'], ['НА ЛОДКЕ', 560, 210, '#ffffff']], 70);
+    tplate('ЧЕРЕЗ САМЫЙ БУРНЫЙ ОКЕАН', 80, 680, 70);
+  } else if (k === 'c') {
+    thumbBg(IMG.get(60), 1.1, 140, 0);
+    shade('left');
+    bigText([['НАШЛИ', 300, 220, '#ffffff'], ['ЧЕРЕЗ 100 ЛЕТ', 520, 200, '#ffd400']], 70);
+    tplate('ГЛУБИНА 3 КМ', 80, 660, 80, '#ff2b2b', '#ffffff');
+  } else cover();
+}

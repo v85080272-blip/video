@@ -9,7 +9,7 @@ import { once } from 'node:events';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { init, frame, preload, need, cover, TL, W, H } from './src/doc.js';
+import { init, frame, preload, need, coverVariant, COVER_IMGS, TL, W, H } from './src/doc.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 30;
@@ -42,8 +42,9 @@ if (mode === 'stills') {
     console.log(t.toFixed(2), Date.now() - t0, 'ms');
   }
 } else if (mode === 'cover') {
-  await need(1);
-  cover();
+  const k = args[1] ?? 'a';
+  await need(...COVER_IMGS[k]);
+  coverVariant(k);
   const small = createCanvas(1280, 720), sc = small.getContext('2d');
   sc.drawImage(canvas, 0, 0, 1280, 720);
   fs.writeFileSync(args[0], small.encodeSync('jpeg', 92));

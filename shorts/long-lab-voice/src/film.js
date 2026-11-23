@@ -441,3 +441,45 @@ export function cover() {
   g.fillStyle = '#ffd400'; g.fillRect(0, 0, 820, 120); g.font = '700 74px Oswald'; g.fillStyle = '#111'; g.textAlign = 'left'; g.textBaseline = 'middle';
   g.fillText('ГОЛОС ПО РАЦИИ ВРЁТ', 30, 64); g.restore();
 }
+
+// —— thumbnail variants for YouTube «Тестировать и сравнивать» ——
+function thumbBg(v, sc = 1.08, dx = 0, dy = 0) {
+  g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+  if (v) { g.save(); g.translate(W / 2, H / 2); g.scale(sc, sc); g.drawImage(v, -W / 2 + dx, -H / 2 + dy, W, H); g.restore(); }
+}
+function bigText(lines, x) {
+  for (const [str, y, size, col] of lines) {
+    g.font = `700 ${size}px Oswald`; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+    g.lineWidth = size * 0.15; g.strokeStyle = '#000'; g.strokeText(str, x, y); g.fillStyle = col; g.fillText(str, x, y);
+  }
+}
+function tplate(str, x, y, size, bg = '#ffd400', fg = '#111', rot = -0.03) {
+  g.save(); g.translate(x, y); g.rotate(rot);
+  g.font = `700 ${size}px Oswald`; const w = g.measureText(str).width + size * 0.8;
+  g.fillStyle = bg; g.fillRect(0, 0, w, size * 1.6); g.fillStyle = fg; g.textAlign = 'left'; g.textBaseline = 'middle';
+  g.fillText(str, size * 0.4, size * 0.86); g.restore();
+}
+function shade(kind) {
+  const v = kind === 'left' ? g.createLinearGradient(0, 0, W, 0) : g.createLinearGradient(0, H, 0, 0);
+  v.addColorStop(0, 'rgba(0,0,0,0.8)'); v.addColorStop(0.55, 'rgba(0,0,0,0.15)'); v.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = v; g.fillRect(0, 0, W, H);
+}
+export const COVER_IMGS = { a: [11, 10], b: [27], c: [1] };
+export function coverVariant(k) {
+  if (k === 'b') {
+    thumbBg(IMG.get(27), 1.1, -120, 0);
+    g.save(); g.globalCompositeOperation = 'saturation'; g.fillStyle = '#808080'; g.fillRect(0, 0, W, H); g.restore();
+    g.save(); g.globalAlpha = 0.5; g.drawImage(scan, 0, 0); g.restore();
+    shade('left');
+    g.fillStyle = '#ff2020'; g.beginPath(); g.arc(W - 250, 90, 22, 0, 7); g.fill();
+    g.font = '700 54px MonoBold'; g.fillStyle = '#ffffff'; g.textAlign = 'left'; g.fillText('REC', W - 210, 110);
+    g.font = '700 40px MonoBold'; g.fillText('КАМ 12 · ИЗОЛЯТОР', 70, 100);
+    bigText([['ОН ГОВОРИТ', 420, 190, '#ffffff'], ['МОИМ ГОЛОСОМ', 640, 190, '#ff2b2b']], 70);
+    tplate('НЕ ОТКРЫВАЙ ШЛЮЗ', 80, 760, 74);
+  } else if (k === 'c') {
+    thumbBg(IMG.get(1), 1.12, 0, 60);
+    shade('bottom');
+    tplate('ГОЛОС ИЗ РАЦИИ:', 80, 70, 70, '#ffd400');
+    bigText([['НЕ', 760, 200, '#ffffff'], ['ОБОРАЧИВАЙСЯ', 960, 230, '#ff2b2b']], 70);
+  } else cover();
+}
