@@ -1,8 +1,6 @@
-// «ДНК червей Чернобыля» (series «Жизнь в Чернобыле»): eight photorealistic Codex frames (img/01–08), the ElevenLabs
-// narrator, karaoke subtitles, plaques, «ИИ-реконструкция». Tiny nematodes from high- and low-radiation sites → 15 genomes
-// compared with worms from other countries → no trace of radiation → not that the zone is safe: the worms are very hardy →
-// why the expected trace is missing is a new puzzle. Built from izhma-landing by scratchpad/gen/series.py. Facts:
-// voice/script.json.
+// «Семья 40 лет жила в тайге и не знала о войне» (Лыковы): eight photorealistic Codex frames (img/01–08), the ElevenLabs narrator, karaoke subtitles,
+// plaques, «ИИ-РЕКОНСТРУКЦИЯ», real recorded sound effects (rec: cues; no synthesized cartoon sounds — the owner, 23.11).
+// Built from izhma-landing by scratchpad/gen/series.py. Facts: voice/script.json.
 import fs from 'node:fs';
 import { loadImage } from '@napi-rs/canvas';
 import { lerp, clamp, ease, spring, bump, hash } from './lib.js';
@@ -30,9 +28,7 @@ for (const id of Object.keys(FB)) {
 Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ЧЕРНОБЫЛЕ: GOLD, ЧЕРВЕЙ: GOLD, ДНК: GOLD, РАДИАЦИИ: DANGER, ПОЛОМКИ: DANGER, ГЕНАХ: GOLD, МНОГО: DANGER, МАЛО: OK,
-  НЕМАТОДЫ: GOLD, ПЯТНАДЦАТЬ: GOLD, НЕ: DANGER, СЛЕДОВ: GOLD, БЕЗОПАСНА: DANGER, ВЫНОСЛИВЫЕ: OK, ЗАГАДКА: GOLD, ПИШИ: GOLD,
-  ПОДПИСЫВАЙСЯ: GOLD };
+const HOT = { ТАЙГОЙ: GOLD, ОГОРОД: GOLD, ДВЕСТИ: DANGER, ПЯТЬДЕСЯТ: DANGER, ИЗБУ: GOLD, ЛЫКОВЫХ: GOLD, СОРОК: DANGER, ЛЕТ: DANGER, НИКОГДА: DANGER, ВОЙНЕ: DANGER, КОСМОС: GOLD, ОТКАЗАЛИСЬ: DANGER, АГАФЬЯ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
 const IMG = {};
@@ -43,11 +39,10 @@ for (let i = 1; i <= 8; i++) {
     if (fs.existsSync(u)) { IMG[k] = await loadImage(fs.readFileSync(u)); break; }
   }
 }
-const LABEL = { '01': 'нематода', '02': 'счётчик', '03': 'проба почвы', '04': 'гниющие листья', '05': 'микроскоп', '06': 'черви под микроскопом', '07': 'ДНК', '08': 'лесная подстилка' };
+const LABEL = { '01': 'вертолёт над тайгой', '02': 'огород на склоне', '03': 'изба', '04': 'геологи', '05': 'в избе', '06': 'старая книга', '07': 'у реки', '08': 'тайга' };
 
-// L5: И(0) не(1) нашли(2) в(3) их(4) генах(5) следов(6) радиации(7)
-// L7: Почему(0) ожидаемого(1) следа(2) нет(3) —(4) теперь(5) новая(6) загадка(7) Знал(8) об(9) этом(10) Пиши(11) И(12) подписывайся(13)
-const T = { cover: 0.05, sub: A.L7w13 };
+// words: see build/words.json
+const T = { cover: 0.05, sub: A.L7w14 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]
 const SHOTS = [
   ['01', 0, A.L1 - 0.06, 1.05, 1.2, [0, 20]],
@@ -61,10 +56,10 @@ const SHOTS = [
 ];
 export const CUTS = SHOTS.slice(1).map(s => s[1]);
 export const SNAPS = [];
-export const MARKS = { ...T, A, c3: A.L3 - 0.06, ans: A.L4w0 - 0.05, hit0: A.L0w6, pulse: A.L1w0, stop: A.L4w0, stopE: A.L4e, go: A.L5w0, climax: A.L5w1, win: A.L5w6, calm: A.L6 };
+export const MARKS = { ...T, A, c3: A.L3 - 0.06, ans: A.L4w0 - 0.05, hit0: A.L0w7, pulse: A.L1w0, stop: A.L4w0, stopE: A.L4e, go: A.L5w0, climax: A.L5w5, win: A.L6w8, calm: A.L7 };
 const seg = (a, b, t, e = ease.inOut) => e(clamp((t - a) / (b - a)));
 const sp = (t, t0, f = 2.4, d = 7) => (t <= t0 ? 0 : spring(t - t0, f, d));
-const PUNCH = [A.L0w9, A.L1w3, A.L4w0, A.L5w1, A.L6w6, A.L7w7];
+const PUNCH = [A.L0w7, A.L1w7, A.L1w12, A.L3w15, A.L5w5, A.L6w8, A.L7w2];
 function zoomAt(t) { let z = 0; for (const p of PUNCH) if (t >= p - 0.02 && t < p + 0.7) z = Math.max(z, Math.exp(-(t - p) / 0.22) * clamp((t - p + 0.02) / 0.06)); return 1 + 0.06 * z; }
 
 // one image filling the frame (cover), zoomed and drifting
@@ -87,9 +82,9 @@ function headline(t) {
   if (t > A.L1 + 0.2) return;
   const a = 1 - seg(A.L1 - 0.3, A.L1 + 0.1, t), k = clamp(sp(t, 0.02, 2.6, 8));
   g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = a; g.translate(540, 300); g.rotate(-0.03); g.scale(k, k);
-  const s = 'ЧЕРВИ ЧЕРНОБЫЛЯ', sw = measure(s, 74) + 80; rrect(-sw / 2 + 10, -60 + 10, sw, 120, 22, INK); rrect(-sw / 2, -60, sw, 120, 22, '#ffd23f'); text(s, 0, 28, 74, INK, { shadow: false });
+  const s = '40 ЛЕТ В ТАЙГЕ', sw = measure(s, 74) + 80; rrect(-sw / 2 + 10, -60 + 10, sw, 120, 22, INK); rrect(-sw / 2, -60, sw, 120, 22, '#ffd23f'); text(s, 0, 28, 74, INK, { shadow: false });
   g.restore();
-  Hd.ribbon(t, -1, A.L1 - 0.1, 'ЧТО НАШЛИ В ИХ ДНК?', { y: 510, size: 70 });
+  Hd.ribbon(t, -1, A.L1 - 0.1, 'НЕ ЗНАЛИ О ВОЙНЕ', { y: 510, size: 70 });
 }
 function stampBig(t, t0, t1, str, color) {
   if (t < t0 || t > t1) return;
@@ -98,15 +93,14 @@ function stampBig(t, t0, t1, str, color) {
 }
 function plaques(t) {
   const P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);
-  Hd.timeStamp(t, A.L1, A.L4 - 0.1, 'ЧЕРНОБЫЛЬСКАЯ ЗОНА', { color: WARM, y: 200 });
-  P(A.L1w3, A.L2 - 0.05, 320, { icon: 'x', title: 'ЖДАЛИ ПОЛОМКИ В ГЕНАХ', color: DANGER, size: 44 });
-  P(A.L3w0, A.L4 - 0.05, 320, { icon: 'check', title: 'НЕМАТОДЫ', sub: 'живут в гниющих листьях', color: GOLD, size: 52 });
-  P(A.L4w0, A.L5 - 0.05, 320, { icon: 'check', title: '15 ЧЕРВЕЙ ИЗ ЗОНЫ', color: GOLD, size: 48 });
-  stampBig(t, A.L5w1 - 0.05, A.L6 - 0.05, 'СЛЕДОВ НЕТ', '#2f6fd0');
-  P(A.L6w2, A.L7 - 0.05, 320, { icon: 'x', title: 'ЗОНА НЕ СТАЛА БЕЗОПАСНОЙ', color: DANGER, size: 42 });
-  P(A.L6w9, A.L7 - 0.05, 440, { icon: 'check', title: 'ЧЕРВИ — ОЧЕНЬ ВЫНОСЛИВЫЕ', color: OK, size: 42 });
-  P(A.L7w5, DUR + 1, 200, { icon: 'check', title: 'НОВАЯ ЗАГАДКА', color: GOLD, size: 50 });
-  P(A.L7w8, DUR + 1, 330, { icon: 'comment', title: 'ЗНАЛ ОБ ЭТОМ? ПИШИ', color: GOLD, size: 40 });
+  Hd.timeStamp(t, A.L0, A.L2 - 0.1, '1978 · ХАКАСИЯ', { color: WARM, y: 200 });
+  P(A.L1w12, A.L2 - 0.05, 320, { icon: 'x', title: '250 КМ ДО ЛЮДЕЙ', color: DANGER, size: 50 });
+  P(A.L3w14, A.L4 - 0.05, 320, { icon: 'check', title: '40 ЛЕТ БЕЗ ЛЮДЕЙ', color: GOLD, size: 52 });
+  P(A.L4w0, A.L5 - 0.05, 320, { icon: 'x', title: 'ДЕТИ НЕ ВИДЕЛИ ЧУЖИХ', color: DANGER, size: 44 });
+  stampBig(t, A.L5w5 - 0.05, A.L6 - 0.05, 'НЕ ЗНАЛИ О ВОЙНЕ', '#c0392b');
+  P(A.L6w8, A.L7 - 0.05, 320, { icon: 'x', title: 'ОТКАЗАЛИСЬ ПЕРЕЕХАТЬ', color: DANGER, size: 44 });
+  P(A.L7w2, DUR + 1, 200, { icon: 'check', title: 'АГАФЬЯ — ДО СИХ ПОР В ТАЙГЕ', color: GOLD, size: 40 });
+  P(A.L7w9, DUR + 1, 330, { icon: 'comment', title: 'ЗНАЛ ЭТУ ИСТОРИЮ? ПИШИ', color: GOLD, size: 40 });
 }
 // the «bait» cover on the first frames (also the thumbnail)
 function coverFrame() {
@@ -114,10 +108,10 @@ function coverFrame() {
   if (IMG['01']) cover(IMG['01'], 1.12, 0, 0); else placeholder('01', 1);
   const gr = g.createLinearGradient(0, 0, 0, 900); gr.addColorStop(0, 'rgba(0,0,0,0.6)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, 900);
   B.vignette(0.4);
-  B.plate('ЧЕРНОБЫЛЬ', 540, 150, 42, '#ff2d2d');
-  B.outlined('ЧЕРВИ', 540, 370, 170, '#ffffff', { maxW: 1000 });
-  B.outlined('НЕ БОЯТСЯ РАДИАЦИИ?', 540, 550, 150, '#ffd23f', { maxW: 1000 });
-  B.plate('ЧТО В ИХ ДНК?', 540, 1450, 60, '#ffd23f', INK, -0.03);
+  B.plate('РЕАЛЬНАЯ ИСТОРИЯ', 540, 150, 42, '#ff2d2d');
+  B.outlined('40 ЛЕТ', 540, 370, 170, '#ffffff', { maxW: 1000 });
+  B.outlined('В ТАЙГЕ', 540, 550, 150, '#ffd23f', { maxW: 1000 });
+  B.plate('НЕ ЗНАЛИ О ВОЙНЕ', 540, 1450, 60, '#ffd23f', INK, -0.03);
 }
 function grade(t) {
   // a cool cinematic grade and a soft vignette over every picture, so they sit together
@@ -149,12 +143,10 @@ export function motion() { return 0; }
 export function cues() {
   const c = [];
   const add = (t, name, db = 0, pan = 0, extra = {}) => c.push({ t, name, db, pan, ...extra });
-  add(0, 'rumble', -20, 0, { dur: A.L1 }); add(0.2, 'whine', -22, 0, { dur: A.L1 - 0.4 }); add(A.L0w9, 'whoosh_in', -12, 0);
-  add(A.L1 - 0.06, 'click', -10, 0); add(A.L1 + 0.1, 'spark', -18, 0); add(A.L2 - 0.06, 'scrape', -12, 0); add(A.L2w4, 'tweet', -22, 0.3, { dur: 1.5 });
-  add(A.L3 - 0.06, 'drip', -16, 0, { dur: A.L4 - A.L3 }); add(A.L4 - 0.06, 'click', -10, 0); add(A.L4w0, 'beep', -14, 0);
-  add(A.L5 - 0.06, 'whoosh_in', -12, 0); add(A.L5w1, 'stamp', -6, 0);
-  add(A.L6 - 0.06, 'whoosh', -14, 0); add(A.L6, 'heartbeat', -18, 0, { dur: A.L7 - A.L6 });
-  add(A.L7 - 0.06, 'whoosh', -14, 0); add(A.L7, 'morning', -18, 0, { dur: DUR - A.L7 });
-  add(T.sub - 0.1, 'pop_word', -8, 0);
+  add(0, 'rec:amb_heli70', -16, 0, { dur: A.L1 + 0.5 }); add(A.L1 - 0.06, 'rec:whoosh', -12, 0); add(A.L1, 'rec:amb_taiga', -18, 0, { dur: A.L3 - A.L1 });
+  add(A.L2 - 0.06, 'rec:whoosh', -12, 0); add(A.L2w4, 'rec:door_wood', -12, 0);
+  add(A.L3, 'rec:amb_river', -22, 0, { dur: A.L5 - A.L3 }); add(A.L3w15, 'rec:impact', -10, 0);
+  add(A.L5 - 0.06, 'rec:riser', -14, 0); add(A.L5w5 - 0.05, 'rec:impact', -6, 0);
+  add(A.L6, 'rec:axe_far', -18, 0.3); add(A.L6, 'rec:amb_taiga', -20, 0, { dur: DUR - A.L6 }); add(A.L7 - 0.06, 'rec:whoosh', -14, 0);
   return c.sort((a, b) => a.t - b.t);
 }
