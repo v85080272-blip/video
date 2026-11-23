@@ -75,7 +75,7 @@ function drawShot(s, t, alpha) {
   const m = move(s, k), [sx, sy] = shake(t);
   g.save(); g.globalAlpha = alpha;
   g.translate(W / 2 + m.dx + sx, H / 2 + m.dy + sy); g.scale(m.z, m.z);
-  if (v) g.drawImage(v, -W / 2, -H / 2, W, H);
+  if (v) { g.drawImage(v, -W / 2, -H / 2, W, H); inImage(s.img, t); }
   else {
     const r = g.createLinearGradient(0, -H / 2, 0, H / 2); r.addColorStop(0, '#1c2730'); r.addColorStop(1, '#06090c');
     g.fillStyle = r; g.fillRect(-W / 2, -H / 2, W, H);
@@ -84,6 +84,36 @@ function drawShot(s, t, alpha) {
   }
   g.restore();
   if ([26, 27, 28].includes(s.img)) cctv(s, t, alpha);
+}
+
+// letters that sit on things inside a frame move with it: drawn in the frame's own coordinates (u, v in 0..1)
+const U = u => -W / 2 + u * W, V = v => -H / 2 + v * H;
+function inImage(n, t) {
+  if (n === 23) {                                                   // the blank metal tag: x 0.305–0.655, y 0.375–0.585
+    const o = TL.overlays.find(o => o.kind === 'badge'), a = o ? ease((t - o.t0 - 0.6) / 0.5) : 1;
+    g.save(); g.globalAlpha = a; g.translate(U(0.48), V(0.485)); g.rotate(-0.01);
+    g.font = '700 112px Oswald'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.letterSpacing = '8px';
+    g.fillStyle = 'rgba(255,255,255,0.35)'; g.fillText('СОКОЛОВ', 2, -12);           // engraved: a light lip under a dark cut
+    g.fillStyle = 'rgba(25,28,32,0.86)'; g.fillText('СОКОЛОВ', 0, -15);
+    g.font = '700 24px MonoBold'; g.letterSpacing = '3px'; g.fillStyle = 'rgba(25,28,32,0.72)';
+    g.fillText('СЛУЖБА ОХРАНЫ · СЕКТОР 4', 0, 68);
+    g.letterSpacing = '0px'; g.restore();
+  }
+  if (n === 21) {                                                   // the monitor's screen: x 0.165–0.515, y 0.125–0.585
+    const o = TL.overlays.find(o => o.kind === 'progress');
+    const x = U(0.172), y = V(0.135), w = U(0.508) - x, h = V(0.575) - y;
+    g.save(); g.fillStyle = 'rgba(4,22,24,0.93)'; g.fillRect(x, y, w, h);
+    g.font = '700 46px MonoBold'; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.fillStyle = '#5ff0e0';
+    g.fillText('ПОДГОТОВКА ШЛЮЗА', x + 40, y + 90);
+    const p = o ? clamp((t - o.t0) / 40) * 0.64 + 0.02 : 0.3;
+    g.fillStyle = '#0d3a3a'; g.fillRect(x + 40, y + 160, w - 80, 56);
+    g.fillStyle = '#45ead8'; g.fillRect(x + 40, y + 160, (w - 80) * p, 56);
+    g.font = '700 34px MonoBold'; g.fillStyle = '#5ff0e0';
+    g.fillText(`${Math.round(p * 100)}%`, x + 40, y + 270);
+    g.fillText('АВАРИЙНЫЙ ШЛЮЗ 4-И', x + 40, y + 330);
+    g.fillStyle = Math.floor(t * 2) % 2 ? '#ff5050' : '#5ff0e0'; g.fillText('ИЗОЛЯТОР → КОРПУС', x + 40, y + 390);
+    g.restore();
+  }
 }
 
 function cctv(s, t, alpha) {
@@ -351,7 +381,7 @@ export function frame(t) {
   grade(t);
   for (const o of TL.overlays) {
     if (t < o.t0 - 0.05 || t > o.t1 + 0.6) continue;
-    ({ title, memo, progress, badge, plan, timer, saved: savedBox, message, end: endCard })[o.kind]?.(o, t);
+    ({ title, memo, plan, timer, saved: savedBox, message, end: endCard })[o.kind]?.(o, t);
   }
   if (t > 3 && t < 9) {                                                // the disclaimer, small, while the hook runs
     const a = ease((t - 3) / 0.6) * (1 - ease((t - 8.4) / 0.6));
