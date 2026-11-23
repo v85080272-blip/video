@@ -418,8 +418,6 @@ for name, t0, ev in sfx_at:
     for y, off in (r if isinstance(r, list) else [r if isinstance(r, tuple) else (r, 0)]):
         put(fxb, y, max(0, t0 + off))
 # the run in the hook ends in a stop, the breath goes on under the first lines
-mark('breath'); put(fxb, breath(rng_for('hook'), T['B03'][0] - 2.0, 1.5, 0.16), 2.0)
-put(fxb, breath(rng_for('sit'), 7.0, 2.6, 0.12), T['L66'][1] - 0.5)
 mark('heartbeat'); hb0, hb1 = T['B07'][0], T['L26'][0]
 put(fxb, np.atleast_2d(X.heartbeat(rng_for('hb'), hb1 - hb0, 76, 104)) * 0.3, hb0)
 # heavy lab door closing behind the airlock at «КАРАНТИН СОХРАНЁН»
@@ -521,6 +519,74 @@ put(amb, tv(rng, tv1 - tv0)[:, :n_(tv1 - tv0)] * bed_mask([(0, tv1 - tv0)], 1.5,
 i0, i1 = T['L67'][0] - 0.4, T['L69'][0] + 1.0
 hum = sum(np.sin(TAU * 100 * h * tt(i1 - i0)) / h for h in (1, 2, 3)) * fade(np.ones(n_(i1 - i0)), 0.05, 0.02)
 put(amb, pan(hum, 0.25), i0, db(-44))
+
+# —— the score: a quiet tense bed under everything (the owner, 23.11: «добавить эмбиента, чуть-чуть музыки напрягающей») ——
+# a D-minor drone pad (D2 A2 D3) with an E-flat that rubs against it when things go wrong, and sparse glassy notes.
+# It follows the story: it breathes in the hook, thins out with hope, tightens through the glass and the stairs,
+# cuts off dead with the drone when the lie shows, drives the countdown, lets go at «КАРАНТИН СОХРАНЁН», turns sad in
+# the rain, and swells under the last line until the black.
+def score(rng):
+    sr2 = 12000
+    n2 = int(N / SR * sr2) + 1
+    t2 = np.arange(n2) / sr2
+    K = [  # (time, level, tension, brightness)
+        (0.0, 0.0, 0.0, 0.2), (1.2, 0.55, 0.2, 0.3), (T['B03'][0], 0.85, 0.5, 0.6), (T['B03'][1], 0.5, 0.3, 0.3),
+        (T['L04'][0], 0.35, 0.0, 0.2), (T['L12'][1], 0.35, 0.0, 0.2),
+        (T['B04'][0], 0.55, 0.5, 0.35), (T['L18'][0], 0.6, 0.7, 0.4),
+        (T['L20'][0], 0.75, 0.85, 0.5), (T['L22'][0], 0.6, 1.0, 0.3), (T['L26'][0], 0.45, 0.3, 0.3),
+        (T['L29'][0], 0.6, 0.6, 0.4), (T['L33'][0], 0.8, 1.0, 0.55), (T['L36'][0] - 0.01, 0.8, 1.0, 0.55),
+        (T['L36'][0], 0.0, 0.0, 0.2), (T['B15'][0] - 0.01, 0.0, 0.0, 0.2),
+        (T['B15'][0], 0.8, 1.0, 0.5), (T['L59'][0], 1.0, 1.0, 1.0), (T['B17'][0], 1.0, 1.0, 1.0),
+        (T['B17'][0] + 3.0, 0.35, 0.0, 0.25), (T['B18'][0], 0.4, 0.0, 0.25), (T['L66'][1], 0.4, 0.0, 0.25),
+        (T['L67'][0], 0.6, 0.8, 0.4), (T['L70'][1], 0.9, 1.0, 0.6), (T['B22'][0], 0.0, 0.0, 0.2), (N / SR, 0.0, 0.0, 0.2)]
+    kt = np.array([k[0] for k in K])
+    lev, ten, bri = (np.interp(t2, kt, [k[i] for k in K]) for i in (1, 2, 3))
+
+    def pad(freqs, seed):
+        r = np.random.default_rng(seed)
+        y = np.zeros(n2)
+        for f in freqs:
+            for det in (-0.0018, 0.0016):
+                for h in range(1, 8):
+                    y += np.sin(TAU * f * h * (1 + det) * t2 + r.uniform(0, TAU)) / h ** 1.25
+        return y
+
+    def lp2(x, f):
+        return signal.sosfilt(signal.butter(2, f, 'lowpass', fs=sr2, output='sos'), x)
+
+    out = []
+    for c in range(2):
+        base = pad([73.42, 110.0, 146.83], 11 + c)
+        rub = pad([155.56], 21 + c) * 0.8 + pad([233.08], 31 + c) * 0.35       # E-flat 3 and B-flat 3 against the D
+        mix_ = base * (1 - 0.35 * ten) + rub * ten
+        dark, bright = lp2(mix_, 380), lp2(mix_, 1500)
+        y = dark * (1 - bri) + bright * bri
+        y *= 1 + 0.2 * np.sin(TAU * 0.06 * t2 + c * 1.7)                       # it breathes
+        out.append(y * lev)
+    y = np.stack(out)
+    y = signal.resample_poly(y, SR // 1000, sr2 // 1000, axis=1)[:, :N]
+    y = hp(y, 60)
+    y = y / (np.sqrt(np.mean(y[:, np.abs(y[0]) > 1e-4] ** 2)) + 1e-9)
+    # glass: sparse high notes where it is tense
+    glass = np.zeros(N)
+    tt_ = 2.0
+    while tt_ < N / SR - 4:
+        i2 = min(n2 - 1, int(tt_ * sr2))
+        if ten[i2] > 0.45 and lev[i2] > 0.3:
+            f = rng.choice([587.33, 622.25, 880.0, 698.46, 932.33])
+            sec = 3.0
+            k = tt(sec)
+            ping = (np.sin(TAU * f * k) + 0.25 * np.sin(TAU * f * 2.76 * k)) * np.exp(-k / 1.1) * fade(np.ones(n_(sec)), 0.02, 0.3)
+            a_ = n_(tt_)
+            glass[a_:a_ + len(ping)] += ping[:max(0, N - a_)] * 0.5 * lev[i2]
+        tt_ += rng.uniform(5.0, 9.0)
+    y = y + pan(glass, rng.uniform(-0.3, 0.3)) * 2.0
+    return verb(y, room(rng, 3.2, damp=3000), 0.35)[:, :N]
+
+
+mark('score')
+amb += score(rng_for('score')) * db(-33)
+mark('score done')
 
 # the beds duck under the words (not under the mimic's words: those should sit inside the room)
 ve = np.abs(voice).max(0)

@@ -106,7 +106,9 @@ function inImage(n, t) {
     g.save(); g.fillStyle = 'rgba(4,22,24,0.93)'; g.fillRect(x, y, w, h);
     g.font = '700 46px MonoBold'; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.fillStyle = '#5ff0e0';
     g.fillText('ПОДГОТОВКА ШЛЮЗА', x + 40, y + 90);
-    const p = o ? clamp((t - o.t0) / 40) * 0.64 + 0.02 : 0.3;
+    let p = o ? clamp((t - o.t0) / 40) * 0.64 + 0.02 : 0.3;
+    const back = TL.T.L50b?.[0];                                    // seen again before the countdown: almost done
+    if (back && t > back - 1.5) p = 0.95 + 0.04 * clamp((t - back) / 4);
     g.fillStyle = '#0d3a3a'; g.fillRect(x + 40, y + 160, w - 80, 56);
     g.fillStyle = '#45ead8'; g.fillRect(x + 40, y + 160, (w - 80) * p, 56);
     g.font = '700 34px MonoBold'; g.fillStyle = '#5ff0e0';
@@ -417,11 +419,6 @@ export function frame(t) {
   for (const o of TL.overlays) {
     if (t < o.t0 - 0.05 || t > o.t1 + 0.6) continue;
     ({ title, memo, plan, timer, saved: savedBox, end: endCard })[o.kind]?.(o, t);
-  }
-  if (t > 3 && t < 9) {                                                // the disclaimer, small, while the hook runs
-    const a = ease((t - 3) / 0.6) * (1 - ease((t - 8.4) / 0.6));
-    g.save(); g.globalAlpha = a * 0.75; g.font = '600 24px Inter'; g.textAlign = 'left'; g.fillStyle = '#c8d0d6';
-    g.fillText('Художественная история. Кадры созданы ИИ', 50, 56); g.restore();
   }
   subs(t);
 }
