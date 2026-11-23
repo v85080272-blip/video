@@ -307,7 +307,7 @@ export function frame(t) {
 export function cover() {
   g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
   const v = IMG.get(1);
-  if (v) { g.save(); g.translate(W / 2, H / 2); g.scale(1.06, 1.06); g.drawImage(v, -W / 2 + 80, -H / 2, W, H); g.restore(); }
+  if (v) { g.save(); g.translate(W / 2, H / 2); g.scale(1.1, 1.1); g.drawImage(v, -W / 2 + 40, -H / 2, W, H); g.restore(); }
   const v2 = g.createLinearGradient(0, 0, W, 0); v2.addColorStop(0, 'rgba(0,0,0,0.75)'); v2.addColorStop(0.55, 'rgba(0,0,0,0.15)'); v2.addColorStop(1, 'rgba(0,0,0,0)');
   g.fillStyle = v2; g.fillRect(0, 0, W, H);
   for (const [str, y, size, col] of [['2 ГОДА', 300, 230, '#ffffff'], ['ВО ЛЬДАХ', 520, 200, '#ffffff']]) {
