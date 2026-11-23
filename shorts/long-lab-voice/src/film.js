@@ -119,6 +119,7 @@ function inImage(n, t) {
   }
 }
 
+const mmss = n => (n >= 60 ? '01:00' : `00:${String(n).padStart(2, '0')}`);
 function countLeft(t) {
   const o = TL.overlays.find(x => x.kind === 'timer'), sv = TL.overlays.find(x => x.kind === 'saved');
   if (!o) return 60;
@@ -130,7 +131,7 @@ function onScreens(n, t) {
     g.save(); g.textAlign = 'center'; g.textBaseline = 'middle';
     g.font = '700 64px Oswald'; g.fillStyle = 'rgba(20,0,0,0.88)'; g.fillText('СНЯТИЕ КАРАНТИНА', U(0.665), V(0.235));
     g.font = '700 150px MonoBold'; g.fillStyle = Math.floor(t * 2) % 2 ? '#2a0000' : '#ffffff';
-    g.fillText(`00:${String(countLeft(t)).padStart(2, '0')}`, U(0.665), V(0.385));
+    g.fillText(mmss(countLeft(t)), U(0.665), V(0.385));
     g.font = '700 30px MonoBold'; g.fillStyle = 'rgba(20,0,0,0.8)'; g.fillText('ОТМЕНА С ПУЛЬТА НЕДОСТУПНА', U(0.665), V(0.52));
     g.restore();
   }
@@ -323,7 +324,7 @@ function timer(o, t) {
   g.font = '700 64px Oswald'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#ff5a5a';
   g.fillText('СНЯТИЕ КАРАНТИНА', 0, -80);
   g.font = '700 150px MonoBold'; g.fillStyle = blink || big < 0.5 ? '#ffffff' : '#ffb3b3';
-  g.fillText(`00:${String(left).padStart(2, '0')}`, 0, 50);
+  g.fillText(mmss(left), 0, 50);
   g.restore();
 }
 function savedBox(o, t) {
