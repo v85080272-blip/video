@@ -6,7 +6,17 @@ import { loadImage } from '@napi-rs/canvas';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const W = 1920, H = 1080;
+// VERT=1: a vertical 1080×1920 version for Shorts cut from the film (see long-lab-voice/src/film.js)
+export const VERT = process.env.VERT === '1';
+export let W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080;
+const CLIP_END = parseFloat(process.env.CLIP_END ?? 'NaN');
+const FOCUS = { 1: 0.55, 2: 0.55, 3: 0.75, 4: 0.5, 40: 0.4, 41: 0.6, 42: 0.72, 43: 0.3, 44: 0.5, 45: 0.45, 46: 0.6, 47: 0.45, 48: 0.55, 49: 0.5, 50: 0.45, 51: 0.35, 52: 0.4, 53: 0.5, 54: 0.5 };
+function virtual(fn) {
+  if (!VERT) return fn();
+  const w = W, h = H, k = 1080 / 1920;
+  g.save(); g.translate(0, (1920 - 1080 * k) / 2 - 140); g.scale(k, k); W = 1920; H = 1080;
+  try { fn(); } finally { W = w; H = h; g.restore(); }
+}
 let g = null, ROOT = '.';
 export const TL = { dur: 0 };
 const IMG = new Map();
@@ -66,7 +76,11 @@ function drawShot(s, t, alpha) {
   if (typeof s.img === 'string') { drawMap(s.img.slice(4), t - s.t0, k); g.restore(); return; }
   const v = IMG.get(s.img), m = move(s, k), [sx, sy] = shake(t);
   g.translate(W / 2 + m.dx + sx, H / 2 + m.dy + sy); g.scale(m.z, m.z);
-  if (v) g.drawImage(v, -W / 2, -H / 2, W, H);
+  if (VERT) {
+    const sc = H / 1080, half = (1920 * sc - W) / 2;
+    g.translate(clamp(-((FOCUS[s.img] ?? 0.5) - 0.5) * 1920 * sc, -half, half), 0); g.scale(sc, sc);
+  }
+  if (v) g.drawImage(v, -960, -540, 1920, 1080);
   else { g.fillStyle = '#1c2730'; g.fillRect(-W / 2, -H / 2, W, H); g.fillStyle = 'rgba(160,200,220,0.25)'; g.font = '700 300px Oswald'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(String(s.img), 0, 0); }
   g.restore();
 }
@@ -123,8 +137,9 @@ function setView(m, name, k) {
   const lons = pts.map(p => p[0]), lats = pts.map(p => p[1]);
   const lo0 = Math.min(...lons), lo1 = Math.max(...lons), la0 = Math.min(...lats), la1 = Math.max(...lats);
   const lc = (lo0 + lo1) / 2, ac = (la0 + la1) / 2, cl = Math.cos(ac * Math.PI / 180);
-  const s = Math.min(1500 / Math.max(0.3, (lo1 - lo0) * cl), 620 / Math.max(0.3, la1 - la0)) * lerp(1, m.z, ease(k));
-  proj = ([lon, lat]) => [W / 2 + (lon - lc) * cl * s, 450 - (lat - ac) * s];
+  const BW = VERT ? 940 : 1500, BH = VERT ? 1000 : 620, CY = VERT ? 820 : 450;
+  const s = Math.min(BW / Math.max(0.3, (lo1 - lo0) * cl), BH / Math.max(0.3, la1 - la0)) * lerp(1, m.z, ease(k));
+  proj = ([lon, lat]) => [W / 2 + (lon - lc) * cl * s, CY - (lat - ac) * s];
   return s;
 }
 function poly(pts, fill, stroke) {
@@ -228,7 +243,7 @@ function cap(o, t) {
   if (a <= 0) return;
   const chap = TL.overlays.some(c => c.kind === 'chapter' && t >= c.t0 && t <= c.t1);
   g.save(); g.globalAlpha = a;
-  const y = chap ? 120 : 110;
+  const y = VERT ? 230 : (chap ? 120 : 110);
   g.font = '700 40px MonoBold'; const w = g.measureText(o.text).width;
   g.fillStyle = 'rgba(0,0,0,0.45)'; g.fillRect(80, y - 52, w + 60, 76);
   g.fillStyle = '#c8a25a'; g.fillRect(80, y - 52, 6, 76);
@@ -276,13 +291,14 @@ function subs(t) {
     for (const [s, a0, a1] of parts(l)) {
       if (t < a0 - 0.1 || t > a1 + 0.3) continue;
       const a = ease((t - a0 + 0.1) / 0.15) * (1 - ease((t - a1 - 0.15) / 0.15));
-      const lines = balance(s, 44, 1500), y0 = H - 70 - (lines.length - 1) * 58;
+      const FS = VERT ? 52 : 44, LH = VERT ? 66 : 58;
+      const lines = VERT ? wrap(s, FS, W - 140) : balance(s, 44, 1500), y0 = (VERT ? H - 560 : H - 70) - (lines.length - 1) * LH;
       g.save(); g.globalAlpha = a;
       if (WHO[l.who]) mono(WHO[l.who], W / 2, y0 - 62, 26, '#e8c477', 'center');
-      g.font = '600 44px Inter'; g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round'; g.lineWidth = 8; g.strokeStyle = 'rgba(0,0,0,0.85)';
-      lines.forEach((x, i) => g.strokeText(x, W / 2, y0 + i * 58));
+      g.font = `600 ${FS}px Inter`; g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round'; g.lineWidth = 8; g.strokeStyle = 'rgba(0,0,0,0.85)';
+      lines.forEach((x, i) => g.strokeText(x, W / 2, y0 + i * LH));
       g.fillStyle = WHO[l.who] ? '#fff4dc' : '#ffffff';
-      lines.forEach((x, i) => g.fillText(x, W / 2, y0 + i * 58));
+      lines.forEach((x, i) => g.fillText(x, W / 2, y0 + i * LH));
       g.restore();
     }
   }
@@ -298,9 +314,31 @@ export function frame(t) {
   grade(t);
   for (const o of TL.overlays) {
     if (t < o.t0 - 0.05 || t > o.t1 + 0.6) continue;
-    ({ title, chapter, cap, end: endCard })[o.kind]?.(o, t);
+    if (o.kind === 'cap') cap(o, t); else virtual(() => ({ title, chapter, end: endCard })[o.kind]?.(o, t));
   }
-  subs(t);
+  if (!NOSUBS) subs(t);
+  if (VERT && !NOSUBS && t > CLIP_END - 3.2) fullStory(t);
+}
+function fullStory(t) {
+  const a = ease((t - (CLIP_END - 3.2)) / 0.4);
+  g.save(); g.globalAlpha = a; g.translate(W / 2, 330); g.rotate(-0.02);
+  g.font = '700 64px Oswald'; const s1 = 'ПОЛНАЯ ИСТОРИЯ', w = g.measureText(s1).width + 70;
+  g.fillStyle = '#ffd400'; g.fillRect(-w / 2, -60, w, 120); g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s1, 0, 4);
+  g.font = '700 46px Oswald'; g.lineWidth = 8; g.strokeStyle = '#000'; g.strokeText('ПО ССЫЛКЕ ВНИЗУ', 0, 120); g.fillStyle = '#fff'; g.fillText('ПО ССЫЛКЕ ВНИЗУ', 0, 120);
+  const ay = 175 + 12 * Math.abs(Math.sin(t * 5));
+  g.fillStyle = '#ffd400'; g.strokeStyle = '#000'; g.lineWidth = 6; g.beginPath(); g.moveTo(-34, ay); g.lineTo(34, ay); g.lineTo(0, ay + 46); g.closePath(); g.stroke(); g.fill();
+  g.restore();
+}
+let NOSUBS = false;
+export function thumbAt(t, lines, plateText, plateY = 1500) {
+  NOSUBS = true; frame(t); NOSUBS = false;
+  const gr = g.createLinearGradient(0, 0, 0, 900); gr.addColorStop(0, 'rgba(0,0,0,0.65)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, 900);
+  for (const [str, y, size, col] of lines) {
+    g.font = `700 ${size}px Oswald`; const w = g.measureText(str).width, k = Math.min(1, (W - 80) / w);
+    g.save(); g.translate(W / 2, y); g.scale(k, k); g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+    g.lineWidth = size * 0.15; g.strokeStyle = '#000'; g.strokeText(str, 0, 0); g.fillStyle = col; g.fillText(str, 0, 0); g.restore();
+  }
+  if (plateText) { g.save(); g.translate(W / 2, plateY); g.rotate(-0.03); g.font = '700 70px Oswald'; const w = g.measureText(plateText).width + 60; g.fillStyle = '#ffd400'; g.fillRect(-w / 2, -56, w, 112); g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(plateText, 0, 4); g.restore(); }
 }
 
 // the thumbnail: the crushed ship, «2 ГОДА ВО ЛЬДАХ» and «ВЕРНУЛИСЬ ВСЕ 28»

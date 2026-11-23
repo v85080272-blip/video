@@ -9,7 +9,7 @@ import { once } from 'node:events';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { init, frame, preload, need, coverVariant, COVER_IMGS, TL, W, H } from './src/doc.js';
+import { init, frame, preload, need, coverVariant, COVER_IMGS, thumbAt, TL, W, H } from './src/doc.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 30;
@@ -60,6 +60,30 @@ if (mode === 'stills') {
   ff.stdin.end();
   await once(ff, 'close');
   console.log(`part ${a}-${b}: done`);
+} else if (mode === 'thumb') {
+  const t = parseFloat(args[0]);
+  await preload(t);
+  thumbAt(t, JSON.parse(args[2]), args[3], args[4] ? parseFloat(args[4]) : 1500);
+  fs.writeFileSync(args[1], canvas.encodeSync('jpeg', 92));
+  console.log('thumb', args[1]);
+} else if (mode === 'clip') {
+  // a stretch of the film, e.g. for a vertical Short: node render.mjs clip <t0> <t1> <out.mp4> [workers]  (VERT=1 CLIP_END=<t1>)
+  const [t0, t1, file] = [parseFloat(args[0]), parseFloat(args[1]), args[2]], n = parseInt(args[3] || '4');
+  const A = Math.round(t0 * FPS), B = Math.round(t1 * FPS), dir = path.join(ROOT, 'build/clip-parts');
+  fs.mkdirSync(dir, { recursive: true });
+  const jobs = [];
+  for (let k = 0; k < n; k++) {
+    const a = A + Math.floor((B - A) * k / n), b = A + Math.floor((B - A) * (k + 1) / n), f = path.join(dir, `p${k}.mp4`);
+    const p = spawn(process.execPath, [fileURLToPath(import.meta.url), 'part', String(a), String(b), f], { stdio: 'inherit' });
+    jobs.push(once(p, 'close'));
+  }
+  await Promise.all(jobs);
+  const list = path.join(dir, 'list.txt');
+  fs.writeFileSync(list, [...Array(n).keys()].map(k => `file 'p${k}.mp4'`).join('\n'));
+  const c = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', file], { stdio: 'inherit' });
+  await once(c, 'close');
+  for (let k = 0; k < n; k++) fs.rmSync(path.join(dir, `p${k}.mp4`), { force: true });
+  console.log('clip', file, B - A, 'frames');
 } else if (mode === 'video') {
   const file = args[0], n = parseInt(args[1] || '4');
   const dir = path.join(ROOT, 'build/parts');

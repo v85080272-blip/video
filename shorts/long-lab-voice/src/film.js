@@ -7,7 +7,19 @@ import { loadImage } from '@napi-rs/canvas';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const W = 1920, H = 1080;
+// VERT=1 renders a vertical 1080×1920 version for Shorts cut from the film: the frames fill the height (cropped around
+// a focus point), the overlays made for 16:9 are drawn into a centred 16:9 band, the subtitles sit higher (above the
+// Shorts buttons) and the last seconds of a clip say where the full story is.
+export const VERT = process.env.VERT === '1';
+export let W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080;
+const CLIP_END = parseFloat(process.env.CLIP_END ?? 'NaN');
+const FOCUS = { 1: 0.42, 2: 0.7, 3: 0.4, 4: 0.5, 5: 0.32, 6: 0.78, 7: 0.3, 8: 0.55, 9: 0.55, 32: 0.55, 47: 0.6, 19: 0.55, 20: 0.62, 21: 0.33, 22: 0.45, 23: 0.48, 24: 0.6, 30: 0.67, 31: 0.45, 32: 0.4, 33: 0.5, 34: 0.65, 35: 0.3 };
+function virtual(fn) {                                   // draw a 16:9 overlay into the vertical frame's middle band
+  if (!VERT) return fn();
+  const w = W, h = H, k = 1080 / 1920;
+  g.save(); g.translate(0, (1920 - 1080 * k) / 2 - 140); g.scale(k, k); W = 1920; H = 1080;
+  try { fn(); } finally { W = w; H = h; g.restore(); }
+}
 let g = null, ROOT = '.';
 export const TL = { dur: 0 };
 const IMG = new Map();
@@ -75,7 +87,11 @@ function drawShot(s, t, alpha) {
   const m = move(s, k), [sx, sy] = shake(t);
   g.save(); g.globalAlpha = alpha;
   g.translate(W / 2 + m.dx + sx, H / 2 + m.dy + sy); g.scale(m.z, m.z);
-  if (v) { g.drawImage(v, -W / 2, -H / 2, W, H); inImage(s.img, t); }
+  if (VERT) {                                            // fill the height, keep the frame's focus in the middle
+    const sc = H / 1080, half = (1920 * sc - W) / 2;
+    g.translate(clamp(-((FOCUS[s.img] ?? 0.5) - 0.5) * 1920 * sc, -half, half), 0); g.scale(sc, sc);
+  }
+  if (v) { g.drawImage(v, -960, -540, 1920, 1080); inImage(s.img, t); }
   else {
     const r = g.createLinearGradient(0, -H / 2, 0, H / 2); r.addColorStop(0, '#1c2730'); r.addColorStop(1, '#06090c');
     g.fillStyle = r; g.fillRect(-W / 2, -H / 2, W, H);
@@ -87,7 +103,7 @@ function drawShot(s, t, alpha) {
 }
 
 // letters that sit on things inside a frame move with it: drawn in the frame's own coordinates (u, v in 0..1)
-const U = u => -W / 2 + u * W, V = v => -H / 2 + v * H;
+const U = u => -960 + u * 1920, V = v => -540 + v * 1080;
 function inImage(n, t) {
   onScreens(n, t);
   if (n === 23) {                                                   // the blank metal tag: x 0.305–0.655, y 0.375–0.585
@@ -393,20 +409,32 @@ function subs(t) {
     if (t < l.t0 - 0.1 || t > l.t1 + 0.35) continue;
     const a = ease((t - l.t0 + 0.1) / 0.15) * (1 - ease((t - l.t1 - 0.2) / 0.15));
     const text = l.text.replace(/\+/g, '');
-    const lines = balance(text, 46, 1500);
-    const y0 = H - 70 - (lines.length - 1) * 60;
+    const FS = VERT ? 52 : 46, LH = VERT ? 66 : 60;
+    const lines = VERT ? wrap(text, FS, W - 140, 'Inter') : balance(text, 46, 1500);
+    const y0 = (VERT ? H - 560 : H - 70) - (lines.length - 1) * LH;
     g.save(); g.globalAlpha = a;
     const lab = l.fx === 'vo' ? null : LABEL[l.fx];
     if (lab) mono(lab, W / 2, y0 - 64, 26, COLOR[l.fx] ?? '#cfd8e0');
-    g.font = `${l.fx === 'vo' ? 600 : 600} 46px Inter`; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+    g.font = `600 ${FS}px Inter`; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
     g.lineJoin = 'round'; g.lineWidth = 8; g.strokeStyle = 'rgba(0,0,0,0.85)';
-    lines.forEach((s, i) => { g.strokeText(s, W / 2, y0 + i * 60); });
+    lines.forEach((s, i) => { g.strokeText(s, W / 2, y0 + i * LH); });
     g.fillStyle = l.fx === 'vo' ? '#ffffff' : (COLOR[l.fx] ? '#f2fff5' : '#eef3f6');
-    lines.forEach((s, i) => { g.fillText(s, W / 2, y0 + i * 60); });
+    lines.forEach((s, i) => { g.fillText(s, W / 2, y0 + i * LH); });
     g.restore();
   }
 }
 
+let NOSUBS = false;
+export function thumbAt(t, lines, plateText, plateY = 1500) {
+  NOSUBS = true; frame(t); NOSUBS = false;
+  const gr = g.createLinearGradient(0, 0, 0, 900); gr.addColorStop(0, 'rgba(0,0,0,0.65)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, 900);
+  for (const [str, y, size, col] of lines) {
+    g.font = `700 ${size}px Oswald`; const w = g.measureText(str).width; const k = Math.min(1, (W - 80) / w);
+    g.save(); g.translate(W / 2, y); g.scale(k, k); g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+    g.lineWidth = size * 0.15; g.strokeStyle = '#000'; g.strokeText(str, 0, 0); g.fillStyle = col; g.fillText(str, 0, 0); g.restore();
+  }
+  if (plateText) { g.save(); g.translate(W / 2, plateY); g.rotate(-0.03); g.font = '700 70px Oswald'; const w = g.measureText(plateText).width + 60; g.fillStyle = '#ffd400'; g.fillRect(-w / 2, -56, w, 112); g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(plateText, 0, 4); g.restore(); }
+}
 export function frame(t) {
   g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
   // the shot on screen, and the one it dissolves from
@@ -419,9 +447,21 @@ export function frame(t) {
   grade(t);
   for (const o of TL.overlays) {
     if (t < o.t0 - 0.05 || t > o.t1 + 0.6) continue;
-    ({ title, memo, plan, timer, saved: savedBox, end: endCard })[o.kind]?.(o, t);
+    if (o.kind === 'timer') timer(o, t);
+    else virtual(() => ({ title, memo, plan, saved: savedBox, end: endCard })[o.kind]?.(o, t));
   }
-  subs(t);
+  if (!NOSUBS) subs(t);
+  if (VERT && !NOSUBS && t > CLIP_END - 3.2) fullStory(t);
+}
+function fullStory(t) {
+  const a = ease((t - (CLIP_END - 3.2)) / 0.4);
+  g.save(); g.globalAlpha = a; g.translate(W / 2, 300); g.rotate(-0.02);
+  g.font = '700 64px Oswald'; const s1 = 'ПОЛНАЯ ИСТОРИЯ', w = g.measureText(s1).width + 70;
+  g.fillStyle = '#ffd400'; g.fillRect(-w / 2, -60, w, 120); g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s1, 0, 4);
+  g.font = '700 46px Oswald'; g.lineWidth = 8; g.strokeStyle = '#000'; g.strokeText('ПО ССЫЛКЕ ВНИЗУ', 0, 120); g.fillStyle = '#fff'; g.fillText('ПО ССЫЛКЕ ВНИЗУ', 0, 120);
+  const ay = 175 + 12 * Math.abs(Math.sin(t * 5));               // a bouncing arrow (the font has no ↓)
+  g.fillStyle = '#ffd400'; g.strokeStyle = '#000'; g.lineWidth = 6; g.beginPath(); g.moveTo(-34, ay); g.lineTo(34, ay); g.lineTo(0, ay + 46); g.closePath(); g.stroke(); g.fill();
+  g.restore();
 }
 
 // the thumbnail (1280×720 scaled from 1920×1080): a torch on frosted glass with a hand behind it, «НЕ ОТКРЫВАЙ ШЛЮЗ»
