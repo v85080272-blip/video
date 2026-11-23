@@ -83,12 +83,13 @@ function drawShot(s, t, alpha) {
     g.fillText(String(s.img).padStart(2, '0'), 0, -40);
   }
   g.restore();
-  if ([26, 27, 28].includes(s.img)) cctv(s, t, alpha);
+  if ([27, 28].includes(s.img)) cctv(s, t, alpha);
 }
 
 // letters that sit on things inside a frame move with it: drawn in the frame's own coordinates (u, v in 0..1)
 const U = u => -W / 2 + u * W, V = v => -H / 2 + v * H;
 function inImage(n, t) {
+  onScreens(n, t);
   if (n === 23) {                                                   // the blank metal tag: x 0.305–0.655, y 0.375–0.585
     const o = TL.overlays.find(o => o.kind === 'badge'), a = o ? ease((t - o.t0 - 0.6) / 0.5) : 1;
     g.save(); g.globalAlpha = a; g.translate(U(0.48), V(0.485)); g.rotate(-0.01);
@@ -112,6 +113,38 @@ function inImage(n, t) {
     g.fillText(`${Math.round(p * 100)}%`, x + 40, y + 270);
     g.fillText('АВАРИЙНЫЙ ШЛЮЗ 4-И', x + 40, y + 330);
     g.fillStyle = Math.floor(t * 2) % 2 ? '#ff5050' : '#5ff0e0'; g.fillText('ИЗОЛЯТОР → КОРПУС', x + 40, y + 390);
+    g.restore();
+  }
+}
+
+function countLeft(t) {
+  const o = TL.overlays.find(x => x.kind === 'timer'), sv = TL.overlays.find(x => x.kind === 'saved');
+  if (!o) return 60;
+  const end = sv ? sv.t0 : o.t1;
+  return t >= end ? 3 : Math.max(3, Math.ceil(60 - 57 * clamp((t - o.t0) / (end - o.t0))));
+}
+function onScreens(n, t) {
+  if (n === 30) {                                                   // the red screen: x 0.48–0.87, y 0.12–0.60; its box x 0.52–0.81, y 0.32–0.44
+    g.save(); g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = '700 64px Oswald'; g.fillStyle = 'rgba(20,0,0,0.88)'; g.fillText('СНЯТИЕ КАРАНТИНА', U(0.665), V(0.235));
+    g.font = '700 150px MonoBold'; g.fillStyle = Math.floor(t * 2) % 2 ? '#2a0000' : '#ffffff';
+    g.fillText(`00:${String(countLeft(t)).padStart(2, '0')}`, U(0.665), V(0.385));
+    g.font = '700 30px MonoBold'; g.fillStyle = 'rgba(20,0,0,0.8)'; g.fillText('ОТМЕНА С ПУЛЬТА НЕДОСТУПНА', U(0.665), V(0.52));
+    g.restore();
+  }
+  if (n === 41) {                                                   // the phone's screen: x 0.385–0.615, y 0.11–0.90
+    const o = TL.overlays.find(x => x.kind === 'message');
+    const x = U(0.389), y = V(0.115), w = U(0.611) - x, h = V(0.895) - y;
+    g.save(); g.globalAlpha = 0.93; g.fillStyle = '#0b0e14'; rr(x, y, w, h, 34); g.fill(); g.globalAlpha = 1;
+    g.fillStyle = '#1a2130'; g.fillRect(x + 10, y + 10, w - 20, 84);
+    g.font = '600 28px Inter'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#e6ebf2'; g.fillText('Диспетчерская ЧС', x + w / 2, y + 52);
+    const n0 = o ? Math.floor(clamp((t - o.t0 - 0.4) / (o.t1 - o.t0 - 1.6)) * MSG.length) : MSG.length;
+    const lines = wrap(MSG.slice(0, n0) + (n0 < MSG.length && Math.floor(t * 3) % 2 ? '|' : ''), 30, w - 110, 'Inter');
+    const bw = w - 50, bh = 36 + lines.length * 42, bx = x + 25, by = y + 150;
+    g.fillStyle = '#2f6fe0'; rr(bx, by, bw, bh, 22); g.fill();
+    g.font = '600 30px Inter'; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.fillStyle = '#fff';
+    lines.forEach((l, i) => g.fillText(l, bx + 24, by + 46 + i * 42));
+    if (n0 >= MSG.length) { g.font = '600 22px Inter'; g.textAlign = 'right'; g.fillStyle = '#8fa3c0'; g.fillText('Доставлено ✓✓', bx + bw, by + bh + 34); }
     g.restore();
   }
 }
@@ -277,7 +310,9 @@ function timer(o, t) {
   const end = saved ? saved.t0 : o.t1, k = clamp((t - o.t0) / (end - o.t0));
   const left = t >= end ? 3 : Math.max(3, Math.ceil(60 - 57 * k));
   if (t > end + 0.2) return;
-  const big = 1 - ease((t - o.t0 - 2.6) / 0.6);
+  const cur = TL.shots.find(x => t >= x.t0 && t < x.t1);
+  if (cur && cur.img === 30) return;
+  const big = 0;
   const x = lerp(W - 300, W / 2, big), y = lerp(110, H / 2 - 30, big), s = lerp(0.42, 1, big);
   g.save(); g.translate(x, y); g.scale(s, s);
   const blink = Math.floor(t * 2) % 2 === 0;
@@ -381,7 +416,7 @@ export function frame(t) {
   grade(t);
   for (const o of TL.overlays) {
     if (t < o.t0 - 0.05 || t > o.t1 + 0.6) continue;
-    ({ title, memo, plan, timer, saved: savedBox, message, end: endCard })[o.kind]?.(o, t);
+    ({ title, memo, plan, timer, saved: savedBox, end: endCard })[o.kind]?.(o, t);
   }
   if (t > 3 && t < 9) {                                                // the disclaimer, small, while the hook runs
     const a = ease((t - 3) / 0.6) * (1 - ease((t - 8.4) / 0.6));
