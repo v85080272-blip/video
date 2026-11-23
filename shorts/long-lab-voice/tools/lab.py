@@ -388,9 +388,9 @@ ONE = {
     'run': lambda rng, e: run_(rng, 2.0),
     'stop': lambda rng, e: (pan(X.scrape_short(rng), 0) * 0.5, 2.05),
     'door_open': lambda rng, e: [(pan(X.latch(rng), 0.1) * 0.5, 0), (creak(rng), 0.25)],
-    'door_shut': lambda rng, e: (pan2(X.slam(rng), 0) * 0.55, 0.1),
+    'door_shut': lambda rng, e: (pan2(X.slam(rng), 0) * 0.38, 0.1),
     'lock': lambda rng, e: (pan(X.latch(rng), 0) * 0.6, 0.8),
-    'boom': lambda rng, e: (X.boom(rng) * 0.6, 0),
+    'boom': lambda rng, e: (X.boom(rng) * 0.42, 0),
     'steps': lambda rng, e: walk(rng, (T[e][1] - T[e][0]) + 1.5, 0.56, 0.42),
     'glass': lambda rng, e: (squeak(rng), 0.8),
     'torch_off': lambda rng, e: (pan(X.switch(rng), 0) * 0.6, 0.6),
@@ -400,11 +400,11 @@ ONE = {
     'tv': lambda rng, e: None,                                     # a bed, see below
     'button': lambda rng, e: [(pan(X.switch(rng), 0.1) * 0.7, 0.1), (beeps(rng, 1, 1320, 0.3, 0.12, 0.18), 0.35)],
     'sting': lambda rng, e: (X.sting(rng) * 0.32, 0),
-    'alarm': lambda rng, e: (beeps(rng, 3, 760, 0.42, 0.22, 0.3), 0),
-    'lever': lambda rng, e: (ratchet(rng) * 0.8, 0.1),
-    'door_stop': lambda rng, e: (grind_stop(rng) * 0.7, -0.1),
+    'alarm': lambda rng, e: (beeps(rng, 3, 760, 0.42, 0.22, 0.17), 0),
+    'lever': lambda rng, e: (ratchet(rng) * 0.55, 0.1),
+    'door_stop': lambda rng, e: (grind_stop(rng) * 0.5, -0.1),
     'clunk': lambda rng, e: [(pan(X.clunk(rng), 0) * 0.7, 0.2), (pan2(X.thud(rng), 0) * 0.6, 0.25)],
-    'saved': lambda rng, e: (saved_tone(rng), 0.15),
+    'saved': lambda rng, e: (saved_tone(rng) * 0.6, 0.15),
     'drips': lambda rng, e: drips(rng, 9.0),
     'hatch': lambda rng, e: (hatch(rng), 0.9),
     'typing': lambda rng, e: (taps(rng, T[e][1] - T[e][0]), 0),
@@ -423,7 +423,7 @@ put(fxb, breath(rng_for('sit'), 7.0, 2.6, 0.12), T['L66'][1] - 0.5)
 mark('heartbeat'); hb0, hb1 = T['B07'][0], T['L26'][0]
 put(fxb, np.atleast_2d(X.heartbeat(rng_for('hb'), hb1 - hb0, 76, 104)) * 0.3, hb0)
 # heavy lab door closing behind the airlock at «КАРАНТИН СОХРАНЁН»
-put(fxb, X.thud(rng_for('end')) * 0.5, T['B17'][0])
+put(fxb, X.thud(rng_for('end')) * 0.25, T['B17'][0])
 
 
 # —— beds ——
@@ -531,6 +531,7 @@ for name, buf in [('voice', voice), ('fx', fxb), ('amb', amb)]:
     sf.write(os.path.join(BUILD, f'{name}.wav'), buf[:, :end].T.astype(np.float32), SR)
 mix = voice + fxb + amb
 mix = mix[:, :end]
+mix[:, -n_(2.5):] *= np.linspace(1, 0, n_(2.5)) ** 2      # the end card fades to silence
 sf.write(os.path.join(BUILD, 'mix_raw.wav'), mix.T.astype(np.float32), SR)
 # loudness for YouTube: two-pass loudnorm to -14 LUFS, true peak -1.5 dB
 m = subprocess.run(['ffmpeg', '-hide_banner', '-i', os.path.join(BUILD, 'mix_raw.wav'), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=14:print_format=json', '-f', 'null', '-'], capture_output=True, text=True).stderr
