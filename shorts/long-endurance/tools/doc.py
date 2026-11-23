@@ -131,7 +131,7 @@ voice = np.zeros((2, N))
 for l in lines: put(voice, VOX[l['id']], l['t0'])
 
 # —— one-shots (recordings) ——
-SHOT_DB = {'ice_crack': -19, 'timber_break': -20, 'ship_sink': -22, 'whistle': -23, 'tug_horn': -23, 'snow_steps': -27,
+SHOT_DB = {'ice_crack': -23, 'timber_break': -23, 'ship_sink': -22, 'whistle': -23, 'tug_horn': -23, 'snow_steps': -27,
            'slide': -23, 'axe_ice': -25, 'ice_saw': -26, 'cheer': -27, 'sonar': -25, 'football': -28, 'wave_hit': -19}
 SHOT_AT = {'whistle': 1.6, 'tug_horn': 1.2, 'cheer': 0.6, 'wave_hit': 0.5}
 fxb = np.zeros((2, N))
@@ -256,7 +256,7 @@ for mood, (notes, rub, bright) in MOODS.items():
             t_ += r.uniform(6.0, 10.0)
 mus = hp(mus, 50)
 mus = verb(mus, room(rng_for('music'), 3.0, damp=3500), 0.3)[:, :N]
-mus *= db(-30) / (np.sqrt(np.mean(mus[:, np.abs(mus[0]) > 1e-4] ** 2)) + 1e-9) * 1.0
+mus *= db(-33) / (np.sqrt(np.mean(mus[:, np.abs(mus[0]) > 1e-4] ** 2)) + 1e-9) * 1.0
 print('music done', flush=True)
 
 # —— ducking, mix, loudness ——
