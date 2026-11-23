@@ -268,7 +268,7 @@ mus *= 1 - 0.3 * duck
 fxb *= 1 - 0.25 * duck
 end = n_(DUR + 0.5)
 for name, buf in [('voice', voice), ('fx', fxb), ('beds', beds), ('music', mus)]:
-    sf.write(os.path.join(BUILD, f'{name}.wav'), buf[:, :end].T.astype(np.float32), SR)
+    sf.write(os.path.join(BUILD, f'{name}.wav'), np.clip(buf[:, :end].T, -1, 1), SR, subtype='PCM_16')   # stems for checking only: 16-bit keeps the disk free
 mix = (voice + fxb + beds + mus)[:, :end]
 mix[:, -n_(3.0):] *= np.linspace(1, 0, n_(3.0)) ** 2
 sf.write(os.path.join(BUILD, 'mix_raw.wav'), mix.T.astype(np.float32), SR)
@@ -277,6 +277,7 @@ j = json.loads(m[m.rindex('{'):m.rindex('}') + 1])
 af = (f"loudnorm=I=-14:TP=-1.5:LRA=14:measured_I={j['input_i']}:measured_TP={j['input_tp']}:measured_LRA={j['input_lra']}"
       f":measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true,alimiter=limit=0.8:attack=2:release=50:level=disabled")
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', os.path.join(BUILD, 'mix_raw.wav'), '-af', af, '-ar', str(SR), os.path.join(BUILD, 'mix.wav')], check=True)
+os.remove(os.path.join(BUILD, 'mix_raw.wav'))
 # subtitles for YouTube
 def ts(x):
     h, r_ = divmod(x, 3600); m_, s_ = divmod(r_, 60)
