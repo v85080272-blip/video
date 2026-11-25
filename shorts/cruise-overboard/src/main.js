@@ -1,5 +1,5 @@
 // «20 часов в открытом море после падения с лайнера» (Джеймс Граймс, 2022): eight photorealistic Codex frames (img/01–08), the ElevenLabs narrator, karaoke subtitles,
-// plaques, «ИИ-РЕКОНСТРУКЦИЯ», real recorded sound effects (rec: cues; no synthesized cartoon sounds — the owner, 23.11).
+// plaques (no AI label anywhere — the owner, 25.11), real recorded sound effects (rec: cues; no synthesized cartoon sounds — the owner, 23.11).
 // Built from izhma-landing by scratchpad/gen/series.py. Facts: voice/script.json.
 import fs from 'node:fs';
 import { loadImage } from '@napi-rs/canvas';
@@ -133,7 +133,6 @@ export function frame(t) {
   for (const c of CUTS) if (t >= c && t < c + 0.14) dip = Math.max(dip, 1 - ease.out(clamp((t - c) / 0.12)));
   if (dip > 0.002) { g.globalAlpha = dip * 0.8; rect(0, 0, W, H, '#000000'); g.globalAlpha = 1; }
   headline(t); plaques(t);
-  Hd.label('ИИ-РЕКОНСТРУКЦИЯ', 175, 1880, 24, 'rgba(255,255,255,0.6)', { fam: FONTS.mono });
   Hd.endCard(t, T.sub - 0.1, 0, 560);
   Hd.karaoke(t, SUBS, HOT);
   Hd.finish(t, 0.2);
