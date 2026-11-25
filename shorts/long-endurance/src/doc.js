@@ -322,9 +322,12 @@ export function frame(t) {
 function fullStory(t) {
   const a = ease((t - (CLIP_END - 3.2)) / 0.4);
   g.save(); g.globalAlpha = a; g.translate(W / 2, 330); g.rotate(-0.02);
-  g.font = '700 64px Oswald'; const s1 = 'ПОЛНАЯ ИСТОРИЯ', w = g.measureText(s1).width + 70;
+  // PLATE=soon (the film is not out yet): «ПОЛНЫЙ ФИЛЬМ / СКОРО НА КАНАЛЕ», no arrow; default: «ПОЛНАЯ ИСТОРИЯ / ПО ССЫЛКЕ ВНИЗУ» + arrow
+  const soon = process.env.PLATE === 'soon', s2 = soon ? 'СКОРО НА КАНАЛЕ' : 'ПО ССЫЛКЕ ВНИЗУ';
+  g.font = '700 64px Oswald'; const s1 = soon ? 'ПОЛНЫЙ ФИЛЬМ' : 'ПОЛНАЯ ИСТОРИЯ', w = g.measureText(s1).width + 70;
   g.fillStyle = '#ffd400'; g.fillRect(-w / 2, -60, w, 120); g.fillStyle = '#111'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s1, 0, 4);
-  g.font = '700 46px Oswald'; g.lineWidth = 8; g.strokeStyle = '#000'; g.strokeText('ПО ССЫЛКЕ ВНИЗУ', 0, 120); g.fillStyle = '#fff'; g.fillText('ПО ССЫЛКЕ ВНИЗУ', 0, 120);
+  g.font = '700 46px Oswald'; g.lineWidth = 8; g.strokeStyle = '#000'; g.strokeText(s2, 0, 120); g.fillStyle = '#fff'; g.fillText(s2, 0, 120);
+  if (soon) { g.restore(); return; }
   const ay = 175 + 12 * Math.abs(Math.sin(t * 5));
   g.fillStyle = '#ffd400'; g.strokeStyle = '#000'; g.lineWidth = 6; g.beginPath(); g.moveTo(-34, ay); g.lineTo(34, ay); g.lineTo(0, ay + 46); g.closePath(); g.stroke(); g.fill();
   g.restore();
