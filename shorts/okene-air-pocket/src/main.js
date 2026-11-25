@@ -45,12 +45,14 @@ const LABEL = { '01': 'буксир в шторм', '02': 'корпус на д�
 const T = { cover: 0.05, sub: A.L7w5 };
 // the shots: [image, from, to, zoom from → to, drift (px over the shot, x, y)]
 const SHOTS = [
+  // order follows the narration: the air pocket again on L4 (no diver before the rescue), the diver on L5, the hand on «и вдруг»
   ['01', 0, A.L1 - 0.06, 1.05, 1.2, [0, 20]],
   ['02', A.L1 - 0.06, A.L2 - 0.06, 1.16, 1.05, [20, 0]],
   ['03', A.L2 - 0.06, A.L3 - 0.06, 1.04, 1.15, [0, -20]],
   ['04', A.L3 - 0.06, A.L4 - 0.06, 1.05, 1.18, [-20, 0]],
-  ['05', A.L4 - 0.06, A.L5 - 0.06, 1.15, 1.04, [0, 20]],
-  ['06', A.L5 - 0.06, A.L6 - 0.06, 1.04, 1.16, [20, 0]],
+  ['03', A.L4 - 0.06, A.L5 - 0.06, 1.15, 1.04, [0, 20]],
+  ['05', A.L5 - 0.06, A.L5w14 - 0.06, 1.15, 1.04, [0, 20]],
+  ['06', A.L5w14 - 0.06, A.L6 - 0.06, 1.04, 1.16, [20, 0]],
   ['07', A.L6 - 0.06, A.L7 - 0.06, 1.05, 1.16, [0, -20]],
   ['08', A.L7 - 0.06, DUR + 0.1, 1.04, 1.18, [0, 20]],
 ];
@@ -94,7 +96,7 @@ function stampBig(t, t0, t1, str, color) {
 function plaques(t) {
   const P = (t0, t1, y, o) => Hd.plaque(t, t0, t1, 540, y, o);
   Hd.timeStamp(t, A.L0, A.L2 - 0.1, 'АТЛАНТИКА · 2013', { color: WARM, y: 200 });
-  P(A.L0w11, A.L1 - 0.05, 320, { icon: 'x', title: 'ГЛУБИНА 30 М', color: DANGER, size: 52 });
+  P(A.L0w11, A.L1 - 0.05, 680, { icon: 'x', title: 'ГЛУБИНА 30 М', color: DANGER, size: 52 });
   P(A.L2w5, A.L3 - 0.05, 320, { icon: 'check', title: 'ВОЗДУШНЫЙ КАРМАН', color: OK, size: 50 });
   P(A.L3w0, A.L4 - 0.05, 320, { icon: 'x', title: 'ПО ГРУДЬ В ВОДЕ, В ТЕМНОТЕ', color: DANGER, size: 40 });
   P(A.L4w4, A.L5 - 0.05, 320, { icon: 'x', title: 'ВОЗДУХА ВСЁ МЕНЬШЕ', color: DANGER, size: 46 });
