@@ -28,7 +28,7 @@ for (const id of Object.keys(FB)) {
 Hd.SUB.y = 1500; Hd.SUB.size = 80; Hd.SUB.lead = 94;
 const SUBS = VOICE ? VOICE.lines.flatMap(l => Hd.phrases(l.words.map(w => ({ ...w, w: w.w.replace(/\+/g, '') })), 6, 24, Array.isArray(l.sub) ? l.sub : null)) : [];
 const DANGER = Hd.NIGHT.danger, GOLD = Hd.NIGHT.gold, OK = Hd.NIGHT.ok, WARM = Hd.NIGHT.warm;
-const HOT = { ШТОРМ: DANGER, БАРЖУ: GOLD, ЧЕТВЕРО: GOLD, ТИХИЙ: GOLD, ОКЕАН: GOLD, ТОПЛИВО: DANGER, СВЯЗИ: DANGER, НЕТ: DANGER, ВЕДРО: GOLD, КАРТОШКИ: GOLD, БУХАНКА: GOLD, ГЛОТКУ: DANGER, РЕМНИ: DANGER, САПОГИ: DANGER, ГАРМОШКИ: DANGER, СОРОК: GOLD, ДЕВЯТЬ: GOLD, АВИАНОСЕЦ: OK, ЖИВЫ: OK, ГЕРОЕВ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
+const HOT = { ШТОРМ: DANGER, БАРЖУ: GOLD, ЧЕТВЕРО: GOLD, ТИХИЙ: GOLD, ОКЕАН: GOLD, ТОПЛИВО: DANGER, СВЯЗИ: DANGER, НЕТ: DANGER, ВЕДРО: GOLD, КАРТОШКИ: GOLD, БУХАНКА: GOLD, КАПЛЕ: DANGER, РЕМНИ: DANGER, САПОГИ: DANGER, ГАРМОШКИ: DANGER, СОРОК: GOLD, ДЕВЯТЬ: GOLD, АВИАНОСЕЦ: OK, ЖИВЫ: OK, ГЕРОЕВ: GOLD, ПИШИ: GOLD, ПОДПИСЫВАЙСЯ: GOLD };
 
 // the images: img/NN.png or .jpg, loaded once (top-level await: render.mjs imports this module before it draws)
 const IMG = {};
@@ -100,7 +100,7 @@ function plaques(t) {
   P(A.L0w12, A.L1 - 0.05, 680, { icon: 'x', title: '4 СОЛДАТА НА БАРЖЕ', color: DANGER, size: 46 });
   P(A.L1w6, A.L2 - 0.05, 320, { icon: 'x', title: 'НИ ТОПЛИВА, НИ СВЯЗИ', color: DANGER, size: 46 });
   P(A.L2w4, A.L3 - 0.05, 320, { icon: 'x', title: 'ВЕДРО КАРТОШКИ НА ЧЕТВЕРЫХ', color: DANGER, size: 40 });
-  P(A.L3w5, A.L4 - 0.05, 320, { icon: 'check', title: 'ВОДА — ПО ГЛОТКУ В ДЕНЬ', color: GOLD, size: 42 });
+  P(A.L3w5, A.L4 - 0.05, 320, { icon: 'check', title: 'ВОДА — ПО КАПЛЕ', color: GOLD, size: 50 });
   P(A.L4w7, A.L5 - 0.05, 320, { icon: 'x', title: 'ЕДЯТ РЕМНИ И САПОГИ', color: DANGER, size: 46 });
   stampBig(t, A.L5w0 - 0.05, A.L5w5 - 0.05, '49 ДНЕЙ', '#2f6fd0');
   P(A.L5w10, A.L6 - 0.05, 320, { icon: 'check', title: 'АВИАНОСЕЦ НА ГОРИЗОНТЕ', color: OK, size: 44 });
