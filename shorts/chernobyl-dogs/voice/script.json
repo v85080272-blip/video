@@ -1,0 +1,86 @@
+{
+ "note": "«Собаки Чернобыля и их ДНК» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы». Facts: Spatola et al., Science Advances, 3 March 2023 («The dogs of Chernobyl»): 302 free-roaming dogs; dogs living at the power plant and in Chernobyl City (~15 km away) are genetically distinct populations; kinship analysis found 15 families, the largest spanning all collection sites (dogs move between them); descendants of pets left after the 1986 evacuation; the cause of the differences (radiation or isolation) is not established — a first step. Sources: PMC9984172, Science News, NBC News.",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Эти собаки живут рядом с Чернобыльской станцией. Их предки остались здесь после эвакуации.",
+   "at": 0.12,
+   "sub": [
+    4,
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Одна стая живёт прямо у станции.",
+   "after": 0.3,
+   "sub": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Другая — в городе Чернобыль, в пятнадцати километрах.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Учёные взяли пробы у трёх сотен собак и прочитали их ДНК.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "И оказалось: это две разные популяции. Их различают по генам.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "При этом собаки ходят друг к другу — родственников нашли в обоих местах.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Влияет ли на это радиация — пока неизвестно. Это только первый шаг.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Главная загадка этих собак спрятана в их ДНК. Пиши, что думаешь! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    3,
+    2
+   ]
+  }
+ ]
+}

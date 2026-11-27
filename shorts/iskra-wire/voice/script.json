@@ -1,0 +1,105 @@
+{
+ "note": "Narration for «Приключения Искры» №3 «Провод на земле» (2D). The owner, 18.11: «давай ещё интересных видео сделаем для удержания аудитории». №2 ended on a torn power line across the road: 1 step over it / 2 go round, far — the answer is 2. This episode is standalone: the wire falls three steps away from them — they are already inside the danger zone. Rules: real danger here and now, 35–45 s, the cover in the first 3 frames, the series mark («ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 3»), the choice only at the end (17.11), no blood and no death (12.11). Voice: Elen (ElevenLabs), the voice of Искра. Facts — the electrical-safety memos of Russian power companies and district administrations (gosuslugi.ru memo pages, «Россети»): a wire on the ground makes the current spread through the soil — do not come closer than 8 m; a long step puts a voltage between your feet (step voltage) and the current goes through the legs — do not run; leave the zone with the «goose step»: the heel of the moving foot to the toe of the other, feet not lifted from the ground; do not hop — if you lose your balance you touch the ground with your hands; add a few metres to the 8 m to be safe; call 112 and warn the passers-by. The end: home, gas smell on the stairs — 1 turn on the light / 2 touch nothing (the next episode: never switch anything — a spark; leave, call 104 from outside). Homographs: на ру́ки, рука́ми, к про́воду.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Мы с Фактом на дороге… а в трёх шагах — оборванный провод. Искрит! Как выжить?",
+   "tts": "Мы с Фа́ктом на доро́ге… а в трёх шага́х — обо́рванный про́вод. Искри́т! Как вы́жить?",
+   "at": 0.12,
+   "sub": [
+    5,
+    4,
+    2,
+    1,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Первое: не беги. Ток растекается по земле — метров на восемь вокруг.",
+   "tts": "Пе́рвое: не беги́. Ток растека́ется по земле́ — ме́тров на во́семь вокру́г.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "Сделаешь широкий шаг — ток пройдёт через ноги.",
+   "tts": "Сде́лаешь широ́кий шаг — ток пройдёт че́рез но́ги.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "Поэтому — гусиный шаг: пятка к носку, ноги от земли не отрываю.",
+   "tts": "Поэ́тому — гуси́ный шаг: пя́тка к носку́, но́ги от земли́ не отрыва́ю.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    5
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "Факта — на руки. И не прыгаю: упаду — коснусь земли руками.",
+   "tts": "Фа́кта — на ру́ки. И не пры́гаю: упаду́ — косну́сь земли́ рука́ми.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Так иду, пока не отойду метров на восемь… и ещё чуть-чуть.",
+   "tts": "Так иду́, пока́ не отойду́ ме́тров на во́семь… и ещё чуть-чу́ть.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "Вышла! Звоню сто двенадцать — и никого к проводу не пускаю.",
+   "tts": "Вы́шла! Звоню́ сто двена́дцать — и никого́ к про́воду не пуска́ю.",
+   "after": 0.35,
+   "sub": [
+    1,
+    3,
+    6
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А дома в подъезде — запах газа. Один — включить свет? Два — ничего не трогать? Пиши!",
+   "tts": "А до́ма в подъе́зде — за́пах га́за. Оди́н — включи́ть свет? Два — ничего́ не тро́гать? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    4,
+    2,
+    3,
+    4,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "note": "«Радиоактивные кабаны Германии» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы». Facts: Stäger et al., Environ. Sci. Technol. 2023 (the «wild boar paradox»): Bavarian boar meat often exceeds the 600 Bq/kg limit while deer and roe deer levels fell; the 135Cs/137Cs ratio shows 10–68 % of 137Cs in over-limit samples comes from 1960s nuclear weapons tests (Central Europe overall ~90 % Chernobyl); boars eat deer truffles, which accumulate cesium with a delay of decades as it migrates down the soil. Sources: TU Wien press release, phys.org (Aug 2023), Physics World.",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "В лесах Германии до сих пор находят радиоактивных кабанов.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Мясо части из них нельзя продавать — цезия в нём больше нормы.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Все думали, что это след Чернобыля. Но у оленей ц+езия давно стало меньше, а у кабан+ов — нет.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    4,
+    3,
+    4
+   ],
+   "tts": "Все думали, что это след Чернобыля. Но у оленей це́зия давно стало меньше, а у кабано́в — нет."
+  },
+  {
+   "id": "L3",
+   "text": "Учёные проверили, откуда этот цезий, — и нашли след, который старше Чернобыля.",
+   "after": 0.3,
+   "sub": [
+    2,
+    3,
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Это ядерные испытания шестидесятых. В некоторых пробах — больше половины всего ц+езия.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    3
+   ],
+   "tts": "Это ядерные испытания шестидесятых. В некоторых пробах — больше половины всего це́зия."
+  },
+  {
+   "id": "L5",
+   "text": "А виноваты трюфели: кабаны выкапывают их из земли.",
+   "after": 0.3,
+   "sub": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Цезий медленно уходит в почву и копится в этих подземных грибах — через десятки лет.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Поэтому кабаны радиоактивны до сих пор. Знал эту историю? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    3,
+    3
+   ]
+  }
+ ]
+}

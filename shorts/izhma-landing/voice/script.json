@@ -1,0 +1,110 @@
+{
+ "note": "Narration for «Полоса в тайге» — a picture story (photorealistic frames drawn in Codex on the owner's PC, img/01–10), like «Трое под реактором». The owner, 21.11: «хочу, чтоб ещё с Кодексом что-нибудь нагенерили интересное». Facts: Alrosa flight 514, Tu-154M, 7 Sept 2010, Polyarny → Moscow, 72 passengers + 9 crew; total electrical failure at cruise, fuel pumps off, about 30 min of fuel; landed on the closed Izhma airfield (about 1300 m, nearly half what the plane needs) without flaps at high speed, overran into young forest, nobody hurt; Sergey Sotnikov, head of the helipad, kept the closed strip clear for 12 years on his own; a medal in 2012; the plane flew out in March 2011 (rg.ru, kp.ru, techinsider.ru, Wikipedia). No blood, no death words. 22.11 (the owner): read by an ElevenLabs narrator, no «Стоп» choice and no «а ты бы…» — «это наоборот ухудшает видео».",
+ "tail": 0.35,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Сентябрь две тысячи десятого. Над тайг+ой у пассажирского самолёта отказало всё электричество.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4
+   ],
+   "tts": "Сентябрь две тысячи десятого. Над тайго́й у пассажирского самолёта отказало всё электричество."
+  },
+  {
+   "id": "L1",
+   "text": "Погасли приборы, встали топливные насосы. Топлива — минут на тридцать.",
+   "after": 0.3,
+   "sub": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "На борт+у — пассажиры и экипаж. Лётчики снижаются сквозь облака вслепую.",
+   "after": 0.3,
+   "sub": [
+    3,
+    2,
+    3,
+    2
+   ],
+   "tts": "На борту́ — пассажиры и экипаж. Лётчики снижаются сквозь облака вслепую."
+  },
+  {
+   "id": "L3",
+   "text": "Под облаками — только лес и река. Аэропорта нет.",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "И вдруг впереди — заброшенная полоса. Почти вдвое короче нужной.",
+   "after": 0.3,
+   "sub": [
+    5,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Садятся — без закрылков, на огромной скорости.",
+   "after": 0.3,
+   "sub": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Самолёт не успевает затормозить и въезжает в березняк — но останавливается.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Живы все до одного. Никто не пострадал.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "А секрет такой: аэропорт давно закрыли. Но Серг+ей Сотников двенадцать лет сам следил, чтобы полос+а не заросла — на всякий случай.",
+   "after": 0.3,
+   "sub": [
+    3,
+    3,
+    4,
+    4,
+    3,
+    3
+   ],
+   "tts": "А секрет такой: аэропорт давно закрыли. Но Серге́й Сотников двенадцать лет сам следил, чтобы полоса́ не заросла — на всякий случай."
+  },
+  {
+   "id": "L9",
+   "text": "Позже его наградили. Знал эту историю? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    3,
+    3,
+    3
+   ]
+  }
+ ]
+}

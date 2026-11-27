@@ -1,0 +1,95 @@
+{
+ "note": "Narration for «Посёлок» (3D pilot, 20–40 audience; the owner's idea of 13.11: a zombie outbreak, she is stuck in a gated cottage settlement). She tells it herself, in the first person, a little flirty with the viewer, a sigh and a gasp at the scary moments — the owner asked for «чуть сексуальный голос, заигрывающий, и при неожиданном моменте вздох». ElevenLabs eleven_v3 with audio tags ([whispers], [sighs], [gasps], [softly], [laughs softly]) and stress marks in tts; text = subtitles. Rule of 12.11: no blood, no death — the infected are «они». A choice in the middle (street or backyards, the right one is 2: in the street you are seen from everywhere), a cliffhanger at the end (a light comes on in an «empty» house) and a question to the viewers; the last shot loops to the first (she at a wicket, looking out at the street). Subtitle groups (sub) are counted without the dash. Her takes breathe slowly (about 60 s in all): the pauses inside the lines longer than 0.42 s are cut to 0.26 s (tools/tighten.py; the breaths and sighs stay) and every line plays at tempo 1.1. Takes: L0 s1, L1 s1, L2 s2 (s1 said «шамашина»), L3 s1 (s2: «заднИми»), L4 s2, L5 s2, L6 s2.",
+ "tail": 0.5,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Я застряла в коттеджном посёлке... А за забором — они.",
+   "at": 0.12,
+   "sub": [
+    3,
+    2,
+    4
+   ],
+   "tts": "[whispers] Я застря́ла в котте́джном посёлке... [sighs] А за забо́ром — они́.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L1",
+   "text": "Связи нет, шлагбаум закрыт. Свет я не включаю: они идут на свет.",
+   "after": 0.45,
+   "sub": [
+    2,
+    2,
+    4,
+    4
+   ],
+   "tts": "Свя́зи нет, шлагба́ум закры́т. Свет я не включа́ю: они́ иду́т на свет.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L2",
+   "text": "Моя машина у ворот, двести метров. А на улице их шестеро. Поможешь мне?",
+   "after": 0.45,
+   "sub": [
+    4,
+    2,
+    5,
+    2
+   ],
+   "tts": "Моя́ маши́на у воро́т, две́сти ме́тров. А на у́лице их ше́стеро. [softly] Помо́жешь мне?",
+   "tempo": 1.1
+  },
+  {
+   "id": "L3",
+   "text": "Как мне идти? Один — бегом по улице. Два — задними дворами. Решай.",
+   "after": 0.4,
+   "sub": [
+    3,
+    4,
+    3,
+    1
+   ],
+   "tts": "Как мне идти́? Оди́н — бего́м по у́лице. Два — за́дними двора́ми. [whispers] Реша́й.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L4",
+   "text": "Два? Умница. На улице меня видно отовсюду, а во дворах — тень.",
+   "after": 1.4,
+   "sub": [
+    2,
+    5,
+    4
+   ],
+   "tts": "[laughs softly] Два? У́мница. На у́лице меня́ ви́дно отовсю́ду, а во двора́х — тень.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L5",
+   "text": "Последний двор. Калитка уже рядом... В пустом доме загорелся свет.",
+   "after": 0.5,
+   "sub": [
+    2,
+    3,
+    5
+   ],
+   "tts": "После́дний двор. Кали́тка уже́ ря́дом... [gasps] В пусто́м до́ме загоре́лся свет.",
+   "tempo": 1.1
+  },
+  {
+   "id": "L6",
+   "text": "Кто там? Мне идти туда — или к машине? Напиши. Сделаю, как скажешь.",
+   "after": 0.6,
+   "sub": [
+    2,
+    3,
+    3,
+    1,
+    3
+   ],
+   "tts": "[whispers] Кто там? Мне идти́ туда́ — и́ли к маши́не? Напиши́. [softly] Сде́лаю, как ска́жешь.",
+   "tempo": 1.1
+  }
+ ]
+}

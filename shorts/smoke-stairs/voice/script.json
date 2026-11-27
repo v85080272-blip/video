@@ -1,0 +1,84 @@
+{
+ "note": "Narration for «Дым в подъезде, ты дома» (flat 2D, «Как выжить», the narrator of «Свет погас» and «Облако хлора»). The owner, 20.11: «Облако хлора» («ты» at home, a technogenic danger, the question from frame 0) took 1.2K in under a day — the best of the new batch — «делай и го выкладывать больше роликов». Based on «Звонок в дверь» (the flat, the hall, the landing, the hunter). Facts — EMERCOM (МЧС) regional memos on a fire in a block of flats: do not go out through a smoky corridor or stairs — the smoke is very toxic, the hot air can burn the lungs; call 101 or 112 and give the address; shelter in the room farthest from the fire with the door shut, so less smoke comes in; cover the nose and mouth with a wet cloth, keep low — near the floor there is less smoke; if the fire cut off the way out — go to the balcony, shut the door tightly behind you, call for help; before opening a closed door touch it with the back of the hand — warm means fire behind it, do not open. Sealing gaps with wet rags is not in the memos found — left out. No blood and no death. 30–40 s. L4: the check's dictionary wants «к полУ» — but the dative is «к пО+лу» (the voice is right): the author's mark «п+олу» in `text`, the clean words in `tts`. L7 was «Тёплая — не открывай…»: in all four takes the ASR heard «тёплое»; re-read as «Дверь тёплая — …» (/home/user/work/smoke-b).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если у соседей пожар — подъезд в дыму, а ты дома?",
+   "at": 0.12,
+   "sub": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — бежать вниз по лестнице. Нельзя: дым ядовитый, а горячий воздух обжигает лёгкие.",
+   "after": 0.35,
+   "sub": [
+    6,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: звони сто один или сто двенадцать — назови адрес и этаж.",
+   "after": 0.35,
+   "sub": [
+    7,
+    4
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: плотно закрой входную дверь и уйди в дальнюю комнату.",
+   "after": 0.35,
+   "sub": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: дым пошёл в квартиру? Мокрую ткань к лицу — и ниже к п+олу.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4,
+    4
+   ],
+   "tts": "Третье: дым пошёл в квартиру? Мокрую ткань к лицу — и ниже к полу."
+  },
+  {
+   "id": "L5",
+   "text": "Выход отрезан? Выйди на балкон, закрой за собой дверь и зови на помощь.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А секрет такой: прежде чем открыть дверь, тронь её тыльной стороной ладони.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Дверь тёплая — не открывай: за ней огонь. Подписывайся!",
+   "after": 0.35,
+   "sub": [
+    4,
+    3,
+    1
+   ]
+  }
+ ]
+}

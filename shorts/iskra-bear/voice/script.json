@@ -1,0 +1,103 @@
+{
+ "note": "Narration for «Приключения Искры» №1 «Медведь» (2D). The owner, 17.11: «давай пока сделаем какие-нибудь приключения с Искрой». A new series: Искра herself is the heroine (first person), with the cat Факт; the bear was asked for in the comments (SURVIVE-30.md: «лавина, медведь…»). Rules: real danger here and now, standalone, 35–45 s, the cover in the first 3 frames, the series number («ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 1»), the choice only at the end (17.11), no blood and no death (12.11) — the bear does not attack. Voice: Elen (ElevenLabs), the voice of Искра. Facts (US National Park Service «Staying Safe Around Bears», the same in the Russian EMERCOM memos on meeting a bear): do not run — a bear runs faster than a person (brown bears reach about 50–56 km/h) and running can make it chase; do not climb a tree — bears climb; pick up small children (here: the cat); stand tall and make yourself look as large as possible; talk calmly so the bear knows you are a human; do not drop your pack; move away slowly and sideways, keep the bear in view, do not turn your back; a bear standing on its hind legs is usually curious — trying to see or smell better — not threatening. The end: a cub in the bushes means the mother is near (NPS: never get between a mother and her cubs) — run to the river or quietly back the way we came? (the question for the comments; the right way — 2 — is for the next episode). Homographs: на ру́ки, ру́ки. L1 was «до пятидесяти километров» — read «пятидесятИ» (the right one is «пяти́десяти», my stress mark was wrong); rewritten with the plain «пятьдеся́т» and re-read. Subtitle groups (sub) are counted without the dash.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Мы с Фактом в лесу… а в двадцати метрах — медведь. Как выжить?",
+   "tts": "Мы с Фа́ктом в лесу́… а в двадцати́ ме́трах — медве́дь. Как вы́жить?",
+   "at": 0.12,
+   "sub": [
+    5,
+    5,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Первое: не беги. Медведь бегает пятьдесят километров в час — догонит.",
+   "tts": "Пе́рвое: не беги́. Медве́дь бе́гает пятьдеся́т киломе́тров в час — дого́нит.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "И не лезь на дерево: медведи отлично лазают.",
+   "tts": "И не лезь на де́рево: медве́ди отли́чно ла́зают.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "Факта — на руки. Встаю ровно, руки вверх: я большая.",
+   "tts": "Фа́кта — на ру́ки. Встаю́ ро́вно, ру́ки вверх: я больша́я.",
+   "after": 0.35,
+   "sub": [
+    3,
+    6
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "И говорю спокойно: «Эй, мишка, я человек».",
+   "tts": "И говорю́ споко́йно: «Эй, ми́шка, я челове́к».",
+   "after": 0.35,
+   "sub": [
+    3,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Рюкзак не бросаю. Отхожу медленно, боком — спиной не поворачиваюсь.",
+   "tts": "Рюкза́к не броса́ю. Отхожу́ ме́дленно, бо́ком — спино́й не повора́чиваюсь.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "Он встал на задние лапы… Это не нападение: он просто нюхает. Фух… ушёл.",
+   "tts": "Он встал на за́дние ла́пы… Э́то не нападе́ние: он про́сто ню́хает. Фух… ушёл.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3,
+    3,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А Факт смотрит в кусты… там медвежонок. Значит, мама рядом. Один — бежать к реке? Два — тихо назад? Пиши!",
+   "tts": "А Факт смо́трит в кусты́… там медвежо́нок. Зна́чит, ма́ма ря́дом. Оди́н — бежа́ть к реке́? Два — ти́хо наза́д? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    5,
+    2,
+    3,
+    4,
+    3,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}

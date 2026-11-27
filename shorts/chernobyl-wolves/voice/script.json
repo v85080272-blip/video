@@ -1,0 +1,88 @@
+{
+ "note": "«Волки Чернобыля» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы». Facts: Deryabina et al., Current Biology 25(19), 5 Oct 2015: winter snow-track surveys show wolf relative abundance in the zone more than seven times that of four uncontaminated reserves in the region; elk, roe deer, red deer and wild boar similar to the reserves; helicopter counts 1987–96 showed rising elk, roe deer and boar. Abundance says nothing about each animal's health. Sources: ScienceDaily, EurekAlert, Scientific American (2015).",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Людей из Чернобыльской зоны эвакуировали. А волк+ов там теперь больше, чем в заповедниках.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    2,
+    3
+   ],
+   "tts": "Людей из Чернобыльской зоны эвакуировали. А волко́в там теперь больше, чем в заповедниках."
+  },
+  {
+   "id": "L1",
+   "text": "Город Пр+ипять пустует почти сорок лет.",
+   "after": 0.3,
+   "sub": [
+    4,
+    2
+   ],
+   "tts": "Город При́пять пустует почти сорок лет."
+  },
+  {
+   "id": "L2",
+   "text": "Учёные считали следы зверей на снегу — год за годом.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "И сравнили зону с четырьмя обычными заповедниками.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Волков в зоне оказалось больше в семь раз.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А лосей, косуль и кабанов — примерно столько же, сколько в заповедниках.",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Но численность не говорит, здоров ли каждый зверь. Это изучают до сих пор.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Радиация осталась. А охоты и людей стало гораздо меньше. Знал об этом? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    2,
+    4,
+    3,
+    3,
+    3
+   ]
+  }
+ ]
+}

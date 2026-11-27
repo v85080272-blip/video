@@ -1,0 +1,71 @@
+{
+ "note": "Narration for «Машина упала в воду, ты внутри» (flat 2D, «Как выжить», the channel's narrator). The owner, 21.11: «я проснулся, а роликов за сегодня нету, а выходные — самое лучшее потребление». On the formula of «Облако хлора»: «ты», the question from frame 0, three steps, a secret, «Пиши!». Facts — rescuers' advice as reported (МЧС via Обозреватель, Mentoday, РИА Новости): first unbuckle and open the window, then unbuckle the children, the eldest first; a car stays afloat for a while — get out through the open window, not the door: water pressure will not let the door open, and an open door makes the car sink fast; switch the headlights on so the car is easier to find. No blood and no death. 25–35 s.",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если машина слетела в реку — и тонет, а ты внутри?",
+   "at": 0.12,
+   "sub": [
+    7,
+    5
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — открыть дверь. Нельзя: вода давит на неё снаружи.",
+   "after": 0.35,
+   "sub": [
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: отстегни ремень, потом детей — начиная со старшего.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: пока машина на плаву, открывай окно.",
+   "after": 0.35,
+   "sub": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: выбирайся через окно — и плыви к берегу.",
+   "after": 0.35,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: включи фары — спасатели найдут машину быстрее.",
+   "after": 0.35,
+   "sub": [
+    3,
+    2,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А ты знал, что дверь не откроется? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    7,
+    1,
+    2
+   ]
+  }
+ ]
+}

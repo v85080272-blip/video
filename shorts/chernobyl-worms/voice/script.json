@@ -1,0 +1,86 @@
+{
+ "note": "«ДНК червей Чернобыля» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы». Facts: Tintori, Rockman et al., PNAS, 5 March 2024 («Environmental radiation exposure at Chornobyl has not systematically affected the genomes or chemical mutagen tolerance phenotypes of local worms»): nematodes Oscheius tipulae collected in high- and low-radiation sites; genomes of 15 Chornobyl worms compared with 5 from elsewhere; no detectable radiation damage; Chornobyl lines not more mutagen-tolerant. The authors: this does not mean the zone is safe — the worms are very resilient. Sources: PMC10945782, NYU/EurekAlert, Live Science.",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Учёные собрали в Чернобыле крошечных червей и прочитали их ДНК.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Ждали увидеть следы радиации — поломки в генах.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Червей брали и там, где радиации много, и там, где мало.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    2,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Это нематоды — они живут в гниющих листьях и плодах.",
+   "after": 0.3,
+   "sub": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Пятнадцать червей из зоны сравнили с червями из других стран.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "И не нашли в их генах следов радиации.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Учёные говорят: это не значит, что зона безопасна. Скорее, эти черви невероятно выносливые.",
+   "after": 0.3,
+   "sub": [
+    2,
+    3,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Почему ожидаемого следа нет — теперь новая загадка. Знал об этом? Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    3,
+    3
+   ]
+  }
+ ]
+}

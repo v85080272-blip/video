@@ -1,0 +1,108 @@
+{
+ "note": "Narration for «Приключения Искры» №2 «Медвежонок» (2D). The owner, 18.11: «давай ещё интересных видео сделаем для удержания аудитории». №1 ended on a cub in the bushes: 1 — run to the river, 2 — quietly back. No votes came, so we choose ourselves: 2 (the right way). The episode is standalone: «a cub in the bushes» is its own hook, no «you chose». Rules: real danger here and now, 35–45 s, the cover in the first 3 frames, the series mark («ПРИКЛЮЧЕНИЯ ИСКРЫ · СЕРИЯ 2»), the choice only at the end (17.11), no blood and no death (12.11) — the mother bluff-charges and stops; no contact. Voice: Elen (ElevenLabs), the voice of Искра. Facts — US National Park Service (nps.gov «Staying Safe Around Bears», Sequoia & Kings Canyon «Black Bear Encounters», Lava Beds «Bear Safety»): a cub's mother is usually very near; never approach a cub and never come between a mother and her cubs; pick up small children; leave the area the way you came, slowly; huffing and swatting/pounding the ground are warning signs; a bear may bluff-charge — run at you and stop or veer off; do not run (it may trigger an attack), stand your ground, then back away slowly while watching the bear; talk calmly. The end: a fallen power line on the road — 1 step over it, 2 go round, far (the next episode: power-company memos — never closer than 8 m to a wire on the ground). Homographs: на ру́ки, ло́жная, по земле́, про́вод. Take 1 read «лапОй» and «уводИт»: L4 lost «лапой» («бьёт по земле»), L6 «уводит» → «забирает»; both re-read (/home/user/work/iskra-cub-b).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Мы с Фактом в лесу… а в кустах — медвежонок. Значит, мама рядом. Как выжить?",
+   "tts": "Мы с Фа́ктом в лесу́… а в куста́х — медвежо́нок. Зна́чит, ма́ма ря́дом. Как вы́жить?",
+   "at": 0.12,
+   "sub": [
+    5,
+    4,
+    3,
+    2
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L1",
+   "text": "Первое: не подходи и не снимай его. Мама защищает малыша.",
+   "tts": "Пе́рвое: не подходи́ и не снима́й его́. Ма́ма защища́ет малыша́.",
+   "after": 0.35,
+   "sub": [
+    3,
+    4,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L2",
+   "text": "И не вставай между ними — это самое опасное место.",
+   "tts": "И не встава́й ме́жду ни́ми — э́то са́мое опа́сное ме́сто.",
+   "after": 0.35,
+   "sub": [
+    5,
+    4
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L3",
+   "text": "Факта — на руки. Ухожу назад тихо, той же тропой.",
+   "tts": "Фа́кта — на ру́ки. Ухожу́ наза́д ти́хо, то́й же тропо́й.",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L4",
+   "text": "А вот и мама. Пыхтит и бьёт по земле — это значит: уходи.",
+   "tts": "А вот и ма́ма. Пыхти́т и бьёт по земле́ — э́то зна́чит: уходи́.",
+   "after": 0.35,
+   "sub": [
+    4,
+    5,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L5",
+   "text": "Бежит на меня! Не бегу. Стою. Остановилась… Это ложная атака.",
+   "tts": "Бежи́т на меня́! Не бегу́. Стою́. Останови́лась… Э́то ло́жная ата́ка.",
+   "after": 0.35,
+   "sub": [
+    3,
+    2,
+    1,
+    1,
+    3
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L6",
+   "text": "Медленно отхожу, лицом к ней, говорю спокойно. Она забирает малыша. Фух.",
+   "tts": "Ме́дленно отхожу́, лицо́м к ней, говорю́ споко́йно. Она́ забира́ет малыша́. Фух.",
+   "after": 0.35,
+   "sub": [
+    2,
+    3,
+    2,
+    3,
+    1
+   ],
+   "tempo": 1.15
+  },
+  {
+   "id": "L7",
+   "text": "А на дороге лежит оборванный провод. Один — перешагнуть? Два — обойти подальше? Пиши!",
+   "tts": "А на доро́ге лежи́т обо́рванный про́вод. Оди́н — перешагну́ть? Два — обойти́ пода́льше? Пиши́!",
+   "after": 0.35,
+   "sub": [
+    3,
+    3,
+    2,
+    3,
+    1
+   ],
+   "tempo": 1.15
+  }
+ ]
+}

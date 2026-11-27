@@ -1,0 +1,4 @@
+node_modules
+build/
+out/
+__pycache__/

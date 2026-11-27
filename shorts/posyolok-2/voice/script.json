@@ -1,0 +1,91 @@
+{
+ "note": "Narration for «Посёлок» №2 «К машине» (3D, Искра, the voice Sweetie Fox, ElevenLabs v3 with tags). The viewers chose «к машине» at the end of №1 (the owner, 15.11). Standalone: no «вы выбрали». A choice in the middle (open the car with the key fob — it beeps and flashes the lights — or silently with the key in the lock; the right one is 2), then the engine, the closed barrier, one of them at the window (the gasp), and a new question for the comments (ram the barrier or go back to the house with the light). Rule of 12.11: no blood, no death — «они». Homographs marked: замке́ / замка́ (the lock), тара́ню. Subtitle groups (sub) are counted without the dash. Takes: L0 s2, L1 s2, L2 s1, L3 s1, L4 s2 (s1: «зАкрыт» under the score), L5 s1, L6 s2 (s1: «таранЮ»); the pauses inside the lines cut down (tools/tighten.py 0.32/0.2), tempo 1.14 — to keep the clip under 47 s.",
+ "tail": 0.5,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Машина — в двадцати метрах. Ключи у меня в руке... Только тихо.",
+   "at": 0.12,
+   "sub": [
+    4,
+    5,
+    2
+   ],
+   "tts": "[whispers] Маши́на — в двадцати́ ме́трах. Ключи́ у меня́ в руке́... [sighs] То́лько ти́хо.",
+   "tempo": 1.14
+  },
+  {
+   "id": "L1",
+   "text": "Как открыть? Один — нажать на брелок. Два — ключом прямо в замке. Решай.",
+   "after": 0.4,
+   "sub": [
+    2,
+    4,
+    5,
+    1
+   ],
+   "tts": "Как откры́ть? Оди́н — нажа́ть на брело́к. Два — ключо́м пря́мо в замке́. [whispers] Реша́й.",
+   "tempo": 1.14
+  },
+  {
+   "id": "L2",
+   "text": "Два? Мой герой. Брелок пищит и мигает фарами — они пошли бы на звук.",
+   "after": 1.25,
+   "sub": [
+    3,
+    5,
+    5
+   ],
+   "tts": "[laughs softly] Два? Мой геро́й. Брело́к пищи́т и мига́ет фа́рами — они́ пошли́ бы на звук.",
+   "tempo": 1.14
+  },
+  {
+   "id": "L3",
+   "text": "Щелчок замка — и я внутри. Дверь закрываю медленно...",
+   "after": 0.45,
+   "sub": [
+    2,
+    3,
+    3
+   ],
+   "tts": "Щелчо́к замка́ — и я внутри́. [softly] Дверь закрыва́ю ме́дленно...",
+   "tempo": 1.14
+  },
+  {
+   "id": "L4",
+   "text": "Завожу. Мотор ревёт, фары бьют в шлагбаум — а он закрыт.",
+   "after": 0.45,
+   "sub": [
+    3,
+    4,
+    3
+   ],
+   "tts": "Завожу́. Мото́р ревёт, фа́ры бьют в шлагба́ум — а он закры́т.",
+   "tempo": 1.14
+  },
+  {
+   "id": "L5",
+   "text": "И они уже здесь...",
+   "after": 0.3,
+   "sub": [
+    4
+   ],
+   "tts": "[gasps] И они́ уже́ здесь...",
+   "tempo": 1.14
+  },
+  {
+   "id": "L6",
+   "text": "Один — тараню шлагбаум. Два — назад, к тому дому со светом. Напиши. Сделаю, как скажешь.",
+   "after": 0.6,
+   "sub": [
+    3,
+    4,
+    3,
+    1,
+    3
+   ],
+   "tts": "Оди́н — тара́ню шлагба́ум. Два — наза́д, к тому́ до́му со све́том. [whispers] Напиши́. [softly] Сде́лаю, как ска́жешь.",
+   "tempo": 1.14
+  }
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "note": "Narration for «Заливают соседи, ты дома» (flat 2D, «Как выжить», the channel's narrator). The owner, 20.11: «сделай ещё мультов, чтоб сегодня выпустить уже сейчас парочку». On the formula of «Облако хлора» (1.2K, 107 % average view in 11 hours). Facts — consumer and legal guides on a flat flooded from upstairs (Гарант, Ренессанс, 360.ru and others): water and electricity together mean a short circuit and an electric shock — switch the flat off at the switchboard; move valuables and appliances away from the leak; tell the neighbours upstairs so they shut the water off, or call the emergency service of the building management; film the leak and the damage, saying the date and time on the video — it is needed for the flooding report (акт о заливе). No blood and no death. 25–35 s. L3 was «подставь тазы и вёдра, убери технику и ценные вещи»: «тАзы», «вёдрА», «убЕри» in every take — rewritten «под воду — ведро, а технику — подальше» and re-read (/home/user/work/flood-b).",
+ "tail": 0.6,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Что делать, если соседи сверху заливают — и вода течёт прямо из люстры?",
+   "at": 0.12,
+   "sub": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "Первая мысль — включить свет и посмотреть. Нельзя: вода и ток — это короткое замыкание и удар током.",
+   "after": 0.35,
+   "sub": [
+    6,
+    4,
+    6
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "Первое: выключи автоматы в щитке — обесточь квартиру.",
+   "after": 0.35,
+   "sub": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Второе: под воду — ведро, а технику — подальше.",
+   "after": 0.35,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Третье: беги к соседям сверху, пусть перекроют воду. Никого нет — звони в аварийную службу.",
+   "after": 0.35,
+   "sub": [
+    5,
+    3,
+    6
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "А секрет такой: сними всё на видео и назови дату — это пригодится для акта о заливе.",
+   "after": 0.35,
+   "sub": [
+    3,
+    7,
+    6
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "А тебя когда-нибудь заливали соседи? Пиши! И подписывайся!",
+   "after": 0.35,
+   "sub": [
+    5,
+    1,
+    2
+   ]
+  }
+ ]
+}

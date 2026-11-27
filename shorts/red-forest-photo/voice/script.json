@@ -1,0 +1,88 @@
+{
+ "note": "«Почему лес стал рыжим» — series «Жизнь в Чернобыле», Codex frames img/01–08, ElevenLabs narrator, no «ты бы», no death words (trees «засохли»). Facts: after the 1986 accident the pine stand west of the plant received huge doses, the needles turned red-brown and the trees died within weeks (hence «Рыжий лес»); the dead trees were bulldozed and buried in trenches; young pines and birches grow there now; the Red Forest remains one of the most contaminated places in the zone. Area figures differ (≈4–10 km²), so none is named. Sources: Wikipedia «Red Forest», FAO, National Academies «Wormwood Forest», IAEA 2006 report.",
+ "tail": 0.4,
+ "lines": [
+  {
+   "id": "L0",
+   "text": "Весной, сразу после аварии, рядом с Чернобыльской станцией появился лес, будто наступила осень. Только это были сосны.",
+   "at": 0.12,
+   "sub": [
+    4,
+    4,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "L1",
+   "text": "До аварии это был обычный зелёный бор.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "После взрыва на него осели радиоактивные частицы. Их не видно и не слышно.",
+   "after": 0.3,
+   "sub": [
+    4,
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Сосны получили огромные дозы — и за несколько недель порыжели.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "Засохший лес срезали бульдозерами и закопали в траншеях.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Сейчас на этом месте снова растут молодые сосны и берёзы.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "id": "L6",
+   "text": "Но земля здесь до сих пор одна из самых грязных в зоне.",
+   "after": 0.3,
+   "sub": [
+    4,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "L7",
+   "text": "Катастрофу нельзя было увидеть в воздухе. Но её стало видно по деревьям. Пиши! И подписывайся!",
+   "after": 0.3,
+   "sub": [
+    4,
+    2,
+    4,
+    2,
+    3
+   ]
+  }
+ ]
+}
